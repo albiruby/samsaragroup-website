@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const TOTAL_PAGES = 36;
-const DRIVE_LINK = "https://drive.google.com/file/d/1YOUR_FILE_ID/view";
+const DRIVE_LINK = "https://drive.google.com/file/d/1inaLAAXyjMp9XQFk59lVd5VZtc0d75ST/view?usp=drivesdk";
 
 function MenuViewer() {
   const [current, setCurrent] = useState(1);

@@ -3,8 +3,19 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+
+const SAMSARA_LINKS = {
+  menu: "/menu",
+  reservation: "https://wa.me/6285281271988",
+  location: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
+  career: "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
+  maps: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
+};
+
+const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
 export const metadata = {
   title: "Samsara — Samsara Group",
@@ -94,14 +105,52 @@ export default async function SamsaraPage() {
                     </div>
                   )}
                 </div>
-                <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">
-                  RESERVE
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </Link>
+
+                <div className="space-y-3">
+                  <a
+                    href={SAMSARA_LINKS.reservation}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                  >
+                    RESERVATION
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </a>
+                  <a
+                    href={SAMSARA_LINKS.location}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-3 border border-outline px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-low"
+                  >
+                    LOCATION
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </a>
+                  <a
+                    href={SAMSARA_LINKS.career}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-3 border border-outline px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-low"
+                  >
+                    CAREER
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </a>
+                </div>
               </div>
             </ScrollReveal>
           </div>
         </div>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <ScrollReveal>
+          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
+            <LeafletMap lat={COORDS.lat} lng={COORDS.lng} zoom={16} className="w-full h-full" />
+          </div>
+          <p className="mt-4 text-body-sm text-on-surface-variant">
+            Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129
+          </p>
+        </ScrollReveal>
       </section>
 
       <Footer />

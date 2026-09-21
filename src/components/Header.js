@@ -58,7 +58,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[200] transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-[999] transition-all duration-300 ${
         isHomeTop
           ? "bg-transparent"
           : "bg-primary/70 backdrop-blur-xl border-b border-white/10"
@@ -85,7 +85,7 @@ export default function Header() {
           ))}
 
           {isHome && (
-            <div ref={dropdownRef} id="worlds-dropdown" className="relative group">
+            <div ref={dropdownRef} id="worlds-dropdown" className="relative group z-[1000]">
               <button
                 ref={btnRef}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -98,8 +98,8 @@ export default function Header() {
                   <path d="M3 4.5L6 7.5L9 4.5" />
                 </svg>
               </button>
-              <div className="fixed top-[68px] lg:top-[84px] min-w-[180px] z-[250] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
-                <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
+              <div className="fixed top-[68px] lg:top-[84px] min-w-[180px] z-[1001] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
+                <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto dropdown-menu transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
                   {worldsLinks.map((link) => (
                     <Link
                       key={link.label}
