@@ -54,7 +54,7 @@ export default async function SvvaraPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Svvara Atelier" className="h-full w-full object-cover" />
             ) : (

@@ -77,33 +77,35 @@ export default function Header() {
           </Link>
           ))}
 
-          <div ref={dropdownRef} id="worlds-dropdown" className="relative group">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none"
-              aria-expanded={dropdownOpen}
-              aria-haspopup="true"
-            >
-              WORLDS
-              <svg className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M3 4.5L6 7.5L9 4.5" />
-              </svg>
-            </button>
-            <div className={`dropdown-menu absolute top-full left-0 mt-0 min-w-[180px] z-[200] pt-2 ${dropdownOpen ? "open" : ""}`}>
-              <div className="bg-surface border border-outline-variant shadow-lg py-2">
-                {worldsLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setDropdownOpen(false)}
-                    className="block px-5 py-2.5 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+          {isHome && (
+            <div ref={dropdownRef} id="worlds-dropdown" className="relative group">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none"
+                aria-expanded={dropdownOpen}
+                aria-haspopup="true"
+              >
+                WORLDS
+                <svg className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M3 4.5L6 7.5L9 4.5" />
+                </svg>
+              </button>
+              <div className={`dropdown-menu absolute top-full left-0 mt-0 min-w-[180px] z-[200] pt-2 ${dropdownOpen ? "open" : ""}`}>
+                <div className="bg-surface border border-outline-variant shadow-lg py-2">
+                  {worldsLinks.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-5 py-2.5 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </nav>
 
         <div className="flex items-center gap-4">

@@ -41,7 +41,7 @@ export default async function EventDetailPage({ params }) {
       {event.image && (
         <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
           <ScrollReveal>
-            <div className="w-full aspect-[21/9] overflow-hidden">
+            <div className="img-hover w-full aspect-[21/9]">
               <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover" />
             </div>
           </ScrollReveal>

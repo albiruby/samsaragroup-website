@@ -37,7 +37,7 @@ export default async function SvargaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Svarga Estate" className="h-full w-full object-cover" />
             ) : (
@@ -78,7 +78,7 @@ export default async function SvargaPage() {
           <div className="lg:col-span-5">
             <ScrollReveal>
               <div className="space-y-8">
-                <div className="w-full aspect-[4/5] overflow-hidden">
+                <div className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (

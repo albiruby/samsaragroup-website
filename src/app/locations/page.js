@@ -33,7 +33,7 @@ export default async function LocationsPage() {
             {locations.map((location) => (
               <ScrollReveal key={location._id}>
                 <article className="border border-outline-variant bg-surface-container-low overflow-hidden h-full flex flex-col">
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="img-hover aspect-[16/10]">
                     {location.image && (
                       <img src={urlFor(location.image).url()} alt={location.name} className="h-full w-full object-cover" />
                     )}

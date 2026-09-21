@@ -9,24 +9,15 @@ export default function Footer() {
         </h2>
       </div>
 
-      <div className="w-full px-6 lg:px-10 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-outline-variant">
+      <div className="w-full px-6 lg:px-10 py-12 grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-outline-variant">
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">NAVIGATION</p>
           <ul className="space-y-3">
             <li><Link href="/" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Home</Link></li>
             <li><Link href="/about" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
+            <li><Link href="/menu" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Menu</Link></li>
             <li><Link href="/journal" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Journal</Link></li>
             <li><Link href="/careers" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Careers</Link></li>
-          </ul>
-        </div>
-
-        <div className="space-y-4">
-          <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">WORLDS</p>
-          <ul className="space-y-3">
-            <li><Link href="/samsara" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Samsara</Link></li>
-            <li><Link href="/svvara" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Svvara</Link></li>
-            <li><Link href="/svarga" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Svarga</Link></li>
-            <li><Link href="/acasa" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Acasa</Link></li>
           </ul>
         </div>
 
@@ -34,8 +25,7 @@ export default function Footer() {
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">CONTACT</p>
           <ul className="space-y-3">
             <li><Link href="/contact" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">General Inquiry</Link></li>
-            <li><Link href="/contact" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Partnerships</Link></li>
-            <li><Link href="/careers" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Careers</Link></li>
+            <li><Link href="/collaborations" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Partnerships</Link></li>
             <li><Link href="/events" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Events</Link></li>
           </ul>
         </div>

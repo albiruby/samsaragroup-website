@@ -53,7 +53,7 @@ export default async function CollaborationsPage() {
             <ScrollReveal key={collab._id || collab.title}>
               <article className="border border-outline-variant bg-surface-container-low overflow-hidden">
                 <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"}`}>
-                  <div className="relative w-full md:w-1/2 aspect-[16/10] md:aspect-auto md:min-h-[400px] overflow-hidden">
+                  <div className="img-hover w-full md:w-1/2 aspect-[16/10] md:aspect-auto md:min-h-[400px]">
                     {collab.image ? (
                       <img src={collab.image?.asset ? urlFor(collab.image).url() : collab.image} alt={collab.title} className="h-full w-full object-cover" />
                     ) : null}
