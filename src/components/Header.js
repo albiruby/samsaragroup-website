@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
+  { label: "HOME", href: "/" },
   { label: "BRANDS", href: "/about" },
   { label: "EVENTS", href: "/events" },
 ];
@@ -67,11 +68,7 @@ export default function Header() {
           <Link
             key={link.label}
             href={link.href}
-            className={`nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 ${
-              pathname === link.href || pathname.startsWith(link.href + "/")
-                ? "text-white active"
-                : "text-white/70 hover:text-white"
-            }`}
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
               {link.label}
           </Link>

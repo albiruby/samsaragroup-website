@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 const mobileLinks = [
+  { label: "HOME", href: "/" },
   { label: "BRANDS", href: "/about" },
   { label: "EVENTS", href: "/events" },
   { label: "CONTACT", href: "/contact" },
