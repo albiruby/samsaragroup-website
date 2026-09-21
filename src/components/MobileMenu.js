@@ -82,19 +82,13 @@ export default function MobileMenu({ isOpen, onClose }) {
         className="absolute top-4 right-4 p-3 text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center z-10"
         aria-label="Close menu"
       >
-        <svg
-          className="w-6 h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        >
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M6 6l12 12M6 18L18 6" />
         </svg>
       </button>
 
-      <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto">
-        <nav className="flex flex-col items-center gap-5">
+      <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto px-6 py-20">
+        <nav className="flex flex-col items-center gap-4">
           {mobileLinks.map((link) => (
             <Link
               key={link.label}
@@ -105,7 +99,7 @@ export default function MobileMenu({ isOpen, onClose }) {
               {link.label}
             </Link>
           ))}
-          <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10">
+          <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10 w-full">
             <span className="text-white/50 text-[11px] tracking-[0.25em] uppercase">
               WORLDS
             </span>
