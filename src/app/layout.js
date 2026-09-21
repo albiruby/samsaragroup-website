@@ -75,10 +75,10 @@ export default function RootLayout({ children }) {
           </a>
           <PageTransition>
             <main id="main-content" tabIndex={-1}>
+              <HorizontalFilterBar />
               {children}
             </main>
           </PageTransition>
-          <HorizontalFilterBar />
         </ThemeProvider>
         <BackToTop />
       </body>

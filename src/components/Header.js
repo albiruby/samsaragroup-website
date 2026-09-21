@@ -85,7 +85,7 @@ export default function Header() {
           ))}
 
           {isHome && (
-            <div ref={dropdownRef} id="worlds-dropdown" className="relative group z-[10000]">
+            <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
               <button
                 ref={btnRef}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -98,7 +98,7 @@ export default function Header() {
                   <path d="M3 4.5L6 7.5L9 4.5" />
                 </svg>
               </button>
-              <div className="fixed top-[68px] lg:top-[84px] min-w-[180px] z-[10001] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
+              <div className="fixed top-[68px] lg:top-[84px] min-w-[180px] z-[100] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
                 <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto dropdown-menu transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
                   {worldsLinks.map((link) => (
                     <Link
