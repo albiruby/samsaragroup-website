@@ -3,33 +3,33 @@ const fs = require("fs");
 const path = require("path");
 
 const BASE_URL = "http://localhost:3000";
-const SCREENSHOT_DIR = path.resolve(__dirname, "..", "screenshots", "audit");
+const SCREENSHOT_DIR = path.resolve(__dirname, "..", "screenshots", "desktop");
 
 const PAGES = [
-  "/",
-  "/about",
-  "/events",
-  "/journal",
-  "/careers",
-  "/contact",
-  "/locations",
-  "/collaborations",
-  "/samsara",
-  "/svvara",
-  "/svarga",
-  "/acasa",
-  "/nocturne",
-  "/music",
-  "/dining",
-  "/hospitality",
-  "/community",
-  "/design",
-  "/lifestyle",
-  "/privacy",
-  "/terms",
-  "/locations/jakarta",
-  "/locations/ubud",
-  "/locations/canggu",
+  { route: "/", name: "01-home" },
+  { route: "/about", name: "02-about" },
+  { route: "/events", name: "03-events" },
+  { route: "/journal", name: "04-journal" },
+  { route: "/contact", name: "06-contact" },
+  { route: "/locations", name: "07-locations" },
+  { route: "/collaborations", name: "08-collaborations" },
+  { route: "/samsara", name: "09-samsara" },
+  { route: "/svvara", name: "10-svvara" },
+  { route: "/svarga", name: "11-svarga" },
+  { route: "/acasa", name: "12-acasa" },
+  { route: "/nocturne", name: "13-nocturne" },
+  { route: "/music", name: "14-music" },
+  { route: "/dining", name: "15-dining" },
+  { route: "/hospitality", name: "16-hospitality" },
+  { route: "/community", name: "17-community" },
+  { route: "/design", name: "18-design" },
+  { route: "/lifestyle", name: "19-lifestyle" },
+  { route: "/privacy", name: "20-privacy" },
+  { route: "/terms", name: "21-terms" },
+  { route: "/locations/jakarta", name: "22-locations-jakarta" },
+  { route: "/locations/ubud", name: "23-locations-ubud" },
+  { route: "/locations/canggu", name: "24-locations-canggu" },
+  { route: "/menu", name: "25-menu" },
 ];
 
 (async () => {
@@ -44,9 +44,8 @@ const PAGES = [
   const errors = [];
   const pagesTested = [];
 
-  for (const route of PAGES) {
-    const slug = route.replace(/\//g, "_").replace(/^_/, "") || "home";
-    const screenshotPath = path.join(SCREENSHOT_DIR, `${slug}.png`);
+  for (const { route, name } of PAGES) {
+    const screenshotPath = path.join(SCREENSHOT_DIR, `${name}.png`);
     const pageErrors = [];
 
     const page = await context.newPage();

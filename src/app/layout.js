@@ -1,7 +1,6 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
-import HorizontalFilterBar from "@/components/HorizontalFilterBar";
 import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
@@ -75,7 +74,6 @@ export default function RootLayout({ children }) {
           </a>
           <PageTransition>
             <main id="main-content" tabIndex={-1}>
-              <HorizontalFilterBar />
               {children}
             </main>
           </PageTransition>

@@ -2,13 +2,27 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import { getWorlds } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
-  title: "About — Samsara Group",
-  description: "Vision, philosophy, and the ecosystem behind Samsara Group.",
+  title: "Brands — Samsara Group",
+  description: "The ecosystem of brands behind Samsara Group.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const worlds = await getWorlds();
+
+  const brands = [
+    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.jpg" },
+    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/ambiencesamsara/DSC08998.jpg" },
+    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/ambiencesamsara/DSC08420.jpg" },
+    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/ambiencesamsara/DSC08401.jpg" },
+  ].map((b) => {
+    const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
+    return { ...b, image: w?.image || null };
+  });
+
   return (
     <>
       <script
@@ -31,18 +45,40 @@ export default function AboutPage() {
       />
       <Header />
 
+      {/* ── Brand Cards ── */}
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">THE GROUP</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">ABOUT</h1>
+          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">BRANDS</span>
+          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h1>
         </ScrollReveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {brands.map((brand) => (
+            <Link key={brand.name} href={brand.href} className="group block border border-outline-variant overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative aspect-[4/5] overflow-hidden">
+                {brand.image ? (
+                  <img src={urlFor(brand.image).url()} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                ) : (
+                  <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                )}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                  <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
+                </div>
+              </div>
+              <div className="p-5">
+                <h3 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h3>
+                <p className="font-body text-body-sm text-on-surface-variant italic">{brand.tagline}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
+      {/* ── About Hero ── */}
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="img-hover h-[400px] lg:h-[520px]">
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQmBg4kvXIMCi_ZCe8Le6xMtHoEoiS_hJ_Ht-u4T-nq0FyD1kI-cmljJW86GGLxuLq6dgqn2lTjawXtFboD2uwSdHPpwD8Xz0AbUUbdypcz3dYh4oD2CG5LG9So0nQQHF3cfl_sq-l4n2v8TG7yNjEeyi-7hzJOXsFj58-KV5PptEZ4Xp-4cwA11UxNnZ-WoRbyv7-J94P-fzkVv4uasg7Z2ZTw0USC7oooT6aZR0VJps2HysBnpZ3" alt="Samsara Group" className="h-full w-full object-cover" />
+              <img src="/ambiencesamsara/DSC08913.jpg" alt="Samsara Group" className="h-full w-full object-cover" />
             </div>
             <div>
               <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
@@ -59,6 +95,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
+      {/* ── Vision ── */}
       <section className="bg-surface-container-low w-full">
         <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
           <ScrollReveal>
@@ -73,6 +110,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── Philosophy ── */}
       <section className="bg-surface w-full">
         <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
           <ScrollReveal>
@@ -95,44 +133,6 @@ export default function AboutPage() {
                 <p className="text-body-sm text-on-surface-variant leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-surface-container w-full">
-        <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
-          <ScrollReveal>
-            <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">ECOSYSTEM</span>
-            <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-12 text-on-surface">
-              FOUR WORLDS. ONE PHILOSOPHY.
-            </h2>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { name: "SAMSARA", desc: "Sound. Food. Culture.", href: "/samsara" },
-              { name: "SVVARA", desc: "Sound. Object. Design.", href: "/svvara" },
-              { name: "SVARGA", desc: "Nature. Dining. Escape.", href: "/svarga" },
-              { name: "ACASA", desc: "Stay. Move. Play.", href: "/acasa" },
-            ].map((world) => (
-              <Link key={world.name} href={world.href} className="group border border-outline-variant p-8 hover:bg-surface-container-lowest transition-colors">
-                <h3 className="font-display text-headline-sm uppercase mb-3 text-on-surface group-hover:text-terracotta transition-colors">{world.name}</h3>
-                <p className="text-body-sm text-on-surface-variant">{world.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-primary-container w-full">
-        <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-24 lg:py-40 text-center">
-          <h2 className="font-display text-headline-md lg:text-display-lg uppercase leading-[0.95] tracking-tight mb-8 text-on-primary-container">
-            JOIN US
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
-              GET IN TOUCH
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-            </Link>
           </div>
         </div>
       </section>

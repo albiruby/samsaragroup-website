@@ -6,11 +6,8 @@ import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
-  { label: "THE GROUP", href: "/about" },
-  { label: "MENU", href: "/menu" },
+  { label: "BRANDS", href: "/about" },
   { label: "EVENTS", href: "/events" },
-  { label: "JOURNAL", href: "/journal" },
-  { label: "PARTNERSHIPS", href: "/collaborations" },
 ];
 
 const worldsLinks = [
@@ -62,7 +59,7 @@ export default function Header() {
     >
       <div className="w-full flex items-center justify-between h-16 lg:h-20 px-6 lg:px-10">
         <Link href="/" className="flex-shrink-0 flex items-center h-full overflow-hidden">
-          <img src="/logosamslight.png" alt="Samsara" className="h-[200%] w-auto -my-[30%] -ml-2 object-contain object-left" />
+          <img src="/White Logo/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
@@ -80,11 +77,10 @@ export default function Header() {
           </Link>
           ))}
 
-          {isHome && (
-            <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
+          <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none"
+                className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none pb-[4px]"
                 aria-expanded={dropdownOpen}
                 aria-haspopup="true"
               >
@@ -108,7 +104,6 @@ export default function Header() {
                 </div>
               </div>
             </div>
-          )}
         </nav>
 
         <div className="flex items-center gap-4">

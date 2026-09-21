@@ -61,7 +61,7 @@ export default async function EventsPage() {
           <div className="space-y-8">
             {events.map((event) => (
               <ScrollReveal key={event._id}>
-                <Link href={`/events/${event.slug?.current}`} className="block group">
+                <a href="https://www.instagram.com/samsara.bogor/" target="_blank" rel="noopener noreferrer" className="block group">
                   <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
                     <div className="flex flex-col md:flex-row">
                       <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">
@@ -83,7 +83,7 @@ export default async function EventsPage() {
                       </div>
                     </div>
                   </article>
-                </Link>
+                </a>
               </ScrollReveal>
             ))}
           </div>

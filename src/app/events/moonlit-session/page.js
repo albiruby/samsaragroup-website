@@ -52,7 +52,7 @@ export default function MoonlitSessionPage() {
         <ScrollReveal>
           <div className="relative h-[300px] md:h-[500px] overflow-hidden mb-16">
             <FadeInImage
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxmAlsOQm3o_ps7vQB4K0A2jyRwPcLthVB15dNACEJwDfaH9tVn4VOMqJB_6Th6WpKBFsKEX4CgkANSxgmWT049ncxex_GO4n4hD0mKR4OlbLtndGlqeV1ZNZOtVozjR4rXLtVoFMHfYD0rZQy5sfWSE1K-XNJWEbBAa419OORXKrwCitXqhC8xXJhvq47iPpVfh3P7tGZCwhpgJVObeAtgjOYw6Rbc-qVCdfu3uVCk4KM7gXlSBHo"
+              src="/ambiencesamsara/DSC08420.jpg"
               alt="Moonlit Session"
               className="w-full h-full object-cover"
             />

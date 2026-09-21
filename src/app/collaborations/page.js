@@ -24,19 +24,19 @@ export default async function CollaborationsPage() {
       category: "Acoustic Partners",
       title: "CUSTOM HORN ACOUSTICS",
       description: "Bespoke listening instruments hand-carved from reclaimed teak, tuned to our volcanic stone chambers.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQmBg4kvXIMCi_ZCe8Le6xMtHoEoiS_hJ_Ht-u4T-nq0FyD1kI-cmljJW86GGLxuLq6dgqn2lTjawXtFboD2uwSdHPpwD8Xz0AbUUbdypcz3dYh4oD2CG5LG9So0nQQHF3cfl_sq-l4n2v8TG7yNjEeyi-7hzJOXsFj58-KV5PptEZ4Xp-4cwA11UxNnZ-WoRbyv7-J94P-fzkVv4uasg7Z2ZTw0USC7oooT6aZR0VJps2HysBnpZ3",
+      image: "/ambiencesamsara/DSC08635.jpg",
     },
     {
       category: "Culinary Alliance",
       title: "HIGHLAND FARM COLLECTIVE",
       description: "Direct partnership with highland farmers across Java and Bali. Heirloom varietals, seasonal produce.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBe4786-aPSLIKjY6KL1briNx1tY4t_g8YCk7Dn33qDkJkM1Q-6SkfW3Snxlo33go4uOvhQREvrdlBCVo9kt6ug_mxCD4qwxwodtfQ_6WRj1wKZb2oyft8kYl2YeFxbkyRXUeBPqEBf584VrGYjBY85vXXSnI1dly-laKWyO89RZiZw5ASluI5bndGEN3WXFKVCSwIQrbCKyFEjQ9usSoDC_p-2yAzYUMHBnAWPdxsU0D6G_Z6aX2u2",
+      image: "/ambiencesamsara/DSC08575.jpg",
     },
     {
       category: "Craft Residency",
       title: "VISITING ARTISANS",
       description: "Hosted residencies bringing weavers, ceramicists, and metalworkers into our spaces.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBe4786-aPSLIKjY6KL1briNx1tY4t_g8YCk7Dn33qDkJkM1Q-6SkfW3Snxlo33go4uOvhQREvrdlBCVo9kt6ug_mxCD4qwxwodtfQ_6WRj1wKZb2oyft8kYl2YeFxbkyRXUeBPqEBf584VrGYjBY85vXXSnI1dly-laKWyO89RZiZw5ASluI5bndGEN3WXFKVCSwIQrbCKyFEjQ9usSoDC_p-2yAzYUMHBnAWPdxsU0D6G_Z6aX2u2",
+      image: "/ambiencesamsara/DSC08568.jpg",
     },
   ];
 

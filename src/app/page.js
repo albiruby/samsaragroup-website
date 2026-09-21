@@ -19,12 +19,12 @@ const worlds = [
 ];
 
 const marqueeImages = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCQmBg4kvXIMCi_ZCe8Le6xMtHoEoiS_hJ_Ht-u4T-nq0FyD1kI-cmljJW86GGLxuLq6dgqn2lTjawXtFboD2uwSdHPpwD8Xz0AbUUbdypcz3dYh4oD2CG5LG9So0nQQHF3cfl_sq-l4n2v8TG7yNjEeyi-7hzJOXsFj58-KV5PptEZ4Xp-4cwA11UxNnZ-WoRbyv7-J94P-fzkVv4uasg7Z2ZTw0USC7oooT6aZR0VJps2HysBnpZ3",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAARtFpYa_lXUkbEb4A8XI-KWfRs6nP2hq-_Mw5uXRVKGpGfgGPXw6uLPCb9Lk1yBlmxcigsJai6uf2HQiOEvRJu-5tA73QiuNFxSHeK-HFK0U1ZXW6I5iflD5cXG_0jbXnsI92C53R_DUakuRds5Zcbqt6iV-ep7AvhVBZyfqaml5y5DVPGR6U95a9E8Kr0PeMdPcbxVsTkUXNLSWs5huKsgYQVBn2Z6ZuKnaOQeSWba_3hjxnfs5A",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBxmAlsOQm3o_ps7vQB4K0A2jyRwPcLthVB15dNACEJwDfaH9tVn4VOMqJB_6Th6WpKBFsKEX4CgkANSxgmWT049ncxex_GO4n4hD0mKR4OlbLtndGlqeV1ZNZOtVozjR4rXLtVoFMHfYD0rZQy5sfWSE1K-XNJWEbBAa419OORXKrwCitXqhC8xXJhvq47iPpVfh3P7tGZCwhpgJVObeAtgjOYw6Rbc-qVCdfu3uVCk4KM7gXlSBHo",
-  "https://lh3.googleusercontent.com/aida/AEtjO1V_sLNydkRNgm0GCMvP_kCWbHCi4TKmSsxtgSZe-Rl3i6jNx-T-e5DDp4nW7v9B7lRbNqdJhaIfDULWVpGbS6ZmHepkFaY8Fp-4oQvCcGIPEZIGggV4yyX6x0Q7gKgULguF4Ix_EKOtQS7_YChvHm-pZBuq42yuAJyPz6Pal9cO0SHH6TdeS2N-6ClpXmFVNDgYDxMMYMTyd_SHp3FI8qMs493bOPZ3aKD9NmTyLfZIBD1C3JUh3Ww6sBM",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBe4786-aPSLIKjY6KL1briNx1tY4t_g8YCk7Dn33qDkJkM1Q-6SkfW3Snxlo33go4uOvhQREvrdlBCVo9kt6ug_mxCD4qwxwodtfQ_6WRj1wKZb2oyft8kYl2YeFxbkyRXUeBPqEBf584VrGYjBY85vXXSnI1dly-laKWyO89RZiZw5ASluI5bndGEN3WXFKVCSwIQrbCKyFEjQ9usSoDC_p-2yAzYUMHBnAWPdxsU0D6G_Z6aX2u2",
-  "https://lh3.googleusercontent.com/aida/AEtjO1Ugbm8YmUkqXyuLDoAGids7DBO4MTlol_8UmmHN5BgfzIbRaPJCNmv_5m5bQ_Ru6mXzy9nxYrkRqRS7AwR3pfvdag80nzMjiDCcCFn6e_5aV0YtekynLVE76nc4KyMP74y3R4ZMwsUn83AFECeVMNrGyV6bCrl5UUC3lLuYjuHFnHzsk0yrfHWWkdlwTvIYXk495XJEruUWDaP7M_ibl2-kIL2GHePzKFvhdL9hG2Z6owjnN4EqZeTWtp4",
+  "/ambiencesamsara/DSC09421.jpg",
+  "/ambiencesamsara/DSC09408.jpg",
+  "/ambiencesamsara/DSC09354.jpg",
+  "/ambiencesamsara/DSC09072.jpg",
+  "/ambiencesamsara/DSC09058.jpg",
+  "/ambiencesamsara/DSC09056.jpg",
 ];
 
 export default function HomePage() {
@@ -46,7 +46,7 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section className="relative w-full h-[100dvh] min-h-[600px] overflow-hidden">
-          <img src="/tampilanawal.webp" alt="Sams Group" className="absolute inset-0 w-full h-full object-cover" />
+          <img src="/ambiencesamsara/DSC08930.jpg" alt="Sams Group" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
@@ -75,7 +75,7 @@ export default function HomePage() {
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQmBg4kvXIMCi_ZCe8Le6xMtHoEoiS_hJ_Ht-u4T-nq0FyD1kI-cmljJW86GGLxuLq6dgqn2lTjawXtFboD2uwSdHPpwD8Xz0AbUUbdypcz3dYh4oD2CG5LG9So0nQQHF3cfl_sq-l4n2v8TG7yNjEeyi-7hzJOXsFj58-KV5PptEZ4Xp-4cwA11UxNnZ-WoRbyv7-J94P-fzkVv4uasg7Z2ZTw0USC7oooT6aZR0VJps2HysBnpZ3" alt="About" className="h-full w-full object-cover" />
+                  <img src="/ambiencesamsara/DSC08926.jpg" alt="About" className="h-full w-full object-cover" />
                 </div>
               </ImageParallax>
             </div>
@@ -118,36 +118,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Experiences ── */}
-        <section className="bg-surface w-full">
-          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-              <ImageParallax className="relative h-[400px] lg:h-[520px]">
-                <div className="img-fade h-full w-full">
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAARtFpYa_lXUkbEb4A8XI-KWfRs6nP2hq-_Mw5uXRVKGpGfgGPXw6uLPCb9Lk1yBlmxcigsJai6uf2HQiOEvRJu-5tA73QiuNFxSHeK-HFK0U1ZXW6I5iflD5cXG_0jbXnsI92C53R_DUakuRds5Zcbqt6iV-ep7AvhVBZyfqaml5y5DVPGR6U95a9E8Kr0PeMdPcbxVsTkUXNLSWs5huKsgYQVBn2Z6ZuKnaOQeSWba_3hjxnfs5A" alt="Experiences" className="h-full w-full object-cover" />
-                </div>
-              </ImageParallax>
-              <div className="flex flex-col justify-center">
-                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-4 block">EXPERIENCES</span>
-                <TextClipReveal>
-                  <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-5 text-on-surface">
-                    A SPACE SHAPED BY SOUND, RITUAL, AND CARE
-                  </h2>
-                </TextClipReveal>
-                <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg mb-8">
-                  From volcanic highlands to the edge of the sea, every destination is a dialogue between place and purpose.
-                </p>
-                <MagneticButton strength={0.2}>
-                  <Link href="/contact" className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-surface hover:bg-on-surface hover:text-surface transition-colors">
-                    EXPLORE
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </Link>
-                </MagneticButton>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── Make Together ── */}
         <section className="bg-surface-container w-full">
           <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
@@ -173,23 +143,19 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* ── CTA ── */}
-        <section className="bg-primary-container w-full">
-          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32 text-center">
-            <TextClipReveal>
-              <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-primary-container">
-                COME EXPERIENCE<br />OUR WORLD.
-              </h2>
-            </TextClipReveal>
-            <MagneticButton strength={0.2}>
-              <Link href="/contact" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
-                GET IN TOUCH
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </Link>
-            </MagneticButton>
+            <div className="mt-12 lg:mt-16 text-center">
+              <TextClipReveal>
+                <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
+                  COME EXPERIENCE<br />OUR WORLD.
+                </h2>
+              </TextClipReveal>
+              <MagneticButton strength={0.2}>
+                <Link href="/contact" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
+                  GET IN TOUCH
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                </Link>
+              </MagneticButton>
+            </div>
           </div>
         </section>
 

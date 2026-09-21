@@ -31,7 +31,7 @@ export default function CangguLocationPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-            <FadeInImage src="/tampilanawal.webp" alt="Canggu Location" className="h-full w-full object-cover" />
+            <FadeInImage src="/ambiencesamsara/DSC08558.jpg" alt="Canggu Location" className="h-full w-full object-cover" />
           </div>
         </ScrollReveal>
       </section>

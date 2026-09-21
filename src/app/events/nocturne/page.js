@@ -27,9 +27,7 @@ export default function NocturnePage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-            <div className="w-full h-full bg-surface-container flex items-center justify-center">
-              <span className="text-on-surface-variant text-label-caps-sm uppercase tracking-[0.2em]">Nocturne V</span>
-            </div>
+            <img src="/ambiencesamsara/DSC09003.jpg" alt="Nocturne V" className="w-full h-full object-cover" />
           </div>
         </ScrollReveal>
       </section>

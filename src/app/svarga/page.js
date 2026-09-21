@@ -43,9 +43,7 @@ export default async function SvargaPage() {
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Svarga Estate" className="h-full w-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-surface-container flex items-center justify-center">
-                <span className="text-on-surface-variant text-label-caps-sm uppercase tracking-[0.2em]">Svarga</span>
-              </div>
+              <img src="/ambiencesamsara/DSC08237.jpg" alt="Svarga Estate" className="h-full w-full object-cover" />
             )}
           </div>
         </ScrollReveal>
@@ -84,9 +82,7 @@ export default async function SvargaPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-surface-container flex items-center justify-center">
-                      <span className="text-on-surface-variant text-label-caps-sm uppercase tracking-[0.2em]">Svarga Suite</span>
-                    </div>
+                    <img src="/ambiencesamsara/DSC08220.jpg" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </div>
                 <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">

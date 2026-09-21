@@ -36,7 +36,7 @@ export default function SanctuaryOfSoundPage() {
         <ScrollReveal>
           <div className="relative w-full aspect-[16/9] overflow-hidden">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQmBg4kvXIMCi_ZCe8Le6xMtHoEoiS_hJ_Ht-u4T-nq0FyD1kI-cmljJW86GGLxuLq6dgqn2lTjawXtFboD2uwSdHPpwD8Xz0AbUUbdypcz3dYh4oD2CG5LG9So0nQQHF3cfl_sq-l4n2v8TG7yNjEeyi-7hzJOXsFj58-KV5PptEZ4Xp-4cwA11UxNnZ-WoRbyv7-J94P-fzkVv4uasg7Z2ZTw0USC7oooT6aZR0VJps2HysBnpZ3"
+              src="/ambiencesamsara/DSC08482.jpg"
               alt="The Sanctuary of Sound"
               className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
             />

@@ -58,9 +58,7 @@ export default async function SamsaraPage() {
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Samsara Sanctuary" className="h-full w-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-surface-container flex items-center justify-center">
-                <span className="text-on-surface-variant text-label-caps-sm uppercase tracking-[0.2em]">Samsara</span>
-              </div>
+              <img src="/ambiencesamsara/DSC08187.jpg" alt="Samsara Sanctuary" className="h-full w-full object-cover" />
             )}
           </div>
         </ScrollReveal>
@@ -75,6 +73,18 @@ export default async function SamsaraPage() {
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
                     {world?.description || "A sanctuary where sound becomes architecture and silence becomes nourishment. Every surface, every frequency, every flavor is designed to dissolve the boundary between guest and environment."}
                   </p>
+                </div>
+
+                <div>
+                  <a
+                    href={SAMSARA_LINKS.reservation}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                  >
+                    RESERVATION
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </a>
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
@@ -99,22 +109,11 @@ export default async function SamsaraPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Samsara Interior" className="h-full w-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-surface-container flex items-center justify-center">
-                      <span className="text-on-surface-variant text-label-caps-sm uppercase tracking-[0.2em]">Samsara Interior</span>
-                    </div>
+                    <img src="/ambiencesamsara/DSC08177.jpg" alt="Samsara Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
 
                 <div className="space-y-3">
-                  <a
-                    href={SAMSARA_LINKS.reservation}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                  >
-                    RESERVATION
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </a>
                   <a
                     href={SAMSARA_LINKS.location}
                     target="_blank"

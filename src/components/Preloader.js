@@ -35,7 +35,7 @@ export default function Preloader() {
     >
       <div className="preloader-logo">
         <img
-          src="/teslogosamsara1.png"
+          src="/White Logo/whitefullsamping.png"
           alt="Samsara Group"
           className="h-56 w-auto object-contain"
         />
