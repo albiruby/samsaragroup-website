@@ -19,11 +19,16 @@ export default function HorizontalFilterBar() {
   const scrollRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
+  const isHome = pathname === "/";
+
   useEffect(() => {
+    if (!isHome) return;
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
+
+  if (!isHome) return null;
 
   return (
     <div
