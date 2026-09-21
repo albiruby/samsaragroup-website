@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
@@ -24,9 +24,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [dropdownPos, setDropdownPos] = useState({ left: 0 });
   const dropdownRef = useRef(null);
-  const btnRef = useRef(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -35,12 +33,6 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useLayoutEffect(() => {
-    if (!dropdownOpen || !btnRef.current) return;
-    const rect = btnRef.current.getBoundingClientRect();
-    setDropdownPos({ left: rect.left });
-  }, [dropdownOpen]);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -89,7 +81,6 @@ export default function Header() {
           {isHome && (
             <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
               <button
-                ref={btnRef}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none"
                 aria-expanded={dropdownOpen}
@@ -100,7 +91,7 @@ export default function Header() {
                   <path d="M3 4.5L6 7.5L9 4.5" />
                 </svg>
               </button>
-              <div className="fixed top-[68px] lg:top-[84px] min-w-[180px] z-[100] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
+              <div className="absolute top-full left-0 min-w-[180px] z-[100] pointer-events-none pt-2">
                 <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto dropdown-menu transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
                   {worldsLinks.map((link) => (
                     <Link
