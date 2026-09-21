@@ -79,7 +79,7 @@ export default function MobileMenu({ isOpen, onClose }) {
       <button
         ref={closeButtonRef}
         onClick={onClose}
-        className="absolute top-6 right-6 p-3 text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+        className="sticky top-0 z-10 self-end p-3 mt-4 mr-4 text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
         aria-label="Close menu"
       >
         <svg
@@ -93,7 +93,7 @@ export default function MobileMenu({ isOpen, onClose }) {
         </svg>
       </button>
 
-      <nav className="flex flex-col items-center gap-6">
+      <nav className="flex flex-col items-center gap-5 py-8 my-auto">
         {mobileLinks.map((link) => (
           <Link
             key={link.label}
@@ -104,7 +104,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             {link.label}
           </Link>
         ))}
-        <div className="flex flex-col items-center gap-4 mt-2">
+        <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10">
           <span className="text-white/50 text-[11px] tracking-[0.25em] uppercase">
             WORLDS
           </span>
@@ -121,7 +121,7 @@ export default function MobileMenu({ isOpen, onClose }) {
         </div>
       </nav>
 
-      <p className="absolute bottom-8 pb-[env(safe-area-inset-bottom)] text-white/30 text-[10px] tracking-[0.3em] uppercase">
+      <p className="sticky bottom-0 pb-[env(safe-area-inset-bottom)] text-white/30 text-[10px] tracking-[0.3em] uppercase py-4">
         SAMSARA GROUP – NUSANTARA ARCHIPELAGO
       </p>
     </div>

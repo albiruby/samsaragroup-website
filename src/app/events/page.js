@@ -64,9 +64,9 @@ export default async function EventsPage() {
                 <Link href={`/events/${event.slug?.current}`} className="block group">
                   <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
                     <div className="flex flex-col md:flex-row">
-                      <div className="relative w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px] overflow-hidden">
+                      <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">
                         {event.image && (
-                          <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                          <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover" />
                         )}
                       </div>
                       <div className="flex w-full md:w-3/5 flex-col justify-center p-8 md:p-12">

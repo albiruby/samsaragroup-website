@@ -34,9 +34,9 @@ export default async function JournalPage() {
               <ScrollReveal key={article._id}>
                 <Link href={`/journal/${article.slug?.current}`} className="block group">
                   <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
-                    <div className="relative aspect-[4/5] overflow-hidden">
+                    <div className="img-hover aspect-[4/5]">
                       {article.image && (
-                        <img src={urlFor(article.image).url()} alt={article.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <img src={urlFor(article.image).url()} alt={article.title} className="h-full w-full object-cover" />
                       )}
                     </div>
                     <div className="p-6">
