@@ -17,7 +17,6 @@ export default function Footer() {
             <li><Link href="/about" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
             <li><Link href="/menu" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Menu</Link></li>
             <li><Link href="/journal" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Journal</Link></li>
-            <li><Link href="/careers" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Careers</Link></li>
           </ul>
         </div>
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import ThemeSetter from "@/components/ThemeSetter";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -14,7 +15,7 @@ export default async function SvargaPage() {
   const worlds = await getWorlds();
   const world = worlds.find((w) => w.slug?.current === "svarga");
 
-  const specs = world?.specifications || [
+  const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Elevation", "1,140m above sea level"],
     ["Suites", "6 private, 2 communal pavilions"],
     ["Rituals", "Fire ceremony, sound immersion"],
@@ -23,6 +24,7 @@ export default async function SvargaPage() {
 
   return (
     <>
+      <ThemeSetter theme="dark" />
       <Header />
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">

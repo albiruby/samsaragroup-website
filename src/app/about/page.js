@@ -114,7 +114,7 @@ export default function AboutPage() {
               { name: "SVARGA", desc: "Nature. Dining. Escape.", href: "/svarga" },
               { name: "ACASA", desc: "Stay. Move. Play.", href: "/acasa" },
             ].map((world) => (
-              <Link key={world.name} href={world.href} className="group border border-outline-variant p-8 hover:bg-surface-lowest transition-colors">
+              <Link key={world.name} href={world.href} className="group border border-outline-variant p-8 hover:bg-surface-container-lowest transition-colors">
                 <h3 className="font-display text-headline-sm uppercase mb-3 text-on-surface group-hover:text-terracotta transition-colors">{world.name}</h3>
                 <p className="text-body-sm text-on-surface-variant">{world.desc}</p>
               </Link>
@@ -129,12 +129,9 @@ export default function AboutPage() {
             JOIN US
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/careers" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
-              CAREERS
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-            </Link>
-            <Link href="/contact" className="inline-flex items-center gap-3 border border-on-primary-container/30 px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary-container hover:bg-on-primary-container hover:text-primary-container transition-colors">
+            <Link href="/contact" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
               GET IN TOUCH
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
             </Link>
           </div>
         </div>

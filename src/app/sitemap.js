@@ -17,6 +17,12 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/menu`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/samsara`,
       lastModified,
       changeFrequency: "monthly",
@@ -123,18 +129,6 @@ export default function sitemap() {
       lastModified,
       changeFrequency: "yearly",
       priority: 0.6,
-    },
-    {
-      url: `${BASE_URL}/careers`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${BASE_URL}/careers/lead-spatial`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.5,
     },
     {
       url: `${BASE_URL}/collaborations`,

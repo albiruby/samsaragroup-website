@@ -34,6 +34,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => { setDropdownOpen(false); }, [pathname]);
+
   useEffect(() => {
     if (!dropdownOpen) return;
     const handleEscape = (e) => { if (e.key === "Escape") setDropdownOpen(false); };

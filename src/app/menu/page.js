@@ -120,7 +120,7 @@ function MenuViewer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/menu/${String(page).padStart(4, "0")}.jpg`}
-                alt=""
+                alt={`Menu page ${page}`}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />

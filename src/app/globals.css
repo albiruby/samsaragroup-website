@@ -103,6 +103,11 @@
 .mobile-menu-overlay.open nav a:nth-child(4) { transition-delay: 230ms; }
 .mobile-menu-overlay.open nav a:nth-child(5) { transition-delay: 280ms; }
 .mobile-menu-overlay.open nav a:nth-child(6) { transition-delay: 330ms; }
+.mobile-menu-overlay.open nav a:nth-child(7) { transition-delay: 380ms; }
+.mobile-menu-overlay.open nav a:nth-child(8) { transition-delay: 420ms; }
+.mobile-menu-overlay.open nav a:nth-child(9) { transition-delay: 460ms; }
+.mobile-menu-overlay.open nav a:nth-child(10) { transition-delay: 500ms; }
+.mobile-menu-overlay.open nav a:nth-child(11) { transition-delay: 540ms; }
 
 .nav-link { position: relative; padding-bottom: 4px; }
 .nav-link::after {
@@ -128,10 +133,18 @@
   opacity: 0; transform: translateY(4px);
   transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), transform 320ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms ease, background-color 180ms ease;
 }
-#worlds-dropdown:hover .dropdown-menu a:nth-child(1), #worlds-dropdown:focus-within .dropdown-menu a:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 40ms; }
-#worlds-dropdown:hover .dropdown-menu a:nth-child(2), #worlds-dropdown:focus-within .dropdown-menu a:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
-#worlds-dropdown:hover .dropdown-menu a:nth-child(3), #worlds-dropdown:focus-within .dropdown-menu a:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
-#worlds-dropdown:hover .dropdown-menu a:nth-child(4), #worlds-dropdown:focus-within .dropdown-menu a:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(1),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(1),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 40ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(2),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(2),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(3),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(3),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(4),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(4),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
 
 .img-hover { overflow: hidden; }
 .img-hover img { transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1); }
@@ -199,10 +212,6 @@
 @media (min-width: 768px) { .marquee-item { width: 320px; height: 220px; } }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-.font-display { font-family: var(--font-display); }
-.font-body { font-family: var(--font-body); }
-.font-label { font-family: var(--font-label); }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -214,6 +223,16 @@
   .hero-stagger > * { opacity: 1; transform: none; }
   .stagger-child > * { opacity: 1; transform: none; }
   .fade-up { opacity: 1; transform: none; }
+  .clip-reveal {
+    clip-path: inset(0 0 0 0) !important;
+    transition: none !important;
+  }
+  .img-hover img, .img-hover-strong img, .img-zoom-out img,
+  .img-fade img, .img-brightness img, .img-grayscale img {
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }
 
 .card-hover {
@@ -317,17 +336,4 @@
   height: 48px !important;
   border-color: rgba(168, 107, 82, 0.6) !important;
   background: rgba(168, 107, 82, 0.08);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .clip-reveal {
-    clip-path: inset(0 0 0 0) !important;
-    transition: none !important;
-  }
-  .img-hover img, .img-hover-strong img, .img-zoom-out img,
-  .img-fade img, .img-brightness img, .img-grayscale img {
-    transform: none !important;
-    filter: none !important;
-    transition: none !important;
-  }
 }

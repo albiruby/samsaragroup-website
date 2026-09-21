@@ -5,7 +5,6 @@ import Link from "next/link";
 import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FadeInImage from "@/components/FadeInImage";
 import TextClipReveal from "@/components/TextClipReveal";
 import MagneticButton from "@/components/MagneticButton";
 import ImageParallax from "@/components/ImageParallax";
@@ -61,12 +60,12 @@ export default function HomePage() {
 
         {/* ── About ── */}
         <section className="bg-surface w-full">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div>
-                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-4 block">ABOUT US</span>
+                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">ABOUT US</span>
                 <TextClipReveal>
-                  <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-8 text-on-surface">
+                  <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-5 text-on-surface">
                     MORE THAN<br />A PLACE
                   </h2>
                 </TextClipReveal>
@@ -85,9 +84,9 @@ export default function HomePage() {
 
         {/* ── Four Worlds ── */}
         <section className="bg-surface-container-low w-full">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-4 block">OUR WORLDS</span>
-            <div className="flex items-end gap-4 mb-12 lg:mb-16">
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">OUR WORLDS</span>
+            <div className="flex items-end gap-4 mb-10 lg:mb-12">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
                   <NumberCounter target={4} duration={1000} /> IMMERSIVE WORLDS
@@ -112,7 +111,7 @@ export default function HomePage() {
             <div className="marquee-content">
               {[...marqueeImages, ...marqueeImages].map((src, i) => (
                 <div key={i} className="marquee-item">
-                  <img src={src} alt="" className="h-full w-full object-cover" />
+                  <img src={src} alt={`Samsara experience ${i + 1}`} className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
@@ -121,7 +120,7 @@ export default function HomePage() {
 
         {/* ── Experiences ── */}
         <section className="bg-surface w-full">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
               <ImageParallax className="relative h-[400px] lg:h-[520px]">
                 <div className="img-fade h-full w-full">
@@ -129,13 +128,13 @@ export default function HomePage() {
                 </div>
               </ImageParallax>
               <div className="flex flex-col justify-center">
-                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-6 block">EXPERIENCES</span>
+                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-4 block">EXPERIENCES</span>
                 <TextClipReveal>
-                  <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-8 text-on-surface">
+                  <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-5 text-on-surface">
                     A SPACE SHAPED BY SOUND, RITUAL, AND CARE
                   </h2>
                 </TextClipReveal>
-                <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg mb-10">
+                <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg mb-8">
                   From volcanic highlands to the edge of the sea, every destination is a dialogue between place and purpose.
                 </p>
                 <MagneticButton strength={0.2}>
@@ -151,10 +150,10 @@ export default function HomePage() {
 
         {/* ── Make Together ── */}
         <section className="bg-surface-container w-full">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-4 block">COLLABORATIONS</span>
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">COLLABORATIONS</span>
             <TextClipReveal>
-              <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-12 lg:mb-16 text-on-surface">
+              <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-10 lg:mb-12 text-on-surface">
                 MAKE TOGETHER
               </h2>
             </TextClipReveal>
@@ -179,9 +178,9 @@ export default function HomePage() {
 
         {/* ── CTA ── */}
         <section className="bg-primary-container w-full">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-24 lg:py-40 text-center">
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32 text-center">
             <TextClipReveal>
-              <h2 className="font-display text-headline-md lg:text-display-lg uppercase leading-[0.95] tracking-tight mb-8 text-on-primary-container">
+              <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-primary-container">
                 COME EXPERIENCE<br />OUR WORLD.
               </h2>
             </TextClipReveal>

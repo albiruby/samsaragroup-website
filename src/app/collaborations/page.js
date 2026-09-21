@@ -6,6 +6,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { getCollaborations } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const metadata = {
+  title: "Partnerships — Samsara Group",
+  description: "Collaborate with makers, growers, and visionaries across the Samsara Group network.",
+};
+
 export default async function CollaborationsPage() {
   let collaborations = [];
   try {

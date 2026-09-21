@@ -62,8 +62,8 @@ export default async function ContactPage() {
               <div>
                 <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Visit Us</h3>
                 <div className="space-y-3 text-body-md text-on-surface-variant">
-                  {addresses.map((addr) => (
-                    <div key={addr.name}>
+                  {addresses.map((addr, i) => (
+                    <div key={addr.name || i}>
                       <p className="font-medium text-on-surface">{addr.name}</p>
                       <p>{addr.address}</p>
                     </div>

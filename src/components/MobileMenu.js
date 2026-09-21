@@ -9,7 +9,6 @@ const mobileLinks = [
   { label: "EVENTS", href: "/events" },
   { label: "JOURNAL", href: "/journal" },
   { label: "PARTNERSHIPS", href: "/collaborations" },
-  { label: "CAREERS", href: "/careers" },
   { label: "CONTACT", href: "/contact" },
 ];
 

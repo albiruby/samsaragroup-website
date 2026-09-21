@@ -1,5 +1,4 @@
-﻿import Link from "next/link";
-import Header from "@/components/Header";
+﻿import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
@@ -31,7 +30,7 @@ export default async function SamsaraPage() {
     world = null;
   }
 
-  const specs = world?.specifications || [
+  const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Acoustic Range", "18Hz-22kHz Reference"],
     ["Gastronomy", "Terroir-Driven, Volcanic"],
     ["Location", "JKT - 01 S 110 E"],

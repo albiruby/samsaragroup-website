@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import ThemeSetter from "@/components/ThemeSetter";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -14,7 +15,7 @@ export default async function AcasaPage() {
   const worlds = await getWorlds();
   const world = worlds.find((w) => w.slug?.current === "acasa");
 
-  const offerings = world?.specifications || [
+  const offerings = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Padel Courts", "3 regulation courts, evening floodlights"],
     ["Cold Plunge", "Nordic-style, 2°C mineral plunge"],
     ["Sunrise Practice", "Dawn yoga, breathwork, sound healing"],
@@ -23,6 +24,7 @@ export default async function AcasaPage() {
 
   return (
     <>
+      <ThemeSetter theme="dark" />
       <Header />
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
