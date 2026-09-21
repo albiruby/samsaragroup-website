@@ -24,9 +24,12 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState({ left: 0 });
   const dropdownRef = useRef(null);
+  const btnRef = useRef(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -35,6 +38,10 @@ export default function Header() {
 
   useEffect(() => {
     if (!dropdownOpen) return;
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setDropdownPos({ left: rect.left });
+    }
     const handleEscape = (e) => { if (e.key === "Escape") setDropdownOpen(false); };
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
@@ -80,6 +87,7 @@ export default function Header() {
           {isHome && (
             <div ref={dropdownRef} id="worlds-dropdown" className="relative group">
               <button
+                ref={btnRef}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none"
                 aria-expanded={dropdownOpen}
@@ -90,8 +98,8 @@ export default function Header() {
                   <path d="M3 4.5L6 7.5L9 4.5" />
                 </svg>
               </button>
-              <div className={`dropdown-menu absolute top-full left-0 mt-0 min-w-[180px] z-[110] ${dropdownOpen ? "open" : ""}`}>
-                <div className="bg-surface border border-outline-variant shadow-lg py-2">
+              <div className="fixed top-16 lg:top-20 min-w-[180px] z-[150] pointer-events-none" style={{ left: `${dropdownPos.left}px` }}>
+                <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
                   {worldsLinks.map((link) => (
                     <Link
                       key={link.label}
