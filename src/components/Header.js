@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
@@ -36,12 +36,14 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useLayoutEffect(() => {
+    if (!dropdownOpen || !btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    setDropdownPos({ left: rect.left });
+  }, [dropdownOpen]);
+
   useEffect(() => {
     if (!dropdownOpen) return;
-    if (btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-      setDropdownPos({ left: rect.left });
-    }
     const handleEscape = (e) => { if (e.key === "Escape") setDropdownOpen(false); };
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
