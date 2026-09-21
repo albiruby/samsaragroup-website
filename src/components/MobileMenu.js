@@ -79,7 +79,7 @@ export default function MobileMenu({ isOpen, onClose }) {
       <button
         ref={closeButtonRef}
         onClick={onClose}
-        className="sticky top-0 z-10 self-end p-3 mt-4 mr-4 text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+        className="absolute top-4 right-4 p-3 text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center z-10"
         aria-label="Close menu"
       >
         <svg
@@ -93,35 +93,37 @@ export default function MobileMenu({ isOpen, onClose }) {
         </svg>
       </button>
 
-      <nav className="flex flex-col items-center gap-5 py-8 my-auto">
-        {mobileLinks.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            onClick={onClose}
-            className="text-white text-[13px] tracking-[0.22em] font-medium uppercase hover:text-terracotta transition-colors min-h-[44px] flex items-center"
-          >
-            {link.label}
-          </Link>
-        ))}
-        <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10">
-          <span className="text-white/50 text-[11px] tracking-[0.25em] uppercase">
-            WORLDS
-          </span>
-          {worldsSubLinks.map((link) => (
+      <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto">
+        <nav className="flex flex-col items-center gap-5">
+          {mobileLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={onClose}
-              className="text-white/70 text-[12px] tracking-[0.2em] uppercase hover:text-terracotta transition-colors min-h-[44px] flex items-center"
+              className="text-white text-[13px] tracking-[0.22em] font-medium uppercase hover:text-terracotta transition-colors min-h-[44px] flex items-center"
             >
               {link.label}
             </Link>
           ))}
-        </div>
-      </nav>
+          <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10">
+            <span className="text-white/50 text-[11px] tracking-[0.25em] uppercase">
+              WORLDS
+            </span>
+            {worldsSubLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={onClose}
+                className="text-white/70 text-[12px] tracking-[0.2em] uppercase hover:text-terracotta transition-colors min-h-[44px] flex items-center"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      </div>
 
-      <p className="sticky bottom-0 pb-[env(safe-area-inset-bottom)] text-white/30 text-[10px] tracking-[0.3em] uppercase py-4">
+      <p className="absolute bottom-8 left-0 right-0 text-center text-white/30 text-[10px] tracking-[0.3em] uppercase pb-[env(safe-area-inset-bottom)]">
         SAMSARA GROUP – NUSANTARA ARCHIPELAGO
       </p>
     </div>
