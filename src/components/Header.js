@@ -7,6 +7,7 @@ import MobileMenu from "./MobileMenu";
 
 const navLinks = [
   { label: "THE GROUP", href: "/about" },
+  { label: "MENU", href: "/menu" },
   { label: "EVENTS", href: "/events" },
   { label: "JOURNAL", href: "/journal" },
   { label: "PARTNERSHIPS", href: "/collaborations" },
@@ -66,7 +67,11 @@ export default function Header() {
           <Link
             key={link.label}
             href={link.href}
-            className="font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+            className={`nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 ${
+              pathname === link.href || pathname.startsWith(link.href + "/")
+                ? "text-white active"
+                : "text-white/70 hover:text-white"
+            }`}
           >
               {link.label}
           </Link>

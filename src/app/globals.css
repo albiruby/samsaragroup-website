@@ -105,10 +105,10 @@
 
 .nav-link { position: relative; padding-bottom: 4px; }
 .nav-link::after {
-  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
   background: currentColor; transition: width 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.nav-link:hover::after { width: 100%; }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
 #worlds-dropdown { position: relative; }
 #worlds-dropdown::after {

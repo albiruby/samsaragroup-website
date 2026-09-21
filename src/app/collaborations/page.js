@@ -2,7 +2,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import ThemeSetter from "@/components/ThemeSetter";
+
 import { getCollaborations } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -38,21 +38,20 @@ export default async function CollaborationsPage() {
   const displayCollabs = collaborations.length > 0 ? collaborations : defaultCollabs;
 
   return (
-    <div className="dark bg-primary-container text-white">
-      <ThemeSetter theme="dark" />
+    <div>
       <Header />
 
-      <section className="pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
+      <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-white">COLLABORATIONS</h1>
+          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">COLLABORATIONS</h1>
         </ScrollReveal>
       </section>
 
-      <section className="max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <div className="space-y-8">
           {displayCollabs.map((collab, i) => (
             <ScrollReveal key={collab._id || collab.title}>
-              <article className="border border-white/20 bg-primary-container overflow-hidden">
+              <article className="border border-outline-variant bg-surface-container-low overflow-hidden">
                 <div className={`flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"}`}>
                   <div className="relative w-full md:w-1/2 aspect-[16/10] md:aspect-auto md:min-h-[400px] overflow-hidden">
                     {collab.image ? (
@@ -61,8 +60,8 @@ export default async function CollaborationsPage() {
                   </div>
                   <div className="flex w-full md:w-1/2 flex-col justify-center p-8 md:p-12">
                     <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-terracotta">{collab.category}</span>
-                    <h2 className="mb-4 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-white">{collab.title}</h2>
-                    <p className="text-body-sm text-white/70">{collab.description}</p>
+                    <h2 className="mb-4 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-on-surface">{collab.title}</h2>
+                    <p className="text-body-sm text-on-surface-variant">{collab.description}</p>
                   </div>
                 </div>
               </article>
@@ -71,13 +70,13 @@ export default async function CollaborationsPage() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 px-6 lg:px-10 py-16 lg:py-28">
+      <section className="bg-surface border-t border-outline-variant px-6 lg:px-10 py-16 lg:py-28">
         <ScrollReveal>
           <div className="flex flex-col items-center text-center">
-            <h2 className="mb-8 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-white">
+            <h2 className="mb-8 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-on-surface">
               INTERESTED IN<br />COLLABORATING?
             </h2>
-            <Link href="/contact" className="inline-flex items-center gap-3 border border-white/30 px-10 py-4 text-label-caps-sm uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-primary">
+            <Link href="/contact" className="inline-flex items-center gap-3 border border-outline px-10 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-surface">
               GET IN TOUCH
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
             </Link>
