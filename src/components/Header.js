@@ -90,7 +90,7 @@ export default function Header() {
                   <path d="M3 4.5L6 7.5L9 4.5" />
                 </svg>
               </button>
-              <div className={`dropdown-menu absolute top-full left-0 mt-0 min-w-[180px] z-[110] pt-2 ${dropdownOpen ? "open" : ""}`}>
+              <div className={`dropdown-menu absolute top-full left-0 mt-0 min-w-[180px] z-[110] ${dropdownOpen ? "open" : ""}`}>
                 <div className="bg-surface border border-outline-variant shadow-lg py-2">
                   {worldsLinks.map((link) => (
                     <Link
