@@ -24,19 +24,19 @@ export default async function CollaborationsPage() {
       category: "Acoustic Partners",
       title: "CUSTOM HORN ACOUSTICS",
       description: "Bespoke listening instruments hand-carved from reclaimed teak, tuned to our volcanic stone chambers.",
-      image: "/ambiencesamsara/DSC08635.jpg",
+      image: "/ambiencesamsara/DSC08635.webp",
     },
     {
       category: "Culinary Alliance",
       title: "HIGHLAND FARM COLLECTIVE",
       description: "Direct partnership with highland farmers across Java and Bali. Heirloom varietals, seasonal produce.",
-      image: "/ambiencesamsara/DSC08575.jpg",
+      image: "/ambiencesamsara/DSC08575.webp",
     },
     {
       category: "Craft Residency",
       title: "VISITING ARTISANS",
       description: "Hosted residencies bringing weavers, ceramicists, and metalworkers into our spaces.",
-      image: "/ambiencesamsara/DSC08568.jpg",
+      image: "/ambiencesamsara/DSC08568.webp",
     },
   ];
 

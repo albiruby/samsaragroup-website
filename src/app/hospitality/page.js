@@ -102,7 +102,7 @@ export default function HospitalityPage() {
                   <article className="group">
                     <div className="aspect-[4/3] bg-surface-container-low mb-6 overflow-hidden">
                       <img
-                        src={concept.name === "Acasa Stays" ? "/ambiencesamsara/DSC08409.jpg" : concept.name === "Samsara Retreats" ? "/ambiencesamsara/DSC08401.jpg" : "/ambiencesamsara/DSC08397.jpg"}
+                        src={concept.name === "Acasa Stays" ? "/ambiencesamsara/DSC08409.webp" : concept.name === "Samsara Retreats" ? "/ambiencesamsara/DSC08401.webp" : "/ambiencesamsara/DSC08397.webp"}
                         alt={concept.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />

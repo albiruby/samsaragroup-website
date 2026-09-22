@@ -42,7 +42,7 @@ export default async function AcasaPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <img src="/assetacasa/logoacasahitam.png" alt="Acasa" className="h-12 md:h-16 w-auto" />
+          <img src="/assetacasa/logoacasahitam.webp" alt="Acasa" className="h-12 md:h-16 w-auto" />
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "A Sanctuary of Refined Living — Resto, Cottages, Padel."}
           </p>
@@ -53,16 +53,16 @@ export default async function AcasaPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/assetacasa/ADR-06545.jpg",
-              "/assetacasa/ADR-06529.jpg",
-              "/assetacasa/ADR-06507.jpg",
-              "/assetacasa/ADR-06480.jpg",
-              "/assetacasa/ADR-06474.jpg",
-              "/assetacasa/ADR-06468.jpg",
-              "/assetacasa/ADR-06394.jpg",
-              "/assetacasa/ADR-06368.jpg",
-              "/assetacasa/ADR-06325.jpg",
-              "/assetacasa/ADR-06293.jpg",
+              "/assetacasa/ADR-06545.webp",
+              "/assetacasa/ADR-06529.webp",
+              "/assetacasa/ADR-06507.webp",
+              "/assetacasa/ADR-06480.webp",
+              "/assetacasa/ADR-06474.webp",
+              "/assetacasa/ADR-06468.webp",
+              "/assetacasa/ADR-06394.webp",
+              "/assetacasa/ADR-06368.webp",
+              "/assetacasa/ADR-06325.webp",
+              "/assetacasa/ADR-06293.webp",
             ]}
             alt="Acasa Resort"
           />
@@ -102,7 +102,7 @@ export default async function AcasaPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Acasa Interior" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/assetacasa/ADR-06539.jpg" alt="Acasa Interior" className="h-full w-full object-cover" />
+                    <img src="/assetacasa/ADR-06539.webp" alt="Acasa Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
                 <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">

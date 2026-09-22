@@ -9,7 +9,7 @@ const locations = {
   canggu: {
     title: "CANGGU",
     tagline: "Coastal living at the edge of the break. Where surf culture meets community, and every evening ends at the fire.",
-    image: "/ambiencesamsara/DSC08558.jpg",
+    image: "/ambiencesamsara/DSC08558.webp",
     description: "Steps from Batu Bolong. A gathering space for those who ride early and stay late. Open-air, unstructured, alive with salt air and conversation. The center of gravity for our community.",
     details: [
       ["Address", "Jl. Pantai Batu Bolong No. 18, Canggu, Bali"],
@@ -23,7 +23,7 @@ const locations = {
   ubud: {
     title: "UBUD",
     tagline: "Highland refuge among rice terraces and ancient banyan groves. Where nature sets the rhythm.",
-    image: "/ambiencesamsara/DSC08527.jpg",
+    image: "/ambiencesamsara/DSC08527.webp",
     description: "Nestled in the cultural heart of Bali. A sanctuary for those who seek stillness, surrounded by terraced gardens and open-air pavilions. Every morning begins with ceremony.",
     details: [
       ["Address", "Jl. Raya Ubud No. 88, Ubud, Bali"],
@@ -37,7 +37,7 @@ const locations = {
   jakarta: {
     title: "JAKARTA",
     tagline: "Urban pulse in the capital. Where the city's energy meets curated calm.",
-    image: "/ambiencesamsara/DSC08494.jpg",
+    image: "/ambiencesamsara/DSC08494.webp",
     description: "In the heart of the metropolis. A refuge from the urban rush, designed for those who move between ambition and intention. The intersection of culture and commerce.",
     details: [
       ["Address", "Jl. Sudirman No. 123, Jakarta Selatan"],

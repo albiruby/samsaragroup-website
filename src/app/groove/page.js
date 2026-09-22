@@ -33,7 +33,7 @@ export default function GroovePage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            <img src="/ambiencesamsara/DSC09058.jpg" alt="Groove" className="h-full w-full object-cover" />
+            <img src="/ambiencesamsara/DSC09058.webp" alt="Groove" className="h-full w-full object-cover" />
           </div>
         </ScrollReveal>
       </section>

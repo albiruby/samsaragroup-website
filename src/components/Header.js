@@ -13,28 +13,28 @@ const navLinks = [
 
 const brandImages = {
   "/samsara": [
-    "/ambiencesamsara/DSC08187.jpg", "/ambiencesamsara/DSC08177.jpg", "/ambiencesamsara/DSC08930.jpg",
-    "/ambiencesamsara/DSC08926.jpg", "/ambiencesamsara/DSC08913.jpg", "/ambiencesamsara/DSC08906.jpg",
-    "/ambiencesamsara/DSC09006.jpg", "/ambiencesamsara/DSC08998.jpg", "/ambiencesamsara/DSC08980.jpg",
+    "/ambiencesamsara/DSC08187.webp", "/ambiencesamsara/DSC08177.webp", "/ambiencesamsara/DSC08930.webp",
+    "/ambiencesamsara/DSC08926.webp", "/ambiencesamsara/DSC08913.webp", "/ambiencesamsara/DSC08906.jpg",
+    "/ambiencesamsara/DSC09006.webp", "/ambiencesamsara/DSC08998.webp", "/ambiencesamsara/DSC08980.jpg",
     "/ambiencesamsara/DSC08960.jpg",
   ],
   "/svvara": [
-    "/assetsvvara/SAVVARA-01268.jpg", "/assetsvvara/SAVVARA-01362.jpg", "/assetsvvara/SAVVARA-01506.jpg",
-    "/assetsvvara/SAVVARA-01649.jpg", "/assetsvvara/SAVVARA-01840.jpg", "/assetsvvara/SVVARA-03220.jpg",
-    "/assetsvvara/SVVARA-03197.jpg", "/assetsvvara/SVVARA-03168.jpg", "/assetsvvara/SVVARA-03133.jpg",
-    "/assetsvvara/SVVARA-03089.jpg",
+    "/assetsvvara/SAVVARA-01268.webp", "/assetsvvara/SAVVARA-01362.webp", "/assetsvvara/SAVVARA-01506.webp",
+    "/assetsvvara/SAVVARA-01649.webp", "/assetsvvara/SAVVARA-01840.webp", "/assetsvvara/SVVARA-03220.webp",
+    "/assetsvvara/SVVARA-03197.webp", "/assetsvvara/SVVARA-03168.webp", "/assetsvvara/SVVARA-03133.webp",
+    "/assetsvvara/SVVARA-03089.webp",
   ],
   "/svarga": [
-    "/assetsvarga/ADR-07604.jpg", "/assetsvarga/ADR (9 of 15).jpg", "/assetsvarga/ADR (8 of 15).jpg",
-    "/assetsvarga/ADR (7 of 15).jpg", "/assetsvarga/ADR (6 of 15).jpg", "/assetsvarga/ADR (5 of 15).jpg",
-    "/assetsvarga/ADR (4 of 15).jpg", "/assetsvarga/ADR (3 of 15).jpg", "/assetsvarga/ADR (2 of 15).jpg",
-    "/assetsvarga/ADR (1 of 15).jpg",
+    "/assetsvarga/ADR-07604.webp", "/assetsvarga/ADR (9 of 15).webp", "/assetsvarga/ADR (8 of 15).webp",
+    "/assetsvarga/ADR (7 of 15).webp", "/assetsvarga/ADR (6 of 15).webp", "/assetsvarga/ADR (5 of 15).webp",
+    "/assetsvarga/ADR (4 of 15).webp", "/assetsvarga/ADR (3 of 15).webp", "/assetsvarga/ADR (2 of 15).webp",
+    "/assetsvarga/ADR (1 of 15).webp",
   ],
   "/acasa": [
-    "/assetacasa/ADR-06545.jpg", "/assetacasa/ADR-06529.jpg", "/assetacasa/ADR-06507.jpg",
-    "/assetacasa/ADR-06480.jpg", "/assetacasa/ADR-06474.jpg", "/assetacasa/ADR-06468.jpg",
-    "/assetacasa/ADR-06394.jpg", "/assetacasa/ADR-06368.jpg", "/assetacasa/ADR-06325.jpg",
-    "/assetacasa/ADR-06293.jpg",
+    "/assetacasa/ADR-06545.webp", "/assetacasa/ADR-06529.webp", "/assetacasa/ADR-06507.webp",
+    "/assetacasa/ADR-06480.webp", "/assetacasa/ADR-06474.webp", "/assetacasa/ADR-06468.webp",
+    "/assetacasa/ADR-06394.webp", "/assetacasa/ADR-06368.webp", "/assetacasa/ADR-06325.webp",
+    "/assetacasa/ADR-06293.webp",
   ],
 };
 

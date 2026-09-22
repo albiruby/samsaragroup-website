@@ -59,14 +59,14 @@ export default async function SamsaraPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/ambiencesamsara/DSC08187.jpg",
-              "/ambiencesamsara/DSC08177.jpg",
-              "/ambiencesamsara/DSC08930.jpg",
-              "/ambiencesamsara/DSC08926.jpg",
-              "/ambiencesamsara/DSC08913.jpg",
+              "/ambiencesamsara/DSC08187.webp",
+              "/ambiencesamsara/DSC08177.webp",
+              "/ambiencesamsara/DSC08930.webp",
+              "/ambiencesamsara/DSC08926.webp",
+              "/ambiencesamsara/DSC08913.webp",
               "/ambiencesamsara/DSC08906.jpg",
-              "/ambiencesamsara/DSC09006.jpg",
-              "/ambiencesamsara/DSC08998.jpg",
+              "/ambiencesamsara/DSC09006.webp",
+              "/ambiencesamsara/DSC08998.webp",
               "/ambiencesamsara/DSC08980.jpg",
               "/ambiencesamsara/DSC08960.jpg",
             ]}
@@ -120,7 +120,7 @@ export default async function SamsaraPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Samsara Interior" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/ambiencesamsara/DSC08177.jpg" alt="Samsara Interior" className="h-full w-full object-cover" />
+                    <img src="/ambiencesamsara/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
 

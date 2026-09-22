@@ -37,7 +37,7 @@ export default async function SvargaPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <img src="/assetsvarga/Svarga logo black.png" alt="Svarga" className="h-12 md:h-16 w-auto" />
+          <img src="/assetsvarga/Svarga logo black.webp" alt="Svarga" className="h-12 md:h-16 w-auto" />
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Cerita rasa sudah dimulai. Rasa, alam, dan tradisi berpadu jadi satu."}
           </p>
@@ -48,16 +48,16 @@ export default async function SvargaPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/assetsvarga/ADR-07604.jpg",
-              "/assetsvarga/ADR (9 of 15).jpg",
-              "/assetsvarga/ADR (8 of 15).jpg",
-              "/assetsvarga/ADR (7 of 15).jpg",
-              "/assetsvarga/ADR (6 of 15).jpg",
-              "/assetsvarga/ADR (5 of 15).jpg",
-              "/assetsvarga/ADR (4 of 15).jpg",
-              "/assetsvarga/ADR (3 of 15).jpg",
-              "/assetsvarga/ADR (2 of 15).jpg",
-              "/assetsvarga/ADR (1 of 15).jpg",
+              "/assetsvarga/ADR-07604.webp",
+              "/assetsvarga/ADR (9 of 15).webp",
+              "/assetsvarga/ADR (8 of 15).webp",
+              "/assetsvarga/ADR (7 of 15).webp",
+              "/assetsvarga/ADR (6 of 15).webp",
+              "/assetsvarga/ADR (5 of 15).webp",
+              "/assetsvarga/ADR (4 of 15).webp",
+              "/assetsvarga/ADR (3 of 15).webp",
+              "/assetsvarga/ADR (2 of 15).webp",
+              "/assetsvarga/ADR (1 of 15).webp",
             ]}
             alt="Svarga Estate"
           />
@@ -97,7 +97,7 @@ export default async function SvargaPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/assetsvarga/ADR (9 of 15).jpg" alt="Svarga Suite" className="h-full w-full object-cover" />
+                    <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </div>
                 <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">

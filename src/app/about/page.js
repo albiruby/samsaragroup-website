@@ -14,12 +14,12 @@ export default async function AboutPage() {
   const worlds = await getWorlds();
 
   const brands = [
-    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.jpg" },
-    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.jpg" },
-    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).jpg" },
-    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.jpg" },
-    { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.jpg" },
-    { name: "GROOVE", tagline: "THE LIGHTER CAFE", href: "/groove", fallback: "/ambiencesamsara/DSC09048.jpg" },
+    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.webp" },
+    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.webp" },
+    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).webp" },
+    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp" },
+    { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp" },
+    { name: "GROOVE", tagline: "THE LIGHTER CAFE", href: "/groove", fallback: "/ambiencesamsara/DSC09048.webp" },
   ].map((b) => {
     const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
     return { ...b, image: w?.image || null };
@@ -80,7 +80,7 @@ export default async function AboutPage() {
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="img-hover h-[400px] lg:h-[520px]">
-              <img src="/ambiencesamsara/DSC08913.jpg" alt="Samsara Group" className="h-full w-full object-cover" />
+              <img src="/ambiencesamsara/DSC08913.webp" alt="Samsara Group" className="h-full w-full object-cover" />
             </div>
             <div>
               <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">

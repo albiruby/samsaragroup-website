@@ -21,12 +21,12 @@ const worlds = [
 ];
 
 const marqueeImages = [
-  "/ambiencesamsara/DSC09421.jpg",
-  "/ambiencesamsara/DSC09408.jpg",
-  "/ambiencesamsara/DSC09354.jpg",
-  "/ambiencesamsara/DSC09072.jpg",
-  "/ambiencesamsara/DSC09058.jpg",
-  "/ambiencesamsara/DSC09056.jpg",
+  "/ambiencesamsara/DSC09421.webp",
+  "/ambiencesamsara/DSC09408.webp",
+  "/ambiencesamsara/DSC09354.webp",
+  "/ambiencesamsara/DSC09072.webp",
+  "/ambiencesamsara/DSC09058.webp",
+  "/ambiencesamsara/DSC09056.webp",
 ];
 
 export default function HomePage() {
@@ -48,7 +48,7 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section className="relative w-full h-[100dvh] min-h-[600px] overflow-hidden">
-          <img src="/ambiencesamsara/DSC08930.jpg" alt="Sams Group" className="absolute inset-0 w-full h-full object-cover" />
+          <img src="/ambiencesamsara/DSC08930.webp" alt="Sams Group" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
@@ -77,7 +77,7 @@ export default function HomePage() {
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">
-                  <img src="/ambiencesamsara/DSC08926.jpg" alt="About" className="h-full w-full object-cover" />
+                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" className="h-full w-full object-cover" />
                 </div>
               </ImageParallax>
             </div>

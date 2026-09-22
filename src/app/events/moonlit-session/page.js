@@ -47,7 +47,7 @@ export default function MoonlitSessionPage() {
         <ScrollReveal>
           <div className="relative h-[300px] md:h-[500px] overflow-hidden mb-16">
             <FadeInImage
-              src="/ambiencesamsara/DSC08420.jpg"
+              src="/ambiencesamsara/DSC08420.webp"
               alt="Moonlit Session"
               className="w-full h-full object-cover"
             />

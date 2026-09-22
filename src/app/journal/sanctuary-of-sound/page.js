@@ -36,7 +36,7 @@ export default function SanctuaryOfSoundPage() {
         <ScrollReveal>
           <div className="relative w-full aspect-[16/9] overflow-hidden">
             <img
-              src="/ambiencesamsara/DSC08482.jpg"
+              src="/ambiencesamsara/DSC08482.webp"
               alt="The Sanctuary of Sound"
               className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
             />

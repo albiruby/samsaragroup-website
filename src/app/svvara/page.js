@@ -50,7 +50,7 @@ export default async function SvvaraPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <img src="/assetsvvara/logosvvara.png" alt="Svvara" className="h-12 md:h-16 w-auto" />
+          <img src="/assetsvvara/logosvvara.webp" alt="Svvara" className="h-12 md:h-16 w-auto" />
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Sound. Object. Design. Hand-formed instruments built to last generations."}
           </p>
@@ -61,16 +61,16 @@ export default async function SvvaraPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/assetsvvara/SAVVARA-01268.jpg",
-              "/assetsvvara/SAVVARA-01362.jpg",
-              "/assetsvvara/SAVVARA-01506.jpg",
-              "/assetsvvara/SAVVARA-01649.jpg",
-              "/assetsvvara/SAVVARA-01840.jpg",
-              "/assetsvvara/SVVARA-03220.jpg",
-              "/assetsvvara/SVVARA-03197.jpg",
-              "/assetsvvara/SVVARA-03168.jpg",
-              "/assetsvvara/SVVARA-03133.jpg",
-              "/assetsvvara/SVVARA-03089.jpg",
+              "/assetsvvara/SAVVARA-01268.webp",
+              "/assetsvvara/SAVVARA-01362.webp",
+              "/assetsvvara/SAVVARA-01506.webp",
+              "/assetsvvara/SAVVARA-01649.webp",
+              "/assetsvvara/SAVVARA-01840.webp",
+              "/assetsvvara/SVVARA-03220.webp",
+              "/assetsvvara/SVVARA-03197.webp",
+              "/assetsvvara/SVVARA-03168.webp",
+              "/assetsvvara/SVVARA-03133.webp",
+              "/assetsvvara/SVVARA-03089.webp",
             ]}
             alt="Svvara V100 Turntable"
           />
