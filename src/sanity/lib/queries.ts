@@ -6,7 +6,7 @@ const revalidate = { next: { revalidate: 60 } };
 export async function getEvents() {
   try {
     return await client.fetch(
-      `*[_type == "event"] | order(date desc) { _id, title, slug, category, date, time, location, capacity, entry, description, image, featured }`,
+      `*[_type == "event"] | order(date desc) { _id, title, slug, category, date, time, location, capacity, entry, description, image, featured, link }`,
       {},
       revalidate
     );
@@ -19,7 +19,7 @@ export async function getEvents() {
 export async function getEventBySlug(slug) {
   try {
     return await client.fetch(
-      `*[_type == "event" && slug.current == $slug][0]{_id, title, slug, category, date, time, location, capacity, entry, description, image, featured}`,
+      `*[_type == "event" && slug.current == $slug][0]{_id, title, slug, category, date, time, location, capacity, entry, description, image, featured, link}`,
       { slug },
       revalidate
     );

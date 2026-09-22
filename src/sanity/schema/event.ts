@@ -84,6 +84,13 @@ export default defineType({
       type: "boolean",
       initialValue: false,
     }),
+    defineField({
+      name: "link",
+      title: "Link",
+      type: "url",
+      description: "External link (e.g. Instagram, ticketing, registration)",
+      validation: (rule) => rule.uri({ allowRelative: false }),
+    }),
   ],
   orderings: [
     {

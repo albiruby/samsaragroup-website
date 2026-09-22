@@ -59,33 +59,59 @@ export default async function EventsPage() {
           </ScrollReveal>
         ) : (
           <div className="space-y-8">
-            {events.map((event) => (
-              <ScrollReveal key={event._id}>
-                <a href="https://www.instagram.com/samsara.bogor/" target="_blank" rel="noopener noreferrer" className="block group">
-                  <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
-                    <div className="flex flex-col md:flex-row">
-                      <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">
-                        {event.image && (
-                          <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover" />
-                        )}
-                      </div>
-                      <div className="flex w-full md:w-3/5 flex-col justify-center p-8 md:p-12">
-                        <div className="mb-6 flex flex-wrap items-center gap-4">
-                          <span className="text-label-caps-sm uppercase tracking-[0.2em] text-terracotta">{event.category}</span>
-                          <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant">{event.date}</span>
+            {events.map((event) => {
+              const Wrapper = event.link ? "a" : "div";
+              const wrapperProps = event.link
+                ? { href: event.link, target: "_blank", rel: "noopener noreferrer" }
+                : {};
+              return (
+                <ScrollReveal key={event._id}>
+                  <Wrapper {...wrapperProps} className="block group">
+                    <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
+                      <div className="flex flex-col md:flex-row">
+                        <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">
+                          {event.image && (
+                            <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover" />
+                          )}
                         </div>
-                        <h2 className="mb-3 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-on-surface">{event.title}</h2>
-                        <p className="text-body-sm text-on-surface-variant/70 mb-8">{event.location}</p>
-                        <span className="inline-flex w-fit items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
-                          EXPLORE
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                        </span>
+                        <div className="flex w-full md:w-3/5 flex-col justify-center p-8 md:p-12">
+                          <div className="mb-4 flex flex-wrap items-center gap-4">
+                            <span className="text-label-caps-sm uppercase tracking-[0.2em] text-terracotta">{event.category}</span>
+                            {event.date && (
+                              <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant">{event.date}</span>
+                            )}
+                            {event.time && (
+                              <span className="text-body-sm text-on-surface-variant/70">{event.time}</span>
+                            )}
+                          </div>
+                          <h2 className="mb-3 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-on-surface">{event.title}</h2>
+                          {event.location && (
+                            <p className="text-body-sm text-on-surface-variant/70 mb-4">{event.location}</p>
+                          )}
+                          {event.description && (
+                            <p className="text-body-sm text-on-surface-variant leading-relaxed mb-6 max-w-xl">{event.description}</p>
+                          )}
+                          <div className="flex flex-wrap items-center gap-4 mb-6 text-body-sm text-on-surface-variant/70">
+                            {event.capacity && (
+                              <span>Capacity: {event.capacity}</span>
+                            )}
+                            {event.entry && (
+                              <span>Entry: {event.entry}</span>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-3">
+                            <span className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
+                              {event.link ? "VISIT" : "EXPLORE"}
+                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                </a>
-              </ScrollReveal>
-            ))}
+                    </article>
+                  </Wrapper>
+                </ScrollReveal>
+              );
+            })}
           </div>
         )}
       </section>
