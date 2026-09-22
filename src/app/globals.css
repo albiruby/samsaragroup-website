@@ -144,6 +144,12 @@
 #worlds-dropdown.open .dropdown-menu a:nth-child(4),
 #worlds-dropdown:hover .dropdown-menu a:nth-child(4),
 #worlds-dropdown:focus-within .dropdown-menu a:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(5),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(5),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 200ms; }
+#worlds-dropdown.open .dropdown-menu a:nth-child(6),
+#worlds-dropdown:hover .dropdown-menu a:nth-child(6),
+#worlds-dropdown:focus-within .dropdown-menu a:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
 
 .img-hover { overflow: hidden; }
 .img-hover img { transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1); }
