@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import ProductCarousel from "@/components/ProductCarousel";
 import { getWorlds, getProducts } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -22,11 +23,7 @@ export default async function SvvaraPage() {
     products = [];
   }
 
-  const defaultProducts = [
-    { name: "SVVARA V100", description: "Belt-drive all-in-one turntable with high-precision stylus, built-in 2-way speaker system, and seamless Bluetooth connectivity. Timeless retro aesthetics, proudly made in Indonesia.", price: "IDR 3,975,000" },
-  ];
-
-  const displayProducts = products.length > 0 ? products : defaultProducts;
+  const displayProducts = products;
 
   const specs = world?.specifications || [
     ["Type", "Belt-drive all-in-one turntable"],
@@ -90,27 +87,7 @@ export default async function SvvaraPage() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <div>
-              <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">CURRENT COLLECTION</h2>
-              <div className="space-y-6">
-                {displayProducts.map((product) => (
-                    <div key={product.name} className="border border-outline-variant bg-surface-container-low transition-colors hover:border-outline overflow-hidden">
-                    {product.image && (
-                      <div className="w-full aspect-[16/9] overflow-hidden">
-                        <img src={urlFor(product.image).url()} alt={product.name} className="h-full w-full object-cover" />
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3">
-                        <h3 className="text-title-lg font-medium uppercase tracking-wide text-on-surface min-w-0 break-words">{product.name}</h3>
-                        {product.price && <span className="shrink-0 text-body-sm text-terracotta">{product.price}</span>}
-                      </div>
-                      <p className="text-body-sm text-on-surface-variant">{product.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ProductCarousel products={displayProducts} />
           </ScrollReveal>
         </div>
       </section>
