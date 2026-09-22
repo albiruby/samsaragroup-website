@@ -12,10 +12,10 @@ import NumberCounter from "@/components/NumberCounter";
 import { useTheme } from "@/components/ThemeProvider";
 
 const worlds = [
-  { name: "SAMSARA", tagline: "THE SANCTUARY", disciplines: "ACOUSTICS · DINING · RETREAT", href: "/samsara" },
-  { name: "SVVARA", tagline: "TACTILE ARTIFACTS", disciplines: "SOUND OBJECTS · CRAFT · DESIGN", href: "/svvara" },
-  { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HOSPITALITY · STILLNESS · NATURE", href: "/svarga" },
-  { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "MOVEMENT · ATHLETICS · COMMUNITY", href: "/acasa" },
+  { name: "SAMSARA", tagline: "THE SANCTUARY", disciplines: "LISTENING · DINING · CULTURE", href: "/samsara" },
+  { name: "SVVARA", tagline: "TACTILE ARTIFACTS", disciplines: "ANALOG · VINYL · CRAFT", href: "/svvara" },
+  { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HERITAGE · DINING · NATURE", href: "/svarga" },
+  { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "STAY · DINING · PADEL", href: "/acasa" },
   { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
   { name: "GROOVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/groove" },
 ];

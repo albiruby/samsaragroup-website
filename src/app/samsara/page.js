@@ -18,7 +18,7 @@ const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
 export const metadata = {
   title: "Samsara — Samsara Group",
-  description: "Sound. Food. Culture. A sanctuary where every frequency is designed.",
+  description: "Bogor's first listening space. A symphony of melody and taste — where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
 };
 
 export default async function SamsaraPage() {
@@ -31,10 +31,12 @@ export default async function SamsaraPage() {
   }
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
-    ["Acoustic Range", "18Hz-22kHz Reference"],
-    ["Gastronomy", "Terroir-Driven, Volcanic"],
-    ["Location", "JKT - 01 S 110 E"],
-    ["Listening Sessions", "Vinyl archive, 3,000+ pressings"],
+    ["Concept", "Extra Sensory Perception — sound, taste, sight"],
+    ["Listening Space", "Bogor's first — vinyl library, play your own records"],
+    ["Cuisine", "Indo-Kolonial — Nasi Campur Madura, Bitterballen, Poffertjes"],
+    ["Coffee", "Signature with Mikael Jasin, World Barista Champion 2024"],
+    ["Heritage", "Dutch-colonial building, 1,400 m², beside Kebun Raya Bogor"],
+    ["Live Music", "Melodi Samsara — presented by Melodi Alam"],
   ];
 
   return (
@@ -71,7 +73,7 @@ export default async function SamsaraPage() {
               <div className="space-y-12">
                 <div>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
-                    {world?.description || "A sanctuary where sound becomes architecture and silence becomes nourishment. Every surface, every frequency, every flavor is designed to dissolve the boundary between guest and environment."}
+                    {world?.description || "Housed in a preserved Dutch-colonial building beside the Bogor Botanical Gardens, Samsara is where culinary flavors and musical melodies come together in effortless harmony. Explore our library of vinyl, play a record yourself, and let the room do the rest — an experience we call Extra Sensory Perception, crafted for the palate and the soul."}
                   </p>
                 </div>
 

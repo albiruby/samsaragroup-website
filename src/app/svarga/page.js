@@ -8,7 +8,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
   title: "Svarga — Samsara Group",
-  description: "Highland sanctuary. Elevation 1,140m. Volcanic stone, cool air, ceremonial ritual.",
+  description: "Cerita rasa sudah dimulai. Svarga terbuka untukmu. Javanese heritage restaurant with pendopo, prasmanan, and skydeck in the highlands of Sukabumi.",
 };
 
 export default async function SvargaPage() {
@@ -16,10 +16,12 @@ export default async function SvargaPage() {
   const world = worlds.find((w) => w.slug?.current === "svarga");
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
-    ["Elevation", "1,140m above sea level"],
-    ["Suites", "6 private, 2 communal pavilions"],
-    ["Rituals", "Fire ceremony, sound immersion"],
-    ["Dining", "Estate-to-table, fire-driven"],
+    ["Concept", "Pendopo Javanese — prasmanan otentik, heritage dining"],
+    ["Signature Dishes", "Sate Merah, Ayam Gerabah, Mangut Lele, Wedangan"],
+    ["Skydeck", "Open-air deck with panoramic highland views"],
+    ["Location", "Nagrak, Sukabumi — cool mountain air, 10 min from Cibadak"],
+    ["Occasion", "Family gatherings, weddings, celebrations"],
+    ["Reservations", "WhatsApp 0813-2148-132"],
   ];
 
   return (
@@ -32,7 +34,7 @@ export default async function SvargaPage() {
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
           <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">SVARGA</h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-            {world?.tagline || "Nature. Dining. Escape. Highland stillness at 1,140m."}
+            {world?.tagline || "Cerita rasa sudah dimulai. Rasa, alam, dan tradisi berpadu jadi satu."}
           </p>
         </ScrollReveal>
       </section>
@@ -56,7 +58,7 @@ export default async function SvargaPage() {
               <div className="space-y-12">
                 <div>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
-                    {world?.description || "Perched on the volcanic ridge of Kintamani. Three hectares of terraced gardens, ancient banyan groves, and open-air pavilions built from locally quarried stone. Days begin before dawn with a fire ceremony and end with a listening session in the stone chamber."}
+                    {world?.description || "Svarga was born from a simple desire: to create a space to return to — to honest flavors, to traditions that are cared for, to togetherness that is never rushed. Set amid the cool highlands of Sukabumi, every dish is prepared with wholeheartedness, wrapping the warmth of spices, the familiarity of a long table, and stories that grow between bites. Welcome to Svarga."}
                   </p>
                 </div>
 

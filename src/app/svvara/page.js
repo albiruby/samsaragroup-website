@@ -7,7 +7,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
   title: "Svvara — Samsara Group",
-  description: "Sound. Object. Design. Hand-formed instruments built to last generations.",
+  description: "Refined Simplicity, Enhanced Sound. The SVVARA V100 — a premium turntable proudly made in Indonesia for vinyl lovers and design enthusiasts.",
 };
 
 export default async function SvvaraPage() {
@@ -23,17 +23,18 @@ export default async function SvvaraPage() {
   }
 
   const defaultProducts = [
-    { name: "MONOLITH 01", description: "Single-driver loudspeaker carved from volcanic basalt. Pure signal path.", price: "IDR 48,000,000" },
-    { name: "TEAK TRANSDUCERS", description: "Full-range drivers in hand-turned reclaimed teak enclosures. Each pair numbered.", price: "IDR 32,000,000" },
-    { name: "ROTARY STEP ATTENUATOR", description: "24-step attenuator milled from solid brass. Tactile precision.", price: "IDR 8,500,000" },
+    { name: "SVVARA V100", description: "Belt-drive all-in-one turntable with high-precision stylus, built-in 2-way speaker system, and seamless Bluetooth connectivity. Timeless retro aesthetics, proudly made in Indonesia.", price: "IDR 3,975,000" },
   ];
 
   const displayProducts = products.length > 0 ? products : defaultProducts;
 
   const specs = world?.specifications || [
-    ["Materials", "Volcanic basalt, reclaimed teak, solid brass"],
-    ["Production", "Made to order, 8-12 week lead time"],
-    ["Ateliers", "East Java, Bali"],
+    ["Type", "Belt-drive all-in-one turntable"],
+    ["Stylus", "High-Precision — captures every analog detail"],
+    ["Speaker", "Built-in 2-Way System — bass, mid, crisp highs"],
+    ["Connectivity", "Seamless Bluetooth — play from your phone"],
+    ["Origin", "Proudly made in Indonesia"],
+    ["Distribution", "Official Store + record stores across Indonesia & Malaysia"],
   ];
 
   return (
@@ -68,9 +69,9 @@ export default async function SvvaraPage() {
           <ScrollReveal>
             <div className="space-y-12">
               <div>
-                <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE ATELIER</h2>
+                <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE V100</h2>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  {world?.description || "Where material meets intention. Our workshop sits on the edge of a volcanic ridge in East Java, where stone is abundant and silence is a resource."}
+                  {world?.description || "Designed by experienced audio practitioners, the SVVARA V100 delivers a premium-class listening experience in a package anyone can live with — a high-precision stylus that captures every detail, a built-in 2-way speaker system that fills the room, and Bluetooth that lets your digital library join the analog party. Timeless retro aesthetics, dependable performance, proudly made in Indonesia."}
                 </p>
               </div>
 

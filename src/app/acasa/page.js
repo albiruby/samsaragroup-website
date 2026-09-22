@@ -8,7 +8,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
   title: "Acasa — Samsara Group",
-  description: "Stay. Move. Play. Where the body remembers its rhythm.",
+  description: "A Sanctuary of Refined Living. Resto, Cottages, and Padel — one place, many moments, in the hills of Ciawi, Bogor.",
 };
 
 export default async function AcasaPage() {
@@ -16,10 +16,12 @@ export default async function AcasaPage() {
   const world = worlds.find((w) => w.slug?.current === "acasa");
 
   const offerings = world?.specifications?.map((s) => [s.label, s.value]) || [
-    ["Padel Courts", "3 regulation courts, evening floodlights"],
-    ["Cold Plunge", "Nordic-style, 2°C mineral plunge"],
-    ["Sunrise Practice", "Dawn yoga, breathwork, sound healing"],
-    ["Rooftop Gathering", "Communal sunset ritual"],
+    ["Cottages", "20 rooms — pool, WiFi, 24hr reception, smart TV"],
+    ["Acasa Padel", "2 courts — Rp200,000/session, hot shower, locker rooms"],
+    ["Restaurant", "Rp25k–95k — Weekdays 09–23, Weekend 08–23"],
+    ["Event Space", "Ballroom & garden — from intimate gatherings to grand celebrations"],
+    ["Location", "Ciawi, Bogor — 5 min from Vimala Hills, 6 min from Kuntum Farmfield"],
+    ["Rating", "Google Hotels 4.9 (169 reviews) · tiket.com 5.0"],
   ];
 
   return (
@@ -32,7 +34,7 @@ export default async function AcasaPage() {
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
           <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">ACASA</h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-            {world?.tagline || "Stay. Move. Play. Where the body remembers its rhythm."}
+            {world?.tagline || "A Sanctuary of Refined Living — Resto, Cottages, Padel."}
           </p>
         </ScrollReveal>
       </section>
@@ -56,7 +58,7 @@ export default async function AcasaPage() {
               <div className="space-y-12">
                 <div>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
-                    {world?.description || "Movement as ritual. Padel courts, cold plunge protocols, and sunrise yoga woven into the fabric of intentional leisure. Acasa is where the body remembers its natural rhythm."}
+                    {world?.description || "Where architecture holds stories, where every table gathers laughter, where mornings begin softly and evenings glow with warmth. From quiet stays to meaningful celebrations, every detail is thoughtfully crafted — from comfortable cottages and refreshing pool days to padel games and family meals at the restaurant. Welcome to Acasa."}
                   </p>
                 </div>
 
