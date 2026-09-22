@@ -18,8 +18,8 @@ const SAMSARA_LINKS = {
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
 export const metadata = {
-  title: "Samsara — Samsara Group",
-  description: "Bogor's first listening space. A symphony of melody and taste — where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
+  title: "Samsara \u2014 Samsara Group",
+  description: "Bogor's first listening space. A symphony of melody and taste \u2014 where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
 };
 
 export default async function SamsaraPage() {
@@ -32,12 +32,12 @@ export default async function SamsaraPage() {
   }
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
-    ["Concept", "Extra Sensory Perception — sound, taste, sight"],
-    ["Listening Space", "Bogor's first — vinyl library, play your own records"],
-    ["Cuisine", "Indo-Kolonial — Nasi Campur Madura, Bitterballen, Poffertjes"],
+    ["Concept", "Extra Sensory Perception \u2014 sound, taste, sight"],
+    ["Listening Space", "Bogor's first \u2014 vinyl library, play your own records"],
+    ["Cuisine", "Indo-Kolonial \u2014 Nasi Campur Madura, Bitterballen, Poffertjes"],
     ["Coffee", "Signature with Mikael Jasin, World Barista Champion 2024"],
-    ["Heritage", "Dutch-colonial building, 1,400 m², beside Kebun Raya Bogor"],
-    ["Live Music", "Melodi Samsara — presented by Melodi Alam"],
+    ["Heritage", "Dutch-colonial building, 1,400 m\u00B2, beside Kebun Raya Bogor"],
+    ["Live Music", "Melodi Samsara \u2014 presented by Melodi Alam"],
   ];
 
   return (
@@ -64,11 +64,8 @@ export default async function SamsaraPage() {
               "/ambiencesamsara/DSC08930.webp",
               "/ambiencesamsara/DSC08926.webp",
               "/ambiencesamsara/DSC08913.webp",
-              "/ambiencesamsara/DSC08906.jpg",
               "/ambiencesamsara/DSC09006.webp",
               "/ambiencesamsara/DSC08998.webp",
-              "/ambiencesamsara/DSC08980.jpg",
-              "/ambiencesamsara/DSC08960.jpg",
             ]}
             alt="Samsara Sanctuary"
           />
@@ -82,7 +79,7 @@ export default async function SamsaraPage() {
               <div className="space-y-12">
                 <div>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
-                    {world?.description || "Housed in a preserved Dutch-colonial building beside the Bogor Botanical Gardens, Samsara is where culinary flavors and musical melodies come together in effortless harmony. Explore our library of vinyl, play a record yourself, and let the room do the rest — an experience we call Extra Sensory Perception, crafted for the palate and the soul."}
+                    {world?.description || "Housed in a preserved Dutch-colonial building beside the Bogor Botanical Gardens, Samsara is where culinary flavors and musical melodies come together in effortless harmony. Explore our library of vinyl, play a record yourself, and let the room do the rest \u2014 an experience we call Extra Sensory Perception, crafted for the palate and the soul."}
                   </p>
                 </div>
 
