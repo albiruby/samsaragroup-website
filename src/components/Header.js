@@ -11,6 +11,33 @@ const navLinks = [
   { label: "EVENTS", href: "/events" },
 ];
 
+const brandImages = {
+  "/samsara": [
+    "/ambiencesamsara/DSC08187.jpg", "/ambiencesamsara/DSC08177.jpg", "/ambiencesamsara/DSC08930.jpg",
+    "/ambiencesamsara/DSC08926.jpg", "/ambiencesamsara/DSC08913.jpg", "/ambiencesamsara/DSC08906.jpg",
+    "/ambiencesamsara/DSC09006.jpg", "/ambiencesamsara/DSC08998.jpg", "/ambiencesamsara/DSC08980.jpg",
+    "/ambiencesamsara/DSC08960.jpg",
+  ],
+  "/svvara": [
+    "/assetsvvara/SAVVARA-01268.jpg", "/assetsvvara/SAVVARA-01362.jpg", "/assetsvvara/SAVVARA-01506.jpg",
+    "/assetsvvara/SAVVARA-01649.jpg", "/assetsvvara/SAVVARA-01840.jpg", "/assetsvvara/SVVARA-03220.jpg",
+    "/assetsvvara/SVVARA-03197.jpg", "/assetsvvara/SVVARA-03168.jpg", "/assetsvvara/SVVARA-03133.jpg",
+    "/assetsvvara/SVVARA-03089.jpg",
+  ],
+  "/svarga": [
+    "/assetsvarga/ADR-07604.jpg", "/assetsvarga/ADR (9 of 15).jpg", "/assetsvarga/ADR (8 of 15).jpg",
+    "/assetsvarga/ADR (7 of 15).jpg", "/assetsvarga/ADR (6 of 15).jpg", "/assetsvarga/ADR (5 of 15).jpg",
+    "/assetsvarga/ADR (4 of 15).jpg", "/assetsvarga/ADR (3 of 15).jpg", "/assetsvarga/ADR (2 of 15).jpg",
+    "/assetsvarga/ADR (1 of 15).jpg",
+  ],
+  "/acasa": [
+    "/assetacasa/ADR-06545.jpg", "/assetacasa/ADR-06529.jpg", "/assetacasa/ADR-06507.jpg",
+    "/assetacasa/ADR-06480.jpg", "/assetacasa/ADR-06474.jpg", "/assetacasa/ADR-06468.jpg",
+    "/assetacasa/ADR-06394.jpg", "/assetacasa/ADR-06368.jpg", "/assetacasa/ADR-06325.jpg",
+    "/assetacasa/ADR-06293.jpg",
+  ],
+};
+
 const worldsLinks = [
   { label: "Samsara", href: "/samsara" },
   { label: "Svvara", href: "/svvara" },
@@ -19,6 +46,13 @@ const worldsLinks = [
   { label: "Outpace", href: "/outpace" },
   { label: "Groove", href: "/groove" },
 ];
+
+function preloadImages(srcs) {
+  srcs.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+}
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -95,6 +129,10 @@ export default function Header() {
                       key={link.label}
                       href={link.href}
                       onClick={() => setDropdownOpen(false)}
+                      onMouseEnter={() => {
+                        const imgs = brandImages[link.href];
+                        if (imgs) preloadImages(imgs);
+                      }}
                       className="block px-5 py-2.5 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:bg-surface-container-low transition-colors"
                     >
                       {link.label}
