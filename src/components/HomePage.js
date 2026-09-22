@@ -16,8 +16,8 @@ const worlds = [
   { name: "SVVARA", tagline: "TACTILE ARTIFACTS", disciplines: "SOUND OBJECTS · CRAFT · DESIGN", href: "/svvara" },
   { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HOSPITALITY · STILLNESS · NATURE", href: "/svarga" },
   { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "MOVEMENT · ATHLETICS · COMMUNITY", href: "/acasa" },
-  { name: "OUTPACE", tagline: "VELOCITY & FORM", disciplines: "AUTOMOTIVE · RACING · ENGINEERING", href: "/outpace" },
-  { name: "GROOVE", tagline: "RHYTHM & FLOW", disciplines: "MUSIC · PRODUCTION · SOUND", href: "/groove" },
+  { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
+  { name: "GROOVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/groove" },
 ];
 
 const marqueeImages = [

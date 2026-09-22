@@ -5,14 +5,14 @@ import ThemeSetter from "@/components/ThemeSetter";
 
 export const metadata = {
   title: "Groove — Samsara Group",
-  description: "Rhythm and flow. Music as environment, sound as architecture.",
+  description: "The lighter cafe. Casual, relaxed, and always good vibes.",
 };
 
 export default function GroovePage() {
   const specs = [
-    ["Focus", "Music production and sound design"],
-    ["Disciplines", "Production · Recording · Performance"],
-    ["Approach", "Sound as spatial experience"],
+    ["Concept", "Lighter cafe than Samsara"],
+    ["Vibe", "Casual · Relaxed · Everyday"],
+    ["Menu", "Coffee, bites, light meals"],
   ];
 
   return (
@@ -25,7 +25,7 @@ export default function GroovePage() {
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
           <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">GROOVE</h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-            Rhythm and flow. Music as environment, sound as architecture.
+            The lighter cafe. Casual, relaxed, and always good vibes.
           </p>
         </ScrollReveal>
       </section>
@@ -45,7 +45,7 @@ export default function GroovePage() {
               <div>
                 <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Where frequency becomes feeling. Groove is the sonic arm of Samsara Group — a studio, a label, a philosophy. Every session designed to dissolve the boundary between listener and sound.
+                  Less formal, more feeling. Groove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
                 </p>
               </div>
               <div className="border-t border-outline-variant pt-8">

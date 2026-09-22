@@ -5,14 +5,14 @@ import ThemeSetter from "@/components/ThemeSetter";
 
 export const metadata = {
   title: "Outpace — Samsara Group",
-  description: "Velocity and form. Where engineering meets artistry.",
+  description: "A running cafe. Coffee, shower, and community for runners.",
 };
 
 export default function OutpacePage() {
   const specs = [
-    ["Focus", "Automotive design and racing culture"],
-    ["Disciplines", "Engineering · Aerodynamics · Craft"],
-    ["Approach", "Performance through precision"],
+    ["Concept", "Cafe for runners"],
+    ["Facilities", "Shower · Coffee · Lockers"],
+    ["Community", "Morning runs, group sessions"],
   ];
 
   return (
@@ -25,7 +25,7 @@ export default function OutpacePage() {
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
           <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">OUTPACE</h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-            Velocity and form. Where engineering meets artistry in motion.
+            A running cafe. Coffee, shower, and community for those who move.
           </p>
         </ScrollReveal>
       </section>
@@ -45,7 +45,7 @@ export default function OutpacePage() {
               <div>
                 <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Where speed meets soul. Outpace explores the intersection of automotive culture, precision engineering, and design language. Every curve calculated, every surface intentional.
+                  Run first, coffee after. Outpace is a pit stop for runners — fresh showers, strong coffee, and a community that moves. Whether you're training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
                 </p>
               </div>
               <div className="border-t border-outline-variant pt-8">
