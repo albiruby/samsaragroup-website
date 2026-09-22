@@ -37,7 +37,10 @@ export default async function SvargaPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">SVARGA</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">SVARGA</h1>
+            <img src="/assetsvarga/Svarga logo black.png" alt="Svarga Logo" className="h-10 md:h-12 w-auto" />
+          </div>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Cerita rasa sudah dimulai. Rasa, alam, dan tradisi berpadu jadi satu."}
           </p>
