@@ -15,9 +15,9 @@ export default async function AboutPage() {
 
   const brands = [
     { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.jpg" },
-    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/ambiencesamsara/DSC08998.jpg" },
-    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/ambiencesamsara/DSC08420.jpg" },
-    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/ambiencesamsara/DSC08401.jpg" },
+    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.jpg" },
+    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).jpg" },
+    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.jpg" },
     { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.jpg" },
     { name: "GROOVE", tagline: "THE LIGHTER CAFE", href: "/groove", fallback: "/ambiencesamsara/DSC09048.jpg" },
   ].map((b) => {

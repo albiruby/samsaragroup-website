@@ -55,7 +55,7 @@ export default async function SvvaraPage() {
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Svvara Atelier" className="h-full w-full object-cover" />
             ) : (
-              <img src="/ambiencesamsara/DSC08253.jpg" alt="Svvara Atelier" className="h-full w-full object-cover" />
+              <img src="/assetsvvara/SVVARA-03220.jpg" alt="Svvara Atelier" className="h-full w-full object-cover" />
             )}
           </div>
         </ScrollReveal>

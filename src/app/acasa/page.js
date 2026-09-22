@@ -45,7 +45,7 @@ export default async function AcasaPage() {
             {world?.image ? (
               <img src={urlFor(world.image).url()} alt="Acasa" className="h-full w-full object-cover" />
             ) : (
-              <img src="/ambiencesamsara/DSC08200.jpg" alt="Acasa" className="h-full w-full object-cover" />
+              <img src="/assetacasa/ADR-06545.jpg" alt="Acasa" className="h-full w-full object-cover" />
             )}
           </div>
         </ScrollReveal>
@@ -84,7 +84,7 @@ export default async function AcasaPage() {
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Acasa Interior" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/ambiencesamsara/DSC08196.jpg" alt="Acasa Interior" className="h-full w-full object-cover" />
+                    <img src="/assetacasa/ADR-06539.jpg" alt="Acasa Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
                 <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">
