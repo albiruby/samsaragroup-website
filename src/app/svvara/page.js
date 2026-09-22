@@ -7,6 +7,13 @@ import ProductCarousel from "@/components/ProductCarousel";
 import { getWorlds, getProducts } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+const SVVARA_CONTACT = {
+  whatsapp: "0812-2070-3100",
+  email: "contact@svvara.co.id",
+  address: "Jl. KH Hasyim Ashari No. 31, Cideng, Gambir, Jakarta Pusat",
+  store: "Official Store — Tokopedia & Shopee",
+};
+
 export const metadata = {
   title: "Svvara — Samsara Group",
   description: "Refined Simplicity, Enhanced Sound. The SVVARA V100 — a premium turntable proudly made in Indonesia for vinyl lovers and design enthusiasts.",
@@ -66,6 +73,14 @@ export default async function SvvaraPage() {
         </ScrollReveal>
       </section>
 
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
+        <ScrollReveal>
+          <div className="flex justify-center">
+            <img src="/assetsvvara/logosvvara.png" alt="Svvara Logo" className="h-16 md:h-20 w-auto" />
+          </div>
+        </ScrollReveal>
+      </section>
+
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <div className="grid gap-8 lg:gap-16 lg:grid-cols-2">
           <ScrollReveal>
@@ -95,6 +110,35 @@ export default async function SvvaraPage() {
             <ProductCarousel products={displayProducts} />
           </ScrollReveal>
         </div>
+      </section>
+
+      <section className="bg-surface-container-low max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+        <ScrollReveal>
+          <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">VISIT US</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-title-lg font-display uppercase text-on-surface">Svvara Indonesia</h3>
+              <p className="text-body-sm text-on-surface-variant">{SVVARA_CONTACT.address}</p>
+              <div className="space-y-2 text-body-sm text-on-surface-variant">
+                <p>WhatsApp: {SVVARA_CONTACT.whatsapp}</p>
+                <p>Email: {SVVARA_CONTACT.email}</p>
+              </div>
+              <p className="text-body-sm text-on-surface-variant">{SVVARA_CONTACT.store}</p>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-title-lg font-display uppercase text-on-surface">Find Our Products</h3>
+              <p className="text-body-sm text-on-surface-variant">Available at record store partners across Indonesia and Malaysia:</p>
+              <ul className="text-body-sm text-on-surface-variant space-y-1">
+                <li>PHR Records (Senayan & Bintaro)</li>
+                <li>Playlist Record Store</li>
+                <li>Lokananta Record Store</li>
+                <li>World Records</li>
+                <li>SONAA</li>
+                <li>Acoustique Systems (Kuala Lumpur)</li>
+              </ul>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       <Footer />

@@ -4,14 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 
 export default function HeroCarousel({ images, alt = "Hero image", interval = 4000 }) {
   const [current, setCurrent] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const goTo = useCallback((index) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrent(index);
-    setTimeout(() => setIsTransitioning(false), 800);
-  }, [isTransitioning]);
+  const prev = useCallback(() => {
+    setCurrent((c) => (c === 0 ? images.length - 1 : c - 1));
+  }, [images.length]);
+
+  const next = useCallback(() => {
+    setCurrent((c) => (c + 1) % images.length);
+  }, [images.length]);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -24,7 +24,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-surface-container-low">
+    <div className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-surface-container-low group">
       {images.map((src, i) => (
         <div
           key={src}
@@ -34,6 +34,35 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
           <img src={src} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" />
         </div>
       ))}
+
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            aria-label="Previous image"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 2L4 7l5 5" /></svg>
+          </button>
+          <button
+            onClick={next}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            aria-label="Next image"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 2l5 5-5 5" /></svg>
+          </button>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-white" : "bg-white/40"}`}
+                aria-label={`Go to image ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
