@@ -86,9 +86,9 @@ export default function HomePage() {
 
         {/* ── Four Worlds ── */}
         <section className="bg-surface-container-low w-full">
-          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">OUR WORLDS</span>
-            <div className="flex items-end gap-4 mb-10 lg:mb-12">
+          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-10 lg:py-16">
+            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-2 block">OUR WORLDS</span>
+            <div className="flex items-end gap-4 mb-6 lg:mb-8">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
                   <NumberCounter target={6} duration={1000} /> IMMERSIVE WORLDS
@@ -97,9 +97,9 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-outline-variant">
               {worlds.map((world) => (
-                <Link key={world.name} href={world.href} className="group card-hover bg-surface-container-low p-6 lg:p-8 hover:bg-surface transition-colors">
-                  <span className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant block mb-3">{world.tagline}</span>
-                  <h3 className="font-display text-headline-sm uppercase text-on-surface mb-2 group-hover:text-terracotta transition-colors">{world.name}</h3>
+                <Link key={world.name} href={world.href} className="group card-hover bg-surface-container-low p-5 lg:p-6 hover:bg-surface transition-colors">
+                  <span className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant block mb-2">{world.tagline}</span>
+                  <h3 className="font-display text-headline-sm uppercase text-on-surface mb-1 group-hover:text-terracotta transition-colors">{world.name}</h3>
                   <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant/60">{world.disciplines}</p>
                 </Link>
               ))}
