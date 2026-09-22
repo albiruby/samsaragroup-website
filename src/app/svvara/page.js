@@ -94,12 +94,19 @@ export default async function SvvaraPage() {
               <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">CURRENT COLLECTION</h2>
               <div className="space-y-6">
                 {displayProducts.map((product) => (
-                    <div key={product.name} className="border border-outline-variant bg-surface-container-low p-6 transition-colors hover:border-outline">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3">
-                      <h3 className="text-title-lg font-medium uppercase tracking-wide text-on-surface min-w-0 break-words">{product.name}</h3>
-                      <span className="shrink-0 text-body-sm text-terracotta">{product.price}</span>
+                    <div key={product.name} className="border border-outline-variant bg-surface-container-low transition-colors hover:border-outline overflow-hidden">
+                    {product.image && (
+                      <div className="w-full aspect-[16/9] overflow-hidden">
+                        <img src={urlFor(product.image).url()} alt={product.name} className="h-full w-full object-cover" />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3">
+                        <h3 className="text-title-lg font-medium uppercase tracking-wide text-on-surface min-w-0 break-words">{product.name}</h3>
+                        {product.price && <span className="shrink-0 text-body-sm text-terracotta">{product.price}</span>}
+                      </div>
+                      <p className="text-body-sm text-on-surface-variant">{product.description}</p>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant">{product.description}</p>
                   </div>
                 ))}
               </div>
