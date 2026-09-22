@@ -57,8 +57,12 @@ export default async function AcasaPage() {
               "/assetacasa/ADR-06529.jpg",
               "/assetacasa/ADR-06507.jpg",
               "/assetacasa/ADR-06480.jpg",
-              "/assetacasa/ADR-06458.jpg",
-              "/assetacasa/ADR-06437.jpg",
+              "/assetacasa/ADR-06474.jpg",
+              "/assetacasa/ADR-06468.jpg",
+              "/assetacasa/ADR-06394.jpg",
+              "/assetacasa/ADR-06368.jpg",
+              "/assetacasa/ADR-06325.jpg",
+              "/assetacasa/ADR-06293.jpg",
             ]}
             alt="Acasa Resort"
           />

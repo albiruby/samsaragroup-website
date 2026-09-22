@@ -50,9 +50,13 @@ export default async function SvargaPage() {
             images={[
               "/assetsvarga/ADR-07604.jpg",
               "/assetsvarga/ADR (9 of 15).jpg",
+              "/assetsvarga/ADR (8 of 15).jpg",
               "/assetsvarga/ADR (7 of 15).jpg",
+              "/assetsvarga/ADR (6 of 15).jpg",
               "/assetsvarga/ADR (5 of 15).jpg",
+              "/assetsvarga/ADR (4 of 15).jpg",
               "/assetsvarga/ADR (3 of 15).jpg",
+              "/assetsvarga/ADR (2 of 15).jpg",
               "/assetsvarga/ADR (1 of 15).jpg",
             ]}
             alt="Svarga Estate"

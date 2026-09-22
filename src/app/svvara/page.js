@@ -61,12 +61,16 @@ export default async function SvvaraPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
+              "/assetsvvara/SAVVARA-01268.jpg",
+              "/assetsvvara/SAVVARA-01362.jpg",
+              "/assetsvvara/SAVVARA-01506.jpg",
+              "/assetsvvara/SAVVARA-01649.jpg",
+              "/assetsvvara/SAVVARA-01840.jpg",
               "/assetsvvara/SVVARA-03220.jpg",
               "/assetsvvara/SVVARA-03197.jpg",
               "/assetsvvara/SVVARA-03168.jpg",
               "/assetsvvara/SVVARA-03133.jpg",
               "/assetsvvara/SVVARA-03089.jpg",
-              "/assetsvvara/SVVARA-03047.jpg",
             ]}
             alt="Svvara V100 Turntable"
           />
