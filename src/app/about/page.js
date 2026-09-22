@@ -18,6 +18,8 @@ export default async function AboutPage() {
     { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/ambiencesamsara/DSC08998.jpg" },
     { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/ambiencesamsara/DSC08420.jpg" },
     { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/ambiencesamsara/DSC08401.jpg" },
+    { name: "OUTPACE", tagline: "VELOCITY & FORM", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.jpg" },
+    { name: "GROOVE", tagline: "RHYTHM & FLOW", href: "/groove", fallback: "/ambiencesamsara/DSC09048.jpg" },
   ].map((b) => {
     const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
     return { ...b, image: w?.image || null };

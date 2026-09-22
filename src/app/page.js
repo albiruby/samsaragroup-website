@@ -16,6 +16,8 @@ const worlds = [
   { name: "SVVARA", tagline: "TACTILE ARTIFACTS", disciplines: "SOUND OBJECTS · CRAFT · DESIGN", href: "/svvara" },
   { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HOSPITALITY · STILLNESS · NATURE", href: "/svarga" },
   { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "MOVEMENT · ATHLETICS · COMMUNITY", href: "/acasa" },
+  { name: "OUTPACE", tagline: "VELOCITY & FORM", disciplines: "AUTOMOTIVE · RACING · ENGINEERING", href: "/outpace" },
+  { name: "GROOVE", tagline: "RHYTHM & FLOW", disciplines: "MUSIC · PRODUCTION · SOUND", href: "/groove" },
 ];
 
 const marqueeImages = [
@@ -89,7 +91,7 @@ export default function HomePage() {
             <div className="flex items-end gap-4 mb-10 lg:mb-12">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
-                  <NumberCounter target={4} duration={1000} /> IMMERSIVE WORLDS
+                  <NumberCounter target={6} duration={1000} /> IMMERSIVE WORLDS
                 </h2>
               </TextClipReveal>
             </div>
@@ -114,47 +116,6 @@ export default function HomePage() {
                   <img src={src} alt={`Samsara experience ${i + 1}`} className="h-full w-full object-cover" />
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Make Together ── */}
-        <section className="bg-surface-container w-full">
-          <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">COLLABORATIONS</span>
-            <TextClipReveal>
-              <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-10 lg:mb-12 text-on-surface">
-                MAKE TOGETHER
-              </h2>
-            </TextClipReveal>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {[
-                { title: "OUR VALUES", desc: "Craft. Community. Sustainability. Growth." },
-                { title: "OPEN ROLES", desc: "Join a team building something that does not yet exist." },
-                { title: "PARTNERSHIPS", desc: "Collaborate with makers, growers, and visionaries." },
-              ].map((item) => (
-                <div key={item.title} className="border border-outline-variant p-8 lg:p-10">
-                  <h3 className="font-display text-headline-sm uppercase mb-4 text-on-surface">{item.title}</h3>
-                  <p className="font-body text-body-sm text-on-surface-variant mb-6">{item.desc}</p>
-                  <Link href="/contact" className="inline-flex items-center gap-2 font-label text-body-sm uppercase tracking-[0.12em] text-on-surface hover:text-terracotta transition-colors">
-                    LEARN MORE
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </Link>
-                </div>
-              ))}
-            </div>
-            <div className="mt-12 lg:mt-16 text-center">
-              <TextClipReveal>
-                <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
-                  COME EXPERIENCE<br />OUR WORLD.
-                </h2>
-              </TextClipReveal>
-              <MagneticButton strength={0.2}>
-                <Link href="/contact" className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-label text-body-sm uppercase tracking-[0.15em] text-on-primary hover:bg-primary/90 transition-colors">
-                  GET IN TOUCH
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </Link>
-              </MagneticButton>
             </div>
           </div>
         </section>

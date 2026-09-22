@@ -16,6 +16,8 @@ const worldsLinks = [
   { label: "Svvara", href: "/svvara" },
   { label: "Svarga", href: "/svarga" },
   { label: "Acasa", href: "/acasa" },
+  { label: "Outpace", href: "/outpace" },
+  { label: "Groove", href: "/groove" },
 ];
 
 export default function Header() {
