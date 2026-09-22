@@ -50,7 +50,10 @@ export default async function SvvaraPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">SVVARA</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">SVVARA</h1>
+            <img src="/assetsvvara/logosvvara.png" alt="Svvara Logo" className="h-10 md:h-12 w-auto" />
+          </div>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Sound. Object. Design. Hand-formed instruments built to last generations."}
           </p>
@@ -74,14 +77,6 @@ export default async function SvvaraPage() {
             ]}
             alt="Svvara V100 Turntable"
           />
-        </ScrollReveal>
-      </section>
-
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-        <ScrollReveal>
-          <div className="flex justify-center">
-            <img src="/assetsvvara/logosvvara.png" alt="Svvara Logo" className="h-16 md:h-20 w-auto" />
-          </div>
         </ScrollReveal>
       </section>
 
