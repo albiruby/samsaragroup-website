@@ -1,18 +1,13 @@
-"use client";
-
-import { useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { useTheme } from "@/components/ThemeProvider";
+import ThemeSetter from "@/components/ThemeSetter";
 
 export default function NocturnePage() {
-  const { setTheme } = useTheme();
-  useEffect(() => { setTheme("dark"); return () => setTheme("light"); }, [setTheme]);
-
   return (
     <>
+      <ThemeSetter theme="dark" />
       <Header />
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
