@@ -16,7 +16,7 @@ const SVVARA_CONTACT = {
 
 export const metadata = {
   title: "Svvara — Samsara Group",
-  description: "Refined Simplicity, Enhanced Sound. The SVVARA V100 — a premium turntable proudly made in Indonesia for vinyl lovers and design enthusiasts.",
+  description: "Refined Simplicity, Enhanced Sound. The SVVARA V110 — a premium turntable proudly made in Indonesia for vinyl lovers and design enthusiasts.",
 };
 
 export default async function SvvaraPage() {
@@ -72,7 +72,7 @@ export default async function SvvaraPage() {
               "/assetsvvara/SVVARA-03133.webp",
               "/assetsvvara/SVVARA-03089.webp",
             ]}
-            alt="Svvara V100 Turntable"
+            alt="Svvara V110 Turntable"
           />
         </ScrollReveal>
       </section>
@@ -82,9 +82,9 @@ export default async function SvvaraPage() {
           <ScrollReveal>
             <div className="space-y-12">
               <div>
-                <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE V100</h2>
+                <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE V110</h2>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  {world?.description || "Designed by experienced audio practitioners, the SVVARA V100 delivers a premium-class listening experience in a package anyone can live with — a high-precision stylus that captures every detail, a built-in 2-way speaker system that fills the room, and Bluetooth that lets your digital library join the analog party. Timeless retro aesthetics, dependable performance, proudly made in Indonesia."}
+                  {world?.description || "Designed by experienced audio practitioners, the SVVARA V110 delivers a premium-class listening experience in a package anyone can live with — a high-precision stylus that captures every detail, a built-in 2-way speaker system that fills the room, and Bluetooth that lets your digital library join the analog party. Timeless retro aesthetics, dependable performance, proudly made in Indonesia."}
                 </p>
               </div>
 
