@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
 import ProductCarousel from "@/components/ProductCarousel";
 import { getWorlds, getProducts } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -51,13 +52,17 @@ export default async function SvvaraPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            {world?.image ? (
-              <img src={urlFor(world.image).url()} alt="Svvara Atelier" className="h-full w-full object-cover" />
-            ) : (
-              <img src="/assetsvvara/SVVARA-03220.jpg" alt="Svvara Atelier" className="h-full w-full object-cover" />
-            )}
-          </div>
+          <HeroCarousel
+            images={[
+              "/assetsvvara/SVVARA-03220.jpg",
+              "/assetsvvara/SVVARA-03197.jpg",
+              "/assetsvvara/SVVARA-03168.jpg",
+              "/assetsvvara/SVVARA-03133.jpg",
+              "/assetsvvara/SVVARA-03089.jpg",
+              "/assetsvvara/SVVARA-03047.jpg",
+            ]}
+            alt="Svvara V100 Turntable"
+          />
         </ScrollReveal>
       </section>
 

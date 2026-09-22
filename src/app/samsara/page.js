@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -56,13 +57,17 @@ export default async function SamsaraPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            {world?.image ? (
-              <img src={urlFor(world.image).url()} alt="Samsara Sanctuary" className="h-full w-full object-cover" />
-            ) : (
-              <img src="/ambiencesamsara/DSC08187.jpg" alt="Samsara Sanctuary" className="h-full w-full object-cover" />
-            )}
-          </div>
+          <HeroCarousel
+            images={[
+              "/ambiencesamsara/DSC08187.jpg",
+              "/ambiencesamsara/DSC08177.jpg",
+              "/ambiencesamsara/DSC08930.jpg",
+              "/ambiencesamsara/DSC08926.jpg",
+              "/ambiencesamsara/DSC08913.jpg",
+              "/ambiencesamsara/DSC08906.jpg",
+            ]}
+            alt="Samsara Sanctuary"
+          />
         </ScrollReveal>
       </section>
 

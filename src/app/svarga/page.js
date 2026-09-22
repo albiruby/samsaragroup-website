@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -41,13 +42,17 @@ export default async function SvargaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            {world?.image ? (
-              <img src={urlFor(world.image).url()} alt="Svarga Estate" className="h-full w-full object-cover" />
-            ) : (
-              <img src="/assetsvarga/ADR-07604.jpg" alt="Svarga Estate" className="h-full w-full object-cover" />
-            )}
-          </div>
+          <HeroCarousel
+            images={[
+              "/assetsvarga/ADR-07604.jpg",
+              "/assetsvarga/ADR (9 of 15).jpg",
+              "/assetsvarga/ADR (7 of 15).jpg",
+              "/assetsvarga/ADR (5 of 15).jpg",
+              "/assetsvarga/ADR (3 of 15).jpg",
+              "/assetsvarga/ADR (1 of 15).jpg",
+            ]}
+            alt="Svarga Estate"
+          />
         </ScrollReveal>
       </section>
 

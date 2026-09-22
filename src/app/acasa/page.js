@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -41,13 +42,17 @@ export default async function AcasaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            {world?.image ? (
-              <img src={urlFor(world.image).url()} alt="Acasa" className="h-full w-full object-cover" />
-            ) : (
-              <img src="/assetacasa/ADR-06545.jpg" alt="Acasa" className="h-full w-full object-cover" />
-            )}
-          </div>
+          <HeroCarousel
+            images={[
+              "/assetacasa/ADR-06545.jpg",
+              "/assetacasa/ADR-06529.jpg",
+              "/assetacasa/ADR-06507.jpg",
+              "/assetacasa/ADR-06480.jpg",
+              "/assetacasa/ADR-06458.jpg",
+              "/assetacasa/ADR-06437.jpg",
+            ]}
+            alt="Acasa Resort"
+          />
         </ScrollReveal>
       </section>
 
