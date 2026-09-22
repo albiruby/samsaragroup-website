@@ -4,19 +4,32 @@ import { useState, useEffect, useCallback } from "react";
 
 export default function HeroCarousel({ images, alt = "Hero image", interval = 4000 }) {
   const [current, setCurrent] = useState(0);
+  const [loaded, setLoaded] = useState(new Set([0]));
 
   const prev = useCallback(() => {
-    setCurrent((c) => (c === 0 ? images.length - 1 : c - 1));
+    setCurrent((c) => {
+      const next = c === 0 ? images.length - 1 : c - 1;
+      setLoaded((s) => new Set([...s, next]));
+      return next;
+    });
   }, [images.length]);
 
   const next = useCallback(() => {
-    setCurrent((c) => (c + 1) % images.length);
+    setCurrent((c) => {
+      const nxt = (c + 1) % images.length;
+      setLoaded((s) => new Set([...s, nxt]));
+      return nxt;
+    });
   }, [images.length]);
 
   useEffect(() => {
     if (images.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
+      setCurrent((prev) => {
+        const nxt = (prev + 1) % images.length;
+        setLoaded((s) => new Set([...s, nxt]));
+        return nxt;
+      });
     }, interval);
     return () => clearInterval(timer);
   }, [images.length, interval]);
@@ -31,7 +44,9 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
           className="absolute inset-0 transition-opacity duration-800 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
         >
-          <img src={src} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" />
+          {loaded.has(i) && (
+            <img src={src} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
+          )}
         </div>
       ))}
 
@@ -55,7 +70,10 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
             {images.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrent(i)}
+                onClick={() => {
+                  setCurrent(i);
+                  setLoaded((s) => new Set([...s, i]));
+                }}
                 className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-white" : "bg-white/40"}`}
                 aria-label={`Go to image ${i + 1}`}
               />
