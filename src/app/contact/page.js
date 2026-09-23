@@ -11,20 +11,28 @@ export const metadata = {
 export default async function ContactPage() {
   const contact = await getContactInfo();
 
-  const emails = contact?.emails || [
-    { label: "Private Sanctuary", email: "concierge@samsaragroup.com" },
-    { label: "Curatorial", email: "curatorial@samsaragroup.com" },
-    { label: "Press", email: "press@samsaragroup.com" },
-  ];
+  const emails = contact?.emails?.length
+    ? contact.emails
+    : [
+        { label: "Private Sanctuary", email: "concierge@samsaragroup.com" },
+        { label: "Curatorial", email: "curatorial@samsaragroup.com" },
+        { label: "Press", email: "press@samsaragroup.com" },
+      ];
 
-  const addresses = contact?.addresses || [
-    { name: "Svarga Estate — Bali", address: "Jl. Raya Sanggingan, Ubud, Gianyar 80561" },
-    { name: "Acasa — Jakarta", address: "Jl. Senopati No. 42, Kebayoran Baru" },
-  ];
+  const addresses = contact?.addresses?.length
+    ? contact.addresses
+    : [
+        { name: "Samsara — Bogor", address: "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129" },
+        { name: "Svvara — Jakarta", address: "Jl. KH Hasyim Ashari No. 31, Cideng, Gambir, Jakarta Pusat" },
+        { name: "Svarga — Sukabumi", address: "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat" },
+        { name: "Acasa — Ciawi, Bogor", address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720" },
+      ];
 
   const hours = contact?.hours || "Mon–Sat: 09:00–18:00 · Sun: By appointment";
 
-  const inquiryTypes = contact?.inquiryTypes || [
+  const inquiryTypes = (contact?.inquiryTypes?.length
+    ? contact.inquiryTypes.map((t) => (typeof t === "string" ? { value: t, label: t } : t))
+    : null) || [
     { value: "reservation", label: "Reservation & Stay" },
     { value: "dining", label: "Dining" },
     { value: "music", label: "Music & Listening" },
@@ -63,8 +71,8 @@ export default async function ContactPage() {
                 <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Visit Us</h3>
                 <div className="space-y-3 text-body-md text-on-surface-variant">
                   {addresses.map((addr, i) => (
-                    <div key={addr.name || i}>
-                      <p className="font-medium text-on-surface">{addr.name}</p>
+                    <div key={addr.name || addr.label || i}>
+                      <p className="font-medium text-on-surface">{addr.name || addr.label}</p>
                       <p>{addr.address}</p>
                     </div>
                   ))}
