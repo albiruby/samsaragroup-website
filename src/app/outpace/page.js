@@ -15,6 +15,25 @@ export default function OutpacePage() {
     ["Community", "Morning runs, group sessions"],
   ];
 
+  const fuel = [
+    {
+      name: "PROTEIN",
+      copy: "Recovery support. Every kilometer spends a little muscle; this puts it back. Eat it after the shower, when the rebuild starts.",
+    },
+    {
+      name: "CARBS",
+      copy: "Pre and post run fuel. Load up the night before a long effort, then again when the legs come home empty.",
+    },
+    {
+      name: "VITAMIN",
+      copy: "Fresh daily energy. Something light for the ordinary morning, or the day after a hard session, when a full plate sits too heavy.",
+    },
+    {
+      name: "HYDRATION",
+      copy: "Reset and ritual. Cool down, fill back up, and take your time: the space between the last kilometer and the rest of your day.",
+    },
+  ];
+
   return (
     <>
       <ThemeSetter theme="dark" />
@@ -34,6 +53,20 @@ export default function OutpacePage() {
         <ScrollReveal>
           <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
             <img src="/ambiencesamsara/DSC09052.webp" alt="Outpace" className="h-full w-full object-cover" />
+          </div>
+        </ScrollReveal>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
+        <ScrollReveal>
+          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">FUEL</span>
+          <div className="grid gap-8 border-t border-outline-variant pt-8 sm:grid-cols-2 lg:grid-cols-4">
+            {fuel.map((item) => (
+              <div key={item.name}>
+                <h2 className="mb-3 font-display text-headline-sm uppercase text-on-surface">{item.name}</h2>
+                <p className="text-body-sm text-on-surface-variant leading-relaxed">{item.copy}</p>
+              </div>
+            ))}
           </div>
         </ScrollReveal>
       </section>
