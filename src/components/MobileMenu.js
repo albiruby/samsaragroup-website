@@ -181,8 +181,8 @@ export default function MobileMenu({ isOpen, onClose }) {
               {link.label}
             </Link>
           ))}
-          <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t border-white/10 w-full">
-            <span className="text-white/50 text-[11px] tracking-[0.25em] uppercase">
+          <div className="flex flex-col items-center gap-4 pt-4 border-t border-white/10 w-full">
+            <span className="min-h-[44px] flex items-center text-white/50 text-[11px] tracking-[0.25em] uppercase">
               WORLDS
             </span>
             {worldsSubLinks.map((link) => (
