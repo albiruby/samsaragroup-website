@@ -4,12 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
-
-const navLinks = [
-  { label: "HOME", href: "/" },
-  { label: "BRANDS", href: "/about" },
-  { label: "EVENTS", href: "/events" },
-];
+import { brandCategories } from "../data/brandCategories";
 
 const brandImages = {
   "/samsara": [
@@ -59,7 +54,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [brandsOpen, setBrandsOpen] = useState(false);
+  const [activeCat, setActiveCat] = useState(null);
   const dropdownRef = useRef(null);
+  const brandsRef = useRef(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -69,7 +67,21 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setDropdownOpen(false); }, [pathname]);
+  useEffect(() => { setDropdownOpen(false); setBrandsOpen(false); }, [pathname]);
+
+  useEffect(() => {
+    if (!brandsOpen) return;
+    const handleEscape = (e) => { if (e.key === "Escape") setBrandsOpen(false); };
+    const handleClickOutside = (e) => {
+      if (brandsRef.current && !brandsRef.current.contains(e.target)) setBrandsOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [brandsOpen]);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -97,19 +109,100 @@ export default function Header() {
     >
       <div className="w-full flex items-center justify-between h-16 lg:h-20 px-6 lg:px-10">
         <Link href="/" className="flex-shrink-0 flex items-center h-full overflow-hidden">
-          <img src="/White Logo/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
+          <img src="/White Logo Samsara/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
-          {navLinks.map((link) => (
           <Link
-            key={link.label}
-            href={link.href}
+            href="/"
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
-              {link.label}
+            HOME
           </Link>
-          ))}
+
+          <div
+            ref={brandsRef}
+            className="relative flex"
+            onMouseEnter={() => { setBrandsOpen(true); setActiveCat((c) => c ?? "ICONIC"); setDropdownOpen(false); }}
+            onMouseLeave={() => setBrandsOpen(false)}
+          >
+            <Link
+              href="/about"
+              className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+            >
+              BRANDS
+            </Link>
+            {brandsOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[100] max-w-[calc(100vw-2rem)]">
+                <div className="flex bg-surface border border-outline-variant shadow-lg">
+                  <div className="py-4 border-r border-outline-variant min-w-[260px]">
+                    {brandCategories.map((cat) => (
+                      <button
+                        key={cat.name}
+                        onMouseEnter={() => setActiveCat(cat.name)}
+                        onFocus={() => setActiveCat(cat.name)}
+                        className={`block w-full text-left px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase transition-colors cursor-pointer ${
+                          activeCat === cat.name
+                            ? "bg-surface-container-low text-on-surface"
+                            : "text-on-surface-variant hover:text-on-surface"
+                        }`}
+                      >
+                        {cat.name}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="py-4 min-w-[500px] max-w-[560px] flex flex-col">
+                    <div className="flex-1">
+                      {activeCat ? (
+                        brandCategories.find((c) => c.name === activeCat).brands.map((b) => (
+                          <Link
+                            key={b.href}
+                            href={b.href}
+                            onMouseEnter={() => {
+                              const imgs = brandImages[b.href];
+                              if (imgs) preloadImages(imgs);
+                            }}
+                            onClick={() => setBrandsOpen(false)}
+                            className="flex items-center gap-6 px-7 py-3.5 hover:bg-surface-container-low transition-colors"
+                          >
+                            <span className="flex-shrink-0 w-44 flex items-center">
+                              {b.logo && (
+                                <img src={b.logo} alt={b.label} className="max-w-full max-h-12 object-contain" />
+                              )}
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block font-label text-label-sm tracking-[0.14em] uppercase text-on-surface">{b.label}</span>
+                              <span className="block font-body text-body-sm italic text-on-surface-variant mt-0.5">{b.speciality}</span>
+                            </span>
+                          </Link>
+                        ))
+                      ) : (
+                        <p className="px-7 py-3 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant/70">
+                          Hover a category
+                        </p>
+                      )}
+                    </div>
+                    <div className="border-t border-outline-variant mt-2">
+                      <Link
+                        href="/about"
+                        onClick={() => setBrandsOpen(false)}
+                        className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
+                      >
+                        See All Brands →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <Link
+            href="/events"
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+          >
+            EVENTS
+          </Link>
 
           <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
               <button

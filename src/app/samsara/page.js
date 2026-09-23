@@ -49,7 +49,7 @@ export default async function SamsaraPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <img src="/Black Logo/blackfullsamping.png" alt="Samsara" className="h-12 md:h-16 w-auto" />
+          <img src="/Black Logo Samsara/blackfullsamping.png" alt="Samsara" className="h-12 md:h-16 w-auto" />
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Sound. Food. Culture. A sanctuary where every frequency is designed."}
           </p>

@@ -14,12 +14,12 @@ export default async function AboutPage() {
   const worlds = await getWorlds();
 
   const brands = [
-    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.webp" },
-    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.webp" },
-    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).webp" },
-    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp" },
-    { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp" },
-    { name: "GROVE", tagline: "THE LIGHTER CAFE", href: "/grove", fallback: "/ambiencesamsara/DSC09048.webp" },
+    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.webp", logo: "/White Logo Samsara/whitefullsamping.png" },
+    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.webp", logo: "/assetsvvara/logosvvarawhite.webp" },
+    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).webp", logo: "/assetsvarga/Svarga logo black.webp" },
+    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp", logo: "/assetacasa/Main Logo3.webp" },
+    { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp", logo: null },
+    { name: "GROVE", tagline: "THE LIGHTER CAFE", href: "/grove", fallback: "/ambiencesamsara/DSC09048.webp", logo: null },
   ].map((b) => {
     const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
     return { ...b, image: w?.image || null };
@@ -62,8 +62,12 @@ export default async function AboutPage() {
                 ) : (
                   <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 )}
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center px-6">
+                  {brand.logo ? (
+                    <img src={brand.logo} alt={brand.name} className="w-[75%] max-w-[280px] max-h-[45%] object-contain brightness-0 invert" />
+                  ) : (
+                    <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
+                  )}
                 </div>
               </div>
               <div className="p-5">

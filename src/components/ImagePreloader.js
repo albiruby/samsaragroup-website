@@ -18,7 +18,7 @@ const preloadMap = {
     "/ambiencesamsara/DSC09048.webp",
   ],
   "/samsara": [
-    "/Black Logo/blackfullsamping.png",
+    "/Black Logo Samsara/blackfullsamping.png",
     "/ambiencesamsara/DSC08187.webp",
     "/ambiencesamsara/DSC08177.webp",
     "/ambiencesamsara/DSC08930.webp",

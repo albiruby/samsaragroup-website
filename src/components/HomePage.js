@@ -21,18 +21,22 @@ const worlds = [
 ];
 
 const marqueeImages = [
-  "/ambiencesamsara/DSC09421.webp",
-  "/ambiencesamsara/DSC09408.webp",
-  "/ambiencesamsara/DSC09354.webp",
-  "/ambiencesamsara/DSC09072.webp",
-  "/ambiencesamsara/DSC09058.webp",
-  "/ambiencesamsara/DSC09056.webp",
-  "/ambiencesamsara/DSC08998.webp",
-  "/ambiencesamsara/DSC09006.webp",
-  "/ambiencesamsara/DSC08635.webp",
-  "/ambiencesamsara/DSC08575.webp",
-  "/ambiencesamsara/DSC08420.webp",
-  "/ambiencesamsara/DSC09014.webp",
+  { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
+  { src: "/assetsvvara/SAVVARA-01268.webp", brand: "Svvara" },
+  { src: "/assetsvarga/ADR (1 of 15).webp", brand: "Svarga" },
+  { src: "/assetacasa/ADR-06545.webp", brand: "Acasa" },
+  { src: "/ambiencesamsara/DSC09072.webp", brand: "Samsara" },
+  { src: "/assetsvvara/SAVVARA-01649.webp", brand: "Svvara" },
+  { src: "/assetsvarga/ADR (3 of 15).webp", brand: "Svarga" },
+  { src: "/assetacasa/ADR-06480.webp", brand: "Acasa" },
+  { src: "/ambiencesamsara/DSC08998.webp", brand: "Samsara" },
+  { src: "/assetsvvara/SVVARA-03197.webp", brand: "Svvara" },
+  { src: "/assetsvarga/ADR (2 of 4).webp", brand: "Svarga" },
+  { src: "/assetacasa/ADR-06368.webp", brand: "Acasa" },
+  { src: "/ambiencesamsara/DSC08575.webp", brand: "Samsara" },
+  { src: "/assetsvvara/SVVARA-03220.webp", brand: "Svvara" },
+  { src: "/assetsvarga/ADR (1 of 7).webp", brand: "Svarga" },
+  { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
 ];
 
 export default function HomePage() {
@@ -117,9 +121,9 @@ export default function HomePage() {
         <section className="bg-surface w-full overflow-hidden py-6">
           <div className="marquee-track">
             <div className="marquee-content">
-              {[...marqueeImages, ...marqueeImages].map((src, i) => (
+              {[...marqueeImages, ...marqueeImages].map((item, i) => (
                 <div key={i} className="marquee-item">
-                  <img src={src} alt={`Samsara experience ${i + 1}`} className="h-full w-full object-cover" />
+                  <img src={item.src} alt={`${item.brand} experience`} className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
