@@ -97,7 +97,10 @@ const preloadMap = {
   "/journal/sanctuary-of-sound": [
     "/ambiencesamsara/DSC08482.webp",
   ],
-  "/menu": [],
+  "/menu": [
+    "/menusamsara/0001.webp",
+    "/menusamsara/0002.webp",
+  ],
 };
 
 export default function ImagePreloader({ pathname }) {

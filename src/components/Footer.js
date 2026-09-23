@@ -29,10 +29,10 @@ export default function Footer() {
       </div>
 
       <div className="w-full px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="font-label text-label-sm text-outline tracking-wide">
+        <p className="font-label text-label-sm text-on-surface-variant tracking-wide">
           &copy; {new Date().getFullYear()} SAMSARA GROUP. ALL RIGHTS RESERVED.
         </p>
-        <p className="font-label text-label-sm text-outline/60 tracking-[0.18em] uppercase">
+        <p className="font-label text-label-sm text-on-surface-variant tracking-[0.18em] uppercase">
           NUSANTARA ARCHIPELAGO
         </p>
       </div>

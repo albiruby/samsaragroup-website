@@ -106,7 +106,7 @@ export default function HomePage() {
                 <Link key={world.name} href={world.href} className="group card-hover bg-surface-container-low p-5 lg:p-6 hover:bg-surface transition-colors">
                   <span className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant block mb-2">{world.tagline}</span>
                   <h3 className="font-display text-headline-sm uppercase text-on-surface mb-1 group-hover:text-terracotta transition-colors">{world.name}</h3>
-                  <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant/60">{world.disciplines}</p>
+                  <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant">{world.disciplines}</p>
                 </Link>
               ))}
             </div>

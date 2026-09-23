@@ -4,6 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
+import Link from "next/link";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -88,16 +89,23 @@ export default async function SamsaraPage() {
                   </p>
                 </div>
 
-                <div>
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                   <a
                     href={SAMSARA_LINKS.reservation}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                    className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
                     RESERVATION
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
+                  <Link
+                    href={SAMSARA_LINKS.menu}
+                    className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                  >
+                    VIEW MENU
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </Link>
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
