@@ -27,6 +27,12 @@ const marqueeImages = [
   "/ambiencesamsara/DSC09072.webp",
   "/ambiencesamsara/DSC09058.webp",
   "/ambiencesamsara/DSC09056.webp",
+  "/ambiencesamsara/DSC08998.webp",
+  "/ambiencesamsara/DSC09006.webp",
+  "/ambiencesamsara/DSC08635.webp",
+  "/ambiencesamsara/DSC08575.webp",
+  "/ambiencesamsara/DSC08420.webp",
+  "/ambiencesamsara/DSC09014.webp",
 ];
 
 export default function HomePage() {

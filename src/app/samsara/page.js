@@ -66,6 +66,11 @@ export default async function SamsaraPage() {
               "/ambiencesamsara/DSC08913.webp",
               "/ambiencesamsara/DSC09006.webp",
               "/ambiencesamsara/DSC08998.webp",
+              "/ambiencesamsara/DSC08568.webp",
+              "/ambiencesamsara/DSC08420.webp",
+              "/ambiencesamsara/DSC08635.webp",
+              "/ambiencesamsara/DSC09003.webp",
+              "/ambiencesamsara/DSC09354.webp",
             ]}
             alt="Samsara Sanctuary"
           />

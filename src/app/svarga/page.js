@@ -58,6 +58,8 @@ export default async function SvargaPage() {
               "/assetsvarga/ADR (3 of 15).webp",
               "/assetsvarga/ADR (2 of 15).webp",
               "/assetsvarga/ADR (1 of 15).webp",
+              "/assetsvarga/ADR (10 of 15).webp",
+              "/assetsvarga/ADR (11 of 15).webp",
             ]}
             alt="Svarga Estate"
           />

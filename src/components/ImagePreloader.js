@@ -24,11 +24,13 @@ const preloadMap = {
     "/ambiencesamsara/DSC08930.webp",
     "/ambiencesamsara/DSC08926.webp",
     "/ambiencesamsara/DSC08913.webp",
-    "/ambiencesamsara/DSC08906.jpg",
     "/ambiencesamsara/DSC09006.webp",
     "/ambiencesamsara/DSC08998.webp",
-    "/ambiencesamsara/DSC08980.jpg",
-    "/ambiencesamsara/DSC08960.jpg",
+    "/ambiencesamsara/DSC08568.webp",
+    "/ambiencesamsara/DSC08420.webp",
+    "/ambiencesamsara/DSC08635.webp",
+    "/ambiencesamsara/DSC09003.webp",
+    "/ambiencesamsara/DSC09354.webp",
   ],
   "/svvara": [
     "/assetsvvara/logosvvara.webp",
@@ -42,6 +44,8 @@ const preloadMap = {
     "/assetsvvara/SVVARA-03168.webp",
     "/assetsvvara/SVVARA-03133.webp",
     "/assetsvvara/SVVARA-03089.webp",
+    "/assetsvvara/SAVVARA-01320.webp",
+    "/assetsvvara/SAVVARA-01683.webp",
   ],
   "/svarga": [
     "/assetsvarga/Svarga logo black.webp",
@@ -55,6 +59,8 @@ const preloadMap = {
     "/assetsvarga/ADR (3 of 15).webp",
     "/assetsvarga/ADR (2 of 15).webp",
     "/assetsvarga/ADR (1 of 15).webp",
+    "/assetsvarga/ADR (10 of 15).webp",
+    "/assetsvarga/ADR (11 of 15).webp",
   ],
   "/acasa": [
     "/assetacasa/logoacasahitam.webp",
@@ -68,6 +74,8 @@ const preloadMap = {
     "/assetacasa/ADR-06368.webp",
     "/assetacasa/ADR-06325.webp",
     "/assetacasa/ADR-06293.webp",
+    "/assetacasa/ADR-06254.webp",
+    "/assetacasa/ADR-06388.webp",
     "/assetacasa/ADR-06539.webp",
   ],
   "/outpace": [

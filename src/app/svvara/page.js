@@ -71,6 +71,8 @@ export default async function SvvaraPage() {
               "/assetsvvara/SVVARA-03168.webp",
               "/assetsvvara/SVVARA-03133.webp",
               "/assetsvvara/SVVARA-03089.webp",
+              "/assetsvvara/SAVVARA-01320.webp",
+              "/assetsvvara/SAVVARA-01683.webp",
             ]}
             alt="Svvara V110 Turntable"
           />
