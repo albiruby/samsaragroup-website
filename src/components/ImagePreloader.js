@@ -78,25 +78,6 @@ const preloadMap = {
   "/events": [
     "/ambiencesamsara/DSC09003.webp",
   ],
-  "/events/nocturne": [
-    "/ambiencesamsara/DSC09003.webp",
-  ],
-  "/events/moonlit-session": [
-    "/ambiencesamsara/DSC08420.webp",
-  ],
-  "/collaborations": [
-    "/ambiencesamsara/DSC08635.webp",
-    "/ambiencesamsara/DSC08575.webp",
-    "/ambiencesamsara/DSC08568.webp",
-  ],
-  "/hospitality": [
-    "/ambiencesamsara/DSC08409.webp",
-    "/ambiencesamsara/DSC08401.webp",
-    "/ambiencesamsara/DSC08397.webp",
-  ],
-  "/journal/sanctuary-of-sound": [
-    "/ambiencesamsara/DSC08482.webp",
-  ],
   "/menu": [
     "/menusamsara/0001.webp",
     "/menusamsara/0002.webp",

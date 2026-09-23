@@ -60,9 +60,15 @@ export default async function EventsPage() {
         ) : (
           <div className="space-y-8">
             {events.map((event) => {
-              const Wrapper = event.link ? "a" : "div";
-              const wrapperProps = event.link
-                ? { href: event.link, target: "_blank", rel: "noopener noreferrer" }
+              const slug = event.slug?.current;
+              const internalHref = slug ? `/events/${slug}` : null;
+              const href = internalHref || event.link || null;
+              const isExternal = Boolean(href && !internalHref);
+              const Wrapper = href ? Link : "div";
+              const wrapperProps = href
+                ? isExternal
+                  ? { href, target: "_blank", rel: "noopener noreferrer" }
+                  : { href }
                 : {};
               return (
                 <ScrollReveal key={event._id}>
@@ -100,7 +106,13 @@ export default async function EventsPage() {
                             )}
                           </div>
                           <div className="flex flex-wrap gap-3">
-                            {event.link && (
+                            {internalHref && (
+                              <span className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
+                                VIEW DETAILS
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                              </span>
+                            )}
+                            {isExternal && (
                             <span className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
                               VISIT
                               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>

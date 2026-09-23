@@ -84,6 +84,13 @@ export default function HomePage() {
                 <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg">
                   A multidisciplinary lifestyle and hospitality group creating meaningful experiences across music, dining, design, and culture.
                 </p>
+                <Link
+                  href="/about"
+                  className="mt-6 inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                >
+                  MORE ABOUT US
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                </Link>
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">

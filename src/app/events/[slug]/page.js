@@ -6,9 +6,17 @@ import { getEventBySlug, getEvents } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
 
+function decodeSlug(raw) {
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return raw;
+  }
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const event = await getEventBySlug(slug);
+  const event = await getEventBySlug(decodeSlug(slug));
   if (!event) return { title: "Event Not Found" };
   return {
     title: `${event.title} — Samsara Group Events`,
@@ -23,7 +31,7 @@ export async function generateStaticParams() {
 
 export default async function EventDetailPage({ params }) {
   const { slug } = await params;
-  const event = await getEventBySlug(slug);
+  const event = await getEventBySlug(decodeSlug(slug));
   if (!event) notFound();
 
   return (
@@ -93,6 +101,17 @@ export default async function EventDetailPage({ params }) {
                   </div>
                   <button type="submit" className="w-full mt-4 bg-on-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-primary transition-colors hover:bg-warm-sand">REQUEST INVITATION</button>
                 </form>
+                {event.link && (
+                  <a
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 flex w-full items-center justify-center gap-3 border border-on-primary/40 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-on-primary/10"
+                  >
+                    VISIT
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                  </a>
+                )}
               </div>
             </ScrollReveal>
           </div>
