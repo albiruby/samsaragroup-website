@@ -44,7 +44,7 @@ const worldsLinks = [
   { label: "Svarga", href: "/svarga" },
   { label: "Acasa", href: "/acasa" },
   { label: "Outpace", href: "/outpace" },
-  { label: "Groove", href: "/groove" },
+  { label: "Grove", href: "/grove" },
 ];
 
 function preloadImages(srcs) {

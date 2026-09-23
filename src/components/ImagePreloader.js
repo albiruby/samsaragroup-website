@@ -81,7 +81,7 @@ const preloadMap = {
   "/outpace": [
     "/ambiencesamsara/DSC09052.webp",
   ],
-  "/groove": [
+  "/grove": [
     "/ambiencesamsara/DSC09058.webp",
   ],
   "/events": [

@@ -17,7 +17,7 @@ const worlds = [
   { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HERITAGE · DINING · NATURE", href: "/svarga" },
   { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "STAY · DINING · PADEL", href: "/acasa" },
   { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
-  { name: "GROOVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/groove" },
+  { name: "GROVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/grove" },
 ];
 
 const marqueeImages = [

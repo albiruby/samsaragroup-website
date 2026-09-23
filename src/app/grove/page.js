@@ -4,11 +4,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 
 export const metadata = {
-  title: "Groove — Samsara Group",
+  title: "Grove — Samsara Group",
   description: "The lighter cafe. Casual, relaxed, and always good vibes.",
 };
 
-export default function GroovePage() {
+export default function GrovePage() {
   const specs = [
     ["Concept", "Lighter cafe than Samsara"],
     ["Vibe", "Casual · Relaxed · Everyday"],
@@ -23,7 +23,7 @@ export default function GroovePage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">GROOVE</h1>
+          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">GROVE</h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             The lighter cafe. Casual, relaxed, and always good vibes.
           </p>
@@ -33,7 +33,7 @@ export default function GroovePage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            <img src="/ambiencesamsara/DSC09058.webp" alt="Groove" className="h-full w-full object-cover" />
+            <img src="/ambiencesamsara/DSC09058.webp" alt="Grove" className="h-full w-full object-cover" />
           </div>
         </ScrollReveal>
       </section>
@@ -45,7 +45,7 @@ export default function GroovePage() {
               <div>
                 <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Less formal, more feeling. Groove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
+                  Less formal, more feeling. Grove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
                 </p>
               </div>
               <div className="border-t border-outline-variant pt-8">

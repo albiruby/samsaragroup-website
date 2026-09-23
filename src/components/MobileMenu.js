@@ -16,7 +16,7 @@ const worldsSubLinks = [
   { label: "Svarga", href: "/svarga" },
   { label: "Acasa", href: "/acasa" },
   { label: "Outpace", href: "/outpace" },
-  { label: "Groove", href: "/groove" },
+  { label: "Grove", href: "/grove" },
 ];
 
 export default function MobileMenu({ isOpen, onClose }) {
