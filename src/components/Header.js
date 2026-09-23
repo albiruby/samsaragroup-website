@@ -25,16 +25,17 @@ const brandImages = {
     "/assetsvvara/SVVARA-03089.webp", "/assetsvvara/SAVVARA-01320.webp", "/assetsvvara/SAVVARA-01683.webp",
   ],
   "/svarga": [
-    "/assetsvarga/ADR-07604.webp", "/assetsvarga/ADR (9 of 15).webp", "/assetsvarga/ADR (8 of 15).webp",
-    "/assetsvarga/ADR (7 of 15).webp", "/assetsvarga/ADR (6 of 15).webp", "/assetsvarga/ADR (5 of 15).webp",
-    "/assetsvarga/ADR (4 of 15).webp", "/assetsvarga/ADR (3 of 15).webp", "/assetsvarga/ADR (2 of 15).webp",
-    "/assetsvarga/ADR (1 of 15).webp", "/assetsvarga/ADR (10 of 15).webp", "/assetsvarga/ADR (11 of 15).webp",
+    "/assetsvarga/ADR (3 of 15).webp",
+    "/assetsvarga/ADR (4 of 4).webp",
+    "/assetsvarga/ADR (2 of 4).webp",
+    "/assetsvarga/ADR (3 of 4).webp",
+    "/assetsvarga/ADR (1 of 4).webp",
   ],
   "/acasa": [
     "/assetacasa/ADR-06545.webp", "/assetacasa/ADR-06529.webp", "/assetacasa/ADR-06507.webp",
     "/assetacasa/ADR-06480.webp", "/assetacasa/ADR-06474.webp", "/assetacasa/ADR-06468.webp",
-    "/assetacasa/ADR-06394.webp", "/assetacasa/ADR-06368.webp", "/assetacasa/ADR-06325.webp",
-    "/assetacasa/ADR-06293.webp", "/assetacasa/ADR-06254.webp", "/assetacasa/ADR-06388.webp",
+    "/assetacasa/ADR-06368.webp", "/assetacasa/ADR-06325.webp",
+    "/assetacasa/ADR-06293.webp", "/assetacasa/ADR-06254.webp",
   ],
 };
 

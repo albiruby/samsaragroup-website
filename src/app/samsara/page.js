@@ -101,7 +101,7 @@ export default async function SamsaraPage() {
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
+                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">AT A GLANCE</h2>
                   <div className="space-y-4">
                     {specs.map(([label, value]) => (
                       <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">

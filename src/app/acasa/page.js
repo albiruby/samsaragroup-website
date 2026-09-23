@@ -5,11 +5,13 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
+import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 const ACASA_COORDS = { lat: -6.6167, lng: 106.8500 };
 const ACASA_MAP_LINK = "https://maps.app.goo.gl/NNbBmPUrX9mTYNQBA";
+const ACASA_LINKS = "https://linktr.ee/acasa.samsara";
 const ACASA_CONTACT = {
   whatsapp: "0811-8888-7828",
   padelWa: "0853-8507-4709",
@@ -59,12 +61,10 @@ export default async function AcasaPage() {
               "/assetacasa/ADR-06480.webp",
               "/assetacasa/ADR-06474.webp",
               "/assetacasa/ADR-06468.webp",
-              "/assetacasa/ADR-06394.webp",
               "/assetacasa/ADR-06368.webp",
               "/assetacasa/ADR-06325.webp",
               "/assetacasa/ADR-06293.webp",
               "/assetacasa/ADR-06254.webp",
-              "/assetacasa/ADR-06388.webp",
             ]}
             alt="Acasa Resort"
           />
@@ -107,14 +107,48 @@ export default async function AcasaPage() {
                     <img src="/assetacasa/ADR-06539.webp" alt="Acasa Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
-                <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">
-                  JOIN THE RITUAL
+                <a
+                  href="https://ayo.co.id/v/acasa-padel"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                >
+                  RESERVE PADEL
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </Link>
+                </a>
+                <a
+                  href="https://api.whatsapp.com/send/?phone=6281188887828&type=phone_number&app_absent=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                >
+                  RECEPTIONIST
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+                </a>
               </div>
             </ScrollReveal>
           </div>
         </div>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <ScrollReveal>
+          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[1100px] mx-auto">
+            <div>
+              <p className="mb-3 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">Food</p>
+              <div className="border border-outline-variant overflow-hidden">
+                <ZoomableImage src="/assetacasa/acasamenufood.webp" alt="Acasa Food Menu" className="w-full h-auto" />
+              </div>
+            </div>
+            <div>
+              <p className="mb-3 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">Beverages</p>
+              <div className="border border-outline-variant overflow-hidden">
+                <ZoomableImage src="/assetacasa/acasamenubeverages.webp" alt="Acasa Beverages Menu" className="w-full h-auto" />
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
@@ -130,15 +164,26 @@ export default async function AcasaPage() {
               <p className="text-body-sm text-on-surface-variant">Cottage & Stay: {ACASA_CONTACT.whatsapp}</p>
               <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
             </div>
-            <a
-              href={ACASA_MAP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
-            >
-              OPEN IN MAPS
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-            </a>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href={ACASA_MAP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+              >
+                OPEN IN MAPS
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+              </a>
+              <a
+                href={ACASA_LINKS}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+              >
+                LINKS
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+              </a>
+            </div>
           </div>
         </ScrollReveal>
       </section>

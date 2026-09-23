@@ -45,7 +45,7 @@ function MenuViewer() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           key={current}
-          src={`/menu/${String(current).padStart(4, "0")}.webp`}
+          src={`/menusamsara/${String(current).padStart(4, "0")}.webp`}
           alt={`Samsara Menu page ${current}`}
           className="w-full h-auto"
           draggable={false}
@@ -119,7 +119,7 @@ function MenuViewer() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/menu/${String(page).padStart(4, "0")}.webp`}
+                src={`/menusamsara/${String(page).padStart(4, "0")}.webp`}
                 alt={`Menu page ${page}`}
                 className="w-full h-full object-cover"
                 loading="lazy"

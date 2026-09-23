@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-export default function HeroCarousel({ images, alt = "Hero image", interval = 4000 }) {
+export default function HeroCarousel({ images, alt = "Hero image", interval = 4000, aspect = "aspect-[4/3] md:aspect-[21/9]" }) {
   const [current, setCurrent] = useState(0);
 
   const prev = useCallback(() => {
@@ -24,7 +24,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-surface-container-low group">
+    <div className={`relative w-full ${aspect} overflow-hidden bg-surface-container-low group`}>
       {images.map((src, i) => (
         <div
           key={src}

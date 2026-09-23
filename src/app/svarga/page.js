@@ -5,11 +5,14 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
+import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 const SVARGA_COORDS = { lat: -6.8500, lng: 106.9333 };
 const SVARGA_LINK = "https://maps.app.goo.gl/rn8Mfgk7NXJG79Xp8";
+const SVARGA_LINKS = "https://linktr.ee/svargabysamsara";
+const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=phone_number&app_absent=0";
 
 export const metadata = {
   title: "Svarga — Samsara Group",
@@ -48,18 +51,11 @@ export default async function SvargaPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/assetsvarga/ADR-07604.webp",
-              "/assetsvarga/ADR (9 of 15).webp",
-              "/assetsvarga/ADR (8 of 15).webp",
-              "/assetsvarga/ADR (7 of 15).webp",
-              "/assetsvarga/ADR (6 of 15).webp",
-              "/assetsvarga/ADR (5 of 15).webp",
-              "/assetsvarga/ADR (4 of 15).webp",
               "/assetsvarga/ADR (3 of 15).webp",
-              "/assetsvarga/ADR (2 of 15).webp",
-              "/assetsvarga/ADR (1 of 15).webp",
-              "/assetsvarga/ADR (10 of 15).webp",
-              "/assetsvarga/ADR (11 of 15).webp",
+              "/assetsvarga/ADR (4 of 4).webp",
+              "/assetsvarga/ADR (2 of 4).webp",
+              "/assetsvarga/ADR (3 of 4).webp",
+              "/assetsvarga/ADR (1 of 4).webp",
             ]}
             alt="Svarga Estate"
           />
@@ -78,7 +74,7 @@ export default async function SvargaPage() {
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
+                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">GOOD TO KNOW</h2>
                   <div className="space-y-4">
                     {specs.map(([label, value]) => (
                       <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
@@ -102,14 +98,28 @@ export default async function SvargaPage() {
                     <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </div>
-                <Link href="/contact" className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">
+                <a
+                  href={SVARGA_RESERVE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
+                >
                   RESERVE
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </Link>
+                </a>
               </div>
             </ScrollReveal>
           </div>
         </div>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <ScrollReveal>
+          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          <div className="mx-auto w-full max-w-[720px] border border-outline-variant overflow-hidden">
+            <ZoomableImage src="/assetsvarga/menusvarga.webp" alt="Svarga Menu" className="w-full h-auto" />
+          </div>
+        </ScrollReveal>
       </section>
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
@@ -121,18 +131,30 @@ export default async function SvargaPage() {
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-body-md text-on-surface font-medium">Svarga by Samsara</p>
+              <p className="text-body-sm text-on-surface-variant">Rasa, alam, dan tradisi berpadu jadi satu.</p>
               <p className="text-body-sm text-on-surface-variant">Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat</p>
               <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
             </div>
-            <a
-              href={SVARGA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
-            >
-              OPEN IN MAPS
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-            </a>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href={SVARGA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+              >
+                OPEN IN MAPS
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+              </a>
+              <a
+                href={SVARGA_LINKS}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+              >
+                LINKS
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
+              </a>
+            </div>
           </div>
         </ScrollReveal>
       </section>
