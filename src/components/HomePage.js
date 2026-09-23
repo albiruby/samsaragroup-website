@@ -10,6 +10,7 @@ import MagneticButton from "@/components/MagneticButton";
 import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
 import { useTheme } from "@/components/ThemeProvider";
+import { isActive } from "@/data/brandCategories";
 
 const worlds = [
   { name: "SAMSARA", tagline: "THE SANCTUARY", disciplines: "LISTENING · DINING · CULTURE", href: "/samsara" },
@@ -18,7 +19,7 @@ const worlds = [
   { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "STAY · DINING · PADEL", href: "/acasa" },
   { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
   { name: "GROVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/grove" },
-];
+].filter((w) => isActive(w.href));
 
 const marqueeImages = [
   { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
@@ -37,7 +38,7 @@ const marqueeImages = [
   { src: "/assetsvvara/SVVARA-03220.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (1 of 7).webp", brand: "Svarga" },
   { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
-];
+].filter((m) => isActive("/" + m.brand.toLowerCase()));
 
 export default function HomePage() {
   const { setTheme } = useTheme();
@@ -108,7 +109,7 @@ export default function HomePage() {
             <div className="flex items-end gap-4 mb-6 lg:mb-8">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
-                  <NumberCounter target={6} duration={1000} /> IMMERSIVE WORLDS
+                  <NumberCounter target={worlds.length} duration={1000} /> IMMERSIVE WORLDS
                 </h2>
               </TextClipReveal>
             </div>

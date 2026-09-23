@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { allBrands } from "../data/brandCategories";
 
 export default function Footer() {
   return (
@@ -29,12 +30,9 @@ export default function Footer() {
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">BRANDS</p>
           <ul className="space-y-3">
-            <li><Link href="/samsara" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Samsara</Link></li>
-            <li><Link href="/svvara" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Svvara</Link></li>
-            <li><Link href="/svarga" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Svarga</Link></li>
-            <li><Link href="/acasa" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Acasa</Link></li>
-            <li><Link href="/outpace" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Outpace</Link></li>
-            <li><Link href="/grove" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Grove</Link></li>
+            {allBrands.map((b) => (
+              <li key={b.href}><Link href={b.href} className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">{b.label}</Link></li>
+            ))}
           </ul>
         </div>
       </div>

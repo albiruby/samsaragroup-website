@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { brandCategories } from "../data/brandCategories";
+import { brandCategories, isActive } from "../data/brandCategories";
 
 const mobileLinks = [
   { label: "HOME", href: "/" },
@@ -17,7 +17,7 @@ const worldsSubLinks = [
   { label: "Acasa", href: "/acasa" },
   { label: "Outpace", href: "/outpace" },
   { label: "Grove", href: "/grove" },
-];
+].filter((l) => isActive(l.href));
 
 export default function MobileMenu({ isOpen, onClose }) {
   const closeButtonRef = useRef(null);

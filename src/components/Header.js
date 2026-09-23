@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
-import { brandCategories } from "../data/brandCategories";
+import { brandCategories, isActive } from "../data/brandCategories";
 
 const brandImages = {
   "/samsara": [
@@ -41,7 +41,7 @@ const worldsLinks = [
   { label: "Acasa", href: "/acasa" },
   { label: "Outpace", href: "/outpace" },
   { label: "Grove", href: "/grove" },
-];
+].filter((l) => isActive(l.href));
 
 function preloadImages(srcs) {
   srcs.forEach((src) => {
@@ -154,7 +154,7 @@ export default function Header() {
                   <div className="py-4 min-w-[500px] max-w-[560px] flex flex-col">
                     <div className="flex-1">
                       {activeCat ? (
-                        brandCategories.find((c) => c.name === activeCat).brands.map((b) => (
+                        (brandCategories.find((c) => c.name === activeCat)?.brands ?? []).map((b) => (
                           <Link
                             key={b.href}
                             href={b.href}

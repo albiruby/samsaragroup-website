@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { isActive } from "@/data/brandCategories";
 
 export const metadata = {
   title: "Brands — Samsara Group",
@@ -20,7 +21,7 @@ export default async function AboutPage() {
     { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp", logo: "/assetacasa/Main Logo3.webp" },
     { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp", logo: null },
     { name: "GROVE", tagline: "THE LIGHTER CAFE", href: "/grove", fallback: "/ambiencesamsara/DSC09048.webp", logo: null },
-  ].map((b) => {
+  ].filter((b) => isActive(b.href)).map((b) => {
     const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
     return { ...b, image: w?.image || null };
   });
