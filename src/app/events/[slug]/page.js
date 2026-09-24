@@ -7,11 +7,13 @@ import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
 
 function decodeSlug(raw) {
+  let value;
   try {
-    return decodeURIComponent(raw);
+    value = decodeURIComponent(raw);
   } catch {
-    return raw;
+    value = raw;
   }
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) ? value : value.replace(/[^a-z0-9-]/gi, "");
 }
 
 export async function generateMetadata({ params }) {

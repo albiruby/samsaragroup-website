@@ -5,6 +5,7 @@ import PathnamePreloader from "@/components/PathnamePreloader";
 import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
+import { jsonLdHtml } from "@/lib/jsonld";
 
 export const viewport = {
   width: "device-width",
@@ -47,7 +48,7 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: jsonLdHtml({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Samsara Group",

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getEvents } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { jsonLdHtml } from "@/lib/jsonld";
 
 export const metadata = {
   title: "Events — Samsara Group",
@@ -18,7 +19,7 @@ export default async function EventsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdHtml({
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: "Samsara Group Events",

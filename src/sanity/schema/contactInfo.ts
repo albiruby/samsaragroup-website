@@ -14,8 +14,24 @@ export default defineType({
         {
           type: "object",
           fields: [
-            { name: "label", title: "Label", type: "string" },
-            { name: "email", title: "Email", type: "string" },
+            {
+              name: "label",
+              title: "Label",
+              type: "string",
+              validation: (rule) => rule.required(),
+            },
+            {
+              name: "email",
+              title: "Email",
+              type: "string",
+              validation: (rule) =>
+                rule
+                  .required()
+                  .regex(/^[^\s?@]+@[^\s?@]+\.[^\s?@]+$/, {
+                    name: "email",
+                    invert: false,
+                  }),
+            },
           ],
           preview: {
             select: { title: "label", subtitle: "email" },

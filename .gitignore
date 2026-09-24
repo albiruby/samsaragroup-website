@@ -45,3 +45,6 @@ _archives/
 
 # local verification screenshots
 .screenshots/
+
+# sanity studio generated runtime
+.sanity/

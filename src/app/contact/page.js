@@ -61,7 +61,7 @@ export default async function ContactPage() {
               {emails.map((item) => (
                 <div key={item.label}>
                   <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">{item.label}</h3>
-                  <a href={`mailto:${item.email}`} className="text-body-md text-terracotta underline underline-offset-4 hover:text-primary transition-colors">{item.email}</a>
+                  <a href={`mailto:${String(item.email).split("?")[0].trim()}`} className="text-body-md text-terracotta underline underline-offset-4 hover:text-primary transition-colors">{item.email}</a>
                 </div>
               ))}
             </div>
@@ -73,8 +73,8 @@ export default async function ContactPage() {
                 <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Visit Us</h3>
                 <div className="space-y-3 text-body-md text-on-surface-variant">
                   {addresses.map((addr, i) => (
-                    <div key={addr.name || addr.label || i}>
-                      <p className="font-medium text-on-surface">{addr.name || addr.label}</p>
+                    <div key={addr.label || addr.name || i}>
+                      <p className="font-medium text-on-surface">{addr.label || addr.name}</p>
                       <p>{addr.address}</p>
                     </div>
                   ))}

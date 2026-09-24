@@ -5,6 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { isActive } from "@/data/brandCategories";
+import { jsonLdHtml } from "@/lib/jsonld";
 
 export const metadata = {
   title: "Brands — Samsara Group",
@@ -31,7 +32,7 @@ export default async function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdHtml({
             "@context": "https://schema.org",
             "@type": "AboutPage",
             name: "About Samsara Group",
