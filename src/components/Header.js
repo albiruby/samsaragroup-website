@@ -134,7 +134,7 @@ export default function Header() {
             </Link>
             {brandsOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[100] max-w-[calc(100vw-2rem)]">
-                <div className="flex bg-surface border border-outline-variant shadow-lg">
+                <div className="flex bg-surface border border-outline-variant shadow-lg rounded-2xl overflow-hidden">
                   <div className="py-4 border-r border-outline-variant min-w-[260px]">
                     {brandCategories.map((cat) => (
                       <button
