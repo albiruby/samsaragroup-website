@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
-import { brandCategories, isActive } from "../data/brandCategories";
+import { brandCategories } from "../data/brandCategories";
 
 const brandImages = {
   "/samsara": [
@@ -34,15 +34,6 @@ const brandImages = {
   ],
 };
 
-const worldsLinks = [
-  { label: "Samsara", href: "/samsara" },
-  { label: "Svvara", href: "/svvara" },
-  { label: "Svarga", href: "/svarga" },
-  { label: "Acasa", href: "/acasa" },
-  { label: "Outpace", href: "/outpace" },
-  { label: "Grove", href: "/grove" },
-].filter((l) => isActive(l.href));
-
 function preloadImages(srcs) {
   srcs.forEach((src) => {
     const img = new Image();
@@ -53,10 +44,8 @@ function preloadImages(srcs) {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
   const [activeCat, setActiveCat] = useState(null);
-  const dropdownRef = useRef(null);
   const brandsRef = useRef(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -67,7 +56,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setDropdownOpen(false); setBrandsOpen(false); }, [pathname]);
+  useEffect(() => { setBrandsOpen(false); }, [pathname]);
 
   useEffect(() => {
     if (!brandsOpen) return;
@@ -82,20 +71,6 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [brandsOpen]);
-
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    const handleEscape = (e) => { if (e.key === "Escape") setDropdownOpen(false); };
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
-    };
-    document.addEventListener("keydown", handleEscape);
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownOpen]);
 
   const isHomeTop = isHome && !scrolled;
 
@@ -120,14 +95,21 @@ export default function Header() {
             HOME
           </Link>
 
+          <Link
+            href="/about"
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+          >
+            ABOUT
+          </Link>
+
           <div
             ref={brandsRef}
             className="relative flex"
-            onMouseEnter={() => { setBrandsOpen(true); setActiveCat((c) => c ?? "ICONIC"); setDropdownOpen(false); }}
+            onMouseEnter={() => { setBrandsOpen(true); setActiveCat((c) => c ?? "ICONIC"); }}
             onMouseLeave={() => setBrandsOpen(false)}
           >
             <Link
-              href="/about"
+              href="/about#brands"
               className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
             >
               BRANDS
@@ -184,7 +166,7 @@ export default function Header() {
                     </div>
                     <div className="border-t border-outline-variant mt-2">
                       <Link
-                        href="/about"
+                        href="/about#brands"
                         onClick={() => setBrandsOpen(false)}
                         className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
                       >
@@ -203,38 +185,6 @@ export default function Header() {
           >
             EVENTS
           </Link>
-
-          <div ref={dropdownRef} id="worlds-dropdown" className={`relative group ${dropdownOpen ? "open" : ""}`}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] cursor-pointer transition-colors duration-200 flex items-center gap-1.5 text-white/70 hover:text-white bg-transparent border-none pb-[4px]"
-                aria-expanded={dropdownOpen}
-                aria-haspopup="true"
-              >
-                WORLDS
-                <svg className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M3 4.5L6 7.5L9 4.5" />
-                </svg>
-              </button>
-              <div className="absolute top-full left-0 min-w-[180px] z-[100] pointer-events-none pt-2">
-                <div className={`bg-surface border border-outline-variant shadow-lg py-2 pointer-events-auto dropdown-menu transition-opacity duration-200 ${dropdownOpen ? "opacity-100" : "opacity-0"}`}>
-                  {worldsLinks.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      onClick={() => setDropdownOpen(false)}
-                      onMouseEnter={() => {
-                        const imgs = brandImages[link.href];
-                        if (imgs) preloadImages(imgs);
-                      }}
-                      className="block px-5 py-2.5 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:bg-surface-container-low transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
         </nav>
 
         <div className="flex items-center gap-4">

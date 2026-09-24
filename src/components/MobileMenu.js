@@ -2,22 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { brandCategories, isActive } from "../data/brandCategories";
+import { brandCategories } from "../data/brandCategories";
 
 const mobileLinks = [
   { label: "HOME", href: "/" },
+  { label: "ABOUT", href: "/about" },
   { label: "EVENTS", href: "/events" },
   { label: "CONTACT", href: "/contact" },
 ];
-
-const worldsSubLinks = [
-  { label: "Samsara", href: "/samsara" },
-  { label: "Svvara", href: "/svvara" },
-  { label: "Svarga", href: "/svarga" },
-  { label: "Acasa", href: "/acasa" },
-  { label: "Outpace", href: "/outpace" },
-  { label: "Grove", href: "/grove" },
-].filter((l) => isActive(l.href));
 
 export default function MobileMenu({ isOpen, onClose }) {
   const closeButtonRef = useRef(null);
@@ -97,7 +89,7 @@ export default function MobileMenu({ isOpen, onClose }) {
 
       <div className="menu-scroll w-full h-full flex flex-col items-center justify-center overflow-y-auto px-6 py-20">
         <nav className="flex flex-col items-center gap-4">
-          {mobileLinks.slice(0, 1).map((link) => (
+          {mobileLinks.slice(0, 2).map((link) => (
             <Link
               key={link.label}
               href={link.href}
@@ -162,7 +154,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                 </div>
               ))}
               <Link
-                href="/about"
+                href="/about#brands"
                 onClick={handleClose}
                 className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
               >
@@ -171,7 +163,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             </div>
           )}
 
-          {mobileLinks.slice(1).map((link) => (
+          {mobileLinks.slice(2).map((link) => (
             <Link
               key={link.label}
               href={link.href}
@@ -181,21 +173,6 @@ export default function MobileMenu({ isOpen, onClose }) {
               {link.label}
             </Link>
           ))}
-          <div className="flex flex-col items-center gap-4 pt-4 border-t border-white/10 w-full">
-            <span className="min-h-[44px] flex items-center text-white/50 text-[11px] tracking-[0.25em] uppercase">
-              WORLDS
-            </span>
-            {worldsSubLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={handleClose}
-                className="text-white/70 text-[12px] tracking-[0.2em] uppercase hover:text-terracotta transition-colors min-h-[44px] flex items-center"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
         </nav>
       </div>
 

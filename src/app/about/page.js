@@ -8,8 +8,8 @@ import { isActive } from "@/data/brandCategories";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const metadata = {
-  title: "Brands — Samsara Group",
-  description: "The ecosystem of brands behind Samsara Group.",
+  title: "About — Samsara Group",
+  description: "Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
 };
 
 export default async function AboutPage() {
@@ -49,49 +49,18 @@ export default async function AboutPage() {
       />
       <Header />
 
-      {/* ── Brand Cards ── */}
-      <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
-        <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">BRANDS</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h1>
-        </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {brands.map((brand) => (
-            <Link key={brand.name} href={brand.href} className="group block border border-outline-variant overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative aspect-[4/5] overflow-hidden">
-                {brand.image ? (
-                  <img src={urlFor(brand.image).url()} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                ) : (
-                  <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                )}
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center px-6">
-                  {brand.logo ? (
-                    <img src={brand.logo} alt={brand.name} className="w-[75%] max-w-[280px] max-h-[45%] object-contain brightness-0 invert" />
-                  ) : (
-                    <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
-                  )}
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h3>
-                <p className="font-body text-body-sm text-on-surface-variant italic">{brand.tagline}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       {/* ── About Hero ── */}
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pt-28 pb-16 lg:pt-36 lg:pb-24">
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="img-hover h-[400px] lg:h-[520px]">
               <img src="/ambiencesamsara/DSC08913.webp" alt="Samsara Group" className="h-full w-full object-cover" />
             </div>
             <div>
-              <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
+              <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">ABOUT US</span>
+              <h1 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
                 WE CREATE PLACES<br />TO FEEL SOMETHING.
-              </h2>
+              </h1>
               <p className="font-body text-body-lg text-on-surface-variant leading-relaxed mb-6">
                 Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.
               </p>
@@ -142,6 +111,38 @@ export default async function AboutPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Brand Cards ── */}
+      <section id="brands" className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24 scroll-mt-24">
+        <ScrollReveal>
+          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">BRANDS</span>
+          <h2 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h2>
+        </ScrollReveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {brands.map((brand) => (
+            <Link key={brand.name} href={brand.href} className="group block border border-outline-variant overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative aspect-[4/5] overflow-hidden">
+                {brand.image ? (
+                  <img src={urlFor(brand.image).url()} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                ) : (
+                  <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                )}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center px-6">
+                  {brand.logo ? (
+                    <img src={brand.logo} alt={brand.name} className="w-[75%] max-w-[280px] max-h-[45%] object-contain brightness-0 invert" />
+                  ) : (
+                    <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
+                  )}
+                </div>
+              </div>
+              <div className="p-5">
+                <h3 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h3>
+                <p className="font-body text-body-sm text-on-surface-variant italic">{brand.tagline}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
