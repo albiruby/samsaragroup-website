@@ -1,10 +1,6 @@
-import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { getWorlds } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
-import { isActive } from "@/data/brandCategories";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const metadata = {
@@ -13,20 +9,6 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
-  const worlds = await getWorlds();
-
-  const brands = [
-    { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.webp", logo: "/White Logo Samsara/whitefullsamping.png" },
-    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.webp", logo: "/assetsvvara/logosvvarawhite.webp" },
-    { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).webp", logo: "/assetsvarga/Svarga logo black.webp" },
-    { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp", logo: "/assetacasa/Main Logo3.webp" },
-    { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp", logo: null },
-    { name: "GROVE", tagline: "THE LIGHTER CAFE", href: "/grove", fallback: "/ambiencesamsara/DSC09048.webp", logo: null },
-  ].filter((b) => isActive(b.href)).map((b) => {
-    const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
-    return { ...b, image: w?.image || null };
-  });
-
   return (
     <>
       <script
@@ -111,38 +93,6 @@ export default async function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Brand Cards ── */}
-      <section id="brands" className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24 scroll-mt-24">
-        <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">BRANDS</span>
-          <h2 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h2>
-        </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {brands.map((brand) => (
-            <Link key={brand.name} href={brand.href} className="group block border border-outline-variant overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative aspect-[4/5] overflow-hidden">
-                {brand.image ? (
-                  <img src={urlFor(brand.image).url()} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                ) : (
-                  <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                )}
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center px-6">
-                  {brand.logo ? (
-                    <img src={brand.logo} alt={brand.name} className="w-[75%] max-w-[280px] max-h-[45%] object-contain brightness-0 invert" />
-                  ) : (
-                    <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
-                  )}
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h3>
-                <p className="font-body text-body-sm text-on-surface-variant italic">{brand.tagline}</p>
-              </div>
-            </Link>
-          ))}
         </div>
       </section>
 

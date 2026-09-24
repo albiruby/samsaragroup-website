@@ -6,8 +6,8 @@ import { brandCategories } from "../data/brandCategories";
 
 const mobileLinks = [
   { label: "HOME", href: "/" },
-  { label: "ABOUT", href: "/about" },
   { label: "EVENTS", href: "/events" },
+  { label: "ABOUT", href: "/about" },
   { label: "CONTACT", href: "/contact" },
 ];
 
@@ -89,7 +89,7 @@ export default function MobileMenu({ isOpen, onClose }) {
 
       <div className="menu-scroll w-full h-full flex flex-col items-center justify-center overflow-y-auto px-6 py-20">
         <nav className="flex flex-col items-center gap-4">
-          {mobileLinks.slice(0, 2).map((link) => (
+          {mobileLinks.slice(0, 1).map((link) => (
             <Link
               key={link.label}
               href={link.href}
@@ -154,7 +154,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                 </div>
               ))}
               <Link
-                href="/about#brands"
+                href="#brands"
                 onClick={handleClose}
                 className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
               >
@@ -163,7 +163,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             </div>
           )}
 
-          {mobileLinks.slice(2).map((link) => (
+          {mobileLinks.slice(1).map((link) => (
             <Link
               key={link.label}
               href={link.href}

@@ -95,25 +95,15 @@ export default function Header() {
             HOME
           </Link>
 
-          <Link
-            href="/about"
-            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
-          >
-            ABOUT
-          </Link>
-
           <div
             ref={brandsRef}
             className="relative flex"
             onMouseEnter={() => { setBrandsOpen(true); setActiveCat((c) => c ?? "ICONIC"); }}
             onMouseLeave={() => setBrandsOpen(false)}
           >
-            <Link
-              href="/about#brands"
-              className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
-            >
+            <span className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white cursor-pointer">
               BRANDS
-            </Link>
+            </span>
             {brandsOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[100] max-w-[calc(100vw-2rem)]">
                 <div className="flex bg-surface border border-outline-variant shadow-lg rounded-2xl overflow-hidden">
@@ -166,7 +156,7 @@ export default function Header() {
                     </div>
                     <div className="border-t border-outline-variant mt-2">
                       <Link
-                        href="/about#brands"
+                        href="#brands"
                         onClick={() => setBrandsOpen(false)}
                         className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
                       >
@@ -184,6 +174,13 @@ export default function Header() {
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
             EVENTS
+          </Link>
+
+          <Link
+            href="/about"
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+          >
+            ABOUT
           </Link>
         </nav>
 

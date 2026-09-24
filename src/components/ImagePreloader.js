@@ -10,12 +10,6 @@ const preloadMap = {
   ],
   "/about": [
     "/ambiencesamsara/DSC08913.webp",
-    "/ambiencesamsara/DSC09006.webp",
-    "/assetsvvara/SVVARA-03203.webp",
-    "/assetsvarga/ADR (8 of 15).webp",
-    "/assetacasa/ADR-06529.webp",
-    "/ambiencesamsara/DSC09014.webp",
-    "/ambiencesamsara/DSC09048.webp",
   ],
   "/samsara": [
     "/Black Logo Samsara/blackfullsamping.png",
