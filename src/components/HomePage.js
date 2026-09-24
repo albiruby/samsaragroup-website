@@ -121,6 +121,7 @@ export default function HomePage() {
                   <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant">{world.disciplines}</p>
                 </Link>
               ))}
+              <div className="hidden md:block bg-surface-container-low" aria-hidden="true" />
             </div>
           </div>
         </section>
