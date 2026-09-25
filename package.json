@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:cms": "node scripts/sync-hardcode-to-cms.mjs",
+    "sync:cms:dry": "node scripts/sync-hardcode-to-cms.mjs --dry-run"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",

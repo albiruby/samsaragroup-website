@@ -2,6 +2,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
+import { getWorlds } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export const metadata = {
   title: "Outpace — Samsara Group",
@@ -10,7 +13,15 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function OutpacePage() {
+export default async function OutpacePage() {
+  let world = null;
+  try {
+    const worlds = await getWorlds();
+    world = worlds.find((w) => w.slug?.current === "outpace") || null;
+  } catch {
+    world = null;
+  }
+
   const specs = [
     ["Concept", "Cafe for runners"],
     ["Facilities", "Shower · Coffee · Lockers"],
@@ -53,9 +64,27 @@ export default function OutpacePage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            <img src="/ambiencesamsara/DSC09052.webp" alt="Outpace" className="h-full w-full object-cover" />
-          </div>
+          <HeroCarousel
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/ambiencesamsara/DSC09014.webp",
+                    "/ambiencesamsara/DSC09052.webp",
+                    "/ambiencesamsara/DSC09056.webp",
+                    "/ambiencesamsara/DSC09072.webp",
+                    "/ambiencesamsara/DSC08196.webp",
+                    "/ambiencesamsara/DSC08200.webp",
+                    "/ambiencesamsara/DSC08220.webp",
+                    "/ambiencesamsara/DSC08237.webp",
+                    "/ambiencesamsara/DSC08253.webp",
+                    "/ambiencesamsara/DSC08397.webp",
+                    "/ambiencesamsara/DSC08401.webp",
+                    "/ambiencesamsara/DSC08409.webp",
+                  ]
+            }
+            alt="Outpace"
+          />
         </ScrollReveal>
       </section>
 

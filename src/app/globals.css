@@ -219,6 +219,11 @@
 @media (min-width: 768px) { .marquee-item { width: 320px; height: 220px; } }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+.logo-marquee-track { display: flex; width: max-content; animation: marqueeScroll 30s linear infinite; }
+.logo-marquee-track:hover { animation-play-state: paused; }
+.logo-marquee-content { display: flex; align-items: center; gap: 4rem; padding-right: 4rem; }
+.logo-marquee-item { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

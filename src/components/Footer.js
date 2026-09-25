@@ -2,6 +2,16 @@ import Link from "next/link";
 import { allBrands } from "../data/brandCategories";
 
 export default function Footer() {
+  const logoItem = (b) => (
+    <div key={b.href} className="logo-marquee-item">
+      {b.logo ? (
+        <img src={b.logo} alt={b.label} className="h-6 md:h-8 w-auto object-contain" />
+      ) : (
+        <span className="font-display uppercase text-on-surface text-lg md:text-xl tracking-wide">{b.label}</span>
+      )}
+    </div>
+  );
+
   return (
     <footer className="w-full bg-surface-container-low border-t border-outline-variant">
       <div className="w-full px-6 lg:px-10 pt-16 pb-12 border-b border-outline-variant">
@@ -34,6 +44,13 @@ export default function Footer() {
               <li key={b.href}><Link href={b.href} className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">{b.label}</Link></li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      <div className="w-full overflow-hidden py-7 border-b border-outline-variant">
+        <div className="logo-marquee-track">
+          <div className="logo-marquee-content">{allBrands.map(logoItem)}</div>
+          <div className="logo-marquee-content" aria-hidden="true">{allBrands.map(logoItem)}</div>
         </div>
       </div>
 

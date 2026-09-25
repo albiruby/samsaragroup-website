@@ -2,6 +2,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
+import HeroCarousel from "@/components/HeroCarousel";
+import { getWorlds } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +13,15 @@ export const metadata = {
   description: "The lighter cafe. Casual, relaxed, and always good vibes.",
 };
 
-export default function GrovePage() {
+export default async function GrovePage() {
+  let world = null;
+  try {
+    const worlds = await getWorlds();
+    world = worlds.find((w) => w.slug?.current === "grove") || null;
+  } catch {
+    world = null;
+  }
+
   const specs = [
     ["Concept", "Lighter cafe than Samsara"],
     ["Vibe", "Casual · Relaxed · Everyday"],
@@ -34,9 +45,27 @@ export default function GrovePage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <div className="img-hover w-full aspect-[4/3] md:aspect-[21/9]">
-            <img src="/ambiencesamsara/DSC09058.webp" alt="Grove" className="h-full w-full object-cover" />
-          </div>
+          <HeroCarousel
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/ambiencesamsara/DSC09048.webp",
+                    "/ambiencesamsara/DSC09058.webp",
+                    "/ambiencesamsara/DSC08482.webp",
+                    "/ambiencesamsara/DSC08494.webp",
+                    "/ambiencesamsara/DSC08527.webp",
+                    "/ambiencesamsara/DSC08558.webp",
+                    "/ambiencesamsara/DSC08575.webp",
+                    "/ambiencesamsara/DSC09408.webp",
+                    "/ambiencesamsara/DSC09421.webp",
+                    "/ambiencesamsara/DSC08397.webp",
+                    "/ambiencesamsara/DSC08401.webp",
+                    "/ambiencesamsara/DSC08409.webp",
+                  ]
+            }
+            alt="Grove"
+          />
         </ScrollReveal>
       </section>
 

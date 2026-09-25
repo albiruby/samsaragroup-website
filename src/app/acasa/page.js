@@ -70,6 +70,8 @@ export default async function AcasaPage() {
                     "/assetacasa/ADR-06325.webp",
                     "/assetacasa/ADR-06293.webp",
                     "/assetacasa/ADR-06254.webp",
+                    "/assetacasa/ADR-06504.webp",
+                    "/assetacasa/ADR-06514.webp",
                   ]
             }
             alt="Acasa Resort"
