@@ -42,19 +42,6 @@ export async function getWorlds() {
   }
 }
 
-export async function getProducts() {
-  try {
-    return await client.fetch(
-      `*[_type == "product"] | order(order asc) { _id, name, description, price, image, world }`,
-      {},
-      revalidate
-    );
-  } catch (e) {
-    console.error("getProducts failed:", e.message);
-    return [];
-  }
-}
-
 export async function getContactInfo() {
   try {
     return await client.fetch(

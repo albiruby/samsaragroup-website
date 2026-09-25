@@ -14,7 +14,6 @@ const PAGES = [
   { route: "/locations", name: "07-locations" },
   { route: "/collaborations", name: "08-collaborations" },
   { route: "/samsara", name: "09-samsara" },
-  { route: "/svvara", name: "10-svvara" },
   { route: "/svarga", name: "11-svarga" },
   { route: "/acasa", name: "12-acasa" },
   { route: "/nocturne", name: "13-nocturne" },

@@ -10,35 +10,29 @@ import MagneticButton from "@/components/MagneticButton";
 import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
 import { useTheme } from "@/components/ThemeProvider";
-import { isActive } from "@/data/brandCategories";
 
 const worlds = [
   { name: "SAMSARA", tagline: "THE SANCTUARY", disciplines: "LISTENING · DINING · CULTURE", href: "/samsara" },
-  { name: "SVVARA", tagline: "TACTILE ARTIFACTS", disciplines: "ANALOG · VINYL · CRAFT", href: "/svvara" },
   { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HERITAGE · DINING · NATURE", href: "/svarga" },
   { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "STAY · DINING · PADEL", href: "/acasa" },
   { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
   { name: "GROVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/grove" },
-].filter((w) => isActive(w.href));
+];
 
 const fallbackMarquee = [
   { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
-  { src: "/assetsvvara/SAVVARA-01268.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (1 of 15).webp", brand: "Svarga" },
   { src: "/assetacasa/ADR-06545.webp", brand: "Acasa" },
   { src: "/ambiencesamsara/DSC09072.webp", brand: "Samsara" },
-  { src: "/assetsvvara/SAVVARA-01649.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (3 of 15).webp", brand: "Svarga" },
   { src: "/assetacasa/ADR-06480.webp", brand: "Acasa" },
   { src: "/ambiencesamsara/DSC08998.webp", brand: "Samsara" },
-  { src: "/assetsvvara/SVVARA-03197.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (2 of 4).webp", brand: "Svarga" },
   { src: "/assetacasa/ADR-06368.webp", brand: "Acasa" },
   { src: "/ambiencesamsara/DSC08575.webp", brand: "Samsara" },
-  { src: "/assetsvvara/SVVARA-03220.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (1 of 7).webp", brand: "Svarga" },
   { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
-].filter((m) => isActive("/" + m.brand.toLowerCase()));
+];
 
 export default function HomePage({ marqueeImages }) {
   const slides = marqueeImages?.length ? marqueeImages : fallbackMarquee;

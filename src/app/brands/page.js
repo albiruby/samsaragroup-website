@@ -4,14 +4,13 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import { isActive } from "@/data/brandCategories";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Brands — Samsara Group",
-  description: "Explore the worlds of Samsara Group — Samsara, Svvara, Svarga, Acasa, Outpace, and Grove.",
+  description: "Explore the worlds of Samsara Group — Samsara, Svarga, Acasa, Outpace, and Grove.",
 };
 
 export default async function BrandsPage() {
@@ -19,12 +18,11 @@ export default async function BrandsPage() {
 
   const brands = [
     { name: "SAMSARA", tagline: "THE SANCTUARY", href: "/samsara", fallback: "/ambiencesamsara/DSC09006.webp", logo: "/White Logo Samsara/whitefullsamping.png" },
-    { name: "SVVARA", tagline: "TACTILE ARTIFACTS", href: "/svvara", fallback: "/assetsvvara/SVVARA-03203.webp", logo: "/assetsvvara/logosvvarawhite.webp" },
     { name: "SVARGA", tagline: "THE HIGHLANDS", href: "/svarga", fallback: "/assetsvarga/ADR (8 of 15).webp", logo: "/assetsvarga/Svarga logo black.webp" },
     { name: "ACASA", tagline: "LEISURE RITUALS", href: "/acasa", fallback: "/assetacasa/ADR-06529.webp", logo: "/assetacasa/Main Logo3.webp" },
     { name: "OUTPACE", tagline: "THE RUNNING CAFE", href: "/outpace", fallback: "/ambiencesamsara/DSC09014.webp", logo: null },
     { name: "GROVE", tagline: "THE LIGHTER CAFE", href: "/grove", fallback: "/ambiencesamsara/DSC09048.webp", logo: null },
-  ].filter((b) => isActive(b.href)).map((b) => {
+  ].map((b) => {
     const w = worlds.find((w) => w.slug?.current === b.name.toLowerCase());
     return { ...b, image: w?.image || null };
   });

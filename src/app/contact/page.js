@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getContactInfo } from "@/sanity/lib/queries";
-import { isActive } from "@/data/brandCategories";
 
 export const dynamic = "force-dynamic";
 
@@ -26,11 +25,10 @@ export default async function ContactPage() {
     ? contact.addresses
     : [
         { name: "Samsara — Bogor", address: "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129" },
-        { name: "Svvara — Jakarta", address: "Jl. KH Hasyim Ashari No. 31, Cideng, Gambir, Jakarta Pusat" },
         { name: "Svarga — Sukabumi", address: "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat" },
         { name: "Acasa — Ciawi, Bogor", address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720" },
       ]
-  ).filter((a) => typeof a.name !== "string" || isActive("/" + a.name.split(" ")[0].toLowerCase()));
+  );
 
   const hours = contact?.hours || "Mon–Sat: 09:00–18:00 · Sun: By appointment";
 

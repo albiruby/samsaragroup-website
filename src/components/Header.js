@@ -13,12 +13,6 @@ const brandImages = {
     "/ambiencesamsara/DSC08998.webp", "/ambiencesamsara/DSC08568.webp", "/ambiencesamsara/DSC08420.webp",
     "/ambiencesamsara/DSC08635.webp", "/ambiencesamsara/DSC09003.webp", "/ambiencesamsara/DSC09354.webp",
   ],
-  "/svvara": [
-    "/assetsvvara/SAVVARA-01268.webp", "/assetsvvara/SAVVARA-01362.webp", "/assetsvvara/SAVVARA-01506.webp",
-    "/assetsvvara/SAVVARA-01649.webp", "/assetsvvara/SAVVARA-01840.webp", "/assetsvvara/SVVARA-03220.webp",
-    "/assetsvvara/SVVARA-03197.webp", "/assetsvvara/SVVARA-03168.webp", "/assetsvvara/SVVARA-03133.webp",
-    "/assetsvvara/SVVARA-03089.webp", "/assetsvvara/SAVVARA-01320.webp", "/assetsvvara/SAVVARA-01683.webp",
-  ],
   "/svarga": [
     "/assetsvarga/ADR (3 of 15).webp",
     "/assetsvarga/ADR (4 of 4).webp",

@@ -1,5 +1,4 @@
 const BASE_URL = "https://samsaragroup.co.id";
-import { isActive } from "@/data/brandCategories";
 
 export default function sitemap() {
   const lastModified = new Date();
@@ -31,12 +30,6 @@ export default function sitemap() {
     },
     {
       url: `${BASE_URL}/samsara`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/svvara`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -77,8 +70,5 @@ export default function sitemap() {
       changeFrequency: "yearly",
       priority: 0.5,
     },
-  ].filter((entry) => {
-    const path = entry.url.slice(BASE_URL.length) || "/";
-    return path === "/" || isActive(path);
-  });
+  ];
 }

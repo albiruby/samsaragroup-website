@@ -10,7 +10,7 @@
 
 **Primary Goals:**
 1. Brand introduction
-2. Showcase Worlds (Samsara, Svvara, Svarga, Acasa)
+2. Showcase Worlds (Samsara, Svarga, Acasa)
 3. Showcase Experiences
 4. Events
 5. Journal
@@ -64,7 +64,6 @@
 
 ### Worlds
 - Samsara (The Sanctuary — Acoustics · Dining · Retreat)
-- Svvara (Tactile Artifacts — Sound Objects · Craft · Design)
 - Svarga (The Highlands — Hospitality · Stillness · Nature)
 - Acasa (Leisure Rituals — Movement · Athletics · Community)
 
@@ -134,7 +133,6 @@ Each world page:
 │
 ├── worlds
 │   ├── samsara
-│   ├── svvara
 │   ├── svarga
 │   └── acasa
 │
@@ -290,7 +288,7 @@ CTA
 Footer
 ```
 
-### World Pages (samsara, svvara, svarga, acasa)
+### World Pages (samsara, svarga, acasa)
 ```
 Hero (full-screen image)
 ↓
@@ -430,7 +428,7 @@ Apply CTA
 ### Navigation
 - [x] Desktop nav (THE GROUP, EVENTS, JOURNAL, PARTNERSHIPS, WORLDS dropdown)
 - [x] Mobile menu (full-screen overlay, focus trap, Escape key)
-- [x] WORLDS dropdown (Samsara, Svvara, Svarga, Acasa)
+- [x] WORLDS dropdown (Samsara, Svarga, Acasa)
 - [x] Sticky header (transparent on home top, solid when scrolled)
 - [x] Active route indication
 
