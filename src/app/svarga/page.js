@@ -52,13 +52,17 @@ export default async function SvargaPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <HeroCarousel
-            images={[
-              "/assetsvarga/ADR (3 of 15).webp",
-              "/assetsvarga/ADR (4 of 4).webp",
-              "/assetsvarga/ADR (2 of 4).webp",
-              "/assetsvarga/ADR (3 of 4).webp",
-              "/assetsvarga/ADR (1 of 4).webp",
-            ]}
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/assetsvarga/ADR (3 of 15).webp",
+                    "/assetsvarga/ADR (4 of 4).webp",
+                    "/assetsvarga/ADR (2 of 4).webp",
+                    "/assetsvarga/ADR (3 of 4).webp",
+                    "/assetsvarga/ADR (1 of 4).webp",
+                  ]
+            }
             alt="Svarga Estate"
           />
         </ScrollReveal>

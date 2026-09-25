@@ -61,20 +61,24 @@ export default async function SamsaraPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <HeroCarousel
-            images={[
-              "/ambiencesamsara/DSC08187.webp",
-              "/ambiencesamsara/DSC08177.webp",
-              "/ambiencesamsara/DSC08930.webp",
-              "/ambiencesamsara/DSC08926.webp",
-              "/ambiencesamsara/DSC08913.webp",
-              "/ambiencesamsara/DSC09006.webp",
-              "/ambiencesamsara/DSC08998.webp",
-              "/ambiencesamsara/DSC08568.webp",
-              "/ambiencesamsara/DSC08420.webp",
-              "/ambiencesamsara/DSC08635.webp",
-              "/ambiencesamsara/DSC09003.webp",
-              "/ambiencesamsara/DSC09354.webp",
-            ]}
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/ambiencesamsara/DSC08187.webp",
+                    "/ambiencesamsara/DSC08177.webp",
+                    "/ambiencesamsara/DSC08930.webp",
+                    "/ambiencesamsara/DSC08926.webp",
+                    "/ambiencesamsara/DSC08913.webp",
+                    "/ambiencesamsara/DSC09006.webp",
+                    "/ambiencesamsara/DSC08998.webp",
+                    "/ambiencesamsara/DSC08568.webp",
+                    "/ambiencesamsara/DSC08420.webp",
+                    "/ambiencesamsara/DSC08635.webp",
+                    "/ambiencesamsara/DSC09003.webp",
+                    "/ambiencesamsara/DSC09354.webp",
+                  ]
+            }
             alt="Samsara Sanctuary"
           />
         </ScrollReveal>

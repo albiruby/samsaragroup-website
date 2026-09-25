@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import ProductCarousel from "@/components/ProductCarousel";
-import { getWorlds, getProducts } from "@/sanity/lib/queries";
+import { getWorlds, getProducts, getCarouselImages } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
@@ -26,18 +26,25 @@ export const metadata = {
 export default async function SvvaraPage() {
   let world = null;
   let products = [];
+  let partnerImages = [];
   try {
-    const [worlds, allProducts] = await Promise.all([getWorlds(), getProducts()]);
+    const [worlds, allProducts, partnerSlides] = await Promise.all([
+      getWorlds(),
+      getProducts(),
+      getCarouselImages("svvaraPartners"),
+    ]);
     world = worlds.find((w) => w.slug?.current === "svvara") || null;
     products = allProducts.filter((p) => p.world === "svvara");
+    partnerImages = partnerSlides.filter((s) => s.image).map((s) => urlFor(s.image).url());
   } catch {
     world = null;
     products = [];
+    partnerImages = [];
   }
 
   const displayProducts = products;
 
-  const specs = world?.specifications || [
+  const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Type", "Belt-drive all-in-one turntable"],
     ["Stylus", "High-Precision — captures every analog detail"],
     ["Speaker", "Built-in 2-Way System — bass, mid, crisp highs"],
@@ -64,20 +71,24 @@ export default async function SvvaraPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <HeroCarousel
-            images={[
-              "/assetsvvara/SAVVARA-01268.webp",
-              "/assetsvvara/SAVVARA-01362.webp",
-              "/assetsvvara/SAVVARA-01506.webp",
-              "/assetsvvara/SAVVARA-01649.webp",
-              "/assetsvvara/SAVVARA-01840.webp",
-              "/assetsvvara/SVVARA-03220.webp",
-              "/assetsvvara/SVVARA-03197.webp",
-              "/assetsvvara/SVVARA-03168.webp",
-              "/assetsvvara/SVVARA-03133.webp",
-              "/assetsvvara/SVVARA-03089.webp",
-              "/assetsvvara/SAVVARA-01320.webp",
-              "/assetsvvara/SAVVARA-01683.webp",
-            ]}
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/assetsvvara/SAVVARA-01268.webp",
+                    "/assetsvvara/SAVVARA-01362.webp",
+                    "/assetsvvara/SAVVARA-01506.webp",
+                    "/assetsvvara/SAVVARA-01649.webp",
+                    "/assetsvvara/SAVVARA-01840.webp",
+                    "/assetsvvara/SVVARA-03220.webp",
+                    "/assetsvvara/SVVARA-03197.webp",
+                    "/assetsvvara/SVVARA-03168.webp",
+                    "/assetsvvara/SVVARA-03133.webp",
+                    "/assetsvvara/SVVARA-03089.webp",
+                    "/assetsvvara/SAVVARA-01320.webp",
+                    "/assetsvvara/SAVVARA-01683.webp",
+                  ]
+            }
             alt="Svvara V110 Turntable"
           />
         </ScrollReveal>
@@ -94,20 +105,24 @@ export default async function SvvaraPage() {
               <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">STORE PARTNERS</h2>
               <HeroCarousel
                 aspect="aspect-[480/853]"
-                images={[
-                  "/assetsvvara/storepartner1.webp",
-                  "/assetsvvara/storepartner2.webp",
-                  "/assetsvvara/storepartner3.webp",
-                  "/assetsvvara/storepartner4.webp",
-                  "/assetsvvara/storepartner5.webp",
-                  "/assetsvvara/storepartner6.webp",
-                  "/assetsvvara/storepartner7.webp",
-                  "/assetsvvara/storepartner8.webp",
-                  "/assetsvvara/storepartner9.webp",
-                  "/assetsvvara/storepartner10.webp",
-                  "/assetsvvara/storepartner11.webp",
-                  "/assetsvvara/storepartner12.webp",
-                ]}
+                images={
+                  partnerImages.length
+                    ? partnerImages
+                    : [
+                        "/assetsvvara/storepartner1.webp",
+                        "/assetsvvara/storepartner2.webp",
+                        "/assetsvvara/storepartner3.webp",
+                        "/assetsvvara/storepartner4.webp",
+                        "/assetsvvara/storepartner5.webp",
+                        "/assetsvvara/storepartner6.webp",
+                        "/assetsvvara/storepartner7.webp",
+                        "/assetsvvara/storepartner8.webp",
+                        "/assetsvvara/storepartner9.webp",
+                        "/assetsvvara/storepartner10.webp",
+                        "/assetsvvara/storepartner11.webp",
+                        "/assetsvvara/storepartner12.webp",
+                      ]
+                }
                 alt="Store Partner"
               />
             </div>

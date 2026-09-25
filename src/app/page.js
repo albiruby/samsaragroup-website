@@ -1,4 +1,7 @@
 import HomePage from "@/components/HomePage";
+import { getCarouselImages } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import { isActive } from "@/data/brandCategories";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +17,15 @@ export const metadata = {
   },
 };
 
-export default function Page() {
-  return <HomePage />;
+export default async function Page() {
+  const slides = await getCarouselImages("home");
+  const marqueeImages = slides
+    .filter((s) => s.image && isActive("/" + (s.brand || "samsara").toLowerCase()))
+    .map((s) => ({
+      src: urlFor(s.image).url(),
+      brand: s.brand || "",
+      alt: s.alt || "",
+    }));
+
+  return <HomePage marqueeImages={marqueeImages} />;
 }

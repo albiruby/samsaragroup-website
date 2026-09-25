@@ -56,18 +56,22 @@ export default async function AcasaPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <HeroCarousel
-            images={[
-              "/assetacasa/ADR-06545.webp",
-              "/assetacasa/ADR-06529.webp",
-              "/assetacasa/ADR-06507.webp",
-              "/assetacasa/ADR-06480.webp",
-              "/assetacasa/ADR-06474.webp",
-              "/assetacasa/ADR-06468.webp",
-              "/assetacasa/ADR-06368.webp",
-              "/assetacasa/ADR-06325.webp",
-              "/assetacasa/ADR-06293.webp",
-              "/assetacasa/ADR-06254.webp",
-            ]}
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => urlFor(g).url())
+                : [
+                    "/assetacasa/ADR-06545.webp",
+                    "/assetacasa/ADR-06529.webp",
+                    "/assetacasa/ADR-06507.webp",
+                    "/assetacasa/ADR-06480.webp",
+                    "/assetacasa/ADR-06474.webp",
+                    "/assetacasa/ADR-06468.webp",
+                    "/assetacasa/ADR-06368.webp",
+                    "/assetacasa/ADR-06325.webp",
+                    "/assetacasa/ADR-06293.webp",
+                    "/assetacasa/ADR-06254.webp",
+                  ]
+            }
             alt="Acasa Resort"
           />
         </ScrollReveal>

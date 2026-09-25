@@ -32,7 +32,7 @@ export async function getEventBySlug(slug) {
 export async function getWorlds() {
   try {
     return await client.fetch(
-      `*[_type == "world"] | order(_createdAt asc) { _id, name, slug, tagline, disciplines, description, image, specifications }`,
+      `*[_type == "world"] | order(_createdAt asc) { _id, name, slug, tagline, description, image, gallery, specifications }`,
       {},
       revalidate
     );
@@ -65,5 +65,18 @@ export async function getContactInfo() {
   } catch (e) {
     console.error("getContactInfo failed:", e.message);
     return null;
+  }
+}
+
+export async function getCarouselImages(placement) {
+  try {
+    return await client.fetch(
+      `*[_type == "carouselImage" && placement == $placement && active != false] | order(order asc) { title, image, alt, brand }`,
+      { placement },
+      revalidate
+    );
+  } catch (e) {
+    console.error("getCarouselImages failed:", e.message);
+    return [];
   }
 }

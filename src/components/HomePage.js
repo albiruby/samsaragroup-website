@@ -21,7 +21,7 @@ const worlds = [
   { name: "GROVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/grove" },
 ].filter((w) => isActive(w.href));
 
-const marqueeImages = [
+const fallbackMarquee = [
   { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
   { src: "/assetsvvara/SAVVARA-01268.webp", brand: "Svvara" },
   { src: "/assetsvarga/ADR (1 of 15).webp", brand: "Svarga" },
@@ -40,7 +40,8 @@ const marqueeImages = [
   { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
 ].filter((m) => isActive("/" + m.brand.toLowerCase()));
 
-export default function HomePage() {
+export default function HomePage({ marqueeImages }) {
+  const slides = marqueeImages?.length ? marqueeImages : fallbackMarquee;
   const { setTheme } = useTheme();
   useEffect(() => { setTheme("dark"); return () => setTheme("light"); }, [setTheme]);
 
@@ -130,9 +131,9 @@ export default function HomePage() {
         <section className="bg-surface w-full overflow-hidden py-6">
           <div className="marquee-track">
             <div className="marquee-content">
-              {[...marqueeImages, ...marqueeImages].map((item, i) => (
+              {[...slides, ...slides].map((item, i) => (
                 <div key={i} className="marquee-item">
-                  <img src={item.src} alt={`${item.brand} experience`} className="h-full w-full object-cover" />
+                  <img src={item.src} alt={item.alt || `${item.brand} experience`} className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
