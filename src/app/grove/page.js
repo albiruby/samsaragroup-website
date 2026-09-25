@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Grove — Samsara Group",
   description: "The lighter cafe. Casual, relaxed, and always good vibes.",

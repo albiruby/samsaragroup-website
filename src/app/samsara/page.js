@@ -8,6 +8,8 @@ import Link from "next/link";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const dynamic = "force-dynamic";
+
 const SAMSARA_LINKS = {
   menu: "/menu",
   reservation: "https://wa.me/6285281271988",

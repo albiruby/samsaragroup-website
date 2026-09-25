@@ -7,6 +7,8 @@ import ProductCarousel from "@/components/ProductCarousel";
 import { getWorlds, getProducts } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const dynamic = "force-dynamic";
+
 const SVVARA_CONTACT = {
   whatsapp: "0812-2070-3100",
   email: "contact@svvara.co.id",

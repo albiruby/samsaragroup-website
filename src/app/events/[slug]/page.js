@@ -1,19 +1,19 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getEventBySlug, getEvents } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 function decodeSlug(raw) {
-  let value;
   try {
-    value = decodeURIComponent(raw);
+    return decodeURIComponent(raw);
   } catch {
-    value = raw;
+    return raw;
   }
-  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) ? value : value.replace(/[^a-z0-9-]/gi, "");
 }
 
 export async function generateMetadata({ params }) {

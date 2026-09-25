@@ -1,4 +1,5 @@
 import "./globals.css";
+import { headers } from "next/headers";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import PathnamePreloader from "@/components/PathnamePreloader";
@@ -6,6 +7,8 @@ import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
 import { jsonLdHtml } from "@/lib/jsonld";
+
+export const dynamic = "force-dynamic";
 
 export const viewport = {
   width: "device-width",
@@ -35,7 +38,9 @@ export const metadata = {
   metadataBase: new URL("https://samsaragroup.co.id"),
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const nonce = (await headers()).get("x-nonce");
+
   return (
     <html lang="en">
       <head>
@@ -47,6 +52,7 @@ export default function RootLayout({ children }) {
         />
         <script
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: jsonLdHtml({
               "@context": "https://schema.org",

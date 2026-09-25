@@ -1,5 +1,7 @@
 import HomePage from "@/components/HomePage";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Samsara Group — We Create Places To Feel Something",
   description: "A multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",

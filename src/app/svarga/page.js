@@ -9,6 +9,8 @@ import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const dynamic = "force-dynamic";
+
 const SVARGA_COORDS = { lat: -6.8500, lng: 106.9333 };
 const SVARGA_LINK = "https://maps.app.goo.gl/rn8Mfgk7NXJG79Xp8";
 const SVARGA_LINKS = "https://linktr.ee/svargabysamsara";

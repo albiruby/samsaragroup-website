@@ -154,7 +154,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                 </div>
               ))}
               <Link
-                href="#brands"
+                href="/brands"
                 onClick={handleClose}
                 className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
               >

@@ -9,6 +9,8 @@ import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const dynamic = "force-dynamic";
+
 const ACASA_COORDS = { lat: -6.6167, lng: 106.8500 };
 const ACASA_MAP_LINK = "https://maps.app.goo.gl/NNbBmPUrX9mTYNQBA";
 const ACASA_LINKS = "https://linktr.ee/acasa.samsara";

@@ -1,7 +1,10 @@
+import { headers } from "next/headers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { jsonLdHtml } from "@/lib/jsonld";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "About — Samsara Group",
@@ -9,10 +12,13 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
+  const nonce = (await headers()).get("x-nonce");
+
   return (
     <>
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: jsonLdHtml({
             "@context": "https://schema.org",

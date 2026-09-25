@@ -8,6 +8,8 @@ export const metadata = {
   description: "A running cafe. Coffee, shower, and community for runners.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function OutpacePage() {
   const specs = [
     ["Concept", "Cafe for runners"],
