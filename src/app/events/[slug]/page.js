@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
 import { getEventBySlug, getEvents } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -23,6 +24,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${event.title} — Samsara Group Events`,
     description: event.description,
+    alternates: {
+      canonical: `/events/${event.slug.current}`,
+    },
   };
 }
 
@@ -43,7 +47,9 @@ export default async function EventDetailPage({ params }) {
         <ScrollReveal>
           <Link href="/events" className="mb-8 inline-flex items-center gap-2 text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant hover:text-terracotta transition-colors">← ALL EVENTS</Link>
           <span className="mt-4 mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">{event.date} {event.location && `– ${event.location}`}</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">{event.title}</h1>
+          <TextClipReveal>
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">{event.title}</h1>
+          </TextClipReveal>
           {event.category && <p className="mt-4 text-headline-sm font-display uppercase tracking-wide text-on-surface-variant">{event.category}</p>}
         </ScrollReveal>
       </section>

@@ -8,6 +8,9 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Contact — Samsara Group",
   description: "Get in touch with Samsara Group for inquiries, reservations, and partnerships.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default async function ContactPage() {

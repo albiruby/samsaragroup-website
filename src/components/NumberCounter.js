@@ -15,6 +15,10 @@ export default function NumberCounter({ target, duration = 2000, suffix = "" }) 
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setCount(target);
+            return;
+          }
           const start = performance.now();
           const animate = (now) => {
             const elapsed = now - start;

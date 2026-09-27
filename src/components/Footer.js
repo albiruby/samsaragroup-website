@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollMarquee from "./ScrollMarquee";
 import { allBrands } from "../data/brandCategories";
 
 export default function Footer() {
@@ -48,10 +49,10 @@ export default function Footer() {
       </div>
 
       <div className="w-full overflow-hidden py-7 border-b border-outline-variant">
-        <div className="logo-marquee-track">
+        <ScrollMarquee className="logo-marquee-track" baseSpeed={50} data-cursor="DRAG">
           <div className="logo-marquee-content">{allBrands.map(logoItem)}</div>
           <div className="logo-marquee-content" aria-hidden="true">{allBrands.map(logoItem)}</div>
-        </div>
+        </ScrollMarquee>
       </div>
 
       <div className="w-full px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">

@@ -9,6 +9,7 @@ import TextClipReveal from "@/components/TextClipReveal";
 import MagneticButton from "@/components/MagneticButton";
 import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
+import ScrollMarquee from "@/components/ScrollMarquee";
 import { useTheme } from "@/components/ThemeProvider";
 
 const worlds = [
@@ -123,15 +124,22 @@ export default function HomePage({ marqueeImages }) {
 
         {/* ── Marquee ── */}
         <section className="bg-surface w-full overflow-hidden py-6">
-          <div className="marquee-track">
+          <ScrollMarquee className="marquee-track" baseSpeed={70} data-cursor="DRAG">
             <div className="marquee-content">
-              {[...slides, ...slides].map((item, i) => (
+              {slides.map((item, i) => (
                 <div key={i} className="marquee-item">
                   <img src={item.src} alt={item.alt || `${item.brand} experience`} className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
-          </div>
+            <div className="marquee-content" aria-hidden="true">
+              {slides.map((item, i) => (
+                <div key={`dup-${i}`} className="marquee-item">
+                  <img src={item.src} alt="" className="h-full w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          </ScrollMarquee>
         </section>
 
       </main>

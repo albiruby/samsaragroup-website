@@ -10,6 +10,7 @@ export default function ZoomableImage({ src, alt, className = "" }) {
   const [open, setOpen] = useState(false);
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
   const stageRef = useRef(null);
   const dragRef = useRef(null);
 
@@ -60,6 +61,7 @@ export default function ZoomableImage({ src, alt, className = "" }) {
     if (scale <= 1) return;
     e.preventDefault();
     dragRef.current = { x: e.clientX, y: e.clientY, ox: pos.x, oy: pos.y };
+    setDragging(true);
     e.target.setPointerCapture?.(e.pointerId);
   };
 
@@ -71,6 +73,7 @@ export default function ZoomableImage({ src, alt, className = "" }) {
 
   const onPointerUp = () => {
     dragRef.current = null;
+    setDragging(false);
   };
 
   const onDoubleClick = () => {
@@ -87,6 +90,7 @@ export default function ZoomableImage({ src, alt, className = "" }) {
         src={src}
         alt={alt}
         className={`${className} cursor-zoom-in`}
+        data-cursor="ZOOM"
         onClick={() => setOpen(true)}
       />
       {open &&
@@ -153,9 +157,9 @@ export default function ZoomableImage({ src, alt, className = "" }) {
                 className="max-h-full max-w-full select-none"
                 style={{
                   transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
-                  cursor: scale > 1 ? (dragRef.current ? "grabbing" : "grab") : "zoom-in",
+                  cursor: scale > 1 ? (dragging ? "grabbing" : "grab") : "zoom-in",
                   transformOrigin: "center",
-                  transition: dragRef.current ? "none" : "transform 0.15s ease-out",
+                  transition: dragging ? "none" : "transform 0.15s ease-out",
                 }}
               />
             </div>

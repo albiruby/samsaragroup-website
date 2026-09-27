@@ -214,7 +214,9 @@
 
 .marquee-track { display: flex; width: max-content; animation: marqueeScroll 40s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
-.marquee-content { display: flex; gap: 1.5rem; }
+.marquee-content { display: flex; gap: 1.5rem; padding-right: 1.5rem; }
+.marquee-track, .logo-marquee-track { -webkit-user-select: none; user-select: none; touch-action: pan-y; }
+.marquee-track img, .logo-marquee-track img { -webkit-user-drag: none; user-select: none; }
 .marquee-item { flex-shrink: 0; width: 240px; height: 160px; overflow: hidden; }
 @media (min-width: 768px) { .marquee-item { width: 320px; height: 220px; } }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -338,7 +340,7 @@
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
   body { cursor: none; }
   a, button, [data-cursor] { cursor: none; }
 }
@@ -348,4 +350,43 @@
   height: 48px !important;
   border-color: rgba(168, 107, 82, 0.6) !important;
   background: rgba(168, 107, 82, 0.08);
+}
+
+.cursor-label {
+  width: 72px !important;
+  height: 72px !important;
+  border-color: rgba(168, 107, 82, 0.6) !important;
+  background: rgba(168, 107, 82, 0.14);
+}
+.cursor-label-text {
+  opacity: 0;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: opacity 200ms ease;
+}
+.cursor-label .cursor-label-text {
+  opacity: 1;
+}
+
+/* Parallax: translate (per-frame, never transitioned) + scale (hover-only, transitioned). */
+.parallax-img img {
+  translate: 0 var(--py, 0px);
+  transform: scale(1.1);
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-hover.parallax-img:hover img {
+  transform: scale(1.14);
+}
+.img-zoom-out.parallax-img:hover img {
+  transform: scale(1.05);
+}
+/* Nested variants (child has hover class, parent is the parallax frame). */
+.parallax-img .img-zoom-out:hover img {
+  transform: scale(1.05);
+}
+.parallax-img .img-hover:hover img {
+  transform: scale(1.14);
 }

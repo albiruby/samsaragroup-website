@@ -1,9 +1,11 @@
+import { getEvents } from "@/sanity/lib/queries";
+
 const BASE_URL = "https://samsaragroup.co.id";
 
-export default function sitemap() {
+export default async function sitemap() {
   const lastModified = new Date();
 
-  return [
+  const staticUrls = [
     {
       url: BASE_URL,
       lastModified,
@@ -71,4 +73,21 @@ export default function sitemap() {
       priority: 0.5,
     },
   ];
+
+  let eventUrls = [];
+  try {
+    const events = await getEvents();
+    eventUrls = events
+      .filter((e) => e.slug?.current)
+      .map((e) => ({
+        url: `${BASE_URL}/events/${e.slug.current}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.6,
+      }));
+  } catch {
+    eventUrls = [];
+  }
+
+  return [...staticUrls, ...eventUrls];
 }

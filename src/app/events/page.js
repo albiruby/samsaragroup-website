@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
 import { getEvents } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
@@ -12,6 +13,9 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Events — Samsara Group",
   description: "Upcoming gatherings, performances, and curated experiences by Samsara Group.",
+  alternates: {
+    canonical: "/events",
+  },
 };
 
 export default async function EventsPage() {
@@ -54,7 +58,9 @@ export default async function EventsPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">UPCOMING</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">EVENTS</h1>
+          <TextClipReveal>
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">EVENTS</h1>
+          </TextClipReveal>
         </ScrollReveal>
       </section>
 
@@ -78,7 +84,7 @@ export default async function EventsPage() {
                 : {};
               return (
                 <ScrollReveal key={event._id}>
-                  <Wrapper {...wrapperProps} className="block group">
+                  <Wrapper {...wrapperProps} data-cursor="VIEW" className="block group">
                     <article className="relative overflow-hidden bg-surface-container-low border border-outline-variant transition-colors hover:border-outline">
                       <div className="flex flex-col md:flex-row">
                         <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">

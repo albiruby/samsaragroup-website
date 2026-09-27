@@ -24,7 +24,11 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
   if (!images || images.length === 0) return null;
 
   return (
-    <div className={`relative w-full ${aspect} overflow-hidden bg-surface-container-low group`}>
+    <div
+      className={`relative w-full ${aspect} overflow-hidden bg-surface-container-low group`}
+      data-cursor="NEXT"
+      onClick={() => next()}
+    >
       {images.map((src, i) => (
         <div
           key={src}
@@ -38,14 +42,20 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
       {images.length > 1 && (
         <>
           <button
-            onClick={prev}
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
             className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
             aria-label="Previous image"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 2L4 7l5 5" /></svg>
           </button>
           <button
-            onClick={next}
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
             aria-label="Next image"
           >
@@ -55,7 +65,10 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
             {images.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrent(i)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrent(i);
+                }}
                 className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-white" : "bg-white/40"}`}
                 aria-label={`Go to image ${i + 1}`}
               />

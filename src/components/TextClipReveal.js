@@ -3,16 +3,29 @@
 import { useEffect, useRef } from "react";
 
 export default function TextClipReveal({ children, className = "" }) {
-  const ref = useRef(null);
+  const wrapperRef = useRef(null);
+  const clipRef = useRef(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const el = wrapperRef.current;
+    const clip = clipRef.current;
+    if (!el || !clip) return;
+
+    // Observe the unclipped wrapper: Chromium computes a target's own clip-path
+    // into its intersection rect, so observing the clipped element directly
+    // would never fire and the content would stay hidden forever.
+    const reveal = () => clip.classList.add("revealed");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      reveal();
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.classList.add("revealed");
+          reveal();
+          observer.disconnect();
         }
       },
       { threshold: 0.2 }
@@ -23,8 +36,10 @@ export default function TextClipReveal({ children, className = "" }) {
   }, []);
 
   return (
-    <div ref={ref} className={`clip-reveal ${className}`}>
-      {children}
+    <div ref={wrapperRef} className={className}>
+      <div ref={clipRef} className="clip-reveal">
+        {children}
+      </div>
     </div>
   );
 }

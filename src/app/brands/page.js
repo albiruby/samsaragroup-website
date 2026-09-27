@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
@@ -11,6 +12,9 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Brands — Samsara Group",
   description: "Explore the worlds of Samsara Group — Samsara, Svarga, Acasa, Outpace, and Grove.",
+  alternates: {
+    canonical: "/brands",
+  },
 };
 
 export default async function BrandsPage() {
@@ -53,7 +57,9 @@ export default async function BrandsPage() {
       <section id="brands" className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pt-28 pb-16 lg:pt-36 lg:pb-24 scroll-mt-24">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">BRANDS</span>
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h1>
+          <TextClipReveal>
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface mb-12">OUR WORLDS</h1>
+          </TextClipReveal>
         </ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {brands.map((brand) => (

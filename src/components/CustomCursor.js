@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 export default function CustomCursor() {
   const cursorRef = useRef(null);
   const dotRef = useRef(null);
+  const labelRef = useRef(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -13,10 +14,12 @@ export default function CustomCursor() {
 
     const cursor = cursorRef.current;
     const dot = dotRef.current;
+    const label = labelRef.current;
     if (!cursor || !dot) return;
 
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
+    let halfW = 16, halfH = 16;
 
     const onMouseMove = (e) => {
       mouseX = e.clientX;
@@ -24,31 +27,56 @@ export default function CustomCursor() {
       dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
     };
 
+    let rafId;
     const animate = () => {
       cursorX += (mouseX - cursorX) * 0.12;
       cursorY += (mouseY - cursorY) * 0.12;
-      cursor.style.transform = `translate(${cursorX - 16}px, ${cursorY - 16}px)`;
-      requestAnimationFrame(animate);
+      cursor.style.transform = `translate(${cursorX - halfW}px, ${cursorY - halfH}px)`;
+      rafId = requestAnimationFrame(animate);
     };
 
-    const onMouseEnterInteractive = () => cursor.classList.add("cursor-hover");
-    const onMouseLeaveInteractive = () => cursor.classList.remove("cursor-hover");
+    const ro = new ResizeObserver((entries) => {
+      const box = entries[0].borderBoxSize?.[0];
+      if (box) {
+        halfW = box.inlineSize / 2;
+        halfH = box.blockSize / 2;
+      } else {
+        halfW = cursor.offsetWidth / 2;
+        halfH = cursor.offsetHeight / 2;
+      }
+    });
+    ro.observe(cursor);
+
+    let current = null;
+    const onOver = (e) => {
+      const target = e.target?.closest?.("a, button, [data-cursor]");
+      if (target === current) return;
+      current = target;
+      if (!target) {
+        cursor.classList.remove("cursor-hover", "cursor-label");
+        if (label) label.textContent = "";
+        return;
+      }
+      cursor.classList.add("cursor-hover");
+      const text = target.getAttribute("data-cursor");
+      if (text) {
+        cursor.classList.add("cursor-label");
+        if (label) label.textContent = text;
+      } else {
+        cursor.classList.remove("cursor-label");
+        if (label) label.textContent = "";
+      }
+    };
 
     document.addEventListener("mousemove", onMouseMove);
-    requestAnimationFrame(animate);
-
-    const interactives = document.querySelectorAll("a, button, [data-cursor]");
-    interactives.forEach((el) => {
-      el.addEventListener("mouseenter", onMouseEnterInteractive);
-      el.addEventListener("mouseleave", onMouseLeaveInteractive);
-    });
+    document.addEventListener("mouseover", onOver);
+    rafId = requestAnimationFrame(animate);
 
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
-      interactives.forEach((el) => {
-        el.removeEventListener("mouseenter", onMouseEnterInteractive);
-        el.removeEventListener("mouseleave", onMouseLeaveInteractive);
-      });
+      document.removeEventListener("mouseover", onOver);
+      ro.disconnect();
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -56,8 +84,10 @@ export default function CustomCursor() {
     <>
       <div
         ref={cursorRef}
-        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color] duration-300 hidden lg:block"
-      />
+        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color,background-color] duration-300 hidden lg:flex items-center justify-center"
+      >
+        <span ref={labelRef} className="cursor-label-text select-none" />
+      </div>
       <div
         ref={dotRef}
         className="custom-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[9999] mix-blend-difference hidden lg:block"

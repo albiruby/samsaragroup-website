@@ -2,6 +2,10 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
+import ImageParallax from "@/components/ImageParallax";
+import MagneticButton from "@/components/MagneticButton";
+import SpecValue from "@/components/SpecValue";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
@@ -19,6 +23,9 @@ const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=p
 export const metadata = {
   title: "Svarga — Samsara Group",
   description: "Cerita rasa sudah dimulai. Svarga terbuka untukmu. Javanese heritage restaurant with pendopo, prasmanan, and skydeck in the highlands of Sukabumi.",
+  alternates: {
+    canonical: "/svarga",
+  },
 };
 
 export default async function SvargaPage() {
@@ -51,7 +58,8 @@ export default async function SvargaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <HeroCarousel
+          <ImageParallax className="w-full">
+            <HeroCarousel
             images={
               world?.gallery?.length
                 ? world.gallery.map((g) => urlFor(g).url())
@@ -72,6 +80,7 @@ export default async function SvargaPage() {
             }
             alt="Svarga Estate"
           />
+          </ImageParallax>
         </ScrollReveal>
       </section>
 
@@ -87,12 +96,14 @@ export default async function SvargaPage() {
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">GOOD TO KNOW</h2>
+                  <TextClipReveal>
+                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">GOOD TO KNOW</h2>
+                  </TextClipReveal>
                   <div className="space-y-4">
                     {specs.map(([label, value]) => (
                       <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
                         <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
-                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
+                        <span className="text-body-md text-on-surface min-w-0"><SpecValue value={value} /></span>
                       </div>
                     ))}
                   </div>
@@ -104,14 +115,14 @@ export default async function SvargaPage() {
           <div className="lg:col-span-5">
             <ScrollReveal>
               <div className="space-y-8">
-                <div className="img-hover w-full aspect-[4/5]">
+                <ImageParallax className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (
                     <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
-                </div>
-                <a
+                </ImageParallax>
+                <MagneticButton
                   href={SVARGA_RESERVE}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -119,7 +130,7 @@ export default async function SvargaPage() {
                 >
                   RESERVE
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
+                </MagneticButton>
               </div>
             </ScrollReveal>
           </div>
@@ -128,7 +139,9 @@ export default async function SvargaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
-          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          </TextClipReveal>
           <div className="mx-auto w-full max-w-[720px] border border-outline-variant overflow-hidden">
             <ZoomableImage src="/assetsvarga/menusvarga.webp" alt="Svarga Menu" className="w-full h-auto" />
           </div>
@@ -137,7 +150,9 @@ export default async function SvargaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
-          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          </TextClipReveal>
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
             <LeafletMap lat={SVARGA_COORDS.lat} lng={SVARGA_COORDS.lng} zoom={16} className="w-full h-full" />
           </div>
@@ -149,7 +164,7 @@ export default async function SvargaPage() {
               <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a
+              <MagneticButton
                 href={SVARGA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -157,8 +172,8 @@ export default async function SvargaPage() {
               >
                 OPEN IN MAPS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-              <a
+              </MagneticButton>
+              <MagneticButton
                 href={SVARGA_LINKS}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -166,7 +181,7 @@ export default async function SvargaPage() {
               >
                 LINKS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
+              </MagneticButton>
             </div>
           </div>
         </ScrollReveal>

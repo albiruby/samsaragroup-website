@@ -2,6 +2,10 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
+import ImageParallax from "@/components/ImageParallax";
+import MagneticButton from "@/components/MagneticButton";
+import SpecValue from "@/components/SpecValue";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
@@ -23,6 +27,9 @@ const ACASA_CONTACT = {
 export const metadata = {
   title: "Acasa — Samsara Group",
   description: "A Sanctuary of Refined Living. Resto, Cottages, and Padel — one place, many moments, in the hills of Ciawi, Bogor.",
+  alternates: {
+    canonical: "/acasa",
+  },
 };
 
 export default async function AcasaPage() {
@@ -55,7 +62,8 @@ export default async function AcasaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
-          <HeroCarousel
+          <ImageParallax className="w-full">
+            <HeroCarousel
             images={
               world?.gallery?.length
                 ? world.gallery.map((g) => urlFor(g).url())
@@ -76,6 +84,7 @@ export default async function AcasaPage() {
             }
             alt="Acasa Resort"
           />
+          </ImageParallax>
         </ScrollReveal>
       </section>
 
@@ -91,12 +100,14 @@ export default async function AcasaPage() {
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">OFFERINGS</h2>
+                  <TextClipReveal>
+                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">OFFERINGS</h2>
+                  </TextClipReveal>
                   <div className="space-y-4">
                     {offerings.map(([label, value]) => (
                       <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
                         <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
-                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
+                        <span className="text-body-md text-on-surface min-w-0"><SpecValue value={value} /></span>
                       </div>
                     ))}
                   </div>
@@ -108,14 +119,14 @@ export default async function AcasaPage() {
           <div className="lg:col-span-5">
             <ScrollReveal>
               <div className="space-y-8">
-                <div className="img-hover w-full aspect-[4/5]">
+                <ImageParallax className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
                     <img src={urlFor(world.image).url()} alt="Acasa Interior" className="h-full w-full object-cover" />
                   ) : (
                     <img src="/assetacasa/ADR-06539.webp" alt="Acasa Interior" className="h-full w-full object-cover" />
                   )}
-                </div>
-                <a
+                </ImageParallax>
+                <MagneticButton
                   href="https://ayo.co.id/v/acasa-padel"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -123,8 +134,8 @@ export default async function AcasaPage() {
                 >
                   RESERVE PADEL
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
-                <a
+                </MagneticButton>
+                <MagneticButton
                   href="https://api.whatsapp.com/send/?phone=6281188887828&type=phone_number&app_absent=0"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -132,7 +143,7 @@ export default async function AcasaPage() {
                 >
                   RECEPTIONIST
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
+                </MagneticButton>
               </div>
             </ScrollReveal>
           </div>
@@ -141,7 +152,9 @@ export default async function AcasaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
-          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          </TextClipReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[1100px] mx-auto">
             <div>
               <p className="mb-3 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">Food</p>
@@ -161,7 +174,9 @@ export default async function AcasaPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
-          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          </TextClipReveal>
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
             <LeafletMap lat={ACASA_COORDS.lat} lng={ACASA_COORDS.lng} zoom={16} className="w-full h-full" />
           </div>
@@ -173,7 +188,7 @@ export default async function AcasaPage() {
               <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a
+              <MagneticButton
                 href={ACASA_MAP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -181,8 +196,8 @@ export default async function AcasaPage() {
               >
                 OPEN IN MAPS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-              <a
+              </MagneticButton>
+              <MagneticButton
                 href={ACASA_LINKS}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -190,7 +205,7 @@ export default async function AcasaPage() {
               >
                 LINKS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
+              </MagneticButton>
             </div>
           </div>
         </ScrollReveal>

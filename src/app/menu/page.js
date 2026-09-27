@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import TextClipReveal from "@/components/TextClipReveal";
 
 const TOTAL_PAGES = 36;
 const DRIVE_LINK = "https://drive.google.com/file/d/1inaLAAXyjMp9XQFk59lVd5VZtc0d75ST/view?usp=drivesdk";
@@ -104,7 +105,7 @@ function MenuViewer() {
       </div>
 
       {/* Thumbnail strip */}
-      <div className="w-full max-w-3xl overflow-x-auto scrollbar-none">
+      <div className="w-full max-w-3xl overflow-x-auto scrollbar-none" data-cursor="DRAG">
         <div className="flex gap-2 justify-center">
           {Array.from({ length: TOTAL_PAGES }, (_, i) => i + 1).map((page) => (
             <button
@@ -139,9 +140,11 @@ export default function MenuPage() {
 
       <section className="bg-surface pt-28 pb-8 max-w-[1520px] mx-auto px-6 lg:px-10">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">
-            2026 SAMSARA MENU
-          </h1>
+          <TextClipReveal>
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">
+              2026 SAMSARA MENU
+            </h1>
+          </TextClipReveal>
           <a
             href={DRIVE_LINK}
             target="_blank"

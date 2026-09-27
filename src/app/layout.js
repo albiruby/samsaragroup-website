@@ -7,6 +7,8 @@ import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
 import { jsonLdHtml } from "@/lib/jsonld";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +30,14 @@ export const metadata = {
     siteName: "Samsara Group",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/ambiencesamsara/DSC08930.webp",
+        width: 1920,
+        height: 1280,
+        alt: "Samsara Group",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -88,6 +98,8 @@ export default async function RootLayout({ children }) {
           </PageTransition>
         </ThemeProvider>
         <BackToTop />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

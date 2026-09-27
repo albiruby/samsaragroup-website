@@ -7,12 +7,23 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Samsara Group — We Create Places To Feel Something",
   description: "A multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Samsara Group",
     description: "A multidisciplinary lifestyle and hospitality collective.",
     url: "https://samsaragroup.co.id",
     siteName: "Samsara Group",
     type: "website",
+    images: [
+      {
+        url: "/ambiencesamsara/DSC08930.webp",
+        width: 1920,
+        height: 1280,
+        alt: "Samsara Group",
+      },
+    ],
   },
 };
 

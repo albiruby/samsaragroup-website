@@ -2,6 +2,8 @@ import { headers } from "next/headers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import TextClipReveal from "@/components/TextClipReveal";
+import ImageParallax from "@/components/ImageParallax";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +11,9 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "About — Samsara Group",
   description: "Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default async function AboutPage() {
@@ -41,14 +46,16 @@ export default async function AboutPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pt-28 pb-16 lg:pt-36 lg:pb-24">
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="img-hover h-[400px] lg:h-[520px]">
+            <ImageParallax className="img-hover h-[400px] lg:h-[520px]">
               <img src="/ambiencesamsara/DSC08913.webp" alt="Samsara Group" className="h-full w-full object-cover" />
-            </div>
+            </ImageParallax>
             <div>
               <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">ABOUT US</span>
-              <h1 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
-                WE CREATE PLACES<br />TO FEEL SOMETHING.
-              </h1>
+              <TextClipReveal>
+                <h1 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
+                  WE CREATE PLACES<br />TO FEEL SOMETHING.
+                </h1>
+              </TextClipReveal>
               <p className="font-body text-body-lg text-on-surface-variant leading-relaxed mb-6">
                 Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.
               </p>
@@ -65,9 +72,11 @@ export default async function AboutPage() {
         <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
           <ScrollReveal>
             <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">VISION</span>
-            <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-8 text-on-surface max-w-3xl">
-              WHERE EVERY MOMENT MATTERS
-            </h2>
+            <TextClipReveal>
+              <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-8 text-on-surface max-w-3xl">
+                WHERE EVERY MOMENT MATTERS
+              </h2>
+            </TextClipReveal>
             <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
               We believe that places have the power to transform how people feel, connect, and live. Our vision is to create destinations that honor craft, silence, and the beauty of intentional design.
             </p>
@@ -80,9 +89,11 @@ export default async function AboutPage() {
         <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-20 lg:py-32">
           <ScrollReveal>
             <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">PHILOSOPHY</span>
-            <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-12 text-on-surface">
-              APPROACH & PRINCIPLES
-            </h2>
+            <TextClipReveal>
+              <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-12 text-on-surface">
+                APPROACH & PRINCIPLES
+              </h2>
+            </TextClipReveal>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
             {[
