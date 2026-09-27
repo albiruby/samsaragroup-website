@@ -4,7 +4,6 @@ import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
 import MagneticButton from "@/components/MagneticButton";
-import SpecValue from "@/components/SpecValue";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
@@ -131,7 +130,7 @@ export default async function SamsaraPage() {
                     {specs.map(([label, value]) => (
                       <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
                         <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
-                        <span className="text-body-md text-on-surface min-w-0"><SpecValue value={value} /></span>
+                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
                       </div>
                     ))}
                   </div>
