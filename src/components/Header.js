@@ -135,11 +135,6 @@ export default function Header() {
                             onClick={() => setBrandsOpen(false)}
                             className="flex items-center gap-6 px-7 py-3.5 hover:bg-surface-container-low transition-colors"
                           >
-                            <span className="flex-shrink-0 w-44 flex items-center">
-                              {b.logo && (
-                                <img src={b.logo} alt={b.label} className="max-w-full max-h-12 object-contain" />
-                              )}
-                            </span>
                             <span className="min-w-0">
                               <span className="block font-label text-label-sm tracking-[0.14em] uppercase text-on-surface">{b.label}</span>
                               <span className="block font-body text-body-sm italic text-on-surface-variant mt-0.5">{b.speciality}</span>
