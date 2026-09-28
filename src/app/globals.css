@@ -36,11 +36,11 @@
   --color-paper: #FDF9F0;
   --color-on-secondary-fixed: #26190d;
 
-  --font-sans: "Inter", "Arial", sans-serif;
-  --font-display: "Roboto Condensed", "Arial", sans-serif;
-  --font-montserrat: "Montserrat", "Arial", sans-serif;
-  --font-body: "Inter", "Arial", sans-serif;
-  --font-label: "Roboto Condensed", "Arial", sans-serif;
+  --font-sans: "Red Hat Display", "Arial", sans-serif;
+  --font-display: "Instrument Serif", "Georgia", serif;
+  --font-montserrat: "Instrument Serif", "Georgia", serif;
+  --font-body: "Red Hat Display", "Arial", sans-serif;
+  --font-label: "Red Hat Display", "Arial", sans-serif;
 
   --text-display-hero: 72px;
   --text-display-hero-mobile: 44px;
