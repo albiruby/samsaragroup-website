@@ -140,9 +140,6 @@ export default function MobileMenu({ isOpen, onClose }) {
                           onClick={handleClose}
                           className="flex items-center justify-center gap-3 py-3 min-h-[44px] text-white/80 hover:text-white transition-colors text-center"
                         >
-                          {b.logo && (
-                            <img src={b.logo} alt="" className="h-5 w-24 object-contain brightness-0 invert" />
-                          )}
                           <span className="min-w-0">
                             <span className="block text-[12px] tracking-[0.2em] uppercase">{b.label}</span>
                             <span className="block text-[11px] italic text-white/50">{b.speciality}</span>
