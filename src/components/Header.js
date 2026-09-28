@@ -113,8 +113,8 @@ export default function Header() {
                         onFocus={() => setActiveCat(cat.name)}
                         className={`block w-full text-left px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase transition-colors cursor-pointer ${
                           activeCat === cat.name
-                            ? "bg-surface-container-low text-on-surface"
-                            : "text-on-surface-variant hover:text-on-surface"
+                            ? "bg-surface-container-low text-on-surface font-bold"
+                            : "text-on-surface-variant hover:text-on-surface font-normal"
                         }`}
                       >
                         {cat.name}
@@ -136,8 +136,8 @@ export default function Header() {
                             className="flex items-center gap-6 px-7 py-3.5 hover:bg-surface-container-low transition-colors"
                           >
                             <span className="min-w-0">
-                              <span className="block font-label text-label-sm tracking-[0.14em] uppercase text-on-surface">{b.label}</span>
-                              <span className="block font-body text-body-sm italic text-on-surface-variant mt-0.5">{b.speciality}</span>
+                              <span className="block font-label text-label-sm font-bold tracking-[0.14em] uppercase text-on-surface">{b.label}</span>
+                              <span className="block font-body text-body-sm font-normal italic text-on-surface-variant mt-0.5">{b.speciality}</span>
                             </span>
                           </Link>
                         ))

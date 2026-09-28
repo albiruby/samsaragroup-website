@@ -121,7 +121,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                     onClick={() => setOpenCat((c) => (c === cat.name ? null : cat.name))}
                     aria-expanded={openCat === cat.name}
                     className={`w-full flex items-center justify-center py-3 text-[12px] tracking-[0.25em] uppercase transition-colors min-h-[44px] ${
-                      openCat === cat.name ? "text-terracotta" : "text-white/70 hover:text-white"
+                      openCat === cat.name ? "text-terracotta font-bold" : "text-white/70 hover:text-white font-normal"
                     }`}
                   >
                     <span className="relative flex items-center">
@@ -141,8 +141,8 @@ export default function MobileMenu({ isOpen, onClose }) {
                           className="flex items-center justify-center gap-3 py-3 min-h-[44px] text-white/80 hover:text-white transition-colors text-center"
                         >
                           <span className="min-w-0">
-                            <span className="block text-[12px] tracking-[0.2em] uppercase">{b.label}</span>
-                            <span className="block text-[11px] italic text-white/50">{b.speciality}</span>
+                            <span className="block text-[12px] font-bold tracking-[0.2em] uppercase">{b.label}</span>
+                            <span className="block text-[11px] font-normal italic text-white/50">{b.speciality}</span>
                           </span>
                         </Link>
                       ))}
