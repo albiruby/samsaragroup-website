@@ -210,9 +210,10 @@ Homepage → Locations → Location Detail → Map/Contact
 ## 5. DESIGN SYSTEM
 
 ### Typography
-**Primary:** Helvetica Neue
-**Weights:** Regular, Medium, Bold, Light, Thin, Heavy
-**No italic. No oblique. No decorative fonts.**
+**Headings:** Instrument Serif (token: `font-display`)
+**Body / Labels:** Red Hat Display (tokens: `font-sans`, `font-body`, `font-label`)
+**Loaded via:** Google Fonts `<link>` di `src/app/layout.js`
+**No other fonts. No decorative fonts.**
 
 ### Colors
 | Token | Hex | Usage |
@@ -250,7 +251,7 @@ Homepage → Locations → Location Detail → Map/Contact
 
 | # | Category | Reference |
 |---|----------|-----------|
-| 01 | Typography | Helvetica Neue editorial weight usage |
+| 01 | Typography | Instrument Serif headings + Red Hat Display body |
 | 02 | Navigation | Restrained top nav, minimal links |
 | 03 | Hero | Full-screen cinematic, bottom-left text |
 | 04 | Editorial layout | Asymmetric grids, generous spacing |
@@ -359,14 +360,12 @@ Apply CTA
 | Journal images | Article pages | Ready/Placeholder |
 
 ### Fonts
-| Font | Format | Status |
+| Font | Role | Source |
 |------|--------|--------|
-| HelveticaNeue-Regular | OTF/TTF | Ready |
-| HelveticaNeue-Medium | OTF | Ready |
-| HelveticaNeue-Bold | OTF | Ready |
-| HelveticaNeue-Light | OTF | Ready |
-| HelveticaNeue-Thin | OTF | Ready |
-| HelveticaNeue-Heavy | OTF | Ready |
+| Instrument Serif | Headings (`font-display`) | Google Fonts |
+| Red Hat Display | Body & labels (`font-sans`, `font-body`, `font-label`) | Google Fonts |
+
+> File OTF Helvetica Neue lama (`public/fonts/`) sudah dihapus — tidak dipakai.
 
 ---
 
@@ -709,7 +708,7 @@ xl: 1280px
 
 ### Design
 - [x] Design system consistent
-- [x] Typography consistent (Helvetica Neue only)
+- [x] Typography consistent (Instrument Serif + Red Hat Display only)
 - [x] No random fonts
 - [x] No italic/oblique
 - [x] Responsive across devices

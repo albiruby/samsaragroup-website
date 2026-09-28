@@ -59,7 +59,7 @@ export default function HomePage({ marqueeImages }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
-              <h1 className="font-montserrat font-bold text-headline-lg-mobile md:text-headline-lg lg:text-display-hero uppercase leading-[0.95] tracking-tight text-white max-w-4xl">
+              <h1 className="font-display font-bold text-headline-lg-mobile md:text-headline-lg lg:text-display-hero uppercase leading-[0.95] tracking-wider text-white max-w-5xl">
                 WE CREATE PLACES<br />
                 <span className="text-white/80">TO FEEL SOMETHING.</span>
               </h1>
