@@ -51,7 +51,9 @@ export default async function AcasaPage() {
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
           <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
-          <img src="/assetacasa/logoacasahitam.webp" alt="Acasa" className="h-12 md:h-16 w-auto" />
+          <h1 className="h-12 md:h-16 w-fit">
+            <img src="/assetacasa/logoacasahitam.webp" alt="Acasa" className="h-full w-auto" />
+          </h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "A Sanctuary of Refined Living — Resto, Cottages, Padel."}
           </p>
