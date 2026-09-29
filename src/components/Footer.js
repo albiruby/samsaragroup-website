@@ -24,25 +24,25 @@ export default function Footer() {
       <div className="w-full px-6 lg:px-10 py-12 grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-outline-variant">
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">CONTACT</p>
-          <ul className="space-y-3">
-            <li><Link href="/contact" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">General Inquiry</Link></li>
-            <li><Link href="/events" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Events</Link></li>
+          <ul className="space-y-0">
+            <li><Link href="/contact" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">General Inquiry</Link></li>
+            <li><Link href="/events" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">Events</Link></li>
           </ul>
         </div>
 
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">EXPLORE</p>
-          <ul className="space-y-3">
-            <li><Link href="/about" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
-            <li><Link href="/menu" className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">Menu</Link></li>
+          <ul className="space-y-0">
+            <li><Link href="/about" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
+            <li><Link href="/menu" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">Menu</Link></li>
           </ul>
         </div>
 
         <div id="brands" className="space-y-4 scroll-mt-24">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">BRANDS</p>
-          <ul className="space-y-3">
+          <ul className="space-y-0">
             {allBrands.map((b) => (
-              <li key={b.href}><Link href={b.href} className="font-body text-body-md text-on-surface hover:text-secondary transition-colors">{b.label}</Link></li>
+              <li key={b.href}><Link href={b.href} className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">{b.label}</Link></li>
             ))}
           </ul>
         </div>

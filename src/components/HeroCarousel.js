@@ -46,7 +46,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
               e.stopPropagation();
               prev();
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/40 text-white opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity backdrop-blur-sm"
             aria-label="Previous image"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 2L4 7l5 5" /></svg>
@@ -56,12 +56,12 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
               e.stopPropagation();
               next();
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/40 text-white opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity backdrop-blur-sm"
             aria-label="Next image"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 2l5 5-5 5" /></svg>
           </button>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center">
             {images.map((_, i) => (
               <button
                 key={i}
@@ -69,9 +69,14 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
                   e.stopPropagation();
                   setCurrent(i);
                 }}
-                className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-white" : "bg-white/40"}`}
+                className="w-6 h-6 flex items-center justify-center"
                 aria-label={`Go to image ${i + 1}`}
-              />
+                aria-current={i === current}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-white" : "bg-white/40"}`}
+                />
+              </button>
             ))}
           </div>
         </>

@@ -64,7 +64,7 @@ export default async function ContactPage() {
               {emails.map((item) => (
                 <div key={item.label}>
                   <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">{item.label}</h3>
-                  <a href={`mailto:${String(item.email).split("?")[0].trim()}`} className="text-body-md text-terracotta underline underline-offset-4 hover:text-primary transition-colors">{item.email}</a>
+                  <a href={`mailto:${String(item.email).split("?")[0].trim()}`} className="inline-flex items-center min-h-[44px] text-body-md text-terracotta underline underline-offset-4 hover:text-primary transition-colors">{item.email}</a>
                 </div>
               ))}
             </div>
