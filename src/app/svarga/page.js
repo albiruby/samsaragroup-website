@@ -25,6 +25,9 @@ export const metadata = {
   alternates: {
     canonical: "/svarga",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/svarga",
+  },
 };
 
 export default async function SvargaPage() {

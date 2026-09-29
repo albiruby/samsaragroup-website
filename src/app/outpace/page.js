@@ -14,6 +14,9 @@ export const metadata = {
   alternates: {
     canonical: "/outpace",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/outpace",
+  },
 };
 
 export const dynamic = "force-dynamic";

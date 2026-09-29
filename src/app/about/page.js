@@ -14,6 +14,9 @@ export const metadata = {
   alternates: {
     canonical: "/about",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/about",
+  },
 };
 
 export default async function AboutPage() {

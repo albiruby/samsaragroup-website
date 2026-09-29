@@ -6,6 +6,9 @@ export const metadata = {
   alternates: {
     canonical: "/menu",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/menu",
+  },
 };
 
 export default function MenuLayout({ children }) {

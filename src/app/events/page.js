@@ -16,6 +16,9 @@ export const metadata = {
   alternates: {
     canonical: "/events",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/events",
+  },
 };
 
 export default async function EventsPage() {

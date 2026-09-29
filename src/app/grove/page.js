@@ -16,6 +16,9 @@ export const metadata = {
   alternates: {
     canonical: "/grove",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/grove",
+  },
 };
 
 export default async function GrovePage() {

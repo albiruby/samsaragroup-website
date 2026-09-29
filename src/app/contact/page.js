@@ -11,6 +11,9 @@ export const metadata = {
   alternates: {
     canonical: "/contact",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/contact",
+  },
 };
 
 export default async function ContactPage() {

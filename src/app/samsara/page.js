@@ -19,8 +19,14 @@ const SAMSARA_LINKS = {
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
 export const metadata = {
-  title: "Samsara \u2014 Samsara Group",
-  description: "Bogor's first listening space. A symphony of melody and taste \u2014 where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
+  title: "Samsara — Samsara Group",
+  description: "Bogor's first listening space. A symphony of melody and taste — where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
+  alternates: {
+    canonical: "/samsara",
+  },
+  openGraph: {
+    url: "https://samsaragroup.co.id/samsara",
+  },
 };
 
 export default async function SamsaraPage() {

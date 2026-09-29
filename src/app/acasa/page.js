@@ -28,6 +28,9 @@ export const metadata = {
   alternates: {
     canonical: "/acasa",
   },
+  openGraph: {
+    url: "https://samsaragroup.co.id/acasa",
+  },
 };
 
 export default async function AcasaPage() {
