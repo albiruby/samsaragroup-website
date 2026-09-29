@@ -72,15 +72,11 @@ export default async function EventsPage() {
         ) : (
           <div className="space-y-8">
             {events.map((event) => {
-              const slug = event.slug?.current;
-              const internalHref = slug ? `/events/${slug}` : null;
-              const href = internalHref || event.link || null;
-              const isExternal = Boolean(href && !internalHref);
+              const href = event.link || null;
+              const isExternal = Boolean(href);
               const Wrapper = href ? Link : "div";
               const wrapperProps = href
-                ? isExternal
-                  ? { href, target: "_blank", rel: "noopener noreferrer" }
-                  : { href }
+                ? { href, target: "_blank", rel: "noopener noreferrer" }
                 : {};
               return (
                 <ScrollReveal key={event._id}>
@@ -117,20 +113,14 @@ export default async function EventsPage() {
                               <span>Entry: {event.entry}</span>
                             )}
                           </div>
-                          <div className="flex flex-wrap gap-3">
-                            {internalHref && (
+                          {isExternal && (
+                            <div className="flex flex-wrap gap-3">
                               <span className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
-                                VIEW DETAILS
+                                VISIT
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                               </span>
-                            )}
-                            {isExternal && (
-                            <span className="inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary">
-                              VISIT
-                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                            </span>
+                            </div>
                           )}
-                          </div>
                         </div>
                       </div>
                     </article>
@@ -140,20 +130,6 @@ export default async function EventsPage() {
             })}
           </div>
         )}
-      </section>
-
-      <section className="bg-primary max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-28">
-        <ScrollReveal>
-          <div className="flex flex-col items-center text-center">
-            <h2 className="mb-8 text-headline-md md:text-headline-lg font-display uppercase leading-tight text-on-primary">
-              NEVER MISS<br />AN EXPERIENCE.
-            </h2>
-            <div className="flex w-full max-w-md flex-col sm:flex-row gap-3">
-              <input type="email" placeholder="your@email.com" className="flex-1 border border-on-primary/30 bg-transparent px-6 py-4 text-body-md text-on-primary placeholder:text-on-primary/40 outline-none focus:border-on-primary" />
-              <button className="whitespace-nowrap bg-on-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-primary transition-colors hover:bg-warm-sand">SUBSCRIBE</button>
-            </div>
-          </div>
-        </ScrollReveal>
       </section>
 
       <Footer />

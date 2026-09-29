@@ -16,19 +16,6 @@ export async function getEvents() {
   }
 }
 
-export async function getEventBySlug(slug) {
-  try {
-    return await client.fetch(
-      `*[_type == "event" && slug.current == $slug][0]{_id, title, slug, category, date, time, location, capacity, entry, description, image, featured, link}`,
-      { slug },
-      revalidate
-    );
-  } catch (e) {
-    console.error("getEventBySlug failed:", e.message);
-    return null;
-  }
-}
-
 export async function getWorlds() {
   try {
     return await client.fetch(

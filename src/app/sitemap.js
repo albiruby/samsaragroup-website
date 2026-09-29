@@ -1,5 +1,3 @@
-import { getEvents } from "@/sanity/lib/queries";
-
 const BASE_URL = "https://samsaragroup.co.id";
 
 export default async function sitemap() {
@@ -74,20 +72,5 @@ export default async function sitemap() {
     },
   ];
 
-  let eventUrls = [];
-  try {
-    const events = await getEvents();
-    eventUrls = events
-      .filter((e) => e.slug?.current)
-      .map((e) => ({
-        url: `${BASE_URL}/events/${e.slug.current}`,
-        lastModified,
-        changeFrequency: "weekly",
-        priority: 0.6,
-      }));
-  } catch {
-    eventUrls = [];
-  }
-
-  return [...staticUrls, ...eventUrls];
+  return staticUrls;
 }
