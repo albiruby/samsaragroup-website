@@ -81,7 +81,7 @@ export default function Header() {
           <img src="/White Logo Samsara/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
+        <nav className="hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8">
           <Link
             href="/"
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
@@ -187,7 +187,7 @@ export default function Header() {
 
           <button
             onClick={() => setMenuOpen(true)}
-            className="lg:hidden flex items-center justify-center w-11 h-11 font-label text-label-uppercase transition-colors duration-200 text-white/70 hover:text-white"
+            className="lg:pointer-fine:hidden flex items-center justify-center w-11 h-11 font-label text-label-uppercase transition-colors duration-200 text-white/70 hover:text-white"
             aria-label="Open menu"
             aria-expanded={menuOpen}
           >

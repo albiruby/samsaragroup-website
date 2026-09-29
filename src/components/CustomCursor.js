@@ -69,11 +69,11 @@ export default function CustomCursor() {
     <>
       <div
         ref={cursorRef}
-        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color,background-color] duration-300 hidden lg:block"
+        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color,background-color] duration-300 hidden lg:pointer-fine:block"
       />
       <div
         ref={dotRef}
-        className="custom-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[9999] mix-blend-difference hidden lg:block"
+        className="custom-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[9999] mix-blend-difference hidden lg:pointer-fine:block"
       />
     </>
   );

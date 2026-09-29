@@ -106,7 +106,7 @@ function MenuViewer() {
 
       {/* Thumbnail strip */}
       <div className="w-full max-w-3xl overflow-x-auto scrollbar-none" data-cursor="DRAG">
-        <div className="flex gap-2 justify-center">
+        <div className="flex w-max mx-auto gap-2">
           {Array.from({ length: TOTAL_PAGES }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
