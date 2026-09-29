@@ -19,13 +19,11 @@ export const metadata = {
 export default async function ContactPage() {
   const contact = await getContactInfo();
 
-  const emails = contact?.emails?.length
-    ? contact.emails
-    : [
-        { label: "Private Sanctuary", email: "concierge@samsaragroup.com" },
-        { label: "Curatorial", email: "curatorial@samsaragroup.com" },
-        { label: "Press", email: "press@samsaragroup.com" },
-      ];
+  const whatsapp = [
+    { label: "Samsara", city: "Bogor", display: "0812-8127-1988", phone: "6285281271988" },
+    { label: "Svarga", city: "Sukabumi", display: "0813-2148-132", phone: "628132148132" },
+    { label: "Acasa", city: "Bogor", display: "0811-8888-7828", phone: "6281188887828" },
+  ];
 
   const addresses = (contact?.addresses?.length
     ? contact.addresses
@@ -38,18 +36,6 @@ export default async function ContactPage() {
 
   const hours = contact?.hours || "Mon–Sat: 09:00–18:00 · Sun: By appointment";
 
-  const inquiryTypes = (contact?.inquiryTypes?.length
-    ? contact.inquiryTypes.map((t) => (typeof t === "string" ? { value: t, label: t } : t))
-    : null) || [
-    { value: "reservation", label: "Reservation & Stay" },
-    { value: "dining", label: "Dining" },
-    { value: "music", label: "Music & Listening" },
-    { value: "design", label: "Design & Objects" },
-    { value: "community", label: "Community" },
-    { value: "press", label: "Press" },
-    { value: "partnership", label: "Partnership" },
-  ];
-
   return (
     <>
       <Header />
@@ -60,14 +46,28 @@ export default async function ContactPage() {
         </ScrollReveal>
       </section>
 
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-12">
-        <div className="grid gap-12 lg:grid-cols-2 border-b border-outline-variant pb-16">
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <div className="grid gap-12 lg:grid-cols-2">
           <ScrollReveal>
             <div className="space-y-8">
-              {emails.map((item) => (
-                <div key={item.label}>
-                  <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">{item.label}</h3>
-                  <a href={`mailto:${String(item.email).split("?")[0].trim()}`} className="inline-flex items-center min-h-[44px] text-body-md text-terracotta underline underline-offset-4 hover:text-primary transition-colors">{item.email}</a>
+              {whatsapp.map((item) => (
+                <div key={item.phone}>
+                  <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">
+                    {item.label}
+                    <span className="text-body-sm font-normal normal-case tracking-normal text-on-surface-variant/70"> · {item.city}</span>
+                  </h3>
+                  <a
+                    href={`https://wa.me/${item.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="VIEW"
+                    className="group inline-flex min-h-[44px] items-center gap-3 text-body-md text-terracotta underline underline-offset-4 transition-colors hover:text-primary"
+                  >
+                    {item.display}
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform group-hover:translate-x-1">
+                      <path d="M1 7h12M8 2l5 5-5 5" />
+                    </svg>
+                  </a>
                 </div>
               ))}
             </div>
@@ -93,47 +93,6 @@ export default async function ContactPage() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
-
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <ScrollReveal>
-          <h2 className="mb-10 text-headline-sm font-display uppercase tracking-wide text-on-surface">SEND AN INQUIRY</h2>
-        </ScrollReveal>
-        <ScrollReveal>
-          <form className="space-y-6">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-label-md uppercase tracking-wider text-on-surface-variant">First Name</label>
-                <input type="text" required className="w-full border-b border-outline bg-transparent py-3 text-body-md text-on-surface outline-none transition-colors focus:border-terracotta" />
-              </div>
-              <div>
-                <label className="mb-2 block text-label-md uppercase tracking-wider text-on-surface-variant">Last Name</label>
-                <input type="text" required className="w-full border-b border-outline bg-transparent py-3 text-body-md text-on-surface outline-none transition-colors focus:border-terracotta" />
-              </div>
-            </div>
-            <div>
-              <label className="mb-2 block text-label-md uppercase tracking-wider text-on-surface-variant">Email</label>
-              <input type="email" required className="w-full border-b border-outline bg-transparent py-3 text-body-md text-on-surface outline-none transition-colors focus:border-terracotta" />
-            </div>
-            <div>
-              <label className="mb-2 block text-label-md uppercase tracking-wider text-on-surface-variant">Inquiry Type</label>
-              <select required className="w-full border-b border-outline bg-transparent py-3 text-body-md text-on-surface outline-none transition-colors focus:border-terracotta">
-                <option value="">Select</option>
-                {inquiryTypes.map((type) => (
-                  <option key={type.value} value={type.value}>{type.label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-2 block text-label-md uppercase tracking-wider text-on-surface-variant">Message</label>
-              <textarea rows={5} required className="w-full border-b border-outline bg-transparent py-3 text-body-md text-on-surface outline-none transition-colors focus:border-terracotta resize-none" />
-            </div>
-            <button type="submit" className="mt-4 inline-flex items-center gap-3 bg-primary px-10 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container">
-              SUBMIT
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-            </button>
-          </form>
-        </ScrollReveal>
       </section>
 
       <Footer />

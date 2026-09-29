@@ -56,7 +56,7 @@ function MenuViewer() {
         <button
           onClick={prev}
           disabled={current === 1}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-primary/60 backdrop-blur-sm text-surface disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary/80 transition-colors"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-primary text-on-primary disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary-container transition-colors"
           aria-label="Previous page"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -66,7 +66,7 @@ function MenuViewer() {
         <button
           onClick={next}
           disabled={current === TOTAL_PAGES}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-primary/60 backdrop-blur-sm text-surface disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary/80 transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-primary text-on-primary disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary-container transition-colors"
           aria-label="Next page"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -80,7 +80,7 @@ function MenuViewer() {
         <button
           onClick={prev}
           disabled={current === 1}
-          className="w-10 h-10 flex items-center justify-center border border-outline-variant text-on-surface disabled:opacity-20 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors"
+          className="w-10 h-10 flex items-center justify-center bg-primary text-on-primary disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary-container transition-colors"
           aria-label="Previous page"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -95,7 +95,7 @@ function MenuViewer() {
         <button
           onClick={next}
           disabled={current === TOTAL_PAGES}
-          className="w-10 h-10 flex items-center justify-center border border-outline-variant text-on-surface disabled:opacity-20 disabled:cursor-not-allowed hover:bg-surface-container-low transition-colors"
+          className="w-10 h-10 flex items-center justify-center bg-primary text-on-primary disabled:opacity-20 disabled:cursor-not-allowed hover:bg-primary-container transition-colors"
           aria-label="Next page"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -149,7 +149,7 @@ export default function MenuPage() {
             href={DRIVE_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 border border-outline px-6 py-3 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-surface shrink-0"
+            className="inline-flex items-center gap-3 bg-primary px-6 py-3 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container shrink-0"
           >
             DOWNLOAD PDF
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">

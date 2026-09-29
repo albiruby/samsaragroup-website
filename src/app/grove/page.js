@@ -7,6 +7,7 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import InstagramLink from "@/components/InstagramLink";
 
 export const dynamic = "force-dynamic";
 
@@ -105,6 +106,9 @@ export default async function GrovePage() {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <InstagramLink href="/brands" external={false} className="shrink-0" />
               </div>
             </div>
           </ScrollReveal>

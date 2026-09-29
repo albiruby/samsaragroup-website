@@ -46,7 +46,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
               e.stopPropagation();
               prev();
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/40 text-white opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-primary text-on-primary opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-colors"
             aria-label="Previous image"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 2L4 7l5 5" /></svg>
@@ -56,7 +56,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
               e.stopPropagation();
               next();
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/40 text-white opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-primary text-on-primary opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-colors"
             aria-label="Next image"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 2l5 5-5 5" /></svg>

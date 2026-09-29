@@ -25,7 +25,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 border border-on-surface/20 px-10 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-on-surface hover:text-surface"
+            className="inline-flex items-center gap-3 bg-primary px-10 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
           >
             CONTACT CONCIERGE
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">

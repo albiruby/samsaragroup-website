@@ -6,7 +6,6 @@ import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TextClipReveal from "@/components/TextClipReveal";
-import MagneticButton from "@/components/MagneticButton";
 import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
 import ScrollMarquee from "@/components/ScrollMarquee";
@@ -83,7 +82,7 @@ export default function HomePage({ marqueeImages }) {
                 </p>
                 <Link
                   href="/about"
-                  className="mt-6 inline-flex items-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                  className="mt-6 inline-flex items-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                 >
                   MORE ABOUT US
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>

@@ -7,6 +7,7 @@ import LeafletMap from "@/components/LeafletMap";
 import Link from "next/link";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import InstagramLink from "@/components/InstagramLink";
 
 const SAMSARA_LINKS = {
   menu: "/menu",
@@ -14,6 +15,7 @@ const SAMSARA_LINKS = {
   location: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
   career: "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
   maps: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
+  instagram: "https://www.instagram.com/samsara.bogor",
 };
 
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
@@ -109,7 +111,7 @@ export default async function SamsaraPage() {
                   </a>
                   <Link
                     href={SAMSARA_LINKS.menu}
-                    className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                    className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
                     VIEW MENU
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
@@ -147,7 +149,7 @@ export default async function SamsaraPage() {
                     href={SAMSARA_LINKS.location}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-3 border border-outline px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-low"
+                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
                     LOCATION
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
@@ -156,11 +158,12 @@ export default async function SamsaraPage() {
                     href={SAMSARA_LINKS.career}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-3 border border-outline px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-low"
+                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
                     CAREER
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
+                  <InstagramLink href={SAMSARA_LINKS.instagram} full />
                 </div>
               </div>
             </ScrollReveal>

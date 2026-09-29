@@ -7,6 +7,7 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import InstagramLink from "@/components/InstagramLink";
 
 export const metadata = {
   title: "Outpace — Samsara Group",
@@ -126,7 +127,7 @@ export default async function OutpacePage() {
                   Run first, coffee after. Outpace is a pit stop for runners — fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
                 </p>
               </div>
-              <div className="border-t border-outline-variant pt-8">
+                <div className="border-t border-outline-variant pt-8">
                 <TextClipReveal>
                   <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
                 </TextClipReveal>
@@ -138,6 +139,9 @@ export default async function OutpacePage() {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <InstagramLink href="/brands" external={false} className="shrink-0" />
               </div>
             </div>
           </ScrollReveal>

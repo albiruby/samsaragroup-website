@@ -4,19 +4,20 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
-import MagneticButton from "@/components/MagneticButton";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import InstagramLink from "@/components/InstagramLink";
 
 export const dynamic = "force-dynamic";
 
 const SVARGA_COORDS = { lat: -6.8500, lng: 106.9333 };
 const SVARGA_LINK = "https://maps.app.goo.gl/rn8Mfgk7NXJG79Xp8";
 const SVARGA_LINKS = "https://linktr.ee/svargabysamsara";
+const SVARGA_INSTAGRAM = "https://www.instagram.com/svarga.samsara";
 const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=phone_number&app_absent=0";
 
 export const metadata = {
@@ -126,7 +127,7 @@ export default async function SvargaPage() {
                     <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </ImageParallax>
-                <MagneticButton
+                <a
                   href={SVARGA_RESERVE}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -134,7 +135,7 @@ export default async function SvargaPage() {
                 >
                   RESERVE
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </MagneticButton>
+                </a>
               </div>
             </ScrollReveal>
           </div>
@@ -168,24 +169,25 @@ export default async function SvargaPage() {
               <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <MagneticButton
+              <a
                 href={SVARGA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
               >
                 OPEN IN MAPS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </MagneticButton>
-              <MagneticButton
+              </a>
+              <a
                 href={SVARGA_LINKS}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 border border-on-surface/20 px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-primary hover:text-on-primary"
+                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
               >
                 LINKS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </MagneticButton>
+              </a>
+              <InstagramLink href={SVARGA_INSTAGRAM} />
             </div>
           </div>
         </ScrollReveal>
