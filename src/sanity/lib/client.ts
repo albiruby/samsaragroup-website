@@ -1,4 +1,4 @@
-import { createClient } from "next-sanity";
+import { createClient } from "@sanity/client";
 
 // WARNING: This client is used in both server and client components.
 // NEVER add a Sanity API token here — it would be exposed to every browser.
