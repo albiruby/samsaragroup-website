@@ -28,7 +28,6 @@ const PAGES = [
   { route: "/locations/jakarta", name: "22-locations-jakarta" },
   { route: "/locations/ubud", name: "23-locations-ubud" },
   { route: "/locations/canggu", name: "24-locations-canggu" },
-  { route: "/menu", name: "25-menu" },
 ];
 
 (async () => {

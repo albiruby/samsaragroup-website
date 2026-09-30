@@ -25,6 +25,7 @@ const preloadMap = {
     "/ambiencesamsara/DSC08635.webp",
     "/ambiencesamsara/DSC09003.webp",
     "/ambiencesamsara/DSC09354.webp",
+    "/menusamsara/0001.webp",
   ],
   "/svarga": [
     "/assetsvarga/Svarga logo black.webp",
@@ -56,10 +57,6 @@ const preloadMap = {
   ],
   "/events": [
     "/ambiencesamsara/DSC09003.webp",
-  ],
-  "/menu": [
-    "/menusamsara/0001.webp",
-    "/menusamsara/0002.webp",
   ],
 };
 

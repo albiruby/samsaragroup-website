@@ -11,7 +11,6 @@ const PAGES = [
   { route: "/events", name: "mobile-03-events" },
   { route: "/contact", name: "mobile-06-contact" },
   { route: "/samsara", name: "mobile-09-samsara" },
-  { route: "/menu", name: "mobile-25-menu" },
 ];
 
 (async () => {

@@ -4,14 +4,15 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
-import Link from "next/link";
+import TextClipReveal from "@/components/TextClipReveal";
+import MenuSection from "@/components/MenuSection";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import InstagramLink from "@/components/InstagramLink";
 
 const SAMSARA_LINKS = {
-  menu: "/menu",
   reservation: "https://wa.me/6285281271988",
+  menu: "https://drive.google.com/file/d/1inaLAAXyjMp9XQFk59lVd5VZtc0d75ST/view",
   location: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
   career: "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
   maps: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
@@ -109,13 +110,15 @@ export default async function SamsaraPage() {
                     RESERVATION
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
-                  <Link
+                  <a
                     href={SAMSARA_LINKS.menu}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
-                    VIEW MENU
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </Link>
+                    MENU
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 1v8M2.5 5.5L6 9l3.5-3.5M1 11h10" /></svg>
+                  </a>
                 </div>
 
                 <div className="border-t border-outline-variant pt-8">
@@ -169,6 +172,15 @@ export default async function SamsaraPage() {
             </ScrollReveal>
           </div>
         </div>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <ScrollReveal>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
+          </TextClipReveal>
+          <MenuSection />
+        </ScrollReveal>
       </section>
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
