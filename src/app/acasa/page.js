@@ -210,8 +210,10 @@ export default async function AcasaPage() {
                 LINKS
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
               </a>
-              <InstagramLink href={ACASA_INSTAGRAM} />
             </div>
+          </div>
+          <div className="mt-3">
+            <InstagramLink href={ACASA_INSTAGRAM} full />
           </div>
         </ScrollReveal>
       </section>

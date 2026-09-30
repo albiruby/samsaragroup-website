@@ -141,7 +141,7 @@ export default async function OutpacePage() {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-3">
-                <InstagramLink href="/brands" external={false} className="shrink-0" />
+                <InstagramLink href="/brands" external={false} full />
               </div>
             </div>
           </ScrollReveal>
