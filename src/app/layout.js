@@ -1,6 +1,8 @@
 import "./globals.css";
 import { headers } from "next/headers";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { BrandsProvider } from "@/components/BrandsProvider.jsx";
+import { getBrandNav } from "@/sanity/lib/brands";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import PathnamePreloader from "@/components/PathnamePreloader";
 import BackToTop from "@/components/BackToTop";
@@ -50,6 +52,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const nonce = (await headers()).get("x-nonce");
+  const brandNav = await getBrandNav();
 
   return (
     <html lang="en">
@@ -85,6 +88,7 @@ export default async function RootLayout({ children }) {
         <CustomCursor />
         <ScrollProgressBar />
         <ThemeProvider>
+          <BrandsProvider value={brandNav}>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:text-sm"
@@ -96,6 +100,7 @@ export default async function RootLayout({ children }) {
               {children}
             </main>
           </PageTransition>
+          </BrandsProvider>
         </ThemeProvider>
         <BackToTop />
         <Analytics />

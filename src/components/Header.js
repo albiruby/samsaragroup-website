@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
-import { brandCategories } from "../data/brandCategories";
+import { useBrandNav } from "./BrandsProvider.jsx";
 
 const brandImages = {
   "/samsara": [
@@ -36,6 +36,7 @@ function preloadImages(srcs) {
 }
 
 export default function Header() {
+  const { categories: brandCategories } = useBrandNav();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);

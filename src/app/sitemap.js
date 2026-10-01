@@ -1,7 +1,24 @@
+import { getWorlds } from "@/sanity/lib/queries";
+
 const BASE_URL = "https://samsaragroup.co.id";
 
 export default async function sitemap() {
   const lastModified = new Date();
+
+  let brandUrls = [];
+  try {
+    const worlds = await getWorlds();
+    brandUrls = worlds
+      .filter((w) => w.status === "active" && w.featured !== false && w.slug?.current)
+      .map((w, i) => ({
+        url: `${BASE_URL}/${w.slug.current}`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: i < 3 ? 0.8 : 0.7,
+      }));
+  } catch {
+    brandUrls = [];
+  }
 
   const staticUrls = [
     {
@@ -22,36 +39,7 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 0.9,
     },
-    {
-      url: `${BASE_URL}/samsara`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/svarga`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/acasa`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/outpace`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/grove`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    ...brandUrls,
     {
       url: `${BASE_URL}/events`,
       lastModified,

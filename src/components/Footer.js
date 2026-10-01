@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import ScrollMarquee from "./ScrollMarquee";
-import { allBrands } from "../data/brandCategories";
+import { useBrandNav } from "./BrandsProvider.jsx";
 
 export default function Footer() {
+  const { all: allBrands } = useBrandNav();
+
   const logoItem = (b) => (
     <div key={b.href} className="logo-marquee-item">
       {b.logo ? (

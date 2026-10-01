@@ -38,7 +38,7 @@ const WORLD_PROJECTION = `{
     mapLng,
     mapZoom
   },
-  category,
+  categories,
   speciality,
   logo,
   order,

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { brandCategories } from "../data/brandCategories";
+import { useBrandNav } from "./BrandsProvider.jsx";
 
 const mobileLinks = [
   { label: "HOME", href: "/" },
@@ -12,6 +12,7 @@ const mobileLinks = [
 ];
 
 export default function MobileMenu({ isOpen, onClose }) {
+  const { categories: brandCategories } = useBrandNav();
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
   const [brandsOpen, setBrandsOpen] = useState(false);
