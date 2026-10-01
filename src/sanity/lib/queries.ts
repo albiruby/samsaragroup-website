@@ -33,7 +33,7 @@ const WORLD_PROJECTION = `{
     body,
     "specifications": specifications[]{ _key, label, value },
     "features": features[]{ _key, title, copy },
-    "menuPanels": menuPanels[]{ _key, tabLabel, layout, downloadUrl },
+    "menuPanels": menuPanels[]{ _key, tabLabel, layout, downloadUrl, "src": image.asset->url, "width": image.asset->metadata.dimensions.width, "height": image.asset->metadata.dimensions.height },
     mapLat,
     mapLng,
     mapZoom

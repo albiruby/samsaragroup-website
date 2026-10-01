@@ -51,3 +51,7 @@ _archives/
 
 # local verification artefacts
 .snapshots/
+
+# local verification artefacts
+.verify/
+
