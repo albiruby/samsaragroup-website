@@ -48,3 +48,6 @@ _archives/
 
 # sanity studio generated runtime
 .sanity/
+
+# local verification artefacts
+.snapshots/
