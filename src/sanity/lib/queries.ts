@@ -46,8 +46,15 @@ const WORLD_PROJECTION = `{
   featured,
   address,
   instagramUrl,
+  theme,
+  heroEyebrow,
+  heroTitle,
+  heroIntro,
+  menuHeading,
   seoTitle,
   seoDescription,
+  socialImage,
+  noIndex,
   "ctas": ctas[]{ _key, _type, kind, label, url },
   "hours": hours[]{ _key, day, value }
 }`;
