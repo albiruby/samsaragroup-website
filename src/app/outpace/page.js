@@ -31,7 +31,7 @@ export default async function OutpacePage() {
     world = null;
   }
 
-  const specs = [
+  const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Cafe for runners"],
     ["Facilities", "Shower · Coffee · Lockers"],
     ["Community", "Morning runs, group sessions"],

@@ -31,7 +31,7 @@ export default async function GrovePage() {
     world = null;
   }
 
-  const specs = [
+  const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Lighter cafe than Samsara"],
     ["Vibe", "Casual · Relaxed · Everyday"],
     ["Menu", "Coffee, bites, light meals"],
