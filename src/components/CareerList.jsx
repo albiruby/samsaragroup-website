@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const TYPE_LABELS = {
@@ -30,7 +29,13 @@ const BRAND_LABELS = {
   group: "Samsara Group",
 };
 
-export default function CareerList({ jobs, applyUrl: groupApplyUrl, unavailable }) {
+export default function CareerList({
+  jobs,
+  applyUrl: groupApplyUrl,
+  unavailable,
+  emptyMessage,
+  applyNote,
+}) {
   const [filter, setFilter] = useState("all");
 
   const departments = useMemo(() => {
@@ -79,9 +84,9 @@ export default function CareerList({ jobs, applyUrl: groupApplyUrl, unavailable 
         </p>
       ) : null}
 
-      {!unavailable && visible.length === 0 ? (
+      {!unavailable && visible.length === 0 && emptyMessage ? (
         <p className="border border-outline-variant p-6 text-body-md text-on-surface-variant">
-          Tidak ada lowongan terbuka di departemen ini saat ini.
+          {emptyMessage}
         </p>
       ) : null}
 
@@ -175,13 +180,9 @@ export default function CareerList({ jobs, applyUrl: groupApplyUrl, unavailable 
         })}
       </div>
 
-      <p className="pt-10 text-body-sm text-on-surface-variant">
-        Don&apos;t see the right role?{" "}
-        <Link href="/contact" className="underline transition-colors hover:text-terracotta">
-          Send us a note
-        </Link>{" "}
-        and we&apos;ll keep you in mind.
-      </p>
+      {applyNote ? (
+        <p className="pt-10 text-body-sm text-on-surface-variant">{applyNote}</p>
+      ) : null}
     </>
   );
 }

@@ -168,6 +168,37 @@ export async function getCareers(): Promise<CareerList> {
   }
 }
 
+export type CareerPageDoc = {
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  theme?: string;
+  showBrandStrip?: boolean;
+  positionsHeading?: string;
+  emptyMessage?: string;
+  applyUrl?: string;
+  applyNote?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export async function getCareerPage(): Promise<CareerPageDoc | null> {
+  try {
+    return await client.fetch(
+      `*[_type == "careerPage"][0] {
+        eyebrow, title, intro, theme, showBrandStrip,
+        positionsHeading, emptyMessage, applyUrl, applyNote,
+        seoTitle, seoDescription
+      }`,
+      {},
+      revalidate
+    );
+  } catch (e) {
+    console.error("getCareerPage failed:", e.message);
+    return null;
+  }
+}
+
 export async function getContactInfo() {
   try {
     return await client.fetch(
