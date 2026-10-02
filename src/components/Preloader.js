@@ -1,32 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+
+const STORAGE_KEY = "samsara-preloaded";
+
+const subscribeToNothing = () => () => {};
+
+function hasPreloaded() {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY) !== null;
+  } catch {
+    return true;
+  }
+}
+
+function rememberPreloaded() {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, "1");
+  } catch {
+    return;
+  }
+}
 
 export default function Preloader() {
+  const preloaded = useSyncExternalStore(
+    subscribeToNothing,
+    hasPreloaded,
+    () => true
+  );
+
   const [hidden, setHidden] = useState(false);
   const [removed, setRemoved] = useState(false);
-  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("samsara-preloaded")) {
-      setRemoved(true);
-      return;
-    }
-    setShow(true);
+    if (preloaded || removed) return;
+
     const hideTimer = setTimeout(() => setHidden(true), 1600);
     const removeTimer = setTimeout(() => {
+      rememberPreloaded();
       setRemoved(true);
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("samsara-preloaded", "1");
-      }
     }, 2200);
+
     return () => {
       clearTimeout(hideTimer);
       clearTimeout(removeTimer);
     };
-  }, []);
+  }, [preloaded, removed]);
 
-  if (removed || !show) return null;
+  if (preloaded || removed) return null;
 
   return (
     <div

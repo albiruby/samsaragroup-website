@@ -45,13 +45,17 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setBrandsOpen(false);
+  }
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => { setBrandsOpen(false); }, [pathname]);
 
   useEffect(() => {
     if (!brandsOpen) return;
