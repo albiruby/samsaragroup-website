@@ -14,7 +14,6 @@ const SAMSARA_LINKS = {
   reservation: "https://wa.me/6285281271988",
   menu: "https://drive.google.com/file/d/1inaLAAXyjMp9XQFk59lVd5VZtc0d75ST/view",
   location: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
-  career: "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
   maps: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
   instagram: "https://www.instagram.com/samsara.bogor",
 };
@@ -190,15 +189,6 @@ export default async function SamsaraPage() {
                     className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                   >
                     LOCATION
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </a>
-                  <a
-                    href={cta(world, "career", SAMSARA_LINKS.career)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                  >
-                    CAREER
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
                   <InstagramLink href={world?.instagramUrl || SAMSARA_LINKS.instagram} full />
