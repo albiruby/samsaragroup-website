@@ -171,17 +171,17 @@ export default function Header() {
           </Link>
 
           <Link
-            href="/about"
-            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
-          >
-            ABOUT
-          </Link>
-
-          <Link
             href="/career"
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
             CAREER
+          </Link>
+
+          <Link
+            href="/about"
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+          >
+            ABOUT
           </Link>
         </nav>
 
