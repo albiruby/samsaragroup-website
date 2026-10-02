@@ -202,7 +202,7 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
 export async function getContactInfo() {
   try {
     return await client.fetch(
-      `*[_type == "contactInfo"][0] { _id, emails, addresses, hours, inquiryTypes }`,
+      `*[_type == "contactInfo"][0] { _id, whatsapp[]{label, city, display, phone}, addresses[]{label, address}, hours }`,
       {},
       revalidate
     );

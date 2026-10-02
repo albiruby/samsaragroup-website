@@ -16,23 +16,28 @@ export const metadata = {
   },
 };
 
+const WHATSAPP_FALLBACK = [
+  { label: "Samsara", city: "Bogor", display: "0812-8127-1988", phone: "6285281271988" },
+  { label: "Svarga", city: "Sukabumi", display: "0813-2148-132", phone: "628132148132" },
+  { label: "Acasa", city: "Bogor", display: "0811-8888-7828", phone: "6281188887828" },
+];
+
+const ADDRESSES_FALLBACK = [
+  { name: "Samsara — Bogor", address: "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129" },
+  { name: "Svarga — Sukabumi", address: "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat" },
+  { name: "Acasa — Ciawi, Bogor", address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720" },
+];
+
 export default async function ContactPage() {
   const contact = await getContactInfo();
 
-  const whatsapp = [
-    { label: "Samsara", city: "Bogor", display: "0812-8127-1988", phone: "6285281271988" },
-    { label: "Svarga", city: "Sukabumi", display: "0813-2148-132", phone: "628132148132" },
-    { label: "Acasa", city: "Bogor", display: "0811-8888-7828", phone: "6281188887828" },
-  ];
-
-  const addresses = (contact?.addresses?.length
-    ? contact.addresses
-    : [
-        { name: "Samsara — Bogor", address: "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129" },
-        { name: "Svarga — Sukabumi", address: "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat" },
-        { name: "Acasa — Ciawi, Bogor", address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720" },
-      ]
+  const cmsWhatsapp = (contact?.whatsapp ?? []).filter(
+    (w) => w?.label && w?.display && w?.phone
   );
+  const whatsapp = cmsWhatsapp.length ? cmsWhatsapp : WHATSAPP_FALLBACK;
+
+  const cmsAddresses = (contact?.addresses ?? []).filter((a) => a?.address);
+  const addresses = cmsAddresses.length ? cmsAddresses : ADDRESSES_FALLBACK;
 
   const hours = contact?.hours || "Mon–Sat: 09:00–18:00 · Sun: By appointment";
 
