@@ -8,6 +8,7 @@ const mobileLinks = [
   { label: "HOME", href: "/" },
   { label: "EVENTS", href: "/events" },
   { label: "ABOUT", href: "/about" },
+  { label: "CAREER", href: "/career" },
   { label: "CONTACT", href: "/contact" },
 ];
 

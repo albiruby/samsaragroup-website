@@ -38,6 +38,12 @@ export default async function sitemap() {
     },
     ...brandUrls,
     {
+      url: `${BASE_URL}/career`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/events`,
       lastModified,
       changeFrequency: "weekly",

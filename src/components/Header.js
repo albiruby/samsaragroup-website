@@ -176,6 +176,13 @@ export default function Header() {
           >
             ABOUT
           </Link>
+
+          <Link
+            href="/career"
+            className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
+          >
+            CAREER
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">

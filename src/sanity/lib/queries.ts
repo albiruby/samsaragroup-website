@@ -127,6 +127,47 @@ export async function getWorldBySlug(slug: string) {
   }
 }
 
+export type Career = {
+  _id: string;
+  title?: string;
+  slug?: { current?: string } | string;
+  department?: string;
+  brand?: string;
+  location?: string;
+  employmentType?: string;
+  summary?: string;
+  description?: string;
+  requirements?: { _key?: string; text?: string }[] | null;
+  applyUrl?: string;
+  isUrgent?: boolean;
+  postedAt?: string;
+};
+
+export type CareerList = {
+  jobs: Career[];
+  /** True when the CMS could not be reached, so the page can stay honest about it. */
+  unavailable: boolean;
+};
+
+export async function getCareers(): Promise<CareerList> {
+  try {
+    const docs = await client.fetch(
+      `*[_type == "career" && status == "active"] | order(order asc, title asc) {
+        _id, title, slug, department, brand, location, employmentType,
+        summary, description,
+        "requirements": requirements[]{ _key, text },
+        applyUrl, isUrgent, postedAt
+      }`,
+      {},
+      revalidate
+    );
+    return { jobs: (docs as Career[]).filter((c) => c.title && c.slug), unavailable: false };
+  } catch (e) {
+    console.error("getCareers failed:", e.message);
+    return { jobs: [], unavailable: true };
+  }
+}
+
 export async function getContactInfo() {
   try {
     return await client.fetch(

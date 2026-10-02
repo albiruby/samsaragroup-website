@@ -38,6 +38,7 @@ export default function Footer() {
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">EXPLORE</p>
           <ul className="space-y-0">
             <li><Link href="/about" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
+            <li><Link href="/career" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">Career</Link></li>
           </ul>
         </div>
 
