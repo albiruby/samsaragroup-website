@@ -9,16 +9,36 @@ import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import InstagramLink from "@/components/InstagramLink";
 
-export const metadata = {
-  title: "Outpace — Samsara Group",
-  description: "A running cafe. Coffee, shower, and community for runners.",
-  alternates: {
-    canonical: "/outpace",
-  },
-  openGraph: {
-    url: "https://samsaragroup.co.id/outpace",
-  },
-};
+/**
+ * Served from the CMS so an editor can change the title and description without a
+ * deploy. The literals below stay as the fallback and match what Sanity currently
+ * holds, so switching to this function does not alter the served metadata.
+ */
+export async function generateMetadata() {
+  let seo = {};
+  try {
+    const world = (await getWorlds()).find((w) => w.slug?.current === "outpace");
+    seo = {
+      title: world?.seoTitle,
+      description: world?.seoDescription,
+      image: world?.socialImage,
+      noIndex: world?.noIndex === true,
+    };
+  } catch {
+    seo = {};
+  }
+
+  const og = { url: "https://samsaragroup.co.id/outpace" };
+  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+
+  return {
+    title: seo.title || "Outpace — Samsara Group",
+    description: seo.description || "A running cafe. Coffee, shower, and community for runners.",
+    alternates: { canonical: "/outpace" },
+    openGraph: og,
+    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export const dynamic = "force-dynamic";
 

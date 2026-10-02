@@ -3,9 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
-import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import { LEGACY_CARD_FALLBACK } from "@/sanity/lib/brands";
+import { getBrandCards } from "@/sanity/lib/brands";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const dynamic = "force-dynamic";
@@ -22,34 +21,12 @@ export const metadata = {
 };
 
 /**
- * Card art for the five established brands. The CMS `logo` is the mark shown on the
- * brand page header, not the one these cards use — the cards need the white mark with
- * `brightness-0 invert`, so the local paths stay authoritative until equivalent
- * white-on-transparent assets are uploaded.
+ * Card art for the established brands stays in `brands.ts` — the CMS `logo` is the
+ * mark shown on the brand page header, not the one these cards use, so the local
+ * paths remain authoritative until white-on-transparent assets are uploaded.
  */
-const CARD_LOGO = {
-  samsara: "/White Logo Samsara/whitefullsamping.png",
-  svarga: "/assetsvarga/Svarga logo black.webp",
-  acasa: "/assetacasa/Main Logo3.webp",
-};
-
 export default async function BrandsPage() {
-  const worlds = await getWorlds();
-
-  const brands = worlds
-    .filter((w) => w.status === "active" && w.featured !== false)
-    .map((w) => {
-      const slug = w.slug?.current ?? "";
-      const legacyLogo = CARD_LOGO[slug];
-      return {
-        name: (w.name || slug).toUpperCase(),
-        tagline: w.tagline || "",
-        href: `/${slug}`,
-        fallback: LEGACY_CARD_FALLBACK[slug] ?? null,
-        logo: legacyLogo ?? (w.logo ? urlFor(w.logo).url() : null),
-        image: w.image || null,
-      };
-    });
+  const brands = await getBrandCards();
 
   return (
     <>

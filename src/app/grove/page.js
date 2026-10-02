@@ -11,16 +11,36 @@ import InstagramLink from "@/components/InstagramLink";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Grove — Samsara Group",
-  description: "The lighter cafe. Casual, relaxed, and always good vibes.",
-  alternates: {
-    canonical: "/grove",
-  },
-  openGraph: {
-    url: "https://samsaragroup.co.id/grove",
-  },
-};
+/**
+ * Served from the CMS so an editor can change the title and description without a
+ * deploy. The literals below stay as the fallback and match what Sanity currently
+ * holds, so switching to this function does not alter the served metadata.
+ */
+export async function generateMetadata() {
+  let seo = {};
+  try {
+    const world = (await getWorlds()).find((w) => w.slug?.current === "grove");
+    seo = {
+      title: world?.seoTitle,
+      description: world?.seoDescription,
+      image: world?.socialImage,
+      noIndex: world?.noIndex === true,
+    };
+  } catch {
+    seo = {};
+  }
+
+  const og = { url: "https://samsaragroup.co.id/grove" };
+  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+
+  return {
+    title: seo.title || "Grove — Samsara Group",
+    description: seo.description || "The lighter cafe. Casual, relaxed, and always good vibes.",
+    alternates: { canonical: "/grove" },
+    openGraph: og,
+    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export default async function GrovePage() {
   let world = null;

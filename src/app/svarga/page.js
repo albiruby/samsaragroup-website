@@ -19,17 +19,42 @@ const SVARGA_LINK = "https://maps.app.goo.gl/rn8Mfgk7NXJG79Xp8";
 const SVARGA_LINKS = "https://linktr.ee/svargabysamsara";
 const SVARGA_INSTAGRAM = "https://www.instagram.com/svarga.samsara";
 const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=phone_number&app_absent=0";
+const SVARGA_ADDRESS = "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat";
 
-export const metadata = {
-  title: "Svarga — Samsara Group",
-  description: "Cerita rasa sudah dimulai. Svarga terbuka untukmu. Javanese heritage restaurant with pendopo, prasmanan, and skydeck in the highlands of Sukabumi.",
-  alternates: {
-    canonical: "/svarga",
-  },
-  openGraph: {
-    url: "https://samsaragroup.co.id/svarga",
-  },
-};
+function cta(world, kind, fallback) {
+  return world?.ctas?.find((c) => c.kind === kind)?.url || fallback;
+}
+
+/**
+ * Served from the CMS so an editor can change the title and description without a
+ * deploy. The literals below stay as the fallback and match what Sanity currently
+ * holds, so switching to this function does not alter the served metadata.
+ */
+export async function generateMetadata() {
+  let seo = {};
+  try {
+    const world = (await getWorlds()).find((w) => w.slug?.current === "svarga");
+    seo = {
+      title: world?.seoTitle,
+      description: world?.seoDescription,
+      image: world?.socialImage,
+      noIndex: world?.noIndex === true,
+    };
+  } catch {
+    seo = {};
+  }
+
+  const og = { url: "https://samsaragroup.co.id/svarga" };
+  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+
+  return {
+    title: seo.title || "Svarga — Samsara Group",
+    description: seo.description || "Cerita rasa sudah dimulai. Svarga terbuka untukmu. Javanese heritage restaurant with pendopo, prasmanan, and skydeck in the highlands of Sukabumi.",
+    alternates: { canonical: "/svarga" },
+    openGraph: og,
+    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export default async function SvargaPage() {
   const worlds = await getWorlds();
@@ -128,7 +153,7 @@ export default async function SvargaPage() {
                   )}
                 </ImageParallax>
                 <a
-                  href={SVARGA_RESERVE}
+                  href={cta(world, "reservation", SVARGA_RESERVE)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -165,12 +190,12 @@ export default async function SvargaPage() {
             <div>
               <p className="text-body-md text-on-surface font-medium">Svarga by Samsara</p>
               <p className="text-body-sm text-on-surface-variant">Rasa, alam, dan tradisi berpadu jadi satu.</p>
-              <p className="text-body-sm text-on-surface-variant">Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat</p>
+              <p className="text-body-sm text-on-surface-variant">{world?.address || SVARGA_ADDRESS}</p>
               <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href={SVARGA_LINK}
+                href={cta(world, "location", SVARGA_LINK)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -179,7 +204,7 @@ export default async function SvargaPage() {
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
               </a>
               <a
-                href={SVARGA_LINKS}
+                href={cta(world, "links", SVARGA_LINKS)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -190,7 +215,7 @@ export default async function SvargaPage() {
             </div>
           </div>
           <div className="mt-3">
-            <InstagramLink href={SVARGA_INSTAGRAM} full />
+            <InstagramLink href={world?.instagramUrl || SVARGA_INSTAGRAM} full />
           </div>
         </ScrollReveal>
       </section>

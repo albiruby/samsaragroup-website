@@ -41,6 +41,17 @@ const LEGACY_LOGO: Record<string, string> = {
   acasa: "/assetacasa/logoacasahitam.webp",
 };
 
+/**
+ * Separate marks for the /brands cards. The CMS `logo` is the mark used on the
+ * brand page header; the cards need the white variant so `brightness-0 invert`
+ * keeps it legible on photography.
+ */
+const CARD_LOGO: Record<string, string> = {
+  samsara: "/White Logo Samsara/whitefullsamping.png",
+  svarga: "/assetsvarga/Svarga logo black.webp",
+  acasa: "/assetacasa/Main Logo3.webp",
+};
+
 export const LEGACY_CARD_FALLBACK: Record<string, string> = {
   samsara: "/ambiencesamsara/DSC08177.webp",
   svarga: "/assetsvarga/ADR (9 of 15).webp",
@@ -102,6 +113,91 @@ function fallbackNav(): BrandNav {
     worlds.flatMap((c) => c.brands).find((b) => b.slug === slug)
   );
   return { categories: worlds, all };
+}
+
+/**
+ * The /brands cards for the established brands, mirroring what the page rendered
+ * before it read from Sanity. Used only when the CMS is unreachable, so a Sanity
+ * outage cannot leave the page with zero cards.
+ */
+const SEED_CARDS = [
+  {
+    slug: "samsara",
+    name: "SAMSARA",
+    tagline: "THE SANCTUARY",
+    href: "/samsara",
+    fallback: "/ambiencesamsara/DSC08177.webp",
+    logo: "/White Logo Samsara/whitefullsamping.png",
+    image: null,
+  },
+  {
+    slug: "svarga",
+    name: "SVARGA",
+    tagline: "THE HIGHLANDS",
+    href: "/svarga",
+    fallback: "/assetsvarga/ADR (9 of 15).webp",
+    logo: "/assetsvarga/Svarga logo black.webp",
+    image: null,
+  },
+  {
+    slug: "acasa",
+    name: "ACASA",
+    tagline: "LEISURE RITUALS",
+    href: "/acasa",
+    fallback: "/assetacasa/ADR-06539.webp",
+    logo: "/assetacasa/Main Logo3.webp",
+    image: null,
+  },
+  {
+    slug: "outpace",
+    name: "OUTPACE",
+    tagline: "THE RUNNING CAFE",
+    href: "/outpace",
+    fallback: "/ambiencesamsara/DSC09014.webp",
+    logo: null,
+    image: null,
+  },
+  {
+    slug: "grove",
+    name: "GROVE",
+    tagline: "THE LIGHTER CAFE",
+    href: "/grove",
+    fallback: "/ambiencesamsara/DSC09048.webp",
+    logo: null,
+    image: null,
+  },
+];
+
+export type BrandCard = (typeof SEED_CARDS)[number] & { image: unknown };
+
+function toCard(world: NavWorld): BrandCard {
+  const slug = slugOf(world);
+  const seed = SEED_CARDS.find((c) => c.slug === slug);
+  const legacyLogo = CARD_LOGO[slug];
+  return {
+    slug,
+    name: (world.name || slug).toUpperCase(),
+    tagline: world.tagline || "",
+    href: `/${slug}`,
+    fallback: seed?.fallback ?? null,
+    logo: legacyLogo ?? (world.logo ? urlFor(world.logo as never).url() : null),
+    image: world.image ?? null,
+  };
+}
+
+/**
+ * Cards for /brands. Sanity is the source of truth, but the seeded list takes over
+ * when the CMS cannot be reached so the page never renders empty.
+ */
+export async function getBrandCards(): Promise<BrandCard[]> {
+  try {
+    const worlds = (await getWorlds()) as NavWorld[];
+    const cards = worlds.filter(isPublic).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)).map(toCard);
+    if (cards.length) return cards;
+  } catch (e) {
+    console.error("getBrandCards falling back to seed:", (e as Error).message);
+  }
+  return SEED_CARDS;
 }
 
 /**

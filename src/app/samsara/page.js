@@ -19,18 +19,45 @@ const SAMSARA_LINKS = {
   instagram: "https://www.instagram.com/samsara.bogor",
 };
 
+const ADDRESS = "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129";
+
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
-export const metadata = {
-  title: "Samsara — Samsara Group",
-  description: "Bogor's first listening space. A symphony of melody and taste — where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
-  alternates: {
-    canonical: "/samsara",
-  },
-  openGraph: {
-    url: "https://samsaragroup.co.id/samsara",
-  },
-};
+/** The CMS drives these now; the literals above stay as the fallback and the source of truth for the copy. */
+function cta(world, kind, fallback) {
+  return world.ctas?.find((c) => c.kind === kind)?.url || fallback;
+}
+
+/**
+ * Served from the CMS so an editor can change the title and description without a
+ * deploy. The literals below stay as the fallback and match what Sanity currently
+ * holds, so switching to this function does not alter the served metadata.
+ */
+export async function generateMetadata() {
+  let seo = {};
+  try {
+    const world = (await getWorlds()).find((w) => w.slug?.current === "samsara");
+    seo = {
+      title: world?.seoTitle,
+      description: world?.seoDescription,
+      image: world?.socialImage,
+      noIndex: world?.noIndex === true,
+    };
+  } catch {
+    seo = {};
+  }
+
+  const og = { url: "https://samsaragroup.co.id/samsara" };
+  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+
+  return {
+    title: seo.title || "Samsara — Samsara Group",
+    description: seo.description || "Bogor's first listening space. A symphony of melody and taste — where vinyl spins, Indo-Kolonial flavors unfold, and every frequency is designed.",
+    alternates: { canonical: "/samsara" },
+    openGraph: og,
+    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export default async function SamsaraPage() {
   let world = null;
@@ -50,6 +77,12 @@ export default async function SamsaraPage() {
     ["Live Music", "Melodi Samsara \u2014 presented by Melodi Alam"],
   ];
 
+  const map = world?.sections?.find((s) => s.type === "map");
+  const coords =
+    typeof map?.mapLat === "number" && typeof map?.mapLng === "number"
+      ? { lat: map.mapLat, lng: map.mapLng }
+      : COORDS;
+
   return (
     <>
       <ThemeSetter theme="dark" />
@@ -57,7 +90,9 @@ export default async function SamsaraPage() {
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">WORLDS</span>
+          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
+            {world?.heroEyebrow || "WORLDS"}
+          </span>
           <h1 className="h-12 md:h-16 w-fit">
             <img src="/Black Logo Samsara/blackfullsamping.png" alt="Samsara" className="h-full w-auto" />
           </h1>
@@ -102,7 +137,7 @@ export default async function SamsaraPage() {
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                   <a
-                    href={SAMSARA_LINKS.reservation}
+                    href={cta(world, "reservation", SAMSARA_LINKS.reservation)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -111,7 +146,7 @@ export default async function SamsaraPage() {
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
                   <a
-                    href={SAMSARA_LINKS.menu}
+                    href={cta(world, "menu", SAMSARA_LINKS.menu)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -149,7 +184,7 @@ export default async function SamsaraPage() {
 
                 <div className="space-y-3">
                   <a
-                    href={SAMSARA_LINKS.location}
+                    href={cta(world, "location", SAMSARA_LINKS.location)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -158,7 +193,7 @@ export default async function SamsaraPage() {
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
                   <a
-                    href={SAMSARA_LINKS.career}
+                    href={cta(world, "career", SAMSARA_LINKS.career)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -166,7 +201,7 @@ export default async function SamsaraPage() {
                     CAREER
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                   </a>
-                  <InstagramLink href={SAMSARA_LINKS.instagram} full />
+                  <InstagramLink href={world?.instagramUrl || SAMSARA_LINKS.instagram} full />
                 </div>
               </div>
             </ScrollReveal>
@@ -187,10 +222,10 @@ export default async function SamsaraPage() {
         <ScrollReveal>
           <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
-            <LeafletMap lat={COORDS.lat} lng={COORDS.lng} zoom={16} className="w-full h-full" />
+            <LeafletMap lat={coords.lat} lng={coords.lng} zoom={16} className="w-full h-full" />
           </div>
           <p className="mt-4 text-body-sm text-on-surface-variant">
-            Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129
+            {world?.address || ADDRESS}
           </p>
         </ScrollReveal>
       </section>

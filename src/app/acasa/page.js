@@ -14,6 +14,11 @@ import InstagramLink from "@/components/InstagramLink";
 export const dynamic = "force-dynamic";
 
 const ACASA_COORDS = { lat: -6.6167, lng: 106.8500 };
+
+/** The CMS drives these now; the literals below stay as the fallback and the source of truth for the copy. */
+function cta(world, kind, fallback) {
+  return world?.ctas?.find((c) => c.kind === kind)?.url || fallback;
+}
 const ACASA_MAP_LINK = "https://maps.app.goo.gl/NNbBmPUrX9mTYNQBA";
 const ACASA_LINKS = "https://linktr.ee/acasa.samsara";
 const ACASA_INSTAGRAM = "https://www.instagram.com/acasa.samsara";
@@ -23,16 +28,36 @@ const ACASA_CONTACT = {
   address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720",
 };
 
-export const metadata = {
-  title: "Acasa — Samsara Group",
-  description: "A Sanctuary of Refined Living. Resto, Cottages, and Padel — one place, many moments, in the hills of Ciawi, Bogor.",
-  alternates: {
-    canonical: "/acasa",
-  },
-  openGraph: {
-    url: "https://samsaragroup.co.id/acasa",
-  },
-};
+/**
+ * Served from the CMS so an editor can change the title and description without a
+ * deploy. The literals below stay as the fallback and match what Sanity currently
+ * holds, so switching to this function does not alter the served metadata.
+ */
+export async function generateMetadata() {
+  let seo = {};
+  try {
+    const world = (await getWorlds()).find((w) => w.slug?.current === "acasa");
+    seo = {
+      title: world?.seoTitle,
+      description: world?.seoDescription,
+      image: world?.socialImage,
+      noIndex: world?.noIndex === true,
+    };
+  } catch {
+    seo = {};
+  }
+
+  const og = { url: "https://samsaragroup.co.id/acasa" };
+  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+
+  return {
+    title: seo.title || "Acasa — Samsara Group",
+    description: seo.description || "A Sanctuary of Refined Living. Resto, Cottages, and Padel — one place, many moments, in the hills of Ciawi, Bogor.",
+    alternates: { canonical: "/acasa" },
+    openGraph: og,
+    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export default async function AcasaPage() {
   const worlds = await getWorlds();
@@ -187,13 +212,13 @@ export default async function AcasaPage() {
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-body-md text-on-surface font-medium">Acasa by Samsara</p>
-              <p className="text-body-sm text-on-surface-variant">{ACASA_CONTACT.address}</p>
+              <p className="text-body-sm text-on-surface-variant">{world?.address || ACASA_CONTACT.address}</p>
               <p className="text-body-sm text-on-surface-variant">Cottage & Stay: {ACASA_CONTACT.whatsapp}</p>
               <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href={ACASA_MAP_LINK}
+                href={cta(world, "location", ACASA_MAP_LINK)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -202,7 +227,7 @@ export default async function AcasaPage() {
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
               </a>
               <a
-                href={ACASA_LINKS}
+                href={cta(world, "links", ACASA_LINKS)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
@@ -213,7 +238,7 @@ export default async function AcasaPage() {
             </div>
           </div>
           <div className="mt-3">
-            <InstagramLink href={ACASA_INSTAGRAM} full />
+            <InstagramLink href={world?.instagramUrl || ACASA_INSTAGRAM} full />
           </div>
         </ScrollReveal>
       </section>

@@ -1,24 +1,21 @@
-import { getWorlds } from "@/sanity/lib/queries";
+import { getBrandCards } from "@/sanity/lib/brands";
 
 const BASE_URL = "https://samsaragroup.co.id";
 
 export default async function sitemap() {
   const lastModified = new Date();
 
-  let brandUrls = [];
-  try {
-    const worlds = await getWorlds();
-    brandUrls = worlds
-      .filter((w) => w.status === "active" && w.featured !== false && w.slug?.current)
-      .map((w, i) => ({
-        url: `${BASE_URL}/${w.slug.current}`,
-        lastModified,
-        changeFrequency: "monthly",
-        priority: i < 3 ? 0.8 : 0.7,
-      }));
-  } catch {
-    brandUrls = [];
-  }
+  /*
+   * getBrandCards falls back to the seeded list, so an unreachable CMS cannot strip
+   * the brand URLs out of the sitemap and cost indexation on pages that still work.
+   */
+  const cards = await getBrandCards();
+  const brandUrls = cards.map((c, i) => ({
+    url: `${BASE_URL}${c.href}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: i < 3 ? 0.8 : 0.7,
+  }));
 
   const staticUrls = [
     {
