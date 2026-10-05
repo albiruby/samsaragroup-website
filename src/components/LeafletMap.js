@@ -2,7 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
-export default function LeafletMap({ lat, lng, zoom = 16, className = "" }) {
+export default function LeafletMap({
+  lat,
+  lng,
+  zoom = 16,
+  className = "",
+  label = "Peta lokasi",
+}) {
   const mapRef = useRef(null);
   const instanceRef = useRef(null);
 
@@ -36,7 +42,12 @@ export default function LeafletMap({ lat, lng, zoom = 16, className = "" }) {
         iconAnchor: [15, 42],
       });
 
-      L.marker([lat, lng], { icon: pinIcon }).addTo(map);
+      L.marker([lat, lng], {
+        icon: pinIcon,
+        title: label,
+        alt: label,
+        keyboard: true,
+      }).addTo(map);
 
       instanceRef.current = map;
 
@@ -52,7 +63,7 @@ export default function LeafletMap({ lat, lng, zoom = 16, className = "" }) {
         instanceRef.current = null;
       }
     };
-  }, [lat, lng, zoom]);
+  }, [lat, lng, zoom, label]);
 
-  return <div ref={mapRef} className={className} />;
+  return <div ref={mapRef} className={className} aria-label={label} role="group" />;
 }
