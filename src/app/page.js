@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, ogImages } from "@/lib/site";
 import HomePage from "@/components/HomePage";
 import { getCarouselImages } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -17,14 +17,7 @@ export const metadata = {
     url: SITE_URL,
     siteName: "Samsara Group",
     type: "website",
-    images: [
-      {
-        url: "/ambiencesamsara/DSC08930.webp",
-        width: 1920,
-        height: 1280,
-        alt: "Samsara Group",
-      },
-    ],
+images: ogImages(),
   },
 };
 

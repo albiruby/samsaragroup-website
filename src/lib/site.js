@@ -19,14 +19,17 @@ export function safeUrl(value) {
 }
 
 export const DEFAULT_OG_IMAGE = {
-  url: "/ambiencesamsara/DSC08930.webp",
-  width: 1920,
-  height: 1280,
+  url: "/og-default.png",
+  width: 1200,
+  height: 630,
   alt: "Samsara Group",
 };
 
 export function ogImages(image, alt = "Samsara Group") {
   const url = safeUrl(image);
   if (!url) return [{ ...DEFAULT_OG_IMAGE, url: siteUrl(DEFAULT_OG_IMAGE.url) }];
+  // Sanity serves WebP when the browser asks for it, but social crawlers
+  // request og:image without an Accept header for images and cannot render it.
+  if (/\.webp($|\?)/i.test(url)) return [{ ...DEFAULT_OG_IMAGE, url: siteUrl(DEFAULT_OG_IMAGE.url) }];
   return [{ url, width: 1200, height: 630, alt }];
 }
