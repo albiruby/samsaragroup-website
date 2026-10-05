@@ -1,4 +1,4 @@
-import { SITE_URL, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import HomePage from "@/components/HomePage";
 import { getCarouselImages } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -11,14 +11,11 @@ export const metadata = {
   alternates: {
     canonical: "/",
   },
-  openGraph: {
+  openGraph: openGraphFor({
+    path: "/",
     title: "Samsara Group",
     description: "A multidisciplinary lifestyle and hospitality collective.",
-    url: SITE_URL,
-    siteName: "Samsara Group",
-    type: "website",
-images: ogImages(),
-  },
+  }),
 };
 
 export default async function Page() {

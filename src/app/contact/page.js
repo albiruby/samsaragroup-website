@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -12,10 +12,7 @@ export const metadata = {
   alternates: {
     canonical: "/contact",
   },
-  openGraph: {
-    url: siteUrl("/contact"),
-    images: ogImages(),
-  },
+openGraph: openGraphFor({ path: "/contact" }),
 };
 
 const WHATSAPP_FALLBACK = [

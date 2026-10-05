@@ -1,4 +1,4 @@
-import { siteUrl, SITE_URL, ogImages } from "@/lib/site";
+import { openGraphFor, siteUrl } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -51,7 +51,11 @@ export async function generateMetadata() {
     title: page?.seoTitle || DEFAULT.seoTitle,
     description: page?.seoDescription || DEFAULT.seoDescription,
     alternates: { canonical: "/career" },
-    openGraph: { url: siteUrl("/career"), images: ogImages() },
+    openGraph: openGraphFor({
+        path: "/career",
+        title: page?.seoTitle || DEFAULT.seoTitle,
+        description: page?.seoDescription || DEFAULT.seoDescription,
+      }),
   };
 }
 

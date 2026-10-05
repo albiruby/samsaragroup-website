@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -31,12 +31,19 @@ export async function generateMetadata() {
     seo = {};
   }
 
-  const og = { url: siteUrl("/outpace") };
-  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
+const og = openGraphFor({
+      path: "/outpace",
+      title: seo.title,
+      description: seo.description,
+      image: urlFor(seo.image || seo.card || null)?.url,
+      alt: seo.brandName,
+    });
 
   return {
     title: seo.title || "Outpace — Samsara Group",
-    description: seo.description || "A running cafe. Coffee, shower, and community for runners.",
+    description:
+        seo.description ||
+        "Outpace is a running cafe in Bogor — coffee, showers and a community of runners. Gear up, cool down, and stay awhile.",
     alternates: { canonical: "/outpace" },
     openGraph: og,
     ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),

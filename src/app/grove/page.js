@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -33,12 +33,19 @@ export async function generateMetadata() {
     seo = {};
   }
 
-  const og = { url: siteUrl("/grove") };
-  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
+const og = openGraphFor({
+      path: "/grove",
+      title: seo.title,
+      description: seo.description,
+      image: urlFor(seo.image || seo.card || null)?.url,
+      alt: seo.brandName,
+    });
 
   return {
     title: seo.title || "Grove — Samsara Group",
-    description: seo.description || "The lighter cafe. Casual, relaxed, and always good vibes.",
+    description:
+        seo.description ||
+        "Grove is the lighter cafe at Samsara Bogor — a relaxed courtyard for good coffee, easy conversation, and everyday dining.",
     alternates: { canonical: "/grove" },
     openGraph: og,
     ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),

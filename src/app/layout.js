@@ -1,4 +1,4 @@
-import { SITE_URL, ogImages } from "@/lib/site";
+import { SITE_URL, openGraphFor, ogImages } from "@/lib/site";
 import "./globals.css";
 import { headers } from "next/headers";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -25,24 +25,8 @@ export const metadata = {
   title: "Samsara Group – Cultural Institution & Lifestyle House",
   description:
     "A cultural sanctuary and lifestyle institute preserving Indonesian architectural heritage, artisanal tactility, and contemporary hospitality.",
-  openGraph: {
-    title: "Samsara Group – Cultural Institution & Lifestyle House",
-    description:
-      "A cultural sanctuary and lifestyle institute preserving Indonesian architectural heritage, artisanal tactility, and contemporary hospitality.",
-    url: SITE_URL,
-    siteName: "Samsara Group",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/ambiencesamsara/DSC08930.webp",
-        width: 1920,
-        height: 1280,
-        alt: "Samsara Group",
-      },
-    ],
-  },
-  twitter: {
+openGraph: openGraphFor({ path: "/" }),
+    twitter: {
     card: "summary_large_image",
     title: "Samsara Group – Cultural Institution & Lifestyle House",
     description:

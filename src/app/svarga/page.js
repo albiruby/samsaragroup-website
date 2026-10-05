@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -47,8 +47,13 @@ export async function generateMetadata() {
     seo = {};
   }
 
-  const og = { url: siteUrl("/svarga") };
-  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
+const og = openGraphFor({
+      path: "/svarga",
+      title: seo.title,
+      description: seo.description,
+      image: urlFor(seo.image || seo.card || null)?.url,
+      alt: seo.brandName,
+    });
 
   return {
     title: seo.title || "Svarga — Samsara Group",

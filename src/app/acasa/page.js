@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -50,8 +50,13 @@ export async function generateMetadata() {
     seo = {};
   }
 
-  const og = { url: siteUrl("/acasa") };
-  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
+const og = openGraphFor({
+      path: "/acasa",
+      title: seo.title,
+      description: seo.description,
+      image: urlFor(seo.image || seo.card || null)?.url,
+      alt: seo.brandName,
+    });
 
   return {
     title: seo.title || "Acasa — Samsara Group",

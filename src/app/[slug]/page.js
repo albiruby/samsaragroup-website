@@ -1,4 +1,4 @@
-import { siteUrl, ogImages } from "@/lib/site";
+import { openGraphFor } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -32,10 +32,13 @@ export async function generateMetadata({ params }) {
     title: world.seoTitle || `${name} — ${SITE}`,
     description: world.seoDescription || world.tagline || world.description || "",
     alternates: { canonical: `/${slug}` },
-    openGraph: {
-      url: siteUrl(`/${slug}`),
-      images: ogImages(urlFor(world.socialImage || world.image || null)?.url, world.name),
-    },
+openGraph: openGraphFor({
+        path: `/${slug}`,
+        title: world.seoTitle || `${name} — ${SITE}`,
+        description: world.seoDescription || world.tagline || world.description || "",
+        image: urlFor(world.socialImage || world.image || null)?.url,
+        alt: world.name,
+      }),
     ...(world.noIndex ? { robots: { index: false, follow: false } } : {}),
   };
 }
