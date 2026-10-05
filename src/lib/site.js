@@ -1,5 +1,5 @@
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://sams-sams.vercel.app"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://samsaragroup.vercel.app"
 ).replace(/\/+$/, "");
 
 export function siteUrl(path = "") {
