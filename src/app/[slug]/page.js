@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -32,8 +33,8 @@ export async function generateMetadata({ params }) {
     description: world.seoDescription || world.tagline || world.description || "",
     alternates: { canonical: `/${slug}` },
     openGraph: {
-      url: `https://samsaragroup.co.id/${slug}`,
-      images: world.socialImage ? [{ url: urlFor(world.socialImage).url() }] : undefined,
+      url: siteUrl(`/${slug}`),
+      images: ogImages(urlFor(world.socialImage || world.image || null)?.url, world.name),
     },
     ...(world.noIndex ? { robots: { index: false, follow: false } } : {}),
   };
@@ -234,6 +235,7 @@ export default async function BrandPage({ params }) {
                     lng={section.mapLng}
                     zoom={section.mapZoom || 16}
                     className="w-full h-full"
+                    label={`Lokasi ${world.name}`}
                   />
                 </div>
                 {world.address ? (

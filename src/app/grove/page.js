@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -24,14 +25,16 @@ export async function generateMetadata() {
       title: world?.seoTitle,
       description: world?.seoDescription,
       image: world?.socialImage,
+        card: world?.image,
+        brandName: world?.name,
       noIndex: world?.noIndex === true,
     };
   } catch {
     seo = {};
   }
 
-  const og = { url: "https://samsaragroup.co.id/grove" };
-  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+  const og = { url: siteUrl("/grove") };
+  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
 
   return {
     title: seo.title || "Grove — Samsara Group",

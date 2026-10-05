@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -38,14 +39,16 @@ export async function generateMetadata() {
       title: world?.seoTitle,
       description: world?.seoDescription,
       image: world?.socialImage,
+        card: world?.image,
+        brandName: world?.name,
       noIndex: world?.noIndex === true,
     };
   } catch {
     seo = {};
   }
 
-  const og = { url: "https://samsaragroup.co.id/svarga" };
-  if (seo.image) og.images = [{ url: urlFor(seo.image).url() }];
+  const og = { url: siteUrl("/svarga") };
+  og.images = ogImages(urlFor(seo.image || seo.card || null)?.url, seo.brandName);
 
   return {
     title: seo.title || "Svarga — Samsara Group",
@@ -184,7 +187,7 @@ export default async function SvargaPage() {
             <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
           </TextClipReveal>
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
-            <LeafletMap lat={SVARGA_COORDS.lat} lng={SVARGA_COORDS.lng} zoom={16} className="w-full h-full" />
+            <LeafletMap lat={SVARGA_COORDS.lat} lng={SVARGA_COORDS.lng} zoom={16} className="w-full h-full" label="Lokasi Svarga, Sukabumi" />
           </div>
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
