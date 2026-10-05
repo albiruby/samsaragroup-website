@@ -50,7 +50,7 @@ export default function HomePage({ marqueeImages }) {
     <>
       <Preloader />
       <Header />
-      <main className="w-full bg-surface">
+      <div className="w-full bg-surface">
 
         {/* ── Hero ── */}
         <section className="relative w-full h-[100dvh] min-h-[600px] overflow-hidden">
@@ -141,7 +141,7 @@ export default function HomePage({ marqueeImages }) {
           </ScrollMarquee>
         </section>
 
-      </main>
+      </div>
       <Footer />
     </>
   );

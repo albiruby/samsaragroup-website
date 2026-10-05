@@ -1,3 +1,5 @@
+import { safeUrl } from "@/lib/site";
+
 export default function InstagramLink({ href, external = true, full = false, className = "" }) {
   const icon = (
     <svg
@@ -15,9 +17,11 @@ export default function InstagramLink({ href, external = true, full = false, cla
     </svg>
   );
 
+  const safe = safeUrl(href) || "https://www.instagram.com/";
+
   return (
     <a
-      href={href}
+      href={safe}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       aria-label="Instagram"
       data-cursor="VIEW"
