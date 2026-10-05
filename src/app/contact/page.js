@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -12,7 +13,8 @@ export const metadata = {
     canonical: "/contact",
   },
   openGraph: {
-    url: "https://samsaragroup.co.id/contact",
+    url: siteUrl("/contact"),
+    images: ogImages(),
   },
 };
 

@@ -1,3 +1,4 @@
+import { SITE_URL, ogImages } from "@/lib/site";
 import "./globals.css";
 import { headers } from "next/headers";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -28,7 +29,7 @@ export const metadata = {
     title: "Samsara Group – Cultural Institution & Lifestyle House",
     description:
       "A cultural sanctuary and lifestyle institute preserving Indonesian architectural heritage, artisanal tactility, and contemporary hospitality.",
-    url: "https://samsaragroup.co.id",
+    url: SITE_URL,
     siteName: "Samsara Group",
     locale: "en_US",
     type: "website",
@@ -46,8 +47,9 @@ export const metadata = {
     title: "Samsara Group – Cultural Institution & Lifestyle House",
     description:
       "A cultural sanctuary and lifestyle institute preserving Indonesian architectural heritage, artisanal tactility, and contemporary hospitality.",
+    images: ogImages(),
   },
-  metadataBase: new URL("https://samsaragroup.co.id"),
+  metadataBase: new URL(SITE_URL),
 };
 
 export default async function RootLayout({ children }) {
@@ -71,7 +73,7 @@ export default async function RootLayout({ children }) {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Samsara Group",
-              url: "https://samsaragroup.co.id",
+              url: SITE_URL,
               description:
                 "A cultural sanctuary and lifestyle institute preserving Indonesian architectural heritage, artisanal tactility, and contemporary hospitality.",
               sameAs: [

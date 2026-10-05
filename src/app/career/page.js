@@ -1,3 +1,4 @@
+import { siteUrl, SITE_URL, ogImages } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -50,7 +51,7 @@ export async function generateMetadata() {
     title: page?.seoTitle || DEFAULT.seoTitle,
     description: page?.seoDescription || DEFAULT.seoDescription,
     alternates: { canonical: "/career" },
-    openGraph: { url: "https://samsaragroup.co.id/career" },
+    openGraph: { url: siteUrl("/career"), images: ogImages() },
   };
 }
 
@@ -83,7 +84,7 @@ export default async function CareerPageRoute() {
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: copy.positionsHeading,
-            url: "https://samsaragroup.co.id/career",
+            url: siteUrl("/career"),
             numberOfItems: jobs.length,
             itemListElement: jobs.map((job, i) => ({
               "@type": "ListItem",
@@ -100,7 +101,7 @@ export default async function CareerPageRoute() {
                     job.brand && job.brand !== "group"
                       ? `${job.brand.charAt(0).toUpperCase()}${job.brand.slice(1)}`
                       : SITE,
-                  sameAs: "https://samsaragroup.co.id",
+                  sameAs: SITE_URL,
                 },
                 ...(job.location ? { jobLocationType: job.location } : {}),
                 url: safeUrl(job.applyUrl) || applyUrl,

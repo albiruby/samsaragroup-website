@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,7 +17,8 @@ export const metadata = {
     canonical: "/brands",
   },
   openGraph: {
-    url: "https://samsaragroup.co.id/brands",
+    url: siteUrl("/brands"),
+    images: ogImages(),
   },
 };
 
@@ -37,13 +39,14 @@ export default async function BrandsPage() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: "Brands — Samsara Group",
-            url: "https://samsaragroup.co.id/brands",
+            url: siteUrl("/brands"),
+    images: ogImages(),
             mainEntity: {
               "@type": "ItemList",
               itemListElement: brands.map((b, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
-                item: { "@type": "Brand", name: b.name, url: `https://samsaragroup.co.id${b.href}` },
+                item: { "@type": "Brand", name: b.name, url: siteUrl(`${b.href}`) },
               })),
             },
           }),

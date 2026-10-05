@@ -1,3 +1,4 @@
+import { siteUrl, SITE_URL, ogImages } from "@/lib/site";
 import { headers } from "next/headers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,7 +16,8 @@ export const metadata = {
     canonical: "/about",
   },
   openGraph: {
-    url: "https://samsaragroup.co.id/about",
+    url: siteUrl("/about"),
+    images: ogImages(),
   },
 };
 
@@ -32,11 +34,12 @@ export default async function AboutPage() {
             "@context": "https://schema.org",
             "@type": "AboutPage",
             name: "About Samsara Group",
-            url: "https://samsaragroup.co.id/about",
+            url: siteUrl("/about"),
+    images: ogImages(),
             mainEntity: {
               "@type": "Organization",
               name: "Samsara Group",
-              url: "https://samsaragroup.co.id",
+              url: SITE_URL,
               description:
                 "A multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
             },

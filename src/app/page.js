@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import HomePage from "@/components/HomePage";
 import { getCarouselImages } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -13,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Samsara Group",
     description: "A multidisciplinary lifestyle and hospitality collective.",
-    url: "https://samsaragroup.co.id",
+    url: SITE_URL,
     siteName: "Samsara Group",
     type: "website",
     images: [

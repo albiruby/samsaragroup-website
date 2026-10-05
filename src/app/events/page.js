@@ -1,3 +1,4 @@
+import { siteUrl, ogImages } from "@/lib/site";
 import Link from "next/link";
 import { headers } from "next/headers";
 import Header from "@/components/Header";
@@ -17,7 +18,8 @@ export const metadata = {
     canonical: "/events",
   },
   openGraph: {
-    url: "https://samsaragroup.co.id/events",
+    url: siteUrl("/events"),
+    images: ogImages(),
   },
 };
 
@@ -35,7 +37,8 @@ export default async function EventsPage() {
             "@context": "https://schema.org",
             "@type": "ItemList",
             name: "Samsara Group Events",
-            url: "https://samsaragroup.co.id/events",
+            url: siteUrl("/events"),
+    images: ogImages(),
             itemListElement: events.map((event, i) => ({
               "@type": "ListItem",
               position: i + 1,

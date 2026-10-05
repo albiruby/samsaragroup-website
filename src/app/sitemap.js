@@ -1,6 +1,7 @@
+import { SITE_URL } from "@/lib/site";
 import { getBrandCards } from "@/sanity/lib/brands";
 
-const BASE_URL = "https://samsaragroup.co.id";
+const BASE_URL = SITE_URL;
 
 export default async function sitemap() {
   const lastModified = new Date();
