@@ -1,4 +1,4 @@
-import { openGraphFor, siteUrl } from "@/lib/site";
+import { openGraphFor, siteUrl, SITE_URL } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
