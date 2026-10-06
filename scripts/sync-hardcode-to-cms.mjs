@@ -72,16 +72,27 @@ function makeClient({ token, projectId, dataset }) {
 }
 
 export function extractHeroPaths(src) {
-  const m = src.match(/world\?\.gallery\?\.length[\s\S]*?:\s*\[([\s\S]*?)\]/);
-  if (!m) return null;
-  return [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+  // Two shapes in the tree: `<HeroCarousel images={[ "…" ]} />` (samsara, after the
+  // literal array moved onto the component) and the older
+  // `world?.gallery?.length ? … : [ "…" ]` ternary (the other four brands).
+  const direct = src.match(/<HeroCarousel[\s\S]{0,120}?images=\{\s*\[([\s\S]*?)\]\s*\}/);
+  if (direct) return [...direct[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+
+  const ternary = src.match(/world\?\.gallery\?\.length[\s\S]*?:\s*\[([\s\S]*?)\]/);
+  if (ternary) return [...ternary[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+
+  return null;
 }
 
 export function extractBrandFallbacks(src) {
+  // SEED_CARDS entries carry `slug` and `fallback`, not `name` + `fallback`.
   const out = {};
-  for (const line of src.split("\n")) {
-    const m = line.match(/name:\s*"([A-Za-z]+)"[^{}]*?fallback:\s*"([^"]+)"/);
-    if (m) out[m[1].toLowerCase()] = m[2];
+  const block = src.match(/const SEED_CARDS\s*=\s*\[([\s\S]*?)\n\];/);
+  if (!block) return null;
+  for (const entry of block[1].split(/\n\s*\},?\s*\n/)) {
+    const slug = entry.match(/slug:\s*"([^"]+)"/);
+    const fallback = entry.match(/fallback:\s*"([^"]+)"/);
+    if (slug && fallback) out[slug[1].toLowerCase()] = fallback[1];
   }
   return Object.keys(out).length ? out : null;
 }
@@ -174,7 +185,8 @@ export async function sync({ dryRun = false, source = "cli" } = {}) {
   }
 
   try {
-    const file = path.join(ROOT, "src", "app", "brands", "page.js");
+    // The seed card art lives in brands.ts now, not in the brands page.
+    const file = path.join(ROOT, "src", "sanity", "lib", "brands.ts");
     const fallbacks = extractBrandFallbacks(fs.readFileSync(file, "utf8"));
     if (!fallbacks) throw new Error("pola fallback brands tidak ditemukan");
     for (const [slug, p] of Object.entries(fallbacks)) {
