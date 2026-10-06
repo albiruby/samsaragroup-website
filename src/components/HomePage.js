@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
+import NumberCounter from "@/components/NumberCounter";
 import ScrollMarquee from "@/components/ScrollMarquee";
 import { useTheme } from "@/components/ThemeProvider";
 
@@ -109,6 +110,9 @@ export default function HomePage({ marqueeImages }) {
             </div>
             <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-xl mb-6 lg:mb-8">
               Each concept with its own character, all crafted by Samsara Group.
+            </p>
+            <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant mb-6 lg:mb-8">
+              <NumberCounter target={worlds.length} duration={1000} /> worlds under one group
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
               {worlds.map((world) => (
