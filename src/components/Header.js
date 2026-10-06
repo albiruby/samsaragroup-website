@@ -97,7 +97,10 @@ export default function Header() {
           <div
             ref={brandsRef}
             className="relative flex"
-            onMouseEnter={() => { setBrandsOpen(true); setActiveCat((c) => c ?? "ICONIC"); }}
+            onMouseEnter={() => {
+              setBrandsOpen(true);
+              setActiveCat((c) => (brandCategories.some((b) => b.name === c) ? c : brandCategories[0]?.name ?? null));
+            }}
             onMouseLeave={() => setBrandsOpen(false)}
           >
             <Link
@@ -148,7 +151,7 @@ export default function Header() {
                         ))
                       ) : (
                         <p className="px-7 py-3 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant/70">
-                          Hover a category
+                          Hover a brand
                         </p>
                       )}
                     </div>

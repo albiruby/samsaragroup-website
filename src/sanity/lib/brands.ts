@@ -1,5 +1,6 @@
 import { getWorlds } from "./queries";
 import { urlFor } from "./image";
+import { BRAND_COPY, brandCopy } from "@/lib/brands-copy";
 
 type NavWorld = {
   _id: string;
@@ -17,18 +18,15 @@ type NavWorld = {
 /**
  * Navigation skeleton for the BRANDS dropdown.
  *
- * The category labels and the order of the five existing brands inside them are
- * a navigation design decision, not content — WELLBEING deliberately lists Acasa
- * before Svarga even though Svarga has the lower `order`. Keeping those pairs here
- * means the existing dropdown renders exactly as before, while any brand created in
- * Sanity is appended to its categories automatically.
+ * Each row is one brand, labelled with its descriptive title rather than a
+ * category. The order is a navigation design decision, not content, so it lives
+ * here: the five established brands keep their curated titles, and anything
+ * created in Sanity is appended at the end rather than silently dropped.
  */
-const CATEGORY_SEED = [
-  { name: "ICONIC", legacy: ["samsara", "acasa"] },
-  { name: "SPECIALITY", legacy: ["svarga", "outpace"] },
-  { name: "EVERYDAY", legacy: ["samsara", "grove"] },
-  { name: "WELLBEING", legacy: ["acasa", "svarga"] },
-];
+const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
+  name: title,
+  legacy: [slug],
+}));
 
 /**
  * Local logo assets for the five established brands. These win over any CMS logo
@@ -119,54 +117,47 @@ function fallbackNav(): BrandNav {
  * The /brands cards for the established brands, mirroring what the page rendered
  * before it read from Sanity. Used only when the CMS is unreachable, so a Sanity
  * outage cannot leave the page with zero cards.
+ *
+ * `tagline` comes from BRAND_COPY rather than being written out here, so the
+ * fallback cannot drift away from the dropdown's titles.
  */
 const SEED_CARDS = [
   {
     slug: "samsara",
-    name: "SAMSARA",
-    tagline: "THE SANCTUARY",
-    href: "/samsara",
     fallback: "/ambiencesamsara/DSC08177.webp",
     logo: "/White Logo Samsara/whitefullsamping.png",
     image: null,
   },
   {
     slug: "svarga",
-    name: "SVARGA",
-    tagline: "THE HIGHLANDS",
-    href: "/svarga",
     fallback: "/assetsvarga/ADR (9 of 15).webp",
     logo: "/assetsvarga/Svarga logo black.webp",
     image: null,
   },
   {
     slug: "acasa",
-    name: "ACASA",
-    tagline: "LEISURE RITUALS",
-    href: "/acasa",
     fallback: "/assetacasa/ADR-06539.webp",
     logo: "/assetacasa/Main Logo3.webp",
     image: null,
   },
   {
     slug: "outpace",
-    name: "OUTPACE",
-    tagline: "THE RUNNING CAFE",
-    href: "/outpace",
     fallback: "/ambiencesamsara/DSC09014.webp",
     logo: null,
     image: null,
   },
   {
     slug: "grove",
-    name: "GROVE",
-    tagline: "THE LIGHTER CAFE",
-    href: "/grove",
     fallback: "/ambiencesamsara/DSC09048.webp",
     logo: null,
     image: null,
   },
-];
+].map((c) => ({
+  ...c,
+  href: `/${c.slug}`,
+  name: (brandCopy(c.slug)?.name || c.slug).toUpperCase(),
+  tagline: brandCopy(c.slug)?.title || "",
+}));
 
 export type BrandCard = (typeof SEED_CARDS)[number] & { image: unknown };
 
@@ -177,7 +168,7 @@ function toCard(world: NavWorld): BrandCard {
   return {
     slug,
     name: (world.name || slug).toUpperCase(),
-    tagline: world.tagline || "",
+    tagline: world.tagline || brandCopy(slug)?.title || "",
     href: `/${slug}`,
     fallback: seed?.fallback ?? null,
     logo: legacyLogo ?? (world.logo ? urlFor(world.logo as never).url() : null),
@@ -221,15 +212,19 @@ export async function getBrandNav(): Promise<BrandNav> {
       .filter((w): w is NavWorld => Boolean(w))
       .map(toBrand);
 
-    const seededSlugs = new Set(seeded.map((b) => b.slug));
-    const extras = [...bySlug.values()]
-      .filter((w) => !seededSlugs.has(slugOf(w)))
-      .filter((w) => (w.categories ?? []).map(String).includes(name))
-      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-      .map(toBrand);
+    return { name, brands: seeded };
+  })
+    .filter((cat) => cat.brands.length > 0);
 
-    return { name, brands: [...seeded, ...extras] };
-  }).filter((cat) => cat.brands.length > 0);
+  // Each row now maps to exactly one brand, so anything created in Sanity has
+  // no curated title of its own. Collect those into one trailing group rather
+  // than appending them to every row.
+  const seededSlugs = new Set(categories.flatMap((cat) => cat.brands.map((b) => b.slug)));
+  const others = [...bySlug.values()]
+    .filter((w) => !seededSlugs.has(slugOf(w)))
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .map(toBrand);
+  if (others.length) categories.push({ name: "OTHER", brands: others });
 
   const all = [...bySlug.values()]
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))

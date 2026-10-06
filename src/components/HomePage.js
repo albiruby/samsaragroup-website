@@ -10,14 +10,14 @@ import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
 import ScrollMarquee from "@/components/ScrollMarquee";
 import { useTheme } from "@/components/ThemeProvider";
+import { BRAND_COPY } from "@/lib/brands-copy";
 
-const worlds = [
-  { name: "SAMSARA", tagline: "The Listening Room", disciplines: "Vinyl - Dining - Culture", href: "/samsara" },
-  { name: "SVARGA", tagline: "The Heritage Table", disciplines: "Traditional - Dining - Nature", href: "/svarga" },
-  { name: "ACASA", tagline: "The Leisure Retreat", disciplines: "Stay - Dining - Sports", href: "/acasa" },
-  { name: "OUTPACE", tagline: "The Runners Club", disciplines: "Run - Refuel - Connect", href: "/outpace" },
-  { name: "GROVE", tagline: "The City Backyard", disciplines: "Coffee - Hangout - Grow", href: "/grove" },
-];
+const worlds = BRAND_COPY.map(({ slug, name, title, disciplines }) => ({
+  name,
+  tagline: title,
+  disciplines,
+  href: `/${slug}`,
+}));
 
 const fallbackMarquee = [
   { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
