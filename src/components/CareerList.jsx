@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
+import { safeUrl } from "@/lib/site";
 
 const TYPE_LABELS = {
   "full-time": "Full Time",
@@ -92,7 +93,7 @@ export default function CareerList({
 
       <div className="flex flex-col">
         {visible.map((job) => {
-          const href = job.applyUrl || groupApplyUrl;
+          const href = safeUrl(job.applyUrl) || safeUrl(groupApplyUrl);
           return (
             <article
               key={job._id}
@@ -162,17 +163,19 @@ export default function CareerList({
                     </div>
                   </div>
 
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex shrink-0 items-center gap-2 self-start font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta sm:self-center"
-                  >
-                    Apply
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M3 7h8M7 3l4 4-4 4" />
-                    </svg>
-                  </a>
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex shrink-0 items-center gap-2 self-start font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta sm:self-center"
+                    >
+                      Apply
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M3 7h8M7 3l4 4-4 4" />
+                      </svg>
+                    </a>
+                  ) : null}
                 </div>
               </ScrollReveal>
             </article>

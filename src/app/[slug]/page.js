@@ -1,4 +1,4 @@
-import { openGraphFor, ctaLabel } from "@/lib/site";
+import { openGraphFor, ctaLabel, safeUrl } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -270,10 +270,12 @@ export default async function BrandPage({ params }) {
         <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
           <ScrollReveal>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-              {(world.ctas || []).map((cta) => (
+              {(world.ctas || [])
+                .filter((cta) => safeUrl(cta.url))
+                .map((cta) => (
                 <a
                   key={cta._key || cta.kind}
-                  href={cta.url}
+                  href={safeUrl(cta.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
