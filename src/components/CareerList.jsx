@@ -168,7 +168,7 @@ export default function CareerList({
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center gap-2 self-start font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta sm:self-center"
+                      className="inline-flex shrink-0 items-center gap-2 self-start py-3.5 font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta sm:self-center"
                     >
                       Apply
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">

@@ -8,7 +8,6 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import InstagramLink from "@/components/InstagramLink";
 
 export const dynamic = "force-dynamic";
 
@@ -42,10 +41,10 @@ const og = openGraphFor({
     });
 
   return {
-    title: seo.title || "Grove — Samsara Group",
+    title: seo.title || "Grove â€” Samsara Group",
     description:
         seo.description ||
-        "Grove is the lighter cafe at Samsara Bogor — a relaxed courtyard for good coffee, easy conversation, and everyday dining.",
+        "Grove is the lighter cafe at Samsara Bogor â€” a relaxed courtyard for good coffee, easy conversation, and everyday dining.",
     alternates: { canonical: "/grove" },
     openGraph: og,
     ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
@@ -63,7 +62,7 @@ export default async function GrovePage() {
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Lighter cafe than Samsara"],
-    ["Vibe", "Casual · Relaxed · Everyday"],
+    ["Vibe", "Casual Â· Relaxed Â· Everyday"],
     ["Menu", "Coffee, bites, light meals"],
   ];
 
@@ -121,7 +120,7 @@ export default async function GrovePage() {
                   <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
                 </TextClipReveal>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Less formal, more feeling. Grove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
+                  Less formal, more feeling. Grove is the casual counterpart to Samsara â€” same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
                 </p>
               </div>
               <div className="border-t border-outline-variant pt-8">
@@ -137,10 +136,7 @@ export default async function GrovePage() {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <InstagramLink href="/brands" external={false} full />
               </div>
-            </div>
           </ScrollReveal>
         </div>
       </section>

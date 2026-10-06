@@ -8,7 +8,6 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import InstagramLink from "@/components/InstagramLink";
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -40,10 +39,10 @@ const og = openGraphFor({
     });
 
   return {
-    title: seo.title || "Outpace — Samsara Group",
+    title: seo.title || "Outpace â€” Samsara Group",
     description:
         seo.description ||
-        "Outpace is a running cafe in Bogor — coffee, showers and a community of runners. Gear up, cool down, and stay awhile.",
+        "Outpace is a running cafe in Bogor â€” coffee, showers and a community of runners. Gear up, cool down, and stay awhile.",
     alternates: { canonical: "/outpace" },
     openGraph: og,
     ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
@@ -63,7 +62,7 @@ export default async function OutpacePage() {
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Cafe for runners"],
-    ["Facilities", "Shower · Coffee · Lockers"],
+    ["Facilities", "Shower Â· Coffee Â· Lockers"],
     ["Community", "Morning runs, group sessions"],
   ];
 
@@ -154,7 +153,7 @@ export default async function OutpacePage() {
                   <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
                 </TextClipReveal>
                 <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Run first, coffee after. Outpace is a pit stop for runners — fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
+                  Run first, coffee after. Outpace is a pit stop for runners â€” fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
                 </p>
               </div>
                 <div className="border-t border-outline-variant pt-8">
@@ -169,9 +168,6 @@ export default async function OutpacePage() {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <InstagramLink href="/brands" external={false} full />
               </div>
             </div>
           </ScrollReveal>
