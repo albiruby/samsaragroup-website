@@ -39,6 +39,28 @@ export const SITE_LOCALE = "en_US";
 export const SITE_LOCALE_ALT = "id_ID";
 
 /**
+ * Fallback text for the action buttons on a brand page.
+ *
+ * Mirrors CTA_LABELS in the Studio schema. Editors are told they can leave
+ * `label` empty to get the default, so the website has to supply it -- an
+ * empty label renders a button holding nothing but an arrow.
+ */
+export const CTA_LABELS = {
+  reservation: "RESERVATION",
+  menu: "MENU",
+  location: "LOCATION",
+  career: "CAREER",
+  links: "LINKS",
+};
+
+export function ctaLabel(cta) {
+  if (!cta) return "LINK";
+  const custom = typeof cta.label === "string" ? cta.label.trim() : "";
+  if (custom) return custom;
+  return CTA_LABELS[cta.kind] || "LINK";
+}
+
+/**
  * Builds a complete openGraph object.
  *
  * Next.js replaces a nested openGraph object rather than merging it with the

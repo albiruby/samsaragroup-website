@@ -1,4 +1,4 @@
-import { openGraphFor } from "@/lib/site";
+import { openGraphFor, ctaLabel } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -32,8 +32,8 @@ export async function generateMetadata({ params }) {
     title: world.seoTitle || `${name} — ${SITE}`,
     description: world.seoDescription || world.tagline || world.description || "",
     alternates: { canonical: `/${slug}` },
-openGraph: openGraphFor({
-        path: `/${slug}`,
+    openGraph: openGraphFor({
+      path: `/${slug}`,
         title: world.seoTitle || `${name} — ${SITE}`,
         description: world.seoDescription || world.tagline || world.description || "",
         image: urlFor(world.socialImage || world.image || null)?.url,
@@ -278,7 +278,7 @@ export default async function BrandPage({ params }) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                 >
-                  {cta.label}
+                  {ctaLabel(cta)}
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M1 6h10M7 2l4 4-4 4" />
                   </svg>
