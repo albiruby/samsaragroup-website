@@ -7,16 +7,15 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
-import NumberCounter from "@/components/NumberCounter";
 import ScrollMarquee from "@/components/ScrollMarquee";
 import { useTheme } from "@/components/ThemeProvider";
 
 const worlds = [
-  { name: "SAMSARA", tagline: "THE SANCTUARY", disciplines: "LISTENING · DINING · CULTURE", href: "/samsara" },
-  { name: "SVARGA", tagline: "THE HIGHLANDS", disciplines: "HERITAGE · DINING · NATURE", href: "/svarga" },
-  { name: "ACASA", tagline: "LEISURE RITUALS", disciplines: "STAY · DINING · PADEL", href: "/acasa" },
-  { name: "OUTPACE", tagline: "THE RUNNING CAFE", disciplines: "RUNNING · SHOWER · COFFEE", href: "/outpace" },
-  { name: "GROVE", tagline: "THE LIGHTER CAFE", disciplines: "COFFEE · CASUAL · VIBES", href: "/grove" },
+  { name: "SAMSARA", tagline: "The Listening Room", disciplines: "Vinyl - Dining - Culture", href: "/samsara" },
+  { name: "SVARGA", tagline: "The Heritage Table", disciplines: "Traditional - Dining - Nature", href: "/svarga" },
+  { name: "ACASA", tagline: "The Leisure Retreat", disciplines: "Stay - Dining - Sports", href: "/acasa" },
+  { name: "OUTPACE", tagline: "The Runners Club", disciplines: "Run - Refuel - Connect", href: "/outpace" },
+  { name: "GROVE", tagline: "The City Backyard", disciplines: "Coffee - Hangout - Grow", href: "/grove" },
 ];
 
 const fallbackMarquee = [
@@ -59,8 +58,8 @@ export default function HomePage({ marqueeImages }) {
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
               <h1 className="font-display font-bold text-headline-lg-mobile md:text-headline-lg lg:text-display-hero uppercase leading-[0.95] tracking-wider text-white max-w-5xl">
-                WE CREATE PLACES<br />
-                <span className="text-white/80">TO FEEL SOMETHING.</span>
+                EVERY SOUL.<br />
+                <span className="text-white/80">FINDS ITS GROUND</span>
               </h1>
             </div>
           </div>
@@ -74,11 +73,11 @@ export default function HomePage({ marqueeImages }) {
                 <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">ABOUT US</span>
                 <TextClipReveal>
                   <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-5 text-on-surface">
-                    MORE THAN<br />A PLACE
+                    MANY IDENTITIES,<br />ONE STANDARD.
                   </h2>
                 </TextClipReveal>
                 <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg">
-                  A multidisciplinary lifestyle and hospitality group creating meaningful experiences across music, dining, design, and culture.
+                  Samsara Group is a lifestyle and hospitality group that develops and operates distinct destination concepts across Indonesia, from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.
                 </p>
                 <Link
                   href="/about"
@@ -100,14 +99,17 @@ export default function HomePage({ marqueeImages }) {
         {/* ── Four Worlds ── */}
         <section className="bg-surface-container-low w-full">
           <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-10 lg:py-16">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-2 block">OUR WORLDS</span>
-            <div className="flex items-end gap-4 mb-6 lg:mb-8">
+            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-2 block">OUR BRANDS</span>
+            <div className="flex items-end gap-4 mb-4 lg:mb-6">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
-                  <NumberCounter target={worlds.length} duration={1000} /> IMMERSIVE WORLDS
+                  WORLDS OF THEIR OWN
                 </h2>
               </TextClipReveal>
             </div>
+            <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-xl mb-6 lg:mb-8">
+              Each concept with its own character, all crafted by Samsara Group.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
               {worlds.map((world) => (
                 <Link key={world.name} href={world.href} className="group card-hover bg-surface-container-low p-5 lg:p-6 hover:bg-surface transition-colors">

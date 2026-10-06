@@ -6,15 +6,15 @@ import { urlFor } from "@/sanity/lib/image";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Samsara Group — We Create Places To Feel Something",
-  description: "A multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
+  title: "Samsara Group — Many Identities, One Standard",
+  description: "Samsara Group is a lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia — from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.",
   alternates: {
     canonical: "/",
   },
   openGraph: openGraphFor({
     path: "/",
     title: "Samsara Group",
-    description: "A multidisciplinary lifestyle and hospitality collective.",
+    description: "A lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia.",
   }),
 };
 

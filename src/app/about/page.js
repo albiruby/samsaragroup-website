@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "About — Samsara Group",
-  description: "Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
+  description: "Samsara Group is a lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia — from full-service dining and heritage restaurants to resort stays, wellness cafes, and neighborhood coffee.",
   alternates: {
 canonical: "/about",
     },
@@ -37,7 +37,7 @@ url: siteUrl("/about"),
               name: "Samsara Group",
               url: SITE_URL,
               description:
-                "A multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.",
+                "A lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia.",
             },
           }),
         }}
@@ -55,14 +55,14 @@ url: siteUrl("/about"),
               <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">ABOUT US</span>
               <TextClipReveal>
                 <h1 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight mb-6 text-on-surface">
-                  WE CREATE PLACES<br />TO FEEL SOMETHING.
+                  MANY IDENTITIES,<br />ONE STANDARD.
                 </h1>
               </TextClipReveal>
               <p className="font-body text-body-lg text-on-surface-variant leading-relaxed mb-6">
-                Samsara Group is a multidisciplinary lifestyle and hospitality collective creating meaningful experiences across music, dining, design, hospitality, and culture.
+                Samsara Group is a lifestyle and hospitality group that develops and operates distinct destination concepts across Indonesia, from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.
               </p>
               <p className="font-body text-body-lg text-on-surface-variant leading-relaxed">
-                Four distinct worlds — each a curated expression of craft, sound, taste, and stillness — together forming a single philosophy of intentional living.
+                Each concept carries its own name, its own character, and its own standard — together forming a single philosophy of intentional living.
               </p>
             </div>
           </div>
