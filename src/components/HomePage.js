@@ -59,8 +59,8 @@ export default function HomePage({ marqueeImages }) {
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
               <h1 className="font-display font-bold text-headline-lg-mobile md:text-headline-lg lg:text-display-hero uppercase leading-[0.95] tracking-wider text-white max-w-5xl">
-                EVERY SOUL.<br />
-                <span className="text-white/80">FINDS ITS GROUND</span>
+                EVERY SOUL<br />
+                <span className="text-white/80">FINDS ITS GROUND.</span>
               </h1>
             </div>
           </div>
