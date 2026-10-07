@@ -83,7 +83,7 @@ export default function Header() {
     >
       <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
         <Link href="/" className="col-start-1 justify-self-start flex-shrink-0 flex items-center h-full overflow-hidden">
-          <img src="/White Logo Samsara/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
+          <img src="/White Logo Samsara/whitefullsamping-480.webp" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
         <nav className="col-start-2 hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8 justify-self-center">

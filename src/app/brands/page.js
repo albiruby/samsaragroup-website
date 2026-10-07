@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl } from "@/sanity/lib/image";
 import { getBrandCards } from "@/sanity/lib/brands";
 import { jsonLdHtml } from "@/lib/jsonld";
 
@@ -63,7 +63,7 @@ url: siteUrl("/brands"),
             <Link key={brand.name} href={brand.href} className="group block border border-outline-variant overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative aspect-[4/5] overflow-hidden">
                 {brand.image ? (
-                  <img src={urlFor(brand.image).url()} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={sizedUrl(brand.image, 600)} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 ) : (
                   <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 )}

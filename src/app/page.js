@@ -1,7 +1,7 @@
 import { openGraphFor } from "@/lib/site";
 import HomePage from "@/components/HomePage";
 import { getCarouselImages } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,8 @@ export default async function Page() {
   const marqueeImages = slides
     .filter((s) => s.image)
     .map((s) => ({
-      src: urlFor(s.image).url(),
+      // The marquee tile is 320x220 on desktop, so 640 covers 2x screens.
+      src: sizedUrl(s.image, 640),
       brand: s.brand || "",
       alt: s.alt || "",
     }));

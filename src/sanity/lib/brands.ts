@@ -1,5 +1,5 @@
 import { getWorlds, getBrandNavConfig } from "./queries";
-import { urlFor } from "./image";
+import { urlFor, sizedUrl } from "./image";
 import { BRAND_COPY, brandCopy } from "@/lib/brands-copy";
 
 const DEFAULT_SEE_ALL = "See All Brands →";
@@ -34,9 +34,9 @@ const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
  * the marquee uses the black mark, the cards use the white mark with `invert`.
  */
 const LEGACY_LOGO: Record<string, string> = {
-  samsara: "/Black Logo Samsara/blackfullsamping.png",
-  svarga: "/assetsvarga/Svarga logo black.webp",
-  acasa: "/assetacasa/logoacasahitam.webp",
+  samsara: "/Black Logo Samsara/blackfullsamping-480.webp",
+  svarga: "/assetsvarga/Svarga logo black-480.webp",
+  acasa: "/assetacasa/logoacasahitam-480.webp",
 };
 
 /**
@@ -45,9 +45,9 @@ const LEGACY_LOGO: Record<string, string> = {
  * keeps it legible on photography.
  */
 const CARD_LOGO: Record<string, string> = {
-  samsara: "/White Logo Samsara/whitefullsamping.png",
-  svarga: "/assetsvarga/Svarga logo black.webp",
-  acasa: "/assetacasa/Main Logo3.webp",
+  samsara: "/White Logo Samsara/whitefullsamping-480.webp",
+  svarga: "/assetsvarga/Svarga logo black-480.webp",
+  acasa: "/assetacasa/Main Logo3-480.webp",
 };
 
 export const LEGACY_CARD_FALLBACK: Record<string, string> = {
@@ -130,19 +130,19 @@ const SEED_CARDS = [
   {
     slug: "samsara",
     fallback: "/ambiencesamsara/DSC08177.webp",
-    logo: "/White Logo Samsara/whitefullsamping.png",
+    logo: "/White Logo Samsara/whitefullsamping-480.webp",
     image: null,
   },
   {
     slug: "svarga",
     fallback: "/assetsvarga/ADR (9 of 15).webp",
-    logo: "/assetsvarga/Svarga logo black.webp",
+    logo: "/assetsvarga/Svarga logo black-480.webp",
     image: null,
   },
   {
     slug: "acasa",
     fallback: "/assetacasa/ADR-06539.webp",
-    logo: "/assetacasa/Main Logo3.webp",
+    logo: "/assetacasa/Main Logo3-480.webp",
     image: null,
   },
   {

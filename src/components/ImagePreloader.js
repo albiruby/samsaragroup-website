@@ -12,7 +12,7 @@ const preloadMap = {
     "/ambiencesamsara/DSC08913.webp",
   ],
   "/samsara": [
-    "/Black Logo Samsara/blackfullsamping.png",
+    "/Black Logo Samsara/blackfullsamping-480.webp",
     "/ambiencesamsara/DSC08187.webp",
     "/ambiencesamsara/DSC08177.webp",
     "/ambiencesamsara/DSC08930.webp",
@@ -28,7 +28,7 @@ const preloadMap = {
     "/menusamsara/0001.webp",
   ],
   "/svarga": [
-    "/assetsvarga/Svarga logo black.webp",
+    "/assetsvarga/Svarga logo black-480.webp",
     "/assetsvarga/ADR (3 of 15).webp",
     "/assetsvarga/ADR (4 of 4).webp",
     "/assetsvarga/ADR (2 of 4).webp",
@@ -36,7 +36,7 @@ const preloadMap = {
     "/assetsvarga/ADR (1 of 4).webp",
   ],
   "/acasa": [
-    "/assetacasa/logoacasahitam.webp",
+    "/assetacasa/logoacasahitam-480.webp",
     "/assetacasa/ADR-06545.webp",
     "/assetacasa/ADR-06529.webp",
     "/assetacasa/ADR-06507.webp",
