@@ -81,12 +81,12 @@ export default function Header() {
           : "bg-primary/70 backdrop-blur-xl border-b border-white/10"
       }`}
     >
-      <div className="w-full flex items-center justify-between h-16 lg:h-20 px-6 lg:px-10">
-        <Link href="/" className="flex-shrink-0 flex items-center h-full overflow-hidden">
+      <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
+        <Link href="/" className="col-start-1 justify-self-start flex-shrink-0 flex items-center h-full overflow-hidden">
           <img src="/White Logo Samsara/whitefullsamping.png" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
-        <nav className="hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8">
+        <nav className="col-start-2 hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8 justify-self-center">
           <Link
             href="/"
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
@@ -194,7 +194,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="col-start-3 flex items-center gap-4 justify-self-end">
           <Link
             href="/contact"
             className="hidden sm:inline-block font-label text-body-sm tracking-[0.12em] px-6 py-2.5 border border-white/40 text-white transition-colors duration-200 hover:bg-white hover:text-primary"

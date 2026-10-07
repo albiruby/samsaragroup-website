@@ -89,8 +89,8 @@ export default function MobileMenu({ isOpen, onClose }) {
         </svg>
       </button>
 
-      <div className="menu-scroll w-full h-full flex flex-col items-center justify-center overflow-y-auto px-6 py-20">
-        <nav className="flex flex-col items-center gap-4">
+      <div className="menu-scroll w-full h-full flex flex-col overflow-y-auto px-6 py-20">
+        <nav className="my-auto w-full flex flex-col items-center gap-4">
           {mobileLinks.slice(0, 1).map((link) => (
             <Link
               key={link.label}
@@ -116,7 +116,7 @@ export default function MobileMenu({ isOpen, onClose }) {
           </button>
 
           {brandsOpen && (
-            <div className="w-full max-w-[420px] mx-auto border-t border-white/10 pt-4 mt-1 flex flex-col">
+            <div className="w-full max-w-[420px] mx-auto border-t border-white/10 pt-4 flex flex-col">
               {brandCategories.map((cat) => (
                 <div key={cat.name} className="border-b border-white/5 last:border-b-0">
                   <button
@@ -156,7 +156,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                 <Link
                   href="/brands"
                   onClick={handleClose}
-                  className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
+                  className="mt-2 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
                 >
                   {seeAllLabel}
                 </Link>
