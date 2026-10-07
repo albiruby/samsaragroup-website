@@ -1,6 +1,9 @@
-import { getWorlds } from "./queries";
+import { getWorlds, getBrandNavConfig } from "./queries";
 import { urlFor } from "./image";
 import { BRAND_COPY, brandCopy } from "@/lib/brands-copy";
+
+const DEFAULT_SEE_ALL = "See All Brands →";
+const DEFAULT_EMPTY = "Hover a brand";
 
 type NavWorld = {
   _id: string;
@@ -78,6 +81,8 @@ export type NavBrand = {
 export type BrandNav = {
   categories: { name: string; brands: NavBrand[] }[];
   all: NavBrand[];
+  seeAllLabel: string;
+  emptyLabel: string;
 };
 
 function toBrand(world: NavWorld): NavBrand {
@@ -93,21 +98,24 @@ function toBrand(world: NavWorld): NavBrand {
 }
 
 function fallbackNav(): BrandNav {
-  const worlds = CATEGORY_SEED.map(({ name, legacy }) => ({
-    name,
-    brands: legacy.map((slug) => ({
-      slug,
-      label: slug.charAt(0).toUpperCase() + slug.slice(1),
-      speciality: "",
-      href: `/${slug}`,
-      logo: LEGACY_LOGO[slug] ?? null,
-      image: null,
-    })),
+  const all = Array.from(new Set(CATEGORY_SEED.flatMap((c) => c.legacy))).map((slug) => ({
+    slug,
+    label: brandCopy(slug)?.name || slug,
+    speciality: brandCopy(slug)?.disciplines || "",
+    href: `/${slug}`,
+    logo: LEGACY_LOGO[slug] ?? null,
+    image: null,
   }));
-  const all = Array.from(new Set(CATEGORY_SEED.flatMap((c) => c.legacy))).map((slug) =>
-    worlds.flatMap((c) => c.brands).find((b) => b.slug === slug)
-  );
-  return { categories: worlds, all };
+  const categories = CATEGORY_SEED.map(({ name, legacy }) => ({
+    name,
+    brands: legacy.map((slug) => all.find((b) => b.slug === slug)).filter(Boolean) as NavBrand[],
+  }));
+  return {
+    categories,
+    all,
+    seeAllLabel: DEFAULT_SEE_ALL,
+    emptyLabel: DEFAULT_EMPTY,
+  };
 }
 
 /**
@@ -199,10 +207,11 @@ function rowTitle(world: NavWorld): string {
 }
 
 /**
- * Builds the BRANDS dropdown and footer brand list straight from Sanity so a new
- * brand needs no code: every active brand is one row, titled by its own
- * `tagline`, ordered by its own `order`. Falls back to the seeded skeleton if
- * the CMS is unreachable.
+ * Builds the BRANDS dropdown and footer brand list straight from Sanity.
+ *
+ * Rows come from the BRANDS Dropdown document, which owns the order and the
+ * grouping. When that document is missing or empty, each active brand becomes its
+ * own row titled by its `tagline`, so the dropdown still works without it.
  */
 export async function getBrandNav(): Promise<BrandNav> {
   let worlds: NavWorld[];
@@ -218,18 +227,44 @@ export async function getBrandNav(): Promise<BrandNav> {
 
   if (!publicWorlds.length) return fallbackNav();
 
-  // Header and MobileMenu track the open row by its title, so two brands sharing
-  // one would open together. Qualify the second rather than rendering a dead row.
+  const bySlug = new Map(publicWorlds.map((w) => [slugOf(w), w]));
+  const config = await getBrandNavConfig().catch(() => null);
+
+  const configured = (config?.rows ?? [])
+    .map((row) => {
+      const brands = (row.brands ?? [])
+        .map((brand) => (brand as NavWorld)?._id ? bySlug.get(slugOf(brand as NavWorld)) : null)
+        .filter((w): w is NavWorld => Boolean(w))
+        .map(toBrand);
+      const first = brands[0];
+      const world = first ? bySlug.get(first.slug) : undefined;
+      return { name: row.title?.trim() || (world ? rowTitle(world) : ""), brands };
+    })
+    .filter((row) => row.name && row.brands.length > 0);
+
+  // Header and MobileMenu track the open row by its title, so two rows sharing one
+  // would open together. Qualify the repeat rather than rendering a dead row.
   const usedTitles = new Set<string>();
-  const categories = publicWorlds.map((world) => {
-    const brand = toBrand(world);
-    let name = rowTitle(world);
-    if (usedTitles.has(name)) name = `${name} - ${brand.label}`;
+  const categories = (configured.length ? configured : deriveRows(publicWorlds)).map((row) => {
+    let name = row.name;
+    if (usedTitles.has(name)) name = `${name} - ${row.brands[0].label}`;
     usedTitles.add(name);
-    return { name, brands: [brand] };
+    return { name, brands: row.brands };
   });
 
   const all = publicWorlds.map(toBrand);
 
-  return { categories, all };
+  return {
+    categories,
+    all,
+    // An empty string in the document means "hide this", so only fall back when
+    // the document has no value at all.
+    seeAllLabel: config ? (config.seeAllLabel ?? DEFAULT_SEE_ALL).trim() : DEFAULT_SEE_ALL,
+    emptyLabel: config ? (config.emptyLabel ?? DEFAULT_EMPTY).trim() : DEFAULT_EMPTY,
+  };
+}
+
+/** One row per active brand, titled by its own tagline, in the CMS order. */
+function deriveRows(publicWorlds: NavWorld[]): { name: string; brands: NavBrand[] }[] {
+  return publicWorlds.map((world) => ({ name: rowTitle(world), brands: [toBrand(world)] }));
 }

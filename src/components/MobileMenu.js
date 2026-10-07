@@ -13,7 +13,7 @@ const mobileLinks = [
 ];
 
 export default function MobileMenu({ isOpen, onClose }) {
-  const { categories: brandCategories } = useBrandNav();
+  const { categories: brandCategories, seeAllLabel } = useBrandNav();
   const closeButtonRef = useRef(null);
   const previousFocusRef = useRef(null);
   const [brandsOpen, setBrandsOpen] = useState(false);
@@ -152,13 +152,15 @@ export default function MobileMenu({ isOpen, onClose }) {
                   )}
                 </div>
               ))}
-              <Link
-                href="/brands"
-                onClick={handleClose}
-                className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
-              >
-                See All Brands →
-              </Link>
+              {seeAllLabel && (
+                <Link
+                  href="/brands"
+                  onClick={handleClose}
+                  className="mt-3 py-3 text-center text-[12px] tracking-[0.25em] uppercase text-white/70 hover:text-terracotta transition-colors min-h-[44px] flex items-center justify-center"
+                >
+                  {seeAllLabel}
+                </Link>
+              )}
             </div>
           )}
 

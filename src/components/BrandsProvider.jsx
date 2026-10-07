@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 
-const EMPTY = { categories: [], all: [] };
+const EMPTY = { categories: [], all: [], seeAllLabel: "", emptyLabel: "" };
 
 const BrandsContext = createContext(EMPTY);
 

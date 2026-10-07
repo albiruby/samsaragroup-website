@@ -36,7 +36,7 @@ function preloadImages(srcs) {
 }
 
 export default function Header() {
-  const { categories: brandCategories } = useBrandNav();
+  const { categories: brandCategories, seeAllLabel, emptyLabel } = useBrandNav();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
@@ -149,20 +149,22 @@ export default function Header() {
                             </span>
                           </Link>
                         ))
-                      ) : (
+                      ) : emptyLabel ? (
                         <p className="px-7 py-3 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant/70">
-                          Hover a brand
+                          {emptyLabel}
                         </p>
-                      )}
+                      ) : null}
                     </div>
                     <div className="border-t border-outline-variant mt-2">
-                      <Link
-                        href="/brands"
-                        onClick={() => setBrandsOpen(false)}
-                        className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
-                      >
-                        See All Brands →
-                      </Link>
+                      {seeAllLabel && (
+                        <Link
+                          href="/brands"
+                          onClick={() => setBrandsOpen(false)}
+                          className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
+                        >
+                          {seeAllLabel}
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

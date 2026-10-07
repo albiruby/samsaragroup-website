@@ -98,6 +98,39 @@ function hydrateWorld(doc: World): World {
   return doc;
 }
 
+export type BrandNavRow = {
+  title?: string;
+  brands: unknown[];
+};
+
+export type BrandNavConfig = {
+  rows: BrandNavRow[];
+  seeAllLabel?: string;
+  emptyLabel?: string;
+};
+
+/**
+ * The document that owns the BRANDS dropdown: which brands sit in which row, in
+ * which order. Returns null when no one has created it, and the caller falls
+ * back to deriving rows from the brand documents themselves.
+ */
+export async function getBrandNavConfig(): Promise<BrandNavConfig | null> {
+  try {
+    return await client.fetch(
+      `*[_type == "brandNav"][0]{
+        seeAllLabel,
+        emptyLabel,
+        "rows": rows[]{ title, "brands": brands[]->${WORLD_PROJECTION} }
+      }`,
+      {},
+      revalidate
+    );
+  } catch (e) {
+    console.error("getBrandNavConfig failed:", e.message);
+    return null;
+  }
+}
+
 export async function getWorlds() {
   try {
     const docs = await client.fetch(
