@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
@@ -73,6 +73,13 @@ export default function Header() {
 
   const isHomeTop = isHome && !scrolled;
 
+  // The right-hand column always shows the brands of the row being hovered, so the
+  // panel header can count them and the list never lags a frame behind the label.
+  const activeBrands = useMemo(
+    () => brandCategories.find((c) => c.name === activeCat)?.brands ?? [],
+    [brandCategories, activeCat]
+  );
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-300 ${
@@ -113,26 +120,44 @@ export default function Header() {
             {brandsOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[100] max-w-[calc(100vw-2rem)]">
                 <div className="flex bg-surface border border-outline-variant shadow-lg rounded-2xl overflow-hidden">
-                  <div className="py-4 border-r border-outline-variant min-w-[260px]">
-                    {brandCategories.map((cat) => (
+                  <div className="p-2 border-r border-outline-variant min-w-[240px]">
+                    {brandCategories.map((cat, i) => (
                       <button
                         key={cat.name}
                         onMouseEnter={() => setActiveCat(cat.name)}
                         onFocus={() => setActiveCat(cat.name)}
-                        className={`block w-full text-left px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase transition-colors cursor-pointer ${
+                        className={`relative block w-full text-left px-5 py-4 font-label text-label-sm tracking-[0.14em] uppercase transition-colors cursor-pointer ${
                           activeCat === cat.name
                             ? "bg-surface-container-low text-on-surface font-bold"
-                            : "text-on-surface-variant hover:text-on-surface font-normal"
+                            : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low/50 font-normal"
                         }`}
                       >
                         {cat.name}
+                        {i < brandCategories.length - 1 && (
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute bottom-0 left-5 right-5 h-px bg-outline-variant/50"
+                          />
+                        )}
                       </button>
                     ))}
                   </div>
-                  <div className="py-4 min-w-[500px] max-w-[560px] flex flex-col">
-                    <div className="flex-1">
-                      {activeCat ? (
-                        (brandCategories.find((c) => c.name === activeCat)?.brands ?? []).map((b) => (
+                  <div className="p-2 min-w-[360px] max-w-[440px] flex flex-col">
+                    <div className="relative flex items-baseline gap-2 px-5 py-4">
+                      <span className="font-label text-label-sm tracking-[0.14em] uppercase text-on-surface">
+                        Brands
+                      </span>
+                      <span className="font-label text-label-sm tracking-[0.14em] text-on-surface-variant/70">
+                        ({activeBrands.length})
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute bottom-0 left-5 right-5 h-px bg-outline-variant"
+                      />
+                    </div>
+                    <div className="flex-1 flex flex-col">
+                      {activeBrands.length ? (
+                        activeBrands.map((b, i) => (
                           <Link
                             key={b.href}
                             href={b.href}
@@ -141,31 +166,47 @@ export default function Header() {
                               if (imgs) preloadImages(imgs);
                             }}
                             onClick={() => setBrandsOpen(false)}
-                            className="flex items-center gap-6 px-7 py-3.5 hover:bg-surface-container-low transition-colors"
+                            className="relative flex items-center gap-4 px-5 py-3 hover:bg-surface-container-low transition-colors"
                           >
                             <span className="min-w-0">
-                              <span className="block font-label text-label-sm font-bold tracking-[0.14em] uppercase text-on-surface">{b.label}</span>
-                              <span className="block font-body text-body-sm font-normal italic text-on-surface-variant mt-0.5">{b.speciality}</span>
+                              <span className="block font-label text-label-sm font-bold tracking-[0.14em] uppercase text-on-surface">
+                                {b.label}
+                              </span>
+                              <span className="block font-body text-body-sm font-normal italic text-on-surface-variant mt-1">
+                                {b.speciality}
+                              </span>
                             </span>
+                            {i < activeBrands.length - 1 && (
+                              <span
+                                aria-hidden="true"
+                                className="pointer-events-none absolute bottom-0 left-5 right-5 h-px bg-outline-variant/50"
+                              />
+                            )}
                           </Link>
                         ))
                       ) : emptyLabel ? (
-                        <p className="px-7 py-3 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant/70">
+                        <p className="px-5 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface-variant/70">
                           {emptyLabel}
                         </p>
                       ) : null}
                     </div>
-                    <div className="border-t border-outline-variant mt-2">
-                      {seeAllLabel && (
+                    {seeAllLabel && (
+                      <div className="relative">
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute top-0 left-5 right-5 h-px bg-outline-variant"
+                        />
+                        {/* pt-3/pb-4 keeps this label level with the last category row
+                            while the rule above it sits close to the text. */}
                         <Link
                           href="/brands"
                           onClick={() => setBrandsOpen(false)}
-                          className="block px-7 py-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
+                          className="block px-5 pt-3 pb-4 font-label text-label-sm tracking-[0.14em] uppercase text-on-surface hover:text-terracotta transition-colors"
                         >
                           {seeAllLabel}
                         </Link>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
