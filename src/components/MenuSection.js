@@ -7,6 +7,9 @@ const TOTAL_PAGES = 36;
 
 const srcFor = (page) => `/menusamsara/${String(page).padStart(4, "0")}.webp`;
 
+/** The strip shows these at 48px wide, so it uses the 96px thumbs, not the 9.8 MB originals. */
+const thumbFor = (page) => `/menusamsara/thumbs/${String(page).padStart(4, "0")}.webp`;
+
 export default function MenuSection() {
   const [current, setCurrent] = useState(1);
 
@@ -75,10 +78,11 @@ export default function MenuSection() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={srcFor(page)}
+                src={thumbFor(page)}
                 alt={`Menu page ${page}`}
                 className="w-full h-full object-cover"
                 loading="lazy"
+                decoding="async"
               />
             </button>
           ))}

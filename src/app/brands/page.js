@@ -71,12 +71,12 @@ url: siteUrl("/brands"),
                   {brand.logo ? (
                     <img src={brand.logo} alt={brand.name} className="w-[75%] max-w-[280px] max-h-[45%] object-contain brightness-0 invert" />
                   ) : (
-                    <h3 className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</h3>
+                    <p className="font-display text-headline-md lg:text-headline-lg uppercase text-white tracking-wide">{brand.name}</p>
                   )}
                 </div>
               </div>
               <div className="p-5">
-                <h3 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h3>
+                <h2 className="font-display text-title-lg uppercase text-on-surface mb-1">{brand.name}</h2>
                 <p className="font-body text-body-sm text-on-surface-variant italic">{brand.tagline}</p>
               </div>
             </Link>

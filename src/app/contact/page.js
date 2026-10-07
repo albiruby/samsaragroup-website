@@ -56,16 +56,16 @@ export default async function ContactPage() {
             <div className="space-y-8">
               {whatsapp.map((item) => (
                 <div key={item.phone}>
-                  <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">
+                  <h2 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">
                     {item.label}
-                    <span className="text-body-sm font-normal normal-case tracking-normal text-on-surface-variant/70"> · {item.city}</span>
-                  </h3>
+                    <span className="text-body-sm font-normal normal-case tracking-normal text-on-surface-variant"> · {item.city}</span>
+                  </h2>
                   <a
                     href={`https://wa.me/${item.phone}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor="VIEW"
-                    className="group inline-flex min-h-[44px] items-center gap-3 text-body-md text-terracotta underline underline-offset-4 transition-colors hover:text-primary"
+                    className="group inline-flex min-h-[44px] items-center gap-3 text-body-md font-medium text-primary underline underline-offset-4 transition-colors hover:text-terracotta"
                   >
                     {item.display}
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform group-hover:translate-x-1">
@@ -80,7 +80,7 @@ export default async function ContactPage() {
           <ScrollReveal>
             <div className="space-y-8">
               <div>
-                <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Visit Us</h3>
+                <h2 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Visit Us</h2>
                 <div className="space-y-3 text-body-md text-on-surface-variant">
                   {addresses.map((addr, i) => (
                     <div key={addr.label || addr.name || i}>
@@ -91,7 +91,7 @@ export default async function ContactPage() {
                 </div>
               </div>
               <div>
-                <h3 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Hours</h3>
+                <h2 className="mb-2 text-title-lg font-medium uppercase tracking-wide text-on-surface">Hours</h2>
                 <p className="text-body-md text-on-surface-variant">{hours}</p>
               </div>
             </div>
