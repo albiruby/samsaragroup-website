@@ -6,8 +6,8 @@ type NavWorld = {
   _id: string;
   name?: string;
   slug?: { current?: string } | string;
+  tagline?: string;
   speciality?: string;
-  categories?: string[] | null;
   logo?: unknown;
   image?: unknown;
   order?: number;
@@ -16,12 +16,9 @@ type NavWorld = {
 };
 
 /**
- * Navigation skeleton for the BRANDS dropdown.
- *
- * Each row is one brand, labelled with its descriptive title rather than a
- * category. The order is a navigation design decision, not content, so it lives
- * here: the five established brands keep their curated titles, and anything
- * created in Sanity is appended at the end rather than silently dropped.
+ * Navigation skeleton used only when Sanity cannot be reached, so a CMS outage
+ * cannot empty the dropdown. Rows come from Sanity on the happy path, where the
+ * title is the brand's own `tagline` and the position is its own `order`.
  */
 const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
   name: title,
@@ -192,8 +189,20 @@ export async function getBrandCards(): Promise<BrandCard[]> {
 }
 
 /**
+ * The row title for a brand. `tagline` is what the Studio editor writes and sees,
+ * so that is the source; the hardcoded copy only fills in a brand whose tagline
+ * was left blank.
+ */
+function rowTitle(world: NavWorld): string {
+  const slug = slugOf(world);
+  return world.tagline?.trim() || brandCopy(slug)?.title || world.name || slug;
+}
+
+/**
  * Builds the BRANDS dropdown and footer brand list straight from Sanity so a new
- * brand needs no code. Falls back to the seeded skeleton if the CMS is unreachable.
+ * brand needs no code: every active brand is one row, titled by its own
+ * `tagline`, ordered by its own `order`. Falls back to the seeded skeleton if
+ * the CMS is unreachable.
  */
 export async function getBrandNav(): Promise<BrandNav> {
   let worlds: NavWorld[];
@@ -203,32 +212,24 @@ export async function getBrandNav(): Promise<BrandNav> {
     return fallbackNav();
   }
 
-  const bySlug = new Map(worlds.filter(isPublic).map((w) => [slugOf(w), w]));
-  if (!bySlug.size) return fallbackNav();
+  const publicWorlds = worlds
+    .filter(isPublic)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-  const categories = CATEGORY_SEED.map(({ name, legacy }) => {
-    const seeded = legacy
-      .map((slug) => bySlug.get(slug))
-      .filter((w): w is NavWorld => Boolean(w))
-      .map(toBrand);
+  if (!publicWorlds.length) return fallbackNav();
 
-    return { name, brands: seeded };
-  })
-    .filter((cat) => cat.brands.length > 0);
+  // Header and MobileMenu track the open row by its title, so two brands sharing
+  // one would open together. Qualify the second rather than rendering a dead row.
+  const usedTitles = new Set<string>();
+  const categories = publicWorlds.map((world) => {
+    const brand = toBrand(world);
+    let name = rowTitle(world);
+    if (usedTitles.has(name)) name = `${name} - ${brand.label}`;
+    usedTitles.add(name);
+    return { name, brands: [brand] };
+  });
 
-  // Each row now maps to exactly one brand, so anything created in Sanity has
-  // no curated title of its own. Collect those into one trailing group rather
-  // than appending them to every row.
-  const seededSlugs = new Set(categories.flatMap((cat) => cat.brands.map((b) => b.slug)));
-  const others = [...bySlug.values()]
-    .filter((w) => !seededSlugs.has(slugOf(w)))
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    .map(toBrand);
-  if (others.length) categories.push({ name: "OTHER", brands: others });
-
-  const all = [...bySlug.values()]
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    .map(toBrand);
+  const all = publicWorlds.map(toBrand);
 
   return { categories, all };
 }
