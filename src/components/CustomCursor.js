@@ -65,15 +65,17 @@ export default function CustomCursor() {
     };
   }, []);
 
+  // The native cursor is hidden (`body { cursor: none }`), so these have to sit above
+  // every overlay the site paints — header, mobile menu and preloader are all z-9999.
   return (
     <>
       <div
         ref={cursorRef}
-        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[9999] mix-blend-difference transition-[width,height,border-color,background-color] duration-300 hidden lg:pointer-fine:block"
+        className="custom-cursor fixed top-0 left-0 w-8 h-8 rounded-full border border-white/40 pointer-events-none z-[10000] mix-blend-difference transition-[width,height,border-color,background-color] duration-300 hidden lg:pointer-fine:block"
       />
       <div
         ref={dotRef}
-        className="custom-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[9999] mix-blend-difference hidden lg:pointer-fine:block"
+        className="custom-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[10000] mix-blend-difference hidden lg:pointer-fine:block"
       />
     </>
   );
