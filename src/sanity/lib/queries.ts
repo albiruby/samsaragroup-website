@@ -208,6 +208,7 @@ export type CareerPageDoc = {
   theme?: string;
   showBrandStrip?: boolean;
   positionsHeading?: string;
+  emptyHeadline?: string;
   emptyMessage?: string;
   applyUrl?: string;
   applyNote?: string;
@@ -220,7 +221,7 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
     return await client.fetch(
       `*[_type == "careerPage"][0] {
         eyebrow, title, intro, theme, showBrandStrip,
-        positionsHeading, emptyMessage, applyUrl, applyNote,
+        positionsHeading, emptyHeadline, emptyMessage, applyUrl, applyNote,
         seoTitle, seoDescription
       }`,
       {},

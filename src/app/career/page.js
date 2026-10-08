@@ -25,6 +25,7 @@ const DEFAULT = {
   theme: "light",
   showBrandStrip: true,
   positionsHeading: "Currently open positions",
+  emptyHeadline: "No open positions right now",
   emptyMessage: "Tidak ada lowongan terbuka di departemen ini saat ini.",
   applyUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
@@ -73,11 +74,19 @@ export default async function CareerPageRoute() {
     theme: page?.theme === "dark" ? "dark" : DEFAULT.theme,
     showBrandStrip: page?.showBrandStrip !== false,
     positionsHeading: page?.positionsHeading || DEFAULT.positionsHeading,
+    emptyHeadline: page?.emptyHeadline || DEFAULT.emptyHeadline,
     emptyMessage: page?.emptyMessage || DEFAULT.emptyMessage,
     applyNote: page?.applyNote ?? "",
   };
 
   const applyUrl = safeUrl(page?.applyUrl) || DEFAULT.applyUrl;
+
+  /**
+   * True only when the CMS answered and there is genuinely no active vacancy.
+   * An unreachable CMS keeps the normal heading so we never claim "no jobs"
+   * when we simply could not load them.
+   */
+  const noOpenPositions = !unavailable && jobs.length === 0;
 
   return (
     <>
@@ -175,7 +184,7 @@ export default async function CareerPageRoute() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
           <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-            {copy.positionsHeading}
+            {noOpenPositions ? copy.emptyHeadline : copy.positionsHeading}
           </h2>
         </ScrollReveal>
 
