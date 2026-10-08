@@ -11,14 +11,18 @@ const TYPE_LABELS = {
   internship: "Internship",
 };
 
-const FILTERS = [
-  { label: "View all", value: "all" },
-  { label: "Kitchen", value: "Kitchen" },
-  { label: "Barista", value: "Barista" },
-  { label: "Front of House", value: "Front of House" },
-  { label: "Guest Experience", value: "Guest Experience" },
-  { label: "Events", value: "Events" },
-  { label: "Operations", value: "Operations" },
+/**
+ * Preferred order for the filter row. Anything else an editor types in the CMS
+ * still gets a chip — this only decides where the known departments sit.
+ */
+const DEPARTMENT_ORDER = [
+  "Kitchen",
+  "Barista",
+  "Front of House",
+  "Guest Experience",
+  "Events",
+  "Operations",
+  "Marketing",
 ];
 
 const BRAND_LABELS = {
@@ -41,7 +45,14 @@ export default function CareerList({
 
   const departments = useMemo(() => {
     const present = new Set(jobs.map((j) => j.department).filter(Boolean));
-    return FILTERS.filter((f) => f.value === "all" || present.has(f.value));
+    const known = DEPARTMENT_ORDER.filter((department) => present.has(department));
+    const extra = [...present]
+      .filter((department) => !DEPARTMENT_ORDER.includes(department))
+      .sort((a, b) => a.localeCompare(b));
+    return [
+      { label: "View all", value: "all" },
+      ...[...known, ...extra].map((department) => ({ label: department, value: department })),
+    ];
   }, [jobs]);
 
   const visible = filter === "all" ? jobs : jobs.filter((j) => j.department === filter);
