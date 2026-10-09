@@ -21,6 +21,8 @@ const SAMSARA_LINKS = {
 
 const ADDRESS = "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129";
 
+const SAMSARA_WHATSAPP = "0852-8127-1988";
+
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
 /** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
@@ -187,13 +189,20 @@ export default async function SamsaraPage() {
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         <ScrollReveal>
-          <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          </TextClipReveal>
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
             <LeafletMap lat={coords.lat} lng={coords.lng} zoom={16} className="w-full h-full" label={`Lokasi Samsara, ${ADDRESS}`} />
           </div>
-          <p className="mt-4 text-body-sm text-on-surface-variant">
-            {world?.address || ADDRESS}
-          </p>
+          <div className="mt-6">
+            <p className="text-body-md text-on-surface font-medium">Samsara</p>
+            <p className="text-body-sm text-on-surface-variant">
+              {world?.tagline || "Sound. Food. Culture. A sanctuary where every frequency is designed."}
+            </p>
+            <p className="text-body-sm text-on-surface-variant">{world?.address || ADDRESS}</p>
+            <p className="text-body-sm text-on-surface-variant">WhatsApp: {SAMSARA_WHATSAPP}</p>
+          </div>
         </ScrollReveal>
       </section>
 
