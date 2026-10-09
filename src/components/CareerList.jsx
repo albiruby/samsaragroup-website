@@ -155,6 +155,12 @@ export default function CareerList({
                           {job.department}
                         </span>
                       ) : null}
+                      {postedLabel ? (
+                        <span className="sm:ml-auto sm:self-start inline-flex items-center gap-2 rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
+                          Posted at
+                          <time dateTime={job.postedAt || defaultPostedAt}>{postedLabel}</time>
+                        </span>
+                      ) : null}
                     </div>
 
                     <h3 className="font-display text-title-lg uppercase text-on-surface">
@@ -200,12 +206,6 @@ export default function CareerList({
                       {job.brand ? (
                         <span className="inline-flex items-center rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
                           {BRAND_LABELS[job.brand] || job.brand}
-                        </span>
-                      ) : null}
-                      {postedLabel ? (
-                        <span className="inline-flex items-center gap-2 rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
-                          Posted
-                          <time dateTime={job.postedAt || defaultPostedAt}>{postedLabel}</time>
                         </span>
                       ) : null}
                     </div>
