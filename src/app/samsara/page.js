@@ -26,8 +26,6 @@ const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 /** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
 const SAMSARA_ACTIONS = [
   { kind: "reservation", label: "RESERVATION", url: SAMSARA_LINKS.reservation },
-  { kind: "menu", label: "MENU", url: SAMSARA_LINKS.menu },
-  { kind: "location", label: "LOCATION", url: SAMSARA_LINKS.location },
   { kind: "instagram", url: SAMSARA_LINKS.instagram },
 ];
 

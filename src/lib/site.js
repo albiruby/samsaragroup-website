@@ -51,6 +51,7 @@ export const CTA_LABELS = {
   location: "LOCATION",
   career: "CAREER",
   links: "LINKS",
+  instagram: "INSTAGRAM",
 };
 
 export function ctaLabel(cta) {

@@ -16,8 +16,6 @@ export const dynamic = "force-dynamic";
 
 const ACASA_COORDS = { lat: -6.6167, lng: 106.8500 };
 
-const ACASA_MAP_LINK = "https://maps.app.goo.gl/NNbBmPUrX9mTYNQBA";
-const ACASA_LINKS = "https://linktr.ee/acasa.samsara";
 const ACASA_INSTAGRAM = "https://www.instagram.com/acasa.samsara";
 const ACASA_CONTACT = {
   whatsapp: "0811-8888-7828",
@@ -33,8 +31,11 @@ const ACASA_ACTIONS = [
     label: "RECEPTIONIST",
     url: "https://api.whatsapp.com/send/?phone=6281188887828&type=phone_number&app_absent=0",
   },
-  { kind: "links", label: "LINKS", url: ACASA_LINKS },
-  { kind: "location", label: "OPEN IN MAPS", url: ACASA_MAP_LINK },
+  {
+    kind: "roomrate",
+    label: "ROOM RATE",
+    url: "https://drive.google.com/drive/folders/1pqOn9pi5vwqoGfx_6SWjTt8TE_1H4ASi",
+  },
   { kind: "instagram", url: ACASA_INSTAGRAM },
 ];
 
@@ -168,11 +169,11 @@ export default async function AcasaPage() {
             <ScrollReveal>
               <div className="space-y-8">
                 <ImageParallax className="img-hover w-full aspect-[4/5]">
-                  {world?.image ? (
-                    <img src={urlFor(world.image).url()} alt="Acasa Interior" className="h-full w-full object-cover" />
-                  ) : (
-                    <img src="/assetacasa/ADR-06539.webp" alt="Acasa Interior" className="h-full w-full object-cover" />
-                  )}
+                  <img
+                    src="/assetacasa/open-hour-acasa.webp"
+                    alt="Acasa opening hours"
+                    className="h-full w-full object-cover"
+                  />
                 </ImageParallax>
               </div>
             </ScrollReveal>

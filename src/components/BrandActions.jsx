@@ -3,10 +3,11 @@ import { ctaLabel, safeUrl } from "@/lib/site";
 /**
  * Kinds hidden from the action row everywhere.
  *
- * `career` is dropped because the site has a dedicated /career page, so a
- * repeated button adds nothing.
+ * `career` is dropped because the site has a dedicated /career page.
+ * `menu`, `location` and `links` are dropped because each brand now presents
+ * its location through the map section instead of a button.
  */
-const HIDDEN_KINDS = new Set(["career"]);
+const HIDDEN_KINDS = new Set(["career", "menu", "location", "links"]);
 
 function InstagramIcon() {
   return (

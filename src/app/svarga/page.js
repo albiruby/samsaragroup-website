@@ -16,8 +16,6 @@ import BrandActions from "@/components/BrandActions";
 export const dynamic = "force-dynamic";
 
 const SVARGA_COORDS = { lat: -6.8500, lng: 106.9333 };
-const SVARGA_LINK = "https://maps.app.goo.gl/rn8Mfgk7NXJG79Xp8";
-const SVARGA_LINKS = "https://linktr.ee/svargabysamsara";
 const SVARGA_INSTAGRAM = "https://www.instagram.com/svarga.samsara";
 const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=phone_number&app_absent=0";
 const SVARGA_ADDRESS = "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat";
@@ -25,8 +23,6 @@ const SVARGA_ADDRESS = "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat";
 /** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
 const SVARGA_ACTIONS = [
   { kind: "reservation", label: "RESERVE", url: SVARGA_RESERVE },
-  { kind: "links", label: "LINKS", url: SVARGA_LINKS },
-  { kind: "location", label: "OPEN IN MAPS", url: SVARGA_LINK },
   { kind: "instagram", url: SVARGA_INSTAGRAM },
 ];
 

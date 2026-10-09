@@ -6,6 +6,7 @@ import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
 import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
+import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
@@ -17,6 +18,8 @@ export const dynamic = "force-dynamic";
  * stay empty until an editor fills `ctas` / `instagramUrl` in Sanity.
  */
 const GROVE_ACTIONS = [];
+
+const GROVE_COORDS = { lat: -6.574193, lng: 106.8014814 };
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -165,6 +168,23 @@ export default async function GrovePage() {
             </ScrollReveal>
           </div>
         </div>
+      </section>
+
+      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+        <ScrollReveal>
+          <TextClipReveal>
+            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">FIND US</h2>
+          </TextClipReveal>
+          <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
+            <LeafletMap
+              lat={GROVE_COORDS.lat}
+              lng={GROVE_COORDS.lng}
+              zoom={16}
+              className="w-full h-full"
+              label="Lokasi Grove, Bogor"
+            />
+          </div>
+        </ScrollReveal>
       </section>
 
       <Footer />
