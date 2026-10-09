@@ -9,7 +9,7 @@ import TextClipReveal from "@/components/TextClipReveal";
 import MenuSection from "@/components/MenuSection";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import InstagramLink from "@/components/InstagramLink";
+import BrandActions from "@/components/BrandActions";
 
 const SAMSARA_LINKS = {
   reservation: "https://wa.me/6285281271988",
@@ -23,10 +23,13 @@ const ADDRESS = "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jaw
 
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
-/** The CMS drives these now; the literals above stay as the fallback and the source of truth for the copy. */
-function cta(world, kind, fallback) {
-  return world.ctas?.find((c) => c.kind === kind)?.url || fallback;
-}
+/** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
+const SAMSARA_ACTIONS = [
+  { kind: "reservation", label: "RESERVATION", url: SAMSARA_LINKS.reservation },
+  { kind: "menu", label: "MENU", url: SAMSARA_LINKS.menu },
+  { kind: "location", label: "LOCATION", url: SAMSARA_LINKS.location },
+  { kind: "instagram", url: SAMSARA_LINKS.instagram },
+];
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -142,27 +145,6 @@ export default async function SamsaraPage() {
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-                  <a
-                    href={cta(world, "reservation", SAMSARA_LINKS.reservation)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                  >
-                    RESERVATION
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </a>
-                  <a
-                    href={cta(world, "menu", SAMSARA_LINKS.menu)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                  >
-                    MENU
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 1v8M2.5 5.5L6 9l3.5-3.5M1 11h10" /></svg>
-                  </a>
-                </div>
-
                 <div className="border-t border-outline-variant pt-8">
                   <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">AT A GLANCE</h2>
                   <div className="space-y-4">
@@ -174,6 +156,8 @@ export default async function SamsaraPage() {
                     ))}
                   </div>
                 </div>
+
+                <BrandActions world={world} fallbacks={SAMSARA_ACTIONS} />
               </div>
             </ScrollReveal>
           </div>
@@ -187,19 +171,6 @@ export default async function SamsaraPage() {
                   ) : (
                     <img src="/ambiencesamsara/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
                   )}
-                </div>
-
-                <div className="space-y-3">
-                  <a
-                    href={cta(world, "location", SAMSARA_LINKS.location)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                  >
-                    LOCATION
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                  </a>
-                  <InstagramLink href={world?.instagramUrl || SAMSARA_LINKS.instagram} full />
                 </div>
               </div>
             </ScrollReveal>

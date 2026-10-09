@@ -8,8 +8,15 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import BrandActions from "@/components/BrandActions";
 
 export const dynamic = "force-dynamic";
+
+/**
+ * No hardcoded buttons: Grove's actions come from the CMS alone, so the slots
+ * stay empty until an editor fills `ctas` / `instagramUrl` in Sanity.
+ */
+const GROVE_ACTIONS = [];
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -112,32 +119,51 @@ export default async function GrovePage() {
       </section>
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <div className="grid gap-8 lg:gap-16 lg:grid-cols-2">
-          <ScrollReveal>
-            <div className="space-y-12">
-              <div>
-                <TextClipReveal>
-                  <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
-                </TextClipReveal>
-                <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Less formal, more feeling. Grove is the casual counterpart to Samsara â€” same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
-                </p>
+        <div className="grid gap-8 lg:gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <ScrollReveal>
+              <div className="space-y-12">
+                <div>
+                  <TextClipReveal>
+                    <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
+                  </TextClipReveal>
+                  <p className="text-body-md text-on-surface-variant leading-relaxed">
+                    Less formal, more feeling. Grove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
+                  </p>
+                </div>
+
+                <div className="border-t border-outline-variant pt-8">
+                  <TextClipReveal>
+                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
+                  </TextClipReveal>
+                  <div className="space-y-4">
+                    {specs.map(([label, value]) => (
+                      <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
+                        <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
+                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <BrandActions world={world} fallbacks={GROVE_ACTIONS} />
               </div>
-              <div className="border-t border-outline-variant pt-8">
-                <TextClipReveal>
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
-                </TextClipReveal>
-                <div className="space-y-4">
-                  {specs.map(([label, value]) => (
-                    <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
-                      <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
-                      <span className="text-body-md text-on-surface text-right min-w-0">{value}</span>
-                    </div>
-                  ))}
+            </ScrollReveal>
+          </div>
+
+          <div className="lg:col-span-5">
+            <ScrollReveal>
+              <div className="space-y-8">
+                <div className="img-hover w-full aspect-[4/5]">
+                  {world?.image ? (
+                    <img src={urlFor(world.image).url()} alt="Grove" className="h-full w-full object-cover" />
+                  ) : (
+                    <img src="/ambiencesamsara/DSC09048.webp" alt="Grove" className="h-full w-full object-cover" />
+                  )}
                 </div>
               </div>
-              </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 

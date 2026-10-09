@@ -11,7 +11,7 @@ import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import InstagramLink from "@/components/InstagramLink";
+import BrandActions from "@/components/BrandActions";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +22,13 @@ const SVARGA_INSTAGRAM = "https://www.instagram.com/svarga.samsara";
 const SVARGA_RESERVE = "https://api.whatsapp.com/send/?phone=628132148132&type=phone_number&app_absent=0";
 const SVARGA_ADDRESS = "Jl. Raya Nagrak, Cisarua, Sukabumi, Jawa Barat";
 
-function cta(world, kind, fallback) {
-  return world?.ctas?.find((c) => c.kind === kind)?.url || fallback;
-}
+/** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
+const SVARGA_ACTIONS = [
+  { kind: "reservation", label: "RESERVE", url: SVARGA_RESERVE },
+  { kind: "links", label: "LINKS", url: SVARGA_LINKS },
+  { kind: "location", label: "OPEN IN MAPS", url: SVARGA_LINK },
+  { kind: "instagram", url: SVARGA_INSTAGRAM },
+];
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -146,6 +150,8 @@ export default async function SvargaPage() {
                     ))}
                   </div>
                 </div>
+
+                <BrandActions world={world} fallbacks={SVARGA_ACTIONS} />
               </div>
             </ScrollReveal>
           </div>
@@ -160,15 +166,6 @@ export default async function SvargaPage() {
                     <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </ImageParallax>
-                <a
-                  href={cta(world, "reservation", SVARGA_RESERVE)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                >
-                  RESERVE
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
               </div>
             </ScrollReveal>
           </div>
@@ -194,36 +191,11 @@ export default async function SvargaPage() {
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
             <LeafletMap lat={SVARGA_COORDS.lat} lng={SVARGA_COORDS.lng} zoom={16} className="w-full h-full" label="Lokasi Svarga, Sukabumi" />
           </div>
-          <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="text-body-md text-on-surface font-medium">Svarga by Samsara</p>
-              <p className="text-body-sm text-on-surface-variant">Rasa, alam, dan tradisi berpadu jadi satu.</p>
-              <p className="text-body-sm text-on-surface-variant">{world?.address || SVARGA_ADDRESS}</p>
-              <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href={cta(world, "location", SVARGA_LINK)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-              >
-                OPEN IN MAPS
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-              <a
-                href={cta(world, "links", SVARGA_LINKS)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-              >
-                LINKS
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-            </div>
-          </div>
-          <div className="mt-3">
-            <InstagramLink href={world?.instagramUrl || SVARGA_INSTAGRAM} full />
+          <div className="mt-6">
+            <p className="text-body-md text-on-surface font-medium">Svarga by Samsara</p>
+            <p className="text-body-sm text-on-surface-variant">Rasa, alam, dan tradisi berpadu jadi satu.</p>
+            <p className="text-body-sm text-on-surface-variant">{world?.address || SVARGA_ADDRESS}</p>
+            <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
           </div>
         </ScrollReveal>
       </section>

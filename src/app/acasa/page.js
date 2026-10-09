@@ -10,16 +10,12 @@ import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
-import InstagramLink from "@/components/InstagramLink";
+import BrandActions from "@/components/BrandActions";
 
 export const dynamic = "force-dynamic";
 
 const ACASA_COORDS = { lat: -6.6167, lng: 106.8500 };
 
-/** The CMS drives these now; the literals below stay as the fallback and the source of truth for the copy. */
-function cta(world, kind, fallback) {
-  return world?.ctas?.find((c) => c.kind === kind)?.url || fallback;
-}
 const ACASA_MAP_LINK = "https://maps.app.goo.gl/NNbBmPUrX9mTYNQBA";
 const ACASA_LINKS = "https://linktr.ee/acasa.samsara";
 const ACASA_INSTAGRAM = "https://www.instagram.com/acasa.samsara";
@@ -28,6 +24,19 @@ const ACASA_CONTACT = {
   padelWa: "0853-8507-4709",
   address: "Jl. Raya Pertanian, Bendungan, Kec. Ciawi, Kab. Bogor, Jawa Barat 16720",
 };
+
+/** The CMS drives these; the literals stay as the fallback and the source of truth for the copy. */
+const ACASA_ACTIONS = [
+  { kind: "padel", label: "RESERVE PADEL", url: "https://ayo.co.id/v/acasa-padel" },
+  {
+    kind: "receptionist",
+    label: "RECEPTIONIST",
+    url: "https://api.whatsapp.com/send/?phone=6281188887828&type=phone_number&app_absent=0",
+  },
+  { kind: "links", label: "LINKS", url: ACASA_LINKS },
+  { kind: "location", label: "OPEN IN MAPS", url: ACASA_MAP_LINK },
+  { kind: "instagram", url: ACASA_INSTAGRAM },
+];
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -149,6 +158,8 @@ export default async function AcasaPage() {
                     ))}
                   </div>
                 </div>
+
+                <BrandActions world={world} fallbacks={ACASA_ACTIONS} />
               </div>
             </ScrollReveal>
           </div>
@@ -163,24 +174,6 @@ export default async function AcasaPage() {
                     <img src="/assetacasa/ADR-06539.webp" alt="Acasa Interior" className="h-full w-full object-cover" />
                   )}
                 </ImageParallax>
-                <a
-                  href="https://ayo.co.id/v/acasa-padel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                >
-                  RESERVE PADEL
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
-                <a
-                  href="https://api.whatsapp.com/send/?phone=6281188887828&type=phone_number&app_absent=0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-                >
-                  RECEPTIONIST
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-                </a>
               </div>
             </ScrollReveal>
           </div>
@@ -217,36 +210,11 @@ export default async function AcasaPage() {
           <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
             <LeafletMap lat={ACASA_COORDS.lat} lng={ACASA_COORDS.lng} zoom={16} className="w-full h-full" label="Lokasi Acasa, Ciawi, Bogor" />
           </div>
-          <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="text-body-md text-on-surface font-medium">Acasa by Samsara</p>
-              <p className="text-body-sm text-on-surface-variant">{world?.address || ACASA_CONTACT.address}</p>
-              <p className="text-body-sm text-on-surface-variant">Cottage & Stay: {ACASA_CONTACT.whatsapp}</p>
-              <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href={cta(world, "location", ACASA_MAP_LINK)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-              >
-                OPEN IN MAPS
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-              <a
-                href={cta(world, "links", ACASA_LINKS)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
-              >
-                LINKS
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
-              </a>
-            </div>
-          </div>
-          <div className="mt-3">
-            <InstagramLink href={world?.instagramUrl || ACASA_INSTAGRAM} full />
+          <div className="mt-6">
+            <p className="text-body-md text-on-surface font-medium">Acasa by Samsara</p>
+            <p className="text-body-sm text-on-surface-variant">{world?.address || ACASA_CONTACT.address}</p>
+            <p className="text-body-sm text-on-surface-variant">Cottage & Stay: {ACASA_CONTACT.whatsapp}</p>
+            <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
           </div>
         </ScrollReveal>
       </section>

@@ -8,6 +8,13 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import BrandActions from "@/components/BrandActions";
+
+/**
+ * No hardcoded buttons: Outpace's actions come from the CMS alone, so the slots
+ * stay empty until an editor fills `ctas` / `instagramUrl` in Sanity.
+ */
+const OUTPACE_ACTIONS = [];
 
 /**
  * Served from the CMS so an editor can change the title and description without a
@@ -145,32 +152,51 @@ export default async function OutpacePage() {
       </section>
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <div className="grid gap-8 lg:gap-16 lg:grid-cols-2">
-          <ScrollReveal>
-            <div className="space-y-12">
-              <div>
-                <TextClipReveal>
-                  <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
-                </TextClipReveal>
-                <p className="text-body-md text-on-surface-variant leading-relaxed">
-                  Run first, coffee after. Outpace is a pit stop for runners â€” fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
-                </p>
-              </div>
+        <div className="grid gap-8 lg:gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <ScrollReveal>
+              <div className="space-y-12">
+                <div>
+                  <TextClipReveal>
+                    <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
+                  </TextClipReveal>
+                  <p className="text-body-md text-on-surface-variant leading-relaxed">
+                    Run first, coffee after. Outpace is a pit stop for runners — fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
+                  </p>
+                </div>
+
                 <div className="border-t border-outline-variant pt-8">
-                <TextClipReveal>
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
-                </TextClipReveal>
-                <div className="space-y-4">
-                  {specs.map(([label, value]) => (
-                    <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
-                      <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
-                      <span className="text-body-md text-on-surface text-right min-w-0">{value}</span>
-                    </div>
-                  ))}
+                  <TextClipReveal>
+                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">SPECIFICATIONS</h2>
+                  </TextClipReveal>
+                  <div className="space-y-4">
+                    {specs.map(([label, value]) => (
+                      <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4">
+                        <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">{label}</span>
+                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <BrandActions world={world} fallbacks={OUTPACE_ACTIONS} />
+              </div>
+            </ScrollReveal>
+          </div>
+
+          <div className="lg:col-span-5">
+            <ScrollReveal>
+              <div className="space-y-8">
+                <div className="img-hover w-full aspect-[4/5]">
+                  {world?.image ? (
+                    <img src={urlFor(world.image).url()} alt="Outpace" className="h-full w-full object-cover" />
+                  ) : (
+                    <img src="/ambiencesamsara/DSC09014.webp" alt="Outpace" className="h-full w-full object-cover" />
+                  )}
                 </div>
               </div>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
