@@ -34,12 +34,42 @@ const BRAND_LABELS = {
   group: "Samsara Group",
 };
 
+const MONTHS = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
+
+/**
+ * Renders the CMS `date` field (YYYY-MM-DD) without touching Date or Intl. This list
+ * is a client component that also renders on the server, so a locale or timezone aware
+ * format could disagree between the two passes and break hydration.
+ */
+function formatPostedAt(value) {
+  if (typeof value !== "string") return null;
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value.trim());
+  if (!match) return null;
+  const monthIndex = Number(match[2]) - 1;
+  if (monthIndex < 0 || monthIndex > 11) return null;
+  return `${Number(match[3])} ${MONTHS[monthIndex]} ${match[1]}`;
+}
+
 export default function CareerList({
   jobs,
   applyUrl: groupApplyUrl,
   unavailable,
   emptyMessage,
   applyNote,
+  defaultPostedAt,
 }) {
   const [filter, setFilter] = useState("all");
 
@@ -105,6 +135,7 @@ export default function CareerList({
       <div className="flex flex-col">
         {visible.map((job) => {
           const href = safeUrl(job.applyUrl) || safeUrl(groupApplyUrl);
+          const postedLabel = formatPostedAt(job.postedAt || defaultPostedAt);
           return (
             <article
               key={job._id}
@@ -169,6 +200,12 @@ export default function CareerList({
                       {job.brand ? (
                         <span className="inline-flex items-center rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
                           {BRAND_LABELS[job.brand] || job.brand}
+                        </span>
+                      ) : null}
+                      {postedLabel ? (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
+                          Posted
+                          <time dateTime={job.postedAt || defaultPostedAt}>{postedLabel}</time>
                         </span>
                       ) : null}
                     </div>

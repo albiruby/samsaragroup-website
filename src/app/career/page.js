@@ -82,6 +82,14 @@ export default async function CareerPageRoute() {
   const applyUrl = safeUrl(page?.applyUrl) || DEFAULT.applyUrl;
 
   /**
+   * The CMS field description says an empty Posted At means "use today's date", so we
+   * resolve that here rather than in the client component. This route renders once on
+   * the server and the value travels down as a prop, which keeps the date identical
+   * across both passes — the component itself never calls Date.
+   */
+  const defaultPostedAt = new Date().toISOString().slice(0, 10);
+
+  /**
    * True only when the CMS answered and there is genuinely no active vacancy.
    * An unreachable CMS keeps the normal heading so we never claim "no jobs"
    * when we simply could not load them.
@@ -194,6 +202,7 @@ export default async function CareerPageRoute() {
           unavailable={unavailable}
           emptyMessage={copy.emptyMessage}
           applyNote={copy.applyNote}
+          defaultPostedAt={defaultPostedAt}
         />
       </section>
 
