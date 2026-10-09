@@ -142,7 +142,7 @@ export default function CareerList({
               className="border-t border-outline-variant py-8 last:border-b"
             >
               <ScrollReveal>
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-stretch sm:justify-between">
                   <div className="min-w-0">
                     <div className="mb-2 flex flex-wrap items-center gap-2">
                       {job.isUrgent ? (
@@ -153,12 +153,6 @@ export default function CareerList({
                       {job.department ? (
                         <span className="text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
                           {job.department}
-                        </span>
-                      ) : null}
-                      {postedLabel ? (
-                        <span className="sm:ml-auto sm:self-start inline-flex items-center gap-2 rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
-                          Posted at
-                          <time dateTime={job.postedAt || defaultPostedAt}>{postedLabel}</time>
                         </span>
                       ) : null}
                     </div>
@@ -211,19 +205,30 @@ export default function CareerList({
                     </div>
                   </div>
 
-                  {href ? (
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center gap-2 self-start py-3.5 font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta sm:self-center"
-                    >
-                      Apply
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M3 7h8M7 3l4 4-4 4" />
-                      </svg>
-                    </a>
-                  ) : null}
+                  <div className="flex shrink-0 flex-col items-end gap-4 sm:items-stretch">
+                    {postedLabel ? (
+                      <span className="inline-flex items-center gap-2 self-end rounded-full border border-outline-variant px-4 py-1.5 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">
+                        Posted at
+                        <time dateTime={job.postedAt || defaultPostedAt}>{postedLabel}</time>
+                      </span>
+                    ) : null}
+
+                    {href ? (
+                      <div className="flex sm:flex-1 sm:items-center sm:justify-end">
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex shrink-0 items-center gap-2 py-3.5 font-label text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:text-terracotta"
+                        >
+                          Apply
+                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M3 7h8M7 3l4 4-4 4" />
+                          </svg>
+                        </a>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </ScrollReveal>
             </article>
