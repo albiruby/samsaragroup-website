@@ -127,9 +127,6 @@ export default async function GrovePage() {
             <ScrollReveal>
               <div className="space-y-12">
                 <div>
-                  <TextClipReveal>
-                    <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
-                  </TextClipReveal>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
                     Less formal, more feeling. Grove is the casual counterpart to Samsara — same soul, lighter touch. A cafe where you come as you are, stay as long as you want, and leave a little lighter than you arrived.
                   </p>

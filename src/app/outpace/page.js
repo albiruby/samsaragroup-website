@@ -160,9 +160,6 @@ export default async function OutpacePage() {
             <ScrollReveal>
               <div className="space-y-12">
                 <div>
-                  <TextClipReveal>
-                    <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">THE VISION</h2>
-                  </TextClipReveal>
                   <p className="text-body-md text-on-surface-variant leading-relaxed">
                     Run first, coffee after. Outpace is a pit stop for runners — fresh showers, strong coffee, and a community that moves. Whether you&apos;re training for a marathon or just starting your first kilometer, this is where the run ends and the conversation begins.
                   </p>
