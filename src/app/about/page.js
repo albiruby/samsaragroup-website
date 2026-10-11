@@ -76,11 +76,11 @@ url: siteUrl("/about"),
             <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">VISION</span>
             <TextClipReveal>
               <h2 className="font-display text-headline-md uppercase leading-[0.95] tracking-tight mb-8 text-on-surface max-w-3xl">
-                WHERE EVERY MOMENT MATTERS
+                A PLACE FOR EVERY TURN OF LIFE
               </h2>
             </TextClipReveal>
             <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
-              We believe that places have the power to transform how people feel, connect, and live. Our vision is to create destinations that honor craft, silence, and the beauty of intentional design.
+              Life moves in cycles, and so do the places we return to. Our vision is to build distinctly Indonesian destinations for every moment along the way, each with its own character, all made with the same care.
             </p>
           </ScrollReveal>
         </div>
@@ -99,12 +99,12 @@ url: siteUrl("/about"),
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
             {[
-              { title: "CRAFT", desc: "Every detail matters. We pursue mastery in what we make and how we serve." },
-              { title: "SILENCE", desc: "We design for stillness. Space, sound, and absence are as important as presence." },
-              { title: "TERRITORY", desc: "Every place begins with its landscape. We build from the land, not on it." },
-              { title: "COMMUNITY", desc: "We create spaces where people connect, belong, and grow together." },
-              { title: "TIME", desc: "We design for longevity. Materials, objects, and experiences built to endure." },
-              { title: "RITUAL", desc: "Daily practice as architecture. Fire, sound, food, and movement as structure." },
+              { title: "ROOTS", desc: "Same concept, local accent. Every location keeps its brand's soul while drawing from the city it calls home." },
+              { title: "CHARACTER", desc: "No two of our places are alike. Each concept is given its own identity, its own voice, and its own reason to exist." },
+              { title: "CRAFT", desc: "Every detail matters, from the cup to the ceiling. We pursue mastery in what we make and how we serve." },
+              { title: "RITUAL", desc: "We design around the moments people repeat: the morning run, the long dinner, the weekend away, the family gathering." },
+              { title: "COLLABORATION", desc: "We open our places to chefs, artists, musicians, baristas, makers, even fellow F&B brands. The best experiences we create are rarely made alone." },
+              { title: "RETURN", desc: "True to the cycle our name comes from, we build for the second visit, not just the first. Places made to last, and to come back to." },
             ].map((item) => (
               <div key={item.title} className="bg-surface p-8 lg:p-10">
                 <h3 className="mb-3 text-title-lg font-display uppercase tracking-wide text-on-surface">{item.title}</h3>
