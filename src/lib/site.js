@@ -18,7 +18,7 @@ export function safeUrl(value) {
   }
 }
 
-export const DEFAULT_OG_IMAGE = {
+const DEFAULT_OG_IMAGE = {
   url: "/og-default.png",
   width: 1200,
   height: 630,
@@ -34,9 +34,9 @@ export function ogImages(image, alt = "Samsara Group") {
   return [{ url, width: 1200, height: 630, alt }];
 }
 
-export const SITE_NAME = "Samsara Group";
-export const SITE_LOCALE = "en_US";
-export const SITE_LOCALE_ALT = "id_ID";
+const SITE_NAME = "Samsara Group";
+const SITE_LOCALE = "en_US";
+const SITE_LOCALE_ALT = "id_ID";
 
 /**
  * Fallback text for the action buttons on a brand page.
@@ -45,7 +45,7 @@ export const SITE_LOCALE_ALT = "id_ID";
  * `label` empty to get the default, so the website has to supply it -- an
  * empty label renders a button holding nothing but an arrow.
  */
-export const CTA_LABELS = {
+const CTA_LABELS = {
   reservation: "RESERVATION",
   menu: "MENU",
   location: "LOCATION",

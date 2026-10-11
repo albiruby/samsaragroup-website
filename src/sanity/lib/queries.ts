@@ -6,7 +6,7 @@ const revalidate = { next: { revalidate: 60 } };
 export async function getEvents() {
   try {
     return await client.fetch(
-      `*[_type == "event"] | order(date desc) { _id, title, slug, category, date, time, location, capacity, entry, description, image, link }`,
+      `*[_type == "event"] | order(date desc) { _id, title, category, date, time, location, capacity, entry, description, image, link }`,
       {},
       revalidate
     );
@@ -54,8 +54,7 @@ const WORLD_PROJECTION = `{
   seoDescription,
   socialImage,
   noIndex,
-  "ctas": ctas[]{ _key, _type, kind, label, url },
-  "hours": hours[]{ _key, day, value }
+  "ctas": ctas[]{ _key, _type, kind, label, url }
 }`;
 
 type WorldSection = {
