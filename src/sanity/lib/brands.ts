@@ -50,14 +50,6 @@ const CARD_LOGO: Record<string, string> = {
   acasa: "/assetacasa/Main Logo3-480.webp",
 };
 
-export const LEGACY_CARD_FALLBACK: Record<string, string> = {
-  samsara: "/ambiencesamsara/DSC08177.webp",
-  svarga: "/assetsvarga/ADR (9 of 15).webp",
-  acasa: "/assetacasa/ADR-06539.webp",
-  outpace: "/ambiencesamsara/DSC09014.webp",
-  grove: "/ambiencesamsara/DSC09048.webp",
-};
-
 function slugOf(world: NavWorld): string {
   const raw = world.slug;
   if (typeof raw === "string") return raw;

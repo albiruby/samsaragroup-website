@@ -38,7 +38,7 @@ export const BRAND_COPY = [
   },
 ];
 
-export const BRAND_COPY_BY_SLUG = Object.fromEntries(
+const BRAND_COPY_BY_SLUG = Object.fromEntries(
   BRAND_COPY.map((b) => [b.slug, b])
 );
 
