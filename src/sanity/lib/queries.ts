@@ -6,7 +6,7 @@ const revalidate = { next: { revalidate: 60 } };
 export async function getEvents() {
   try {
     return await client.fetch(
-      `*[_type == "event"] | order(date desc) { _id, title, slug, category, date, time, location, capacity, entry, description, image, featured, link }`,
+      `*[_type == "event"] | order(date desc) { _id, title, slug, category, date, time, location, capacity, entry, description, image, link }`,
       {},
       revalidate
     );
@@ -38,7 +38,6 @@ const WORLD_PROJECTION = `{
     mapLng,
     mapZoom
   },
-  categories,
   speciality,
   logo,
   order,

@@ -42,7 +42,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div id="brands" className="space-y-4 scroll-mt-24">
+        <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">BRANDS</p>
           <ul className="space-y-0">
             {allBrands.map((b) => (
