@@ -54,7 +54,8 @@ const WORLD_PROJECTION = `{
   seoDescription,
   socialImage,
   noIndex,
-  "ctas": ctas[]{ _key, _type, kind, label, url }
+  "ctas": ctas[]{ _key, _type, kind, label, url },
+  "hours": hours[]{ _key, label, value }
 }`;
 
 type WorldSection = {

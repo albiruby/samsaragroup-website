@@ -10,6 +10,7 @@ import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 
 export const dynamic = "force-dynamic";
 
@@ -181,6 +182,7 @@ export default async function GrovePage() {
               label="Lokasi Grove, Bogor"
             />
           </div>
+          <BrandHours hours={world?.hours} className="mt-6" />
         </ScrollReveal>
       </section>
 

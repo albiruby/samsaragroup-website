@@ -10,6 +10,7 @@ import MenuSection from "@/components/MenuSection";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 
 const SAMSARA_LINKS = {
   reservation: "https://wa.me/6281281271988",
@@ -202,6 +203,7 @@ export default async function SamsaraPage() {
             </p>
             <p className="text-body-sm text-on-surface-variant">{world?.address || ADDRESS}</p>
             <p className="text-body-sm text-on-surface-variant">WhatsApp: {SAMSARA_WHATSAPP}</p>
+            <BrandHours hours={world?.hours} className="mt-4" />
           </div>
         </ScrollReveal>
       </section>

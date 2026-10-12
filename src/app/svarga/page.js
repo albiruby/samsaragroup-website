@@ -12,6 +12,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 
 export const dynamic = "force-dynamic";
 
@@ -192,6 +193,7 @@ export default async function SvargaPage() {
             <p className="text-body-sm text-on-surface-variant">Rasa, alam, dan tradisi berpadu jadi satu.</p>
             <p className="text-body-sm text-on-surface-variant">{world?.address || SVARGA_ADDRESS}</p>
             <p className="text-body-sm text-on-surface-variant">WhatsApp: 0813-2148-132</p>
+            <BrandHours hours={world?.hours} className="mt-4" />
           </div>
         </ScrollReveal>
       </section>
