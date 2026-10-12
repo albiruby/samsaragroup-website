@@ -11,6 +11,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 
 export const dynamic = "force-dynamic";
 
@@ -216,6 +217,7 @@ export default async function AcasaPage() {
             <p className="text-body-sm text-on-surface-variant">{world?.address || ACASA_CONTACT.address}</p>
             <p className="text-body-sm text-on-surface-variant">Cottage & Stay: {ACASA_CONTACT.whatsapp}</p>
             <p className="text-body-sm text-on-surface-variant">Padel: {ACASA_CONTACT.padelWa}</p>
+            <BrandHours hours={world?.hours} className="mt-4" />
           </div>
         </ScrollReveal>
       </section>

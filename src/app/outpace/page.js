@@ -10,6 +10,7 @@ import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 
 /**
  * No hardcoded buttons: Outpace's actions come from the CMS alone, so the slots
@@ -214,6 +215,7 @@ export default async function OutpacePage() {
               label="Lokasi Outpace, Bogor"
             />
           </div>
+          <BrandHours hours={world?.hours} className="mt-6" />
         </ScrollReveal>
       </section>
 

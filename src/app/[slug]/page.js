@@ -9,6 +9,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import ImageParallax from "@/components/ImageParallax";
 import BrandActions from "@/components/BrandActions";
+import BrandHours from "@/components/BrandHours";
 import MenuGallery from "@/components/MenuGallery";
 import { getWorldBySlug } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -244,6 +245,7 @@ export default async function BrandPage({ params }) {
                 {world.address ? (
                   <p className="mt-4 text-body-sm text-on-surface-variant">{world.address}</p>
                 ) : null}
+                <BrandHours hours={world.hours} className="mt-2" />
               </ScrollReveal>
             </section>
           );
