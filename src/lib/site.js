@@ -47,10 +47,7 @@ const SITE_LOCALE_ALT = "id_ID";
  */
 const CTA_LABELS = {
   reservation: "RESERVATION",
-  menu: "MENU",
-  location: "LOCATION",
-  career: "CAREER",
-  links: "LINKS",
+  roomrate: "ROOM RATE",
   instagram: "INSTAGRAM",
 };
 
