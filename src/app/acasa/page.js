@@ -116,7 +116,7 @@ export default async function AcasaPage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => sizedUrl(g, 1920))
+                ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
                     "/assetacasa/ADR-06545.webp",
                     "/assetacasa/ADR-06529.webp",

@@ -102,7 +102,7 @@ export default async function GrovePage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => sizedUrl(g, 1920))
+                ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
                     "/ambiencesamsara/DSC09048.webp",
                     "/ambiencesamsara/DSC09058.webp",
