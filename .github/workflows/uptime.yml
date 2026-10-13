@@ -1,0 +1,112 @@
+name: Uptime check
+
+# Checks the live site's routes on a schedule. A failure opens (or comments on) a
+# GitHub issue, which GitHub emails to the repo owner -- that is the alert.
+#
+# Note: keep BACKUPS out of this repo. It is public, so a Sanity export committed
+# here would publish the whole content database.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check every route
+        id: check
+        run: |
+          set -uo pipefail
+
+          BASE="https://samsaragroup.vercel.app"
+          PATHS="/ /about /brands /samsara /svarga /acasa /outpace /grove /events /career /contact /robots.txt /sitemap.xml"
+
+          FAILED=""
+          for path in $PATHS; do
+            # Two retries so a single hiccup does not raise a false alarm.
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 "$BASE$path" || echo "000")
+            printf '%-4s %s\n' "$code" "$path"
+            if [ "$code" != "200" ]; then
+              FAILED="${FAILED}- \`$path\` returned HTTP $code"$'\n'
+            fi
+          done
+
+          if [ -n "$FAILED" ]; then
+            echo "failed=1" >> "$GITHUB_OUTPUT"
+            {
+              echo "FAILED_PATHS<<EOF"
+              printf '%s' "$FAILED"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            echo "::error::Uptime check failed"
+          else
+            echo "failed=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report the failure on an issue
+        if: steps.check.outputs.failed == '1'
+        uses: actions/github-script@v7
+        env:
+          FAILED_PATHS: ${{ steps.check.outputs.FAILED_PATHS }}
+        with:
+          script: |
+            const title = "Uptime check is failing";
+            const body = [
+              `Checked at ${new Date().toISOString()}`,
+              "",
+              "These routes did not return HTTP 200:",
+              "",
+              process.env.FAILED_PATHS || "(no details captured)",
+              "",
+              `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            ].join("\n");
+
+            const open = await github.rest.issues.listForRepo({
+              ...context.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const existing = open.data.find((i) => i.title === title);
+
+            if (existing) {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: existing.number,
+                body,
+              });
+              core.notice(`Commented on issue #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({ ...context.repo, title, body });
+              core.notice(`Opened issue #${created.data.number}`);
+            }
+
+      - name: Close the issue once it recovers
+        if: steps.check.outputs.failed == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Uptime check is failing";
+            const open = await github.rest.issues.listForRepo({
+              ...context.repo,
+              state: "open",
+              per_page: 100,
+            });
+            for (const issue of open.data.filter((i) => i.title === title)) {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: issue.number,
+                body: `Recovered: every route returned HTTP 200 at ${new Date().toISOString()}.`,
+              });
+              await github.rest.issues.update({
+                ...context.repo,
+                issue_number: issue.number,
+                state: "closed",
+              });
+              core.notice(`Closed issue #${issue.number}`);
+            }
