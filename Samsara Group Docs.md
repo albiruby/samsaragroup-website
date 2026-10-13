@@ -1,4 +1,11 @@
-# Samsara Group — Project Documentation
+# Samsara Group - Project Documentation
+
+> **Catatan (13 Oktober 2026).** Dokumen ini adalah **brief awal pra-implementasi**
+> (desain, sitemap, acceptance criteria) yang ditulis 28 September 2026. Sebagian
+> isinya sudah tidak sama dengan hasil akhir — mis. brand Outpace dan Grove belum
+> ada saat itu, dan beberapa nama section masih berbeda.
+> **Untuk kondisi terkini, gunakan `DOCUMENTATIONS.md`** (arsitektur & model konten)
+> dan `PEMELIHARAAN.md` (operasional). Dokumen ini disimpan sebagai rekaman proses.
 
 ---
 

@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-/s
-## Getting Started
+# Samsara Group — Website
 
-First, run the development server:
+Website profil **Samsara Group** (Samsara · Svarga · Acasa · Outpace · Grove).
+Next.js 16 (App Router) + Sanity CMS, di-deploy ke Vercel.
+
+## Menjalankan lokal
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Studio CMS ada di repo terpisah, `../studio-sams-sams`:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+cd ../studio-sams-sams
+npm run dev        # http://localhost:3333
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Sebelum commit
 
-## Learn More
+```bash
+npm run lint       # harus 0 error
+npm run build      # harus sukses
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Push ke `master` → Vercel build & deploy otomatis.
+- Ubah **schema** Studio → `npm run deploy` di repo studio.
+- Ubah **isi dokumen** CMS → tidak perlu deploy apa pun, muncul ~1 menit.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Peringatan
 
-## Deploy on Vercel
+`src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`,
+menyinkronkan nilai hardcoded → CMS — **termasuk menulis ke dataset `production`**.
+Matikan dengan `SYNC_CMS_DISABLED=1` kalau `.env.local` menunjuk produksi.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Jangan pernah menaruh `SANITY_API_TOKEN` di `src/sanity/lib/client.ts`: file itu
+dipakai komponen server *dan* client.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Dokumentasi
+
+Dokumentasi lengkap ada di folder induk proyek:
+
+- `../DOCUMENTATIONS.md` — arsitektur, model konten, aturan bisnis, cookbook
+- `../PEMELIHARAAN.md` — panduan operasional ringkas
+
+## Stack
+
+Next.js 16 · React 19 · Tailwind CSS v4 · Sanity v6 · Leaflet · Vercel
