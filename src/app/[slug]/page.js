@@ -50,7 +50,7 @@ function galleryUrls(world) {
       // gallery accepts a bare image or a galleryItem object
       const ref = item && item._type === "galleryItem" ? item.image : item;
       if (!ref?.asset) return null;
-      return { src: sizedUrl(ref, 1920), alt: item?.alt || world.name || "" };
+      return { src: sizedUrl(ref, 1600), alt: item?.alt || world.name || "" };
     })
     .filter(Boolean);
 }

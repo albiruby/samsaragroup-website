@@ -121,7 +121,7 @@ export default async function OutpacePage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => sizedUrl(g, 1920))
+                ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
                     "/ambiencesamsara/DSC09014.webp",
                     "/ambiencesamsara/DSC09052.webp",

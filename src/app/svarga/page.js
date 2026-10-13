@@ -103,7 +103,7 @@ export default async function SvargaPage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => sizedUrl(g, 1920))
+                ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
                     "/assetsvarga/ADR (3 of 15).webp",
                     "/assetsvarga/ADR (4 of 4).webp",
