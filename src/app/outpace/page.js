@@ -8,7 +8,7 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl, urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -121,7 +121,7 @@ export default async function OutpacePage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => urlFor(g).url())
+                ? world.gallery.map((g) => sizedUrl(g, 1920))
                 : [
                     "/ambiencesamsara/DSC09014.webp",
                     "/ambiencesamsara/DSC09052.webp",
@@ -192,7 +192,7 @@ export default async function OutpacePage() {
               <div className="space-y-8">
                 <div className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
-                    <img src={urlFor(world.image).url()} alt="Outpace" className="h-full w-full object-cover" />
+                    <img src={sizedUrl(world.image, 1100)} alt="Outpace" className="h-full w-full object-cover" />
                   ) : (
                     <img src="/ambiencesamsara/DSC09014.webp" alt="Outpace" className="h-full w-full object-cover" />
                   )}

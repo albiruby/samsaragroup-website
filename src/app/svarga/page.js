@@ -10,7 +10,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl, urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -103,7 +103,7 @@ export default async function SvargaPage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => urlFor(g).url())
+                ? world.gallery.map((g) => sizedUrl(g, 1920))
                 : [
                     "/assetsvarga/ADR (3 of 15).webp",
                     "/assetsvarga/ADR (4 of 4).webp",
@@ -160,7 +160,7 @@ export default async function SvargaPage() {
               <div className="space-y-8">
                 <ImageParallax className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
-                    <img src={urlFor(world.image).url()} alt="Svarga Suite" className="h-full w-full object-cover" />
+                    <img src={sizedUrl(world.image, 1100)} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (
                     <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
