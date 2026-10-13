@@ -536,7 +536,7 @@ Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push
 `vercel.json` di root repo memasang `ignoreCommand`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
 
 ```
-test -n "$VERCEL_GIT_PREVIOUS_SHA" && git diff --quiet $VERCEL_GIT_PREVIOUS_SHA HEAD -- src public scripts package.json package-lock.json next.config.mjs next.config.js next.config.ts jsconfig.json tsconfig.json postcss.config.mjs eslint.config.mjs vercel.json next-env.d.ts
+test -n "$VERCEL_GIT_PREVIOUS_SHA" && git diff --quiet $VERCEL_GIT_PREVIOUS_SHA HEAD -- src public scripts package.json package-lock.json next.config.mjs vercel.json postcss.config.mjs jsconfig.json tsconfig.json
 ```
 
 Cara kerjanya:
@@ -550,9 +550,11 @@ Cara kerjanya:
 
 Catatan penting:
 
+- **`ignoreCommand` dibatasi 256 karakter oleh schema Vercel.** Perintah di atas 212 karakter. Kalau melewati batas, build-nya **gagal dengan `ERROR`** — bukan cuma diabaikan. Jadi kalau menambah path baru, panjangnya harus tetap di bawah 256.
 - `test -n` di depan itu **wajib**. Tanpa itu, saat `VERCEL_GIT_PREVIOUS_SHA` kosong argumennya hilang dan `git diff` membandingkan HEAD dengan working tree yang bersih → exit 0 → **salah skip**.
-- **Kalau menambah file/direktori baru di root yang memengaruhi build** (mis. `middleware.js`), tambahkan path-nya ke daftar itu — kalau tidak, perubahan di file itu bisa ikut ter-skip.
+- **Kalau menambah file/direktori baru di root yang memengaruhi build** (mis. `middleware.js`), tambahkan path-nya — kalau tidak, perubahan di file itu bisa ikut ter-skip.
 - Pakai `VERCEL_GIT_PREVIOUS_SHA` (SHA deployment terakhir), bukan `HEAD^`. Bedanya: `HEAD^` cuma melihat commit terakhir, jadi push 3 commit sekaligus dengan commit terakhir docs-only akan **salah skip**. `VERCEL_GIT_PREVIOUS_SHA` membandingkan dengan deployment terakhir, jadi mencakup semuanya.
+- Jangan pakai pathspec `:(exclude)` kalau mau memangkas daftar path — perilakunya bersama `--quiet` tidak berhasil diverifikasi (hasilnya tidak konsisten). Daftar path eksplisit bisa diuji dan itu yang dipakai.
 
 **Kalau perlu build paksa saat Redeploy:** di dashboard → **Deployments** → `⋯` pada deployment → **Redeploy** → **uncheck "Use project's Ignore Build Step"**. Kalau tidak di-uncheck, redeploy bisa ikut ter-skip.
 
