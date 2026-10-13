@@ -1,0 +1,700 @@
+# DOCUMENTATIONS.md — Samsara Group Website
+
+Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten CMS, aturan bisnis, cara menjalankan, deploy, cookbook, dan jebakannya.
+
+> **Status dokumen:** disusun 13 Oktober 2026, diperbarui 13 Oktober 2026 — berdasarkan website commit `a236e18` dan Studio commit `788a84b`.
+> **Lokasi file:** `Versi Next.js\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
+> **Dokumen pendamping (semuanya di folder `docs\` ini):** `PEMELIHARAAN.md` (operasional ringkas), `Sanity CMS Tutorial.md` (panduan editor CMS), `Overall Codebase Security Audit.md` (audit keamanan), `Migrasi-Hostinger.md` (rencana migrasi — tidak dijalankan).
+
+---
+
+## Daftar isi
+
+1. [Ringkasan proyek](#1-ringkasan-proyek)
+2. [Peta repositori & folder](#2-peta-repositori--folder)
+3. [Arsitektur & stack](#3-arsitektur--stack)
+4. [Alur data](#4-alur-data)
+5. [Routing & halaman](#5-routing--halaman)
+6. [Komponen](#6-komponen)
+7. [Model konten CMS](#7-model-konten-cms)
+8. [Aturan & konvensi](#8-aturan--konvensi)
+9. [Keamanan & konfigurasi teknis](#9-keamanan--konfigurasi-teknis)
+10. [Variabel lingkungan](#10-variabel-lingkungan)
+11. [Menjalankan lokal](#11-menjalankan-lokal)
+12. [Deploy](#12-deploy)
+13. [Cookbook — tugas umum](#13-cookbook--tugas-umum)
+14. [Script](#14-script)
+15. [Jebakan & peringatan](#15-jebakan--peringatan)
+16. [Utang teknis](#16-utang-teknis)
+17. [Checklist mengubah sesuatu](#17-checklist-mengubah-sesuatu)
+
+---
+
+## 1. Ringkasan proyek
+
+Website profil/hospitality **Samsara Group** — sebuah *cultural institution & lifestyle house* di Bogor — berisi lima brand:
+
+| Brand | Tagline | Slug |
+|---|---|---|
+| **Samsara** | The Listening Room | `samsara` |
+| **Svarga** | The Heritage Table | `svarga` |
+| **Acasa** | The Leisure Retreat | `acasa` |
+| **Outpace** | The Runners Club | `outpace` |
+| **Grove** | The City Backyard | `grove` |
+
+**URL produksi (sementara):** <https://samsaragroup.vercel.app>
+> ⚠️ `samsaragroup.com` **bukan milik kita** — domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah dipakai sebagai `NEXT_PUBLIC_SITE_URL`.
+**Studio (CMS):** <https://samsaragroup.sanity.studio/>
+**Sanity:** project `p5zu5azj`, dataset `production`
+
+Halaman website: Home, About, Brands, lima halaman brand, Events, Career, Contact, plus template dinamis `[slug]` untuk brand baru.
+
+---
+
+## 2. Peta repositori & folder
+
+### 2.1 Dua repo Git
+
+| Bagian | Lokasi lokal | Remote | Hosting |
+|---|---|---|---|
+| **Website** | `\Versi Next.js\` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel (auto-deploy tiap push ke `master`) |
+| **Studio (CMS)** | `\studio-sams-sams\` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting |
+
+Keduanya repo terpisah dengan riwayat commit sendiri. Folder induk `Samsara Group Website\` **bukan** repo Git.
+
+### 2.2 Struktur website
+
+```
+Versi Next.js/
+├── docs/                          dokumentasi proyek (DOCUMENTATIONS.md, PEMELIHARAAN.md, ...)
+├── src/
+│   ├── app/
+│   │   ├── layout.js              metadata global, JSON-LD Organization, providers
+│   │   ├── page.js                homepage
+│   │   ├── about|brands|career|contact|events/page.js
+│   │   ├── samsara|svarga|acasa|outpace|grove/page.js   ← halaman brand hand-tuned
+│   │   ├── [slug]/page.js         ← template brand CMS (brand baru)
+│   │   ├── globals.css            token Tailwind v4 + utilitas
+│   │   ├── sitemap.js  robots.js  not-found.js  error.js  icon.png
+│   ├── components/                ~30 komponen (lihat §6)
+│   ├── lib/
+│   │   ├── site.js                SITE_URL, siteUrl, safeUrl, ogImages, openGraphFor, ctaLabel
+│   │   ├── brands-copy.js         BRAND_COPY (nama, tagline, disiplin) — satu sumber teks
+│   │   └── jsonld.js              jsonLdHtml() — escape <, >, U+2028/9
+│   ├── sanity/lib/
+│   │   ├── client.ts              klien Sanity (tokenless, useCdn)
+│   │   ├── queries.ts             semua GROQ + hydrateWorld()
+│   │   ├── brands.ts              getBrandCards(), getBrandNav(), isPublic()
+│   │   └── image.ts               urlFor(), sizedUrl()
+│   ├── proxy.js                   CSP nonce + security headers (pengganti middleware)
+│   └── instrumentation.js         watcher dev → tulis ke CMS
+├── public/                        gambar (ambiencesamsara, assetsvarga, assetacasa, "Black Logo Samsara", dll)
+├── scripts/                       skrip sinkronisasi & utilitas (lihat §14)
+├── next.config.mjs                images.remotePatterns + headers
+├── .env.local                     kredensial (tidak ter-commit)
+└── .env.example                   contoh
+```
+
+### 2.3 Struktur Studio
+
+```
+studio-sams-sams/
+├── schemaTypes/
+│   ├── index.ts                   daftar tipe yang didaftarkan
+│   ├── world.ts                   dokumen brand (paling besar, 9 grup)
+│   ├── event.ts  career.ts  careerPage.ts
+│   ├── contactInfo.ts  carouselImage.ts  brandNav.ts
+├── components/SuggestionTextInput.tsx   input teks dengan saran
+├── sanity.config.ts               projectId, dataset, struktur "Content by Page", template
+├── sanity.cli.ts                  studioHost: samsaragroup
+```
+
+### 2.4 Folder induk (bukan repo)
+
+Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk repo.
+
+| Item | Keterangan |
+|---|---|
+| `Versi Next.js\` | repo website — termasuk `docs\` di dalamnya |
+| `studio-sams-sams\` | repo Studio (CMS) |
+| `source-assets\` | aset mentah: `acasa\`, `samsara\`, `svarga\`, `svvara\`, `logosamsara\`, `2026 Samsara Menu Images\`. **Tidak dirujuk kode** — versi terbitnya sudah dikonversi ke `public\` |
+| `backups\` | arsip backup Sanity (±60 MB/berkas, simpan 14 terbaru). **Tidak boleh masuk repo** — repo publik |
+| `screenshots\` | artefak screenshot: `desktop\`, `tablet\`, `mobile\`, `responsive\` |
+| `samsara-ad\` | **proyek terpisah** (Node/HyperFrames, punya `package.json` + `dist\`), belum punya repo Git sendiri |
+| `.agents\` | bundel skill agen + `skills-lock.json` |
+| `_dev-logs\` | log `dev-launcher.ps1` — **infrastruktur hidup, bukan sampah** (dibuat ulang tiap launcher jalan) |
+| `dev-launcher.ps1`, `Dev.cmd` | launcher dev (website + studio sekaligus) |
+
+---
+
+## 3. Arsitektur & stack
+
+| Lapis | Teknologi |
+|---|---|
+| Framework | **Next.js 16.3.8** (App Router, Turbopack) |
+| UI | **React 19.2.8**, **Tailwind CSS v4** (`@tailwindcss/postcss`) |
+| CMS | **Sanity v6** (`@sanity/client` ^7) + Studio v6 |
+| Peta | **Leaflet** 1.9 (tile OpenStreetMap) |
+| Analitik | `@vercel/analytics`, `@vercel/speed-insights` |
+| Dev tool | Playwright 1.63 (screenshot) |
+| Deploy | Vercel (website), Sanity hosting (Studio) |
+
+### 3.1 Konsep inti: dua lapis konten
+
+Ini hal yang paling sering membingungkan, jadi perlu dipahami dulu.
+
+| Lapis | Isi | Cara ubah | Muncul di web |
+|---|---|---|---|
+| **CMS** | dokumen di dataset `production` | Studio, tanpa deploy | ~1 menit (`revalidate: 60`) |
+| **Hardcoded** | teks/gambar di file `.js` | ubah kode → push | setelah Vercel deploy (~1–3 menit) |
+
+Banyak bagian halaman punya **dua-duanya**, dengan pola:
+
+```js
+{ world?.description || "Housed in a preserved Dutch-colonial building ..." }
+```
+
+Artinya:
+- Field CMS **ada isinya** → nilai CMS yang tampil.
+- Field CMS **kosong / CMS error** → teks hardcoded lama yang tampil.
+
+**Konsekuensi:** mengosongkan field di Studio **tidak** menghapus apa pun — ia mengembalikan teks bawaan. Untuk benar-benar menghilangkan sesuatu, ubah kodenya.
+
+### 3.2 Dua jenis halaman brand
+
+| | Halaman hand-tuned (5) | Template `[slug]` |
+|---|---|---|
+| File | `src/app/{samsara,svarga,acasa,outpace,grove}/page.js` | `src/app/[slug]/page.js` |
+| Dipakai oleh | lima brand mapan | **brand baru** |
+| Sumber | campuran CMS + hardcoded | **sepenuhnya** dokumen `world` |
+| Route menang | route statis menang atas `[slug]` | hanya untuk slug yang belum punya route statis |
+| Menegakkan `status`/`featured`? | **tidak** | ya (`featured: false` → 404) |
+
+Karena route statis selalu menang, **brand baru tidak boleh memakai slug** `samsara`, `svarga`, `acasa`, `outpace`, `grove` — sudah diblokir di schema (lihat §8.6).
+
+---
+
+## 4. Alur data
+
+```
+Sanity dataset "production"
+        │  GROQ (useCdn: true, apiVersion 2026-09-19)
+        ▼
+src/sanity/lib/client.ts            ← tokenless, aman untuk server & client
+        │
+        ▼
+src/sanity/lib/queries.ts           ← getEvents, getWorlds, getWorldBySlug, getBrandNavConfig,
+        │                             getCareers, getCareerPage, getContactInfo, getCarouselImages
+        │  + hydrateWorld(): menurunkan description/specifications dari sections[]
+        ▼
+src/sanity/lib/brands.ts            ← getBrandCards(), getBrandNav(), filter isPublic()
+        │
+        ▼
+src/app/**/page.js  +  src/components/**  (BrandActions, BrandHours, HeroCarousel, LeafletMap, ...)
+```
+
+Poin teknis:
+
+- **Semua halaman `force-dynamic`** (render per request), tetapi setiap `client.fetch` diberi `next: { revalidate: 60 }` — permintaan ke Sanity di-cache 60 detik.
+- **Semua `get*` menangkap error** dan mengembalikan nilai aman (`[]` / `null`), jadi CMS down tidak menjatuhkan halaman.
+- **`hydrateWorld()`** menjembatani model baru (`sections[]`) ke field datar lama (`description`, `specifications`). Nilai top-level yang ditulis eksplisit selalu menang.
+- **`getBrandCards()` dan `getBrandNav()` punya fallback berbeda** — daftar seed lokal, supaya CMS down tidak membuat `/brands` kosong atau dropdown mati.
+
+---
+
+## 5. Routing & halaman
+
+| Route | File | Sumber data |
+|---|---|---|
+| `/` | `app/page.js` → `HomePage.js` | **hardcoded**, kecuali marquee (`carouselImage` placement `home`) |
+| `/about` | `app/about/page.js` | **hardcoded penuh** |
+| `/brands` | `app/brands/page.js` | `getBrandCards()` |
+| `/samsara` | `app/samsara/page.js` | campuran (lihat tabel §5.1) |
+| `/svarga` | `app/svarga/page.js` | campuran |
+| `/acasa` | `app/acasa/page.js` | campuran |
+| `/outpace` | `app/outpace/page.js` | campuran |
+| `/grove` | `app/grove/page.js` | campuran |
+| `/events` | `app/events/page.js` | `getEvents()` — semua event, urut `date` desc |
+| `/career` | `app/career/page.js` | `getCareerPage()` + `getCareers()` (status `active`) |
+| `/contact` | `app/contact/page.js` | `getContactInfo()` + fallback hardcoded |
+| `/[slug]` | `app/[slug]/page.js` | dokumen `world` penuh — **brand baru** |
+| `/sitemap.xml` | `app/sitemap.js` | `getBrandCards()` + daftar statis |
+| `/robots.txt` | `app/robots.js` | statis |
+
+Ada juga `app/error.js` dan `app/not-found.js`.
+
+### 5.1 Sumber tiap bagian halaman brand hand-tuned
+
+| Bagian | Samsara | Svarga | Acasa | Outpace | Grove |
+|---|---|---|---|---|---|
+| Eyebrow hero | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS |
+| Judul hero | logo gambar hardcoded | logo gambar hardcoded | logo gambar hardcoded | teks hardcoded | teks hardcoded |
+| Paragraf hero | `tagline` CMS | `tagline` CMS | `tagline` CMS | hardcoded | hardcoded |
+| Hero carousel | **hardcoded** 12 gambar | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
+| Deskripsi + tabel spesifikasi | `description` + `specifications` CMS | idem | idem | idem | idem |
+| Tombol aksi | `ctas` + `instagramUrl` CMS | idem | idem | idem | idem |
+| Foto kolom kanan | `image` CMS | `image` CMS | **hardcoded** `open-hour-acasa.webp` | `image` CMS | `image` CMS |
+| Jam buka | `hours` CMS | `hours` CMS | `hours` CMS | `hours` CMS | `hours` CMS |
+| Menu | `<MenuSection />` hardcoded | gambar hardcoded | 2 gambar hardcoded | (tidak ada) | (tidak ada) |
+| Peta FIND US | `sections` map CMS + fallback | koordinat hardcoded | koordinat hardcoded | koordinat hardcoded | koordinat hardcoded |
+| Teks FIND US | `address` CMS + tagline/WA hardcoded | `address` CMS | `address` CMS | (tidak ada) | (tidak ada) |
+
+Label tabel spesifikasi **sengaja berbeda** per brand: `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS`.
+
+---
+
+## 6. Komponen
+
+Di `src/components/` (±30 file).
+
+**Chrome & navigasi**
+
+| Komponen | Fungsi |
+|---|---|
+| `Header.js` | header + nav desktop + dropdown BRANDS (buka saat hover) + tombol hamburger (`aria-label="Open menu"`) |
+| `MobileMenu.js` | overlay menu layar kecil |
+| `Footer.js` | kolom **CONNECT** (General Inquiry, Events), **EXPLORE** (About, Career), **BRANDS** + marquee logo |
+| `BackToTop.js`, `ScrollProgressBar.js` | kontrol scroll |
+| `PageTransition.js`, `PathnamePreloader.js`, `Preloader.js`, `ImagePreloader.js` | transisi & preload (flag sesi: `sessionStorage["samsara-preloaded"]`) |
+| `CustomCursor.js` | kursor kustom |
+
+**Konten**
+
+| Komponen | Fungsi |
+|---|---|
+| `HomePage.js` | seluruh isi homepage (hardcoded) |
+| `CareerList.jsx` | daftar lowongan + filter departemen + chip **Posted At** |
+| `HeroCarousel.js` | carousel hero halaman brand (dot `aria-label="Go to image N"`) |
+| `MenuSection.js`, `MenuGallery.js` | menu Samsara (hardcoded) & panel menu `[slug]` |
+| `ScrollMarquee.js`, `NumberCounter.js` | marquee & angka berjalan |
+| `ZoomableImage.js`, `ImageParallax.js` | zoom klik & parallax |
+
+**Data & tema**
+
+| Komponen | Fungsi |
+|---|---|
+| `BrandsProvider.jsx` | membagikan `brandNav` dari layout ke Header/Footer |
+| `ThemeProvider.js`, `ThemeSetter.js` | mode warna per halaman (`world.theme`) |
+
+**Terhubung Sanity / interaktif**
+
+| Komponen | Fungsi |
+|---|---|
+| `BrandActions.jsx` | baris tombol aksi brand (lihat §8.2) |
+| `BrandHours.js` | blok jam buka dari `world.hours`; **tidak render apa pun kalau kosong** |
+| `LeafletMap.js` | peta Leaflet (tile OSM) |
+
+**Animasi**
+
+| Komponen | Fungsi |
+|---|---|
+| `ScrollReveal.js` | reveal saat masuk viewport (IntersectionObserver) |
+| `TextClipReveal.js` | reveal teks; saat ini hanya `<div>` passthrough tanpa logika |
+
+---
+
+## 7. Model konten CMS
+
+Tujuh tipe dokumen, semuanya didaftarkan di `schemaTypes/index.ts`.
+
+### 7.1 `world` — satu dokumen per brand
+
+Dokumen terbesar, terbagi **9 grup** di Studio:
+
+| Grup | Field |
+|---|---|
+| **1 - Identity** | `name`, `slug` |
+| **2 - Listing & Navigation** | `tagline`, `speciality`, `categories`*, `image`, `logo` |
+| **3 - Hero & Copy** | `theme`, `heroEyebrow`, `heroTitle`, `heroIntro`, `gallery[]`, `description` |
+| **4 - Sections** | `sections[]` (`type`: text / specs / features / menu / map; `heading`, `body`, `specifications[]`, `features[]`, `image`, `menuPanels[]`, `mapLat`, `mapLng`, `mapZoom`) |
+| **5 - Menu** | `menuPanels[]` (standalone), `menuHeading` |
+| **6 - Location & Map** | `address`, `hours[]` |
+| **7 - Contact & Links** | `instagramUrl`, `ctas[]` (`kind`, `label`, `url`) |
+| **8 - SEO** | `seoTitle`, `seoDescription`, `socialImage`, `noIndex` |
+| **9 - Publishing** | `order`, `status`, `featured` |
+
+\* `categories` masih ada di schema (agar data lama tidak memicu error *Unknown field*, dan mencegahnya dihapus otomatis), tetapi **tidak diproyeksikan dan tidak dibaca** website mana pun.
+
+Catatan tipe masuk:
+
+- `hours[]` = baris `{ label, value }` — **per kategori, bukan per hari**. Contoh: `Weekdays` / `10:00 - 22:00`, `Weekend` / `09:00 - 01:00`.
+- `ctas[].kind` pilihan di Studio kini hanya tiga: `reservation`, `roomrate`, `instagram`. Kind `menu`, `location`, `career`, `links` sudah dibuang dari schema (lihat §8.2).
+- `status`: `active` (tampil) / `draft` (hanya Studio) / `archived` (disembunyikan dari navigasi, URL tetap hidup). Default `active`.
+- `featured`: boolean, default `true`.
+- `theme`: mode warna halaman saat header tertutup.
+
+### 7.2 `event` — `/events`
+
+`title`, `category`, `date`, `time`, `location`, `capacity`, `entry`, `description`, `image`, `link`.
+
+- `link` = URL eksternal (Instagram, ticketing, registrasi). **Tidak ada halaman `/events/[slug]`** — detail diarahkan lewat `link`.
+- Field `slug` dan `featured` **sudah dihapus** dari schema dan datanya (lihat §8.7).
+
+### 7.3 `career` — satu dokumen per lowongan
+
+Grup **1 - Role** (`title`, `slug`, `department`, `brand`, `location`, `employmentType`), **2 - Description** (`summary`, `description`, `requirements[]`), **3 - Apply** (`applyUrl`), **4 - Publishing** (`isUrgent`, `status`, `order`, `postedAt`).
+
+- Hanya `status = "active"` yang tampil.
+- `postedAt` kosong → website memakai tanggal hari ini.
+
+### 7.4 `careerPage` — teks halaman `/career`
+
+Grup: **Hero** (`eyebrow`, `title`, `intro`, `theme`), **Listings** (`showBrandStrip`, `positionsHeading`, `emptyHeadline`, `emptyMessage`), **Apply** (`applyUrl` = Google Form default, `applyNote`), **SEO** (`seoTitle`, `seoDescription`).
+
+### 7.5 `contactInfo` — `/contact`
+
+`whatsapp[]` (`label`, `city`, `display`, `phone`), `addresses[]` (`label`, `address`), `hours` (string).
+
+> **Penting:** `display` = nomor yang ditampilkan (boleh pakai `+` dan garis); `phone` = nomor untuk link `https://wa.me/<phone>`. `phone` divalidasi hanya digit (8–15 karakter, mulai `62`). **Keduanya harus konsisten.** Nomor Samsara: `+62 852-8127-1988` / `6285281271988`.
+
+### 7.6 `carouselImage` — marquee homepage
+
+`placement` (`home`), `title` (label internal, tidak tampil), `image`, `alt`, `brand`, `order`, `active`.
+
+### 7.7 `brandNav` — dropdown BRANDS
+
+`rows[]` (`title` + `brands[]`), `seeAllLabel`, `emptyLabel`.
+
+- Urutan array = urutan baris.
+- `title` kosong → dipakai `tagline` brand pertama di baris itu.
+- Kalau dokumen ini kosong/tidak ada, baris **diturunkan otomatis** dari tiap brand (satu brand = satu baris).
+- Label kosong = sembunyikan tautan.
+
+---
+
+## 8. Aturan & konvensi
+
+### 8.1 Aturan publikasi brand — dan jebakannya
+
+| Field | Efek |
+|---|---|
+| `status = active` | tampil |
+| `status = draft` | hanya terlihat di Studio |
+| `status = archived` | disembunyikan dari navigasi, **URL tetap hidup** |
+| `featured = true` | masuk `/brands`, dropdown, sitemap |
+| `featured = false` | di `[slug]` → **404** |
+
+**JEBAKAN:** aturan `featured: false → 404` **hanya berlaku di template `[slug]`**. Kelima halaman hand-tuned **tidak** memeriksa `status` maupun `featured`. Jadi brand yang di-*archive* masih tampil penuh di `/<brand>`-nya, tapi menghilang dari `/brands`, dropdown, footer, dan sitemap.
+
+### 8.2 Aturan tombol brand (`BrandActions.jsx`)
+
+- Semua cta dirender **dalam satu baris** (wrapping) di **bawah tabel spesifikasi**, gaya **outline** (border hitam, isi kosong).
+- **Kind yang tersedia di Studio:** hanya `reservation`, `roomrate`, `instagram`. Kind `career`, `menu`, `location`, `links` sudah dibuang dari `CTA_LIST`, jadi editor tidak bisa lagi membuat tombol yang tak akan tampil.
+  - `career` dulu ada karena situs sudah punya halaman `/career` sendiri.
+  - `menu`, `location`, `links` dulu ada karena lokasi dipresentasikan lewat peta, bukan tombol.
+- **Jaring pengaman:** `HIDDEN_KINDS` di `BrandActions.jsx` masih menyaring keempat kind itu saat render, supaya data lama atau penulisan lewat API tidak bisa memunculkannya.
+- **Fallback kode** menambah kind `padel` dan `receptionist` (dipakai Acasa, bersama `roomrate`).
+- CMS menang **per kind**: cta dari CMS memakai URL & label sendiri. Fallback hardcoded hanya mengisi kind yang belum ada dari CMS, dan ikut mengisi label yang dikosongkan (agar halaman yang sudah tayang dengan "OPEN IN MAPS" tidak berubah wording-nya).
+- **Instagram tidak boleh dobel:** `world.instagramUrl` hanya ditambahkan bila CMS belum punya cta `kind: "instagram"`.
+- **Label kosong** → dipakai default dari `CTA_LABELS` (`src/lib/site.js`): `RESERVATION`, `ROOM RATE`, `INSTAGRAM` — persis tiga kind yang bisa dipilih. Label default juga bisa ditulis di `ctaLabel()`.
+- Kalau tidak ada cta sama sekali → **tidak dirender apa pun** (tanpa baris kosong). Berlaku untuk Outpace, Grove, dan brand baru.
+
+### 8.3 Hero eyebrow
+
+Kelima halaman brand membaca `world.heroEyebrow` dengan fallback **`"BRANDS"`**. Mengosongkan field di CMS berarti label kembali menampilkan `BRANDS`.
+
+### 8.4 Posted At
+
+`CareerList.jsx` memformat `postedAt`; kalau kosong, `career/page.js` memakai tanggal hari ini. Chip **Posted At** berada di **pojok kanan atas** kartu lowongan, di atas tombol APPLY.
+
+### 8.5 Jam buka (`BrandHours`)
+
+- Sumber: `world.hours[]` (per kategori).
+- Dirender di blok **FIND US** kelima halaman brand, dan di `[slug]` (di dalam section peta, di bawah alamat).
+- **Kosong → blok tidak dirender sama sekali** (tidak ada judul/jarak kosong).
+- Untuk brand baru lewat `[slug]`, jam hanya muncul kalau brand itu punya section **Map**.
+
+### 8.6 Slug terlarang (`RESERVED_SLUGS`)
+
+Di `world.ts`, slug `samsara`, `svarga`, `acasa`, `outpace`, `grove` **ditolak** — kecuali oleh dokumen pemiliknya sendiri (ID `world-<slug>`). Jadi:
+
+- `world-svarga` dengan slug `svarga` → lolos.
+- Brand baru yang mengetik `svarga` → ditolak.
+- `world-svarga` diganti jadi `acasa` → ditolak.
+
+### 8.7 Field yang sudah dihapus
+
+`event.slug` dan `event.featured` telah dihapus dari schema **dan** datanya di-unset (3 dokumen) — supaya tidak muncul error *Unknown field found*. Pola menghapus field Sanity: ubah schema → `unset` data lewat mutation API → verifikasi dengan GROQ `defined(field)`.
+
+### 8.8 Penamaan & bahasa
+
+- `BRAND_COPY` di `src/lib/brands-copy.js` adalah **satu sumber teks** untuk nama, tagline, dan disiplin kelima brand (dipakai dropdown, homepage, seed fallback).
+- Label antarmuka berbahasa Inggris; deskripsi field di Studio berbahasa Indonesia (untuk editor).
+
+---
+
+## 9. Keamanan & konfigurasi teknis
+
+### 9.1 `src/proxy.js` — bukan `middleware.js`
+
+Next.js versi ini memakai konvensi **`proxy.js`** untuk interceptor request. File ini:
+
+- Membuat **nonce** per request (`crypto.randomUUID()` → base64).
+- Menyusun **CSP** (`default-src 'self'`, `script-src` dengan nonce + `strict-dynamic`, img-src mengizinkan `images.unsplash.com`, `cdn.sanity.io`, `*.tile.openstreetmap.org`, `lh3.googleusercontent.com`; `frame-ancestors 'none'`; dst.).
+- Menitipkan nonce lewat header request **`x-nonce`** agar `layout.js` bisa memasangnya di tag JSON-LD.
+- `matcher` mengecualikan `api`, `_next/static`, `_next/image`, `favicon.ico`, `sitemap.xml`, `robots.txt`, dan request prefetch.
+
+> Konsekuensi: setiap `<script>` inline (termasuk JSON-LD) **wajib** memakai `nonce`.
+
+### 9.2 Header keamanan (`next.config.mjs`)
+
+`X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`, dan `poweredByHeader: false`.
+
+### 9.3 Aturan menulis kode aman
+
+- **Jangan pernah** menaruh `SANITY_API_TOKEN` di `client.ts` — file itu dipakai komponen server *dan* client. Token hanya untuk skrip lokal.
+- JSON-LD **selalu** lewat `jsonLdHtml()` (meng-escape `<`, `>`, U+2028/9).
+- URL dari CMS disaring `safeUrl()` (hanya `http:`/`https:`).
+- `images.remotePatterns` di `next.config.mjs` saat ini **inert** — kode memakai `<img>` biasa, bukan `next/image`.
+
+### 9.4 Ukuran gambar — pakai `sizedUrl()`, bukan `urlFor()`
+
+`urlFor(source).url()` mengembalikan **gambar orisinal** Sanity (mis. 1920 px). `sizedUrl(source, width)` menambahkan `w` dan `q=70`, jadi CDN hanya mengirim sebesar yang dibutuhkan slot.
+
+Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
+
+| Slot | Lebar | Terlihat di |
+|---|---|---|
+| Hero carousel | **1600** | halaman brand (CMS `gallery`) dan `[slug]` |
+| Kolom kanan halaman brand | **1100** | `world.image` (slot render ±525 px) |
+| Kartu `/events` | **1100** | slot render ±539 px |
+| Logo | **480** | `world.logo`, kartu `/brands` |
+| Marquee homepage | **640** | `src/app/page.js` |
+
+**Yang TIDAK boleh diubah:** gambar SEO/OpenGraph (`seo.image`, `socialImage`) tetap lewat `urlFor` — crawler sosial butuh berkas penuh.
+
+Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
+
+Hero Samsara masih **gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas, 113–374 KB) sehingga tidak bisa di-resize lewat Sanity — perlu re-encode berkasnya kalau mau dikecilkan.
+
+---
+
+## 10. Variabel lingkungan
+
+`.env.local` di repo website (tidak ter-commit):
+
+| Variabel | Isi |
+|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | `p5zu5azj` |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SANITY_STUDIO_URL` | URL Studio (lokal: `http://localhost:3333`) |
+| `SANITY_API_TOKEN` | token tulis — **hanya untuk skrip lokal**, tidak pernah ikut ke browser |
+| `NEXT_PUBLIC_SITE_URL` | default `https://samsaragroup.vercel.app` (di `src/lib/site.js`) |
+| `SYNC_CMS_DISABLED` (opsional) | set apa pun untuk mematikan watcher dev |
+
+> **Catatan:** `.env.example` masih menyimpan komentar lama (`sams-sams.vercel.app`) dan satu karakter rusak (mojibake) di komentarnya. Nilai sebenarnya ada di `src/lib/site.js` = `samsaragroup.vercel.app`.
+
+---
+
+## 11. Menjalankan lokal
+
+### Website
+
+```bash
+cd "Versi Next.js"
+npm install
+npm run dev          # biasanya http://localhost:3000
+npm run lint         # harus 0 error
+npm run build        # harus sukses sebelum push
+```
+
+### Studio
+
+```bash
+cd "studio-sams-sams"
+npm install
+npm run dev          # port 3333
+npm run build        # cek schema
+npm run deploy       # HANYA kalau schema berubah
+```
+
+> **PERINGATAN.** `src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`, otomatis menyinkronkan hardcoded → CMS (termasuk patch/hapus) setiap kali `next dev` boot. Jangan menjalankan `next dev` dengan `.env.local` yang menunjuk dataset `production` kalau tidak siap mengubah data live. Matikan dengan `SYNC_CMS_DISABLED=1`.
+
+---
+
+## 12. Deploy
+
+| Yang diubah | Yang harus dilakukan | Muncul di web |
+|---|---|---|
+| Isi dokumen CMS | tidak ada (langsung tersimpan) | ~1 menit |
+| **Schema** Studio | `npm run deploy` di `studio-sams-sams` | segera |
+| Kode website / gambar `public/` | `git add` → `commit` → `git push origin master` | setelah Vercel build (~1–3 menit) |
+
+Website tidak punya CI, `vercel.json`, atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`.
+
+**Alur rilis yang dipakai:**
+
+1. Ubah file.
+2. `npm run lint` (0 error) dan `npm run build` (sukses).
+3. `git commit` dengan pesan jelas.
+4. `git push origin master`.
+5. Verifikasi di halaman live (bisa `Invoke-WebRequest` + cek umur/markup).
+
+---
+
+## 13. Cookbook — tugas umum
+
+**A. Ganti nomor WhatsApp (Samsara)**
+1. Studio → **Contact Info** → ubah `display` **dan** `phone` (tanpa `+`, mulai `62`).
+2. Kalau nomor itu juga tampil di halaman brand: ubah juga di `src/app/samsara/page.js` (`SAMSARA_WHATSAPP` + `SAMSARA_LINKS.reservation`), lalu push.
+> Nomor Samsara ada di **3 tempat**: CMS `contactInfo`, `samsara/page.js`, dan fallback `contact/page.js`. Jaga tetap sinkron.
+
+**B. Ubah alamat** → Studio → **Contact Info** → `addresses[]`; halaman brand: `world.address`.
+
+**C. Tambah/ubah event** → Studio → **Events** → dokumen `event`. Muncul ~1 menit. Detail diarahkan lewat `link`.
+
+**D. Tambah lowongan** → Studio → **Career** → dokumen `career` dengan `status = active`; urut mengikuti `order`; `postedAt` kosong = tanggal hari ini.
+
+**E. Ubah teks About / Vision / Philosophy** → **hardcoded** di `src/app/about/page.js` → push.
+
+**F. Ganti gambar hero Samsara** → **hardcoded** array 12 path di `src/app/samsara/page.js`; taruh gambar di `public/ambiencesamsara/` → push.
+
+**G. Ganti menu Svarga / Acasa** → **hardcoded**: `/assetsvarga/menusvarga.webp`, `/assetacasa/acasamenufood.webp`, `acasamenubeverages.webp`.
+
+**H. Ubah foto kolom kanan Acasa (jam buka)** → `public/assetacasa/open-hour-acasa.webp` (rasio ideal 4:5) → push. Path dirujuk di `src/app/acasa/page.js`.
+
+**I. Ganti koordinat peta** → **hardcoded** per halaman: `COORDS` (Samsara), `SVARGA_COORDS`, `ACASA_COORDS`, `OUTPACE_COORDS`, `GROVE_COORDS`. Samsara bisa lewat CMS: `world.sections[]` `type: "map"`.
+
+**J. Ubah pengelompokan dropdown BRANDS** → Studio → **BRANDS Dropdown** (`brandNav`).
+
+**K. Atur ulang tombol brand** → Studio → dokumen brand → **Action Buttons** (`ctas`). Urut array = urut tampil. Lihat aturan di §8.2.
+
+**L. Tambah brand baru** → lihat di bawah.
+
+**M. Marquee homepage** → Studio → **Carousel Image** `placement = home`, `active != false`.
+
+**N. Ubah jam buka brand** → Studio → dokumen brand → grup **6 - Location & Map** → **Opening Hours** → tambah baris `label` + `hours` (mis. `Weekdays` / `10:00 - 22:00`). Blok muncul otomatis di halaman brand.
+
+### Tambah brand baru
+
+1. Pastikan slug **bukan** `samsara`, `svarga`, `acasa`, `outpace`, `grove` (ditolak schema).
+2. Studio → **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`, `order`.
+3. Isi `gallery` (hero carousel), `sections`/`menuPanels` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
+4. Dalam ~1 menit brand muncul di `/brands`, footer, dropdown, sitemap, dan punya halaman `/<slug>`.
+5. **Tidak perlu deploy kode** — semuanya dilayani template `[slug]`.
+
+---
+
+## 14. Script
+
+Di `Versi Next.js/scripts/`:
+
+| Script | Fungsi | Risiko |
+|---|---|---|
+| `sync-hardcode-to-cms.mjs` | membaca nilai hardcoded dari kode → kirim ke CMS (dipakai `npm run sync:cms`) | **Menulis ke production.** Pakai `--dry-run` untuk simulasi. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
+| `sync-cms-to-site.mjs` | menulis field SEO dari website ke CMS | **Menulis ke production**; flag `--dry` **mati** (tidak menahan tulisan) |
+| `seed-careers.mjs` | seed lowongan; `clear` = **hapus semua** dokumen `career` | **Destruktif** |
+| `audit-schema.mjs` | memeriksa schema | baca saja |
+| `sync-sections-extract.mjs` | ekstrak section | baca/tulis |
+| `security-scan.mjs` | pemindai keamanan sederhana | baca saja; tidak terhubung npm script |
+| `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs`, `screenshot-desktop.mjs` | snapshot/screenshot halaman | baca saja |
+
+**Checklist aman sebelum menjalankan script yang menulis:**
+- Pastikan `NEXT_PUBLIC_SANITY_DATASET` **bukan** `production`, **atau** backup dulu.
+- Jalankan versi `--dry-run` bila tersedia.
+- Baca ulang peringatan di dalam script.
+
+### Screenshot
+
+Folder `screenshots\` di root berisi tiga set device:
+
+| Folder | Isi | Cara ambil |
+|---|---|---|
+| `desktop\` | 11 halaman × (layar pertama + halaman penuh) + header | Playwright headless @ 1440×900 |
+| `tablet\` | idem | Playwright headless @ 768×1024 |
+| `mobile\` | idem | Playwright headless @ 390×844 |
+| `responsive\` | capture yang butuh interaksi: dropdown BRANDS (1024/1280/1440), menu mobile & tablet terbuka, footer, area H1 | chrome-devtools MCP (`emulate` untuk viewport) |
+
+Trik yang terbukti: **scroll dulu, baru tunggu gambar** (gambar lazy-load tidak akan pernah `load` kalau belum masuk viewport → promise-nya menggantung), beri **timeout** pada setiap penantian, dan seed `sessionStorage["samsara-preloaded"]="1"` agar preloader tidak tertangkap setengah pudar.
+
+### Backup dataset Sanity
+
+Skrip: `studio-sams-sams/scripts/backup-dataset.ps1`.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1
+powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -Keep 30
+```
+
+- Mengekspor dataset `production` (dokumen **dan** aset — 30 dokumen + 124 aset, ±60 MB) ke `..\..\backups\sanity\` — **di luar repo**.
+- Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis.
+- Mencatat setiap hasil (OK/GAGAL) ke `backups\sanity\backup.log`.
+- Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
+
+**Terjadwal:** Windows Task Scheduler, nama tugas **`Samsara - Sanity Backup`**, tiap hari **09:00**, berjalan sebagai user yang sedang login.
+
+```powershell
+Get-ScheduledTask  -TaskName "Samsara - Sanity Backup"
+Start-ScheduledTask -TaskName "Samsara - Sanity Backup"   # jalankan sekarang
+Unregister-ScheduledTask -TaskName "Samsara - Sanity Backup" -Confirm:$false   # hapus
+```
+
+> ⚠️ **Repo ini PUBLIK.** Arsip backup tidak boleh ikut di-commit — isinya seluruh database konten. Karena itu outputnya sengaja diletakkan di luar repo, dan hanya skripnya yang di-version-control.
+
+### Monitoring uptime
+
+Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
+
+- Jalan otomatis **tiap 15 menit** (dan bisa dipicu manual lewat tab **Actions → Uptime check → Run workflow**).
+- Memeriksa 11 route + `robots.txt` + `sitemap.xml`; semua harus **HTTP 200** (tiap request punya 2 retry supaya tidak alarm palsu).
+- Kalau ada yang gagal → **membuat issue baru**, atau **mengomentari issue yang masih terbuka**. GitHub mengirim email notifikasi ke pemilik repo — itulah alarmnya.
+- Begitu semua hijau lagi → issue **otomatis ditutup**.
+- Tidak butuh akun atau dashboard baru, dan tidak ada apa pun yang di-deploy oleh workflow ini.
+
+> Catatan: workflow terjadwal GitHub dinonaktifkan otomatis setelah repo tidak ada aktivitas selama 60 hari. Kalau itu terjadi, cukup buka tab Actions dan aktifkan ulang.
+
+---
+
+## 15. Jebakan & peringatan
+
+1. **Mengosongkan field CMS = memunculkan teks hardcoded**, bukan menghilangkannya (§3.1).
+2. **`featured: false` hanya men-404 di `[slug]`.** Halaman hand-tuned tetap hidup (§8.1).
+3. **Watcher dev bisa menulis ke production** saat `next dev` boot (§11).
+4. **`seed-careers.mjs clear` menghapus semua lowongan.**
+5. **`sync-cms-to-site.mjs` punya flag `--dry` yang mati** — jalankan seolah-olah selalu menulis.
+6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`.
+7. **JSON-LD tanpa nonce akan diblokir CSP.**
+8. **`public/assetacasa/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
+9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
+10. **Jangan hapus `scripts/` yang masih dirujuk** `.env.example`/`instrumentation.js` sebelum memastikan tidak ada pemakai.
+
+---
+
+## 16. Utang teknis
+
+1. **Halaman hand-tuned tidak menegakkan `status`/`featured`** (§8.1).
+2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`) — satu perubahan nomor harus diedit berulang.
+3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`; fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
+4. **`world.categories`** ada di schema tetapi tidak diproyeksikan/dibaca — warisan yang dipertahankan hanya untuk mencegah error field.
+5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
+6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
+7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode.
+8. **Belum ada test otomatis maupun CI.** Verifikasi masih manual (`npm run lint` + `npm run build`). Yang sudah otomatis: uptime monitor 15 menit dan backup harian (§14).
+9. **File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md` — perlu ditinjau (hapus/rapikan).
+10. **Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).
+11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
+12. **`.git` website ±1,7 GB** sedangkan file ter-track hanya 225 — riwayat menyimpan blob besar. Repo **publik**, jadi setiap clone mengunduh ±1,63 GB.
+
+---
+
+## 17. Checklist mengubah sesuatu
+
+**Sebelum**
+- [ ] Tentukan: ini **konten CMS** atau **kode hardcoded**? (§3.1, §5.1)
+- [ ] Kalau data: apakah nilai yang sama ada di tempat lain? (nomor WA, alamat)
+- [ ] Kalau mengubah schema: siapkan `sanity deploy`
+
+**Saat mengubah kode**
+- [ ] `npm run lint` → 0 error
+- [ ] `npm run build` → sukses
+- [ ] Tidak mengubah tampilan/konsistensi di luar yang diminta
+
+**Saat mengubah CMS**
+- [ ] `display` dan `phone` konsisten (WhatsApp)
+- [ ] `status`/`featured` sesuai maksud
+- [ ] Tidak mengosongkan field yang fallback-nya tidak diinginkan
+
+**Setelah**
+- [ ] Cek halaman terkait (~1 menit untuk data, setelah deploy untuk kode)
+- [ ] Untuk schema: `sanity deploy` + hard refresh Studio
+- [ ] Working tree kedua repo bersih dan in-sync

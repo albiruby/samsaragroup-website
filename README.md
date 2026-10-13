@@ -41,10 +41,12 @@ dipakai komponen server *dan* client.
 
 ## Dokumentasi
 
-Dokumentasi lengkap ada di folder induk proyek:
+Dokumentasi lengkap ada di folder `docs/` repo ini:
 
-- `../DOCUMENTATIONS.md` — arsitektur, model konten, aturan bisnis, cookbook
-- `../PEMELIHARAAN.md` — panduan operasional ringkas
+- `docs/DOCUMENTATIONS.md` — arsitektur, model konten, aturan bisnis, cookbook
+- `docs/PEMELIHARAAN.md` — panduan operasional ringkas
+- `docs/Sanity CMS Tutorial.md` — panduan editor CMS
+- `docs/Overall Codebase Security Audit.md` — audit keamanan
 
 ## Stack
 
