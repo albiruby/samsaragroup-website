@@ -9,7 +9,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl, urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -116,7 +116,7 @@ export default async function AcasaPage() {
             <HeroCarousel
             images={
               world?.gallery?.length
-                ? world.gallery.map((g) => urlFor(g).url())
+                ? world.gallery.map((g) => sizedUrl(g, 1920))
                 : [
                     "/assetacasa/ADR-06545.webp",
                     "/assetacasa/ADR-06529.webp",

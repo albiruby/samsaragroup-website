@@ -1,5 +1,5 @@
 import { getWorlds, getBrandNavConfig } from "./queries";
-import { urlFor, sizedUrl } from "./image";
+import { sizedUrl } from "./image";
 import { BRAND_COPY, brandCopy } from "@/lib/brands-copy";
 
 const DEFAULT_SEE_ALL = "See All Brands →";
@@ -84,7 +84,7 @@ function toBrand(world: NavWorld): NavBrand {
     label: world.name ?? slug,
     speciality: world.speciality ?? "",
     href: `/${slug}`,
-    logo: LEGACY_LOGO[slug] ?? (world.logo ? urlFor(world.logo as never).url() : null),
+    logo: LEGACY_LOGO[slug] ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
     image: world.image ?? null,
   };
 }
@@ -168,7 +168,7 @@ function toCard(world: NavWorld): BrandCard {
     tagline: world.tagline || brandCopy(slug)?.title || "",
     href: `/${slug}`,
     fallback: seed?.fallback ?? null,
-    logo: legacyLogo ?? (world.logo ? urlFor(world.logo as never).url() : null),
+    logo: legacyLogo ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
     image: world.image ?? null,
   };
 }

@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
 import { getEvents } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const dynamic = "force-dynamic";
@@ -87,7 +87,7 @@ url: siteUrl("/events"),
                       <div className="flex flex-col md:flex-row">
                         <div className="img-hover-strong w-full md:w-2/5 aspect-[16/10] md:aspect-auto md:min-h-[360px]">
                           {event.image && (
-                            <img src={urlFor(event.image).url()} alt={event.title} className="h-full w-full object-cover" />
+                            <img src={sizedUrl(event.image, 1100)} alt={event.title} className="h-full w-full object-cover" />
                           )}
                         </div>
                         <div className="flex w-full md:w-3/5 flex-col justify-center p-8 md:p-12">

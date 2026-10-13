@@ -8,7 +8,7 @@ import LeafletMap from "@/components/LeafletMap";
 import TextClipReveal from "@/components/TextClipReveal";
 import MenuSection from "@/components/MenuSection";
 import { getWorlds } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl, urlFor } from "@/sanity/lib/image";
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -168,7 +168,7 @@ export default async function SamsaraPage() {
               <div className="space-y-8">
                 <div className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
-                    <img src={urlFor(world.image).url()} alt="Samsara Interior" className="h-full w-full object-cover" />
+                    <img src={sizedUrl(world.image, 1100)} alt="Samsara Interior" className="h-full w-full object-cover" />
                   ) : (
                     <img src="/ambiencesamsara/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
                   )}

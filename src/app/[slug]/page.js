@@ -12,7 +12,7 @@ import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 import MenuGallery from "@/components/MenuGallery";
 import { getWorldBySlug } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
+import { sizedUrl, urlFor } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
 
@@ -50,7 +50,7 @@ function galleryUrls(world) {
       // gallery accepts a bare image or a galleryItem object
       const ref = item && item._type === "galleryItem" ? item.image : item;
       if (!ref?.asset) return null;
-      return { src: urlFor(ref).url(), alt: item?.alt || world.name || "" };
+      return { src: sizedUrl(ref, 1920), alt: item?.alt || world.name || "" };
     })
     .filter(Boolean);
 }
@@ -92,7 +92,7 @@ export default async function BrandPage({ params }) {
           </span>
           {world.logo ? (
             <h1 className="h-12 md:h-16 w-fit">
-              <img src={urlFor(world.logo).url()} alt={name} className="h-full w-auto" />
+              <img src={sizedUrl(world.logo, 600)} alt={name} className="h-full w-auto" />
             </h1>
           ) : (
             <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">
@@ -259,7 +259,7 @@ export default async function BrandPage({ params }) {
           <ScrollReveal>
             <div className="img-hover w-full max-w-2xl aspect-[4/5]">
               <img
-                src={urlFor(world.image).url()}
+                src={sizedUrl(world.image, 1100)}
                 alt={name}
                 className="h-full w-full object-cover"
               />
