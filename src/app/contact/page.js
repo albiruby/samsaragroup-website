@@ -16,7 +16,7 @@ openGraph: openGraphFor({ path: "/contact" }),
 };
 
 const WHATSAPP_FALLBACK = [
-  { label: "Samsara", city: "Bogor", display: "0812-8127-1988", phone: "6281281271988" },
+  { label: "Samsara", city: "Bogor", display: "+62 852-8127-1988", phone: "6285281271988" },
   { label: "Svarga", city: "Sukabumi", display: "0813-2148-132", phone: "628132148132" },
   { label: "Acasa", city: "Bogor", display: "0811-8888-7828", phone: "6281188887828" },
 ];

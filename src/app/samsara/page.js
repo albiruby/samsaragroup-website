@@ -13,7 +13,7 @@ import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
 const SAMSARA_LINKS = {
-  reservation: "https://wa.me/6281281271988",
+  reservation: "https://wa.me/6285281271988",
   menu: "https://drive.google.com/file/d/1inaLAAXyjMp9XQFk59lVd5VZtc0d75ST/view",
   location: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
   maps: "https://maps.app.goo.gl/GbVqgzQfVfmGQkep7",
@@ -22,7 +22,7 @@ const SAMSARA_LINKS = {
 
 const ADDRESS = "Jl. Jalak Harupat No.19, Babakan, Bogor Tengah, Kota Bogor, Jawa Barat 16129";
 
-const SAMSARA_WHATSAPP = "0812-8127-1988";
+const SAMSARA_WHATSAPP = "+62 852-8127-1988";
 
 const COORDS = { lat: -6.5938597, lng: 106.8035144 };
 
