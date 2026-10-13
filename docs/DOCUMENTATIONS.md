@@ -91,6 +91,7 @@ Versi Next.js/
 ├── public/                        gambar (ambiencesamsara, assetsvarga, assetacasa, "Black Logo Samsara", dll)
 ├── scripts/                       skrip sinkronisasi & utilitas (lihat §14)
 ├── next.config.mjs                images.remotePatterns + headers
+├── vercel.json                    ignoreCommand — lewati build untuk commit docs-only (§12.1)
 ├── .env.local                     kredensial (tidak ter-commit)
 └── .env.example                   contoh
 ```
@@ -520,7 +521,7 @@ npm run deploy       # HANYA kalau schema berubah
 | **Schema** Studio | `npm run deploy` di `studio-sams-sams` | segera |
 | Kode website / gambar `public/` | `git add` → `commit` → `git push origin master` | setelah Vercel build (~1–3 menit) |
 
-Website tidak punya CI, `vercel.json`, atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`.
+Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`, kecuali kalau di-skip oleh `ignoreCommand` (lihat bawah).
 
 **Alur rilis yang dipakai:**
 
@@ -529,6 +530,31 @@ Website tidak punya CI, `vercel.json`, atau `CODEOWNERS` — Vercel mem-build ot
 3. `git commit` dengan pesan jelas.
 4. `git push origin master`.
 5. Verifikasi di halaman live (bisa `Invoke-WebRequest` + cek umur/markup).
+
+### 12.1 Ignored Build Step — jangan build untuk commit dokumentasi
+
+`vercel.json` di root repo memasang `ignoreCommand`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
+
+```
+test -n "$VERCEL_GIT_PREVIOUS_SHA" && git diff --quiet $VERCEL_GIT_PREVIOUS_SHA HEAD -- src public scripts package.json package-lock.json next.config.mjs next.config.js next.config.ts jsconfig.json tsconfig.json postcss.config.mjs eslint.config.mjs vercel.json next-env.d.ts
+```
+
+Cara kerjanya:
+
+| Kondisi | Exit | Hasil |
+|---|---|---|
+| `VERCEL_GIT_PREVIOUS_SHA` kosong (deploy pertama di branch) | 1 | **BUILD** |
+| Ada perubahan di salah satu path di atas | 1 | **BUILD** |
+| Semua perubahan hanya di `docs/`, `*.md`, atau `.github/` | 0 | **SKIP** |
+| `git` error (mis. clone terlalu dangkal) | ≠0 | **BUILD** (aman) |
+
+Catatan penting:
+
+- `test -n` di depan itu **wajib**. Tanpa itu, saat `VERCEL_GIT_PREVIOUS_SHA` kosong argumennya hilang dan `git diff` membandingkan HEAD dengan working tree yang bersih → exit 0 → **salah skip**.
+- **Kalau menambah file/direktori baru di root yang memengaruhi build** (mis. `middleware.js`), tambahkan path-nya ke daftar itu — kalau tidak, perubahan di file itu bisa ikut ter-skip.
+- Pakai `VERCEL_GIT_PREVIOUS_SHA` (SHA deployment terakhir), bukan `HEAD^`. Bedanya: `HEAD^` cuma melihat commit terakhir, jadi push 3 commit sekaligus dengan commit terakhir docs-only akan **salah skip**. `VERCEL_GIT_PREVIOUS_SHA` membandingkan dengan deployment terakhir, jadi mencakup semuanya.
+
+**Kalau perlu build paksa saat Redeploy:** di dashboard → **Deployments** → `⋯` pada deployment → **Redeploy** → **uncheck "Use project's Ignore Build Step"**. Kalau tidak di-uncheck, redeploy bisa ikut ter-skip.
 
 ---
 
