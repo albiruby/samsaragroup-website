@@ -42,7 +42,7 @@ export default function HomePage({ marqueeImages }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       document.querySelector(".hero-stagger")?.classList.add("entered");
-    }, 800);
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -54,7 +54,14 @@ export default function HomePage({ marqueeImages }) {
 
         {/* ── Hero ── */}
         <section className="relative w-full h-[100dvh] min-h-[600px] overflow-hidden">
-          <img src="/ambiencesamsara/DSC08930.webp" alt="Sams Group" className="absolute inset-0 w-full h-full object-cover" />
+          <img
+            src="/ambiencesamsara/DSC08930.webp"
+            alt="Sams Group"
+            width={1920}
+            height={1280}
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
@@ -90,7 +97,7 @@ export default function HomePage({ marqueeImages }) {
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">
-                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" className="h-full w-full object-cover" />
+                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" width={1920} height={1280} className="h-full w-full object-cover" />
                 </div>
               </ImageParallax>
             </div>

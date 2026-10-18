@@ -1,6 +1,7 @@
 import { SITE_URL, openGraphFor, ogImages } from "@/lib/site";
 import "./globals.css";
 import { headers } from "next/headers";
+import { Instrument_Serif, Red_Hat_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { BrandsProvider } from "@/components/BrandsProvider.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
@@ -12,6 +13,23 @@ import PageTransition from "@/components/PageTransition";
 import { jsonLdHtml } from "@/lib/jsonld";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+// Di-host sendiri saat build, jadi browser tidak lagi menunggu fonts.googleapis.com
+// (yang tadinya memblokir render 390 ms) dan tidak ada permintaan ke pihak ketiga.
+const fontDisplay = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-display-loaded",
+});
+
+const fontBody = Red_Hat_Display({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-body-loaded",
+});
+
 
 export const dynamic = "force-dynamic";
 
@@ -41,14 +59,8 @@ export default async function RootLayout({ children }) {
   const brandNav = await getBrandNav();
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           nonce={nonce}

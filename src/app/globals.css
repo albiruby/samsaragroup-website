@@ -36,10 +36,10 @@
   --color-paper: #FDF9F0;
   --color-on-secondary-fixed: #26190d;
 
-  --font-sans: "Red Hat Display", "Arial", sans-serif;
-  --font-display: "Instrument Serif", "Georgia", serif;
-  --font-body: "Red Hat Display", "Arial", sans-serif;
-  --font-label: "Red Hat Display", "Arial", sans-serif;
+  --font-sans: var(--font-body-loaded), "Arial", sans-serif;
+  --font-display: var(--font-display-loaded), "Georgia", serif;
+  --font-body: var(--font-body-loaded), "Arial", sans-serif;
+  --font-label: var(--font-body-loaded), "Arial", sans-serif;
 
   --text-display-hero: 72px;
   --text-display-hero-mobile: 44px;
