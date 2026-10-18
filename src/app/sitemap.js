@@ -3,6 +3,14 @@ import { getBrandCards } from "@/sanity/lib/brands";
 
 const BASE_URL = SITE_URL;
 
+/**
+ * Without this the route was generated once at build time, so a brand created or
+ * renamed in the Studio did not appear in sitemap.xml until the next deploy — and
+ * the "Hide from Search Engines" filter below could not drop one either. Sixty
+ * seconds matches the fetch cache the Sanity queries already use.
+ */
+export const revalidate = 60;
+
 export default async function sitemap() {
   const lastModified = new Date();
 
