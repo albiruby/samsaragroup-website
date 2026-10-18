@@ -1,7 +1,15 @@
-// Sinkronisasi hardcode gambar -> Sanity CMS.
-// Kebijakan: hardcode MENANG untuk world.gallery, world.image, dan carouselImage(placement=home).
-// Jalankan: node scripts/sync-hardcode-to-cms.mjs [--dry-run]
-// Di dev: startWatcher() dipanggil otomatis dari src/instrumentation.js.
+// Pelapor selisih antara gambar yang masih hardcode di kode dan gambar di Sanity CMS.
+//
+// KEBIJAKAN: Studio adalah sumber kebenaran, bukan kode. Skrip ini TIDAK PERNAH
+// menulis ke dataset — ia hanya membandingkan lalu melaporkan.
+//
+// Sebelumnya skrip ini menimpa world.gallery, world.image, dan
+// carouselImage(placement=home) dengan nilai hardcode, dan karena .env.local
+// menunjuk ke dataset `production`, setiap `npm run dev` di laptop membatalkan
+// editan editor di Studio pada data yang dibaca situs live. Mutasi dihapus.
+//
+// Jalankan: node scripts/sync-hardcode-to-cms.mjs
+// Di dev: startWatcher() dipanggil otomatis dari src/instrumentation.js (lapor saja).
 
 import fs from "node:fs";
 import path from "node:path";
@@ -112,7 +120,10 @@ function resolveLocal(urlPath) {
   return { abs, sha: shaOf(buf), filename: path.basename(urlPath) };
 }
 
-export async function sync({ dryRun = false, source = "cli" } = {}) {
+export async function sync({ source = "cli" } = {}) {
+  // Dipaksa lapor-saja. Tidak ada upload aset, tidak ada patch, tidak ada
+  // penghapusan dokumen — apa pun argumen yang diberikan pemanggil.
+  const dryRun = true;
   const t0 = Date.now();
   const env = loadEnv();
   if (!env.token) throw new Error("SANITY_API_TOKEN tidak ditemukan di .env.local");

@@ -9,8 +9,11 @@ export default async function sitemap() {
   /*
    * getBrandCards falls back to the seeded list, so an unreachable CMS cannot strip
    * the brand URLs out of the sitemap and cost indexation on pages that still work.
+   *
+   * Brands marked "Hide from Search Engines" are dropped: their pages already send
+   * `robots: noindex`, and listing a URL here would contradict that.
    */
-  const cards = await getBrandCards();
+  const cards = (await getBrandCards()).filter((c) => !c.noIndex);
   const brandUrls = cards.map((c, i) => ({
     url: `${BASE_URL}${c.href}`,
     lastModified,

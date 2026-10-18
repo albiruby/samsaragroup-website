@@ -1,4 +1,5 @@
 import { openGraphFor } from "@/lib/site";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -68,6 +69,12 @@ const og = openGraphFor({
 export default async function SvargaPage() {
   const worlds = await getWorlds();
   const world = worlds.find((w) => w.slug?.current === "svarga");
+
+  // Status dan Featured di Studio harus benar-benar berlaku di halaman statis ini
+  // juga, bukan hanya di template /[slug]. Kalau dokumennya tidak ada sama sekali
+  // (CMS tidak bisa dihubungi), halaman tetap tampil dengan konten cadangan di
+  // berkas ini — supaya gangguan CMS tidak mematikan halaman.
+  if (world && (world.status !== "active" || world.featured === false)) notFound();
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Pendopo Javanese — prasmanan otentik, heritage dining"],

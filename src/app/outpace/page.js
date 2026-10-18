@@ -1,4 +1,5 @@
 import { openGraphFor } from "@/lib/site";
+import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -70,6 +71,12 @@ export default async function OutpacePage() {
   } catch {
     world = null;
   }
+
+  // Status dan Featured di Studio harus benar-benar berlaku di halaman statis ini
+  // juga, bukan hanya di template /[slug]. Kalau dokumennya tidak ada sama sekali
+  // (CMS tidak bisa dihubungi), halaman tetap tampil dengan konten cadangan di
+  // berkas ini — supaya gangguan CMS tidak mematikan halaman.
+  if (world && (world.status !== "active" || world.featured === false)) notFound();
 
   const specs = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Concept", "Cafe for runners"],

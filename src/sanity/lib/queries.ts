@@ -5,8 +5,10 @@ const revalidate = { next: { revalidate: 60 } };
 
 export async function getEvents() {
   try {
+    // Event tidak punya kolom status di schema lama, jadi dokumen yang tersimpan
+    // sebelum kolom itu ada tidak memiliki field ini — diperlakukan sebagai aktif.
     return await client.fetch(
-      `*[_type == "event"] | order(date desc) { _id, title, category, date, time, location, capacity, entry, description, image, link }`,
+      `*[_type == "event" && !(status in ["draft", "archived"])] | order(date desc) { _id, title, category, date, time, location, capacity, entry, description, image, link }`,
       {},
       revalidate
     );
@@ -24,7 +26,6 @@ const WORLD_PROJECTION = `{
   description,
   image,
   gallery,
-  specifications,
   "sections": sections[]{
     _key,
     _type,
@@ -110,13 +111,14 @@ export type BrandNavConfig = {
 
 /**
  * The document that owns the BRANDS dropdown: which brands sit in which row, in
- * which order. Returns null when no one has created it, and the caller falls
- * back to deriving rows from the brand documents themselves.
+ * which order. Queried by its fixed id, so a stray second document cannot make
+ * the dropdown flip between two versions. Returns null when it is missing, and
+ * the caller falls back to deriving rows from the brand documents themselves.
  */
 export async function getBrandNavConfig(): Promise<BrandNavConfig | null> {
   try {
     return await client.fetch(
-      `*[_type == "brandNav"][0]{
+      `*[_id == "brandNav"][0]{
         seeAllLabel,
         emptyLabel,
         "rows": rows[]{ title, "brands": brands[]->${WORLD_PROJECTION} }
@@ -218,7 +220,7 @@ export type CareerPageDoc = {
 export async function getCareerPage(): Promise<CareerPageDoc | null> {
   try {
     return await client.fetch(
-      `*[_type == "careerPage"][0] {
+      `*[_id == "careerPage"][0] {
         eyebrow, title, intro, theme, showBrandStrip,
         positionsHeading, emptyHeadline, emptyMessage, applyUrl, applyNote,
         seoTitle, seoDescription
@@ -235,7 +237,7 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
 export async function getContactInfo() {
   try {
     return await client.fetch(
-      `*[_type == "contactInfo"][0] { _id, whatsapp[]{label, city, display, phone}, addresses[]{label, address}, hours }`,
+      `*[_id == "contactInfo"][0] { _id, whatsapp[]{label, city, display, phone}, addresses[]{label, address}, hours }`,
       {},
       revalidate
     );

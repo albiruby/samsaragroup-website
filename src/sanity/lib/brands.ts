@@ -16,6 +16,7 @@ type NavWorld = {
   order?: number;
   status?: string;
   featured?: boolean;
+  noIndex?: boolean;
 };
 
 /**
@@ -154,9 +155,13 @@ const SEED_CARDS = [
   href: `/${c.slug}`,
   name: (brandCopy(c.slug)?.name || c.slug).toUpperCase(),
   tagline: brandCopy(c.slug)?.title || "",
+  noIndex: false,
 }));
 
-export type BrandCard = (typeof SEED_CARDS)[number] & { image: unknown };
+export type BrandCard = (typeof SEED_CARDS)[number] & {
+  image: unknown;
+  noIndex: boolean;
+};
 
 function toCard(world: NavWorld): BrandCard {
   const slug = slugOf(world);
@@ -170,6 +175,9 @@ function toCard(world: NavWorld): BrandCard {
     fallback: seed?.fallback ?? null,
     logo: legacyLogo ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
     image: world.image ?? null,
+    // Dibawa ke sitemap supaya brand yang diminta "Hide from Search Engines"
+    // tidak diiklankan di sitemap.xml sekaligus diminta tidak diindeks di <head>.
+    noIndex: world.noIndex === true,
   };
 }
 

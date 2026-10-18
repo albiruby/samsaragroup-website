@@ -1,4 +1,5 @@
 import { openGraphFor } from "@/lib/site";
+import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -81,6 +82,12 @@ const og = openGraphFor({
 export default async function AcasaPage() {
   const worlds = await getWorlds();
   const world = worlds.find((w) => w.slug?.current === "acasa");
+
+  // Status dan Featured di Studio harus benar-benar berlaku di halaman statis ini
+  // juga, bukan hanya di template /[slug]. Kalau dokumennya tidak ada sama sekali
+  // (CMS tidak bisa dihubungi), halaman tetap tampil dengan konten cadangan di
+  // berkas ini — supaya gangguan CMS tidak mematikan halaman.
+  if (world && (world.status !== "active" || world.featured === false)) notFound();
 
   const offerings = world?.specifications?.map((s) => [s.label, s.value]) || [
     ["Cottages", "20 rooms — pool, WiFi, 24hr reception, smart TV"],
