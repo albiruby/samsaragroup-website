@@ -3,10 +3,11 @@
 import { useEffect } from "react";
 
 const preloadMap = {
+  // Hanya gambar hero. Sebelumnya di sini ada tiga gambar, dua di antaranya ada di
+  // bawah layar (dan satu bahkan tidak dipakai di homepage) — semuanya diunduh di
+  // prioritas tinggi dan berebut bandwidth dengan hero yang justru menentukan LCP.
   "/": [
     "/ambiencesamsara/DSC08930.webp",
-    "/ambiencesamsara/DSC08926.webp",
-    "/ambiencesamsara/DSC08913.webp",
   ],
   "/about": [
     "/ambiencesamsara/DSC08913.webp",

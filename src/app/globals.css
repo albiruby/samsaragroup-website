@@ -212,12 +212,12 @@
   transform: scale(1.05);
 }
 
+/* Tanpa animasi opacity. Pembungkus ini menutupi seluruh <main>, dan konten yang
+   mulai dari opacity 0 tidak dihitung sebagai kandidat LCP sampai fade-nya
+   selesai — itu menahan LCP hampir semua halaman. Pada kunjungan pertama efeknya
+   tidak terlihat juga karena preloader masih menutupi layar. */
 .page-transition {
-  animation: pageFadeIn 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  /* sengaja dibiarkan tanpa animasi */
 }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }

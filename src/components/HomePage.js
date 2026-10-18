@@ -97,7 +97,7 @@ export default function HomePage({ marqueeImages }) {
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">
-                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" width={1920} height={1280} className="h-full w-full object-cover" />
+                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" width={1920} height={1280} loading="lazy" className="h-full w-full object-cover" />
                 </div>
               </ImageParallax>
             </div>
@@ -140,14 +140,14 @@ export default function HomePage({ marqueeImages }) {
             <div className="marquee-content">
               {slides.map((item, i) => (
                 <div key={i} className="marquee-item">
-                  <img src={item.src} alt={item.alt || `${item.brand} experience`} className="h-full w-full object-cover" />
+                  <img src={item.src} alt={item.alt || `${item.brand} experience`} loading="lazy" className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
             <div className="marquee-content" aria-hidden="true">
               {slides.map((item, i) => (
                 <div key={`dup-${i}`} className="marquee-item">
-                  <img src={item.src} alt="" className="h-full w-full object-cover" />
+                  <img src={item.src} alt="" loading="lazy" className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
