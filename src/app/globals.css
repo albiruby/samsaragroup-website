@@ -139,20 +139,21 @@
 .preloader {
   position: fixed; inset: 0; z-index: 9999; background: var(--color-primary);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
-  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), visibility 600ms;
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1), visibility 300ms;
 }
 .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .preloader-logo {
   opacity: 0; transform: translateY(8px);
-  animation: preloaderFadeIn 600ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
+  animation: preloaderFadeIn 250ms cubic-bezier(0.22, 1, 0.36, 1) 60ms forwards;
 }
 .preloader-bar { width: 120px; height: 2px; background: rgba(242, 238, 229, 0.15); overflow: hidden; }
 .preloader-bar-inner {
-  width: 0%; height: 100%; background: var(--color-warm-sand);
-  animation: preloaderProgress 1.2s cubic-bezier(0.65, 0, 0.35, 1) 400ms forwards;
+  width: 100%; height: 100%; background: var(--color-warm-sand);
+  transform: scaleX(0); transform-origin: left;
+  animation: preloaderProgress 300ms cubic-bezier(0.65, 0, 0.35, 1) 120ms forwards;
 }
 @keyframes preloaderFadeIn { to { opacity: 1; transform: translateY(0); } }
-@keyframes preloaderProgress { 0% { width: 0%; } 60% { width: 80%; } 100% { width: 100%; } }
+@keyframes preloaderProgress { 0% { transform: scaleX(0); } 60% { transform: scaleX(0.8); } 100% { transform: scaleX(1); } }
 
 .hero-stagger > * { opacity: 0; transform: translateY(20px); }
 .hero-stagger.entered > * { opacity: 1; transform: translateY(0); transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), transform 600ms cubic-bezier(0.22, 1, 0.36, 1); }

@@ -35,11 +35,11 @@ export default function Preloader() {
   useEffect(() => {
     if (preloaded || removed) return;
 
-    const hideTimer = setTimeout(() => setHidden(true), 1600);
+    const hideTimer = setTimeout(() => setHidden(true), 300);
     const removeTimer = setTimeout(() => {
       rememberPreloaded();
       setRemoved(true);
-    }, 2200);
+    }, 700);
 
     return () => {
       clearTimeout(hideTimer);
