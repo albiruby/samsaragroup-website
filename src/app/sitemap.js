@@ -4,12 +4,13 @@ import { getBrandCards } from "@/sanity/lib/brands";
 const BASE_URL = SITE_URL;
 
 /**
- * Without this the route was generated once at build time, so a brand created or
- * renamed in the Studio did not appear in sitemap.xml until the next deploy — and
- * the "Hide from Search Engines" filter below could not drop one either. Sixty
- * seconds matches the fetch cache the Sanity queries already use.
+ * Rendered per request, like every other route in this app. Marked "Static" with
+ * a one-year Expire, the route was served from the edge cache for far longer than
+ * its revalidate window, so a brand created or renamed in the Studio did not show
+ * up in sitemap.xml — and the "Hide from Search Engines" filter below could not
+ * drop one either. A sitemap is crawled rarely; rendering it fresh is cheap.
  */
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function sitemap() {
   const lastModified = new Date();
