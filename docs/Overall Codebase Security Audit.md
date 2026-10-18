@@ -79,7 +79,7 @@ Enam record `rejected` di atas **tetap berisi defect nyata**. Yang paling serius
 | Prioritas | Defect | Lokasi | Dampak |
 |---|---|---|---|
 | **Tinggi** | `clear` menghapus **seluruh** dokumen `career` tanpa konfirmasi | `scripts/seed-careers.mjs:136-141` | Menghapus semua lowongan live di dataset production karena satu ketikan argumen. Tidak ada prompt, threshold, atau dry-run. |
-| **Tinggi** | Watcher CMS menulis ke production saat `next dev` boot | `sync-hardcode-to-cms.mjs:306-309,321` | `dryRun` default `false`, `--dry-run` tidak pernah terlihat oleh `startWatcher`. Full patch/create/delete + upload aset setiap boot. |
+| ~~**Tinggi**~~ **SELESAI 18/10** | Watcher CMS menulis ke production saat `next dev` boot | `sync-hardcode-to-cms.mjs:306-309,321` | `dryRun` default `false`, `--dry-run` tidak pernah terlihat oleh `startWatcher`. Full patch/create/delete + upload aset setiap boot. |
 | **Sedang** | `--dry` mati | `sync-cms-to-site.mjs:105,113` | Operator mengira aman, production tetap ditulis. |
 | **Sedang** | Hapus CMS didorong diff posisional | `sync-hardcode-to-cms.mjs:266` | Menghapus satu gambar dari `samsara/page.js` = hapus dokumen CMS di boot `next dev` berikutnya. |
 | **Sedah** | 9 sink URL tanpa allowlist | scattered | Inkonsistensi praktik, bukan lubang. |
@@ -89,7 +89,7 @@ Enam record `rejected` di atas **tetap berisi defect nyata**. Yang paling serius
 ### 3.4 Hardening yang direkomendasikan
 
 1. `scripts/seed-careers.mjs` — minta konfirmasi + tampilkan jumlah dokumen sebelum `clear`.
-2. `sync-hardcode-to-cms.mjs` — jadikan `dryRun: true` default watcher; mutate hanya bila `SYNC_CMS_WRITE=1`.
+2. **SELESAI 18/10** — `sync()` dipaksa lapor-saja sejak 18/10: tidak ada upload, patch, atau delete. (Usulan lama:) `sync-hardcode-to-cms.mjs` — jadikan `dryRun: true` default watcher; mutate hanya bila `SYNC_CMS_WRITE=1`.
 3. `resolveLocal` — konfirmasi path hasil resolve berada di dalam `public/` sebelum membaca, dan allowlist ekstensi gambar.
 4. `sync-cms-to-site.mjs` — hormati `DRY`, atau hapus. Tambahkan aturan lint unused-var di `scripts/`.
 5. `HeroCarousel.js:38` — tidak punya validasi apa pun; aman hanya karena semua pemanggil kini lewat `urlFor()`. Pemanggil ke-6 (`samsara/page.js:114`) memakai literal.

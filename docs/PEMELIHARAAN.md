@@ -110,7 +110,7 @@ Field yang **dibaca** (paling relevan):
 - `seoTitle`, `seoDescription`, `socialImage`
 - `hours` — baris `{label, value}` **per kategori** (mis. `Weekdays` / `Weekend`), bukan per hari. Dirender `BrandHours` di blok FIND US kelima halaman brand, dan di section peta `[slug]`. Kosong = blok jam tidak muncul sama sekali.
 - `categories` — **tidak dibaca di mana pun** (warisan; sekarang didefinisikan di schema agar tidak error)
-- `menuPanels` — dibaca hanya oleh template `[slug]`
+- `menuPanels` — hanya di dalam `sections[]`; versi standalone sudah dihapus 18/10
 
 ### `career`
 `title`, `slug`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini).
@@ -249,7 +249,7 @@ Lihat §10.
 
 1. Pastikan tidak memakai slug yang sudah dipakai salah satu route statis: **`samsara`, `svarga`, `acasa`, `outpace`, `grove`**. Kalau memakai itu, halaman statis lama yang muncul, bukan template baru.
 2. Studio → buat dokumen **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`, `order`.
-3. Isi `gallery` (hero carousel), `sections` / `menuPanels` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
+3. Isi `gallery` (hero carousel), `sections` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
 4. Dalam ~1 menit brand otomatis muncul di `/brands`, footer, dropdown nav, sitemap, dan punya halaman `/<slug>`.
 5. **Tidak perlu deploy kode.** Semua bagian brand baru dilayani template `[slug]`.
 
@@ -261,7 +261,7 @@ Di repo website (`scripts/`):
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membaca nilai hardcoded dari kode dan mengirim ke CMS (dipakai `npm run sync:cms`) | **Menulis ke production.** `--dry-run` untuk simulasi |
+| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja — tidak pernah menulis lagi** (sejak 18/10). Studio adalah sumber kebenaran |
 | `sync-cms-to-site.mjs` | menulis field SEO dari website ke CMS | **Menulis ke production**; flag `--dry` mati (tidak menahan tulisan) |
 | `seed-careers.mjs` | seed lowongan; `clear` = **hapus semua** dokumen career | **Destruktif** |
 | `audit-schema.mjs` | memeriksa schema | baca saja |

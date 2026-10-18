@@ -307,8 +307,8 @@ Dokumen terbesar, terbagi **9 grup** di Studio:
 | **1 - Identity** | `name`, `slug` |
 | **2 - Listing & Navigation** | `tagline`, `speciality`, `categories`*, `image`, `logo` |
 | **3 - Hero & Copy** | `theme`, `heroEyebrow`, `heroTitle`, `heroIntro`, `gallery[]`, `description` |
-| **4 - Sections** | `sections[]` (`type`: text / specs / features / menu / map; `heading`, `body`, `specifications[]`, `features[]`, `image`, `menuPanels[]`, `mapLat`, `mapLng`, `mapZoom`) |
-| **5 - Menu** | `menuPanels[]` (standalone), `menuHeading` |
+| **4 - Sections** | `sections[]` (`type`: text / specs / features / menu / map; `heading`, `body`, `specifications[]`, `features[]`, `menuPanels[]`, `mapLat`, `mapLng`, `mapZoom`) |
+| **5 - Menu** | `menuHeading` (judul bawaan section Menu) |
 | **6 - Location & Map** | `address`, `hours[]` |
 | **7 - Contact & Links** | `instagramUrl`, `ctas[]` (`kind`, `label`, `url`) |
 | **8 - SEO** | `seoTitle`, `seoDescription`, `socialImage`, `noIndex` |
@@ -597,7 +597,7 @@ Catatan penting:
 
 1. Pastikan slug **bukan** `samsara`, `svarga`, `acasa`, `outpace`, `grove` (ditolak schema).
 2. Studio → **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`, `order`.
-3. Isi `gallery` (hero carousel), `sections`/`menuPanels` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
+3. Isi `gallery` (hero carousel), `sections` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
 4. Dalam ~1 menit brand muncul di `/brands`, footer, dropdown, sitemap, dan punya halaman `/<slug>`.
 5. **Tidak perlu deploy kode** — semuanya dilayani template `[slug]`.
 
@@ -609,7 +609,7 @@ Di `Versi Next.js/scripts/`:
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membaca nilai hardcoded dari kode → kirim ke CMS (dipakai `npm run sync:cms`) | **Menulis ke production.** Pakai `--dry-run` untuk simulasi. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
+| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS, lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis** — termasuk saat dipanggil watcher dev. Studio adalah sumber kebenaran. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
 | `sync-cms-to-site.mjs` | menulis field SEO dari website ke CMS | **Menulis ke production**; flag `--dry` **mati** (tidak menahan tulisan) |
 | `seed-careers.mjs` | seed lowongan; `clear` = **hapus semua** dokumen `career` | **Destruktif** |
 | `audit-schema.mjs` | memeriksa schema | baca saja |
@@ -680,7 +680,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 3. **Watcher dev bisa menulis ke production** saat `next dev` boot (§11).
 4. **`seed-careers.mjs clear` menghapus semua lowongan.**
 5. **`sync-cms-to-site.mjs` punya flag `--dry` yang mati** — jalankan seolah-olah selalu menulis.
-6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`.
+6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`. Sejak 18/10 ia **lapor-saja**: tidak pernah menulis ke CMS.
 7. **JSON-LD tanpa nonce akan diblokir CSP.**
 8. **`public/assetacasa/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
@@ -726,3 +726,32 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 - [ ] Cek halaman terkait (~1 menit untuk data, setelah deploy untuk kode)
 - [ ] Untuk schema: `sanity deploy` + hard refresh Studio
 - [ ] Working tree kedua repo bersih dan in-sync
+
+---
+
+## Perubahan kontrak Studio ↔ Website — 18 Oktober 2026
+
+Audit schema ↔ query ↔ rendering menemukan beberapa janji Studio yang tidak
+dipenuhi website, dan satu tempat website diam-diam membatalkan kerja editor.
+Semuanya sudah diperbaiki dan diverifikasi pada situs live.
+
+| Perubahan | Sebelum | Sesudah |
+|---|---|---|
+| `scripts/sync-hardcode-to-cms.mjs` | menimpa `world.gallery`, `world.image`, dan `carouselImage(placement=home)` dengan nilai hardcode **di dataset produksi**, setiap `npm run dev` | **lapor-saja** — tidak ada upload, patch, atau delete |
+| `status` / `featured` | hanya berlaku di template `[slug]`; 5 halaman brand statis mengabaikannya | berlaku di kelima halaman statis juga (`notFound()`); bila dokumennya tidak ada, halaman tetap tampil dari fallback-nya |
+| `sections[].image`, `sections[].features[].image`, `world.menuPanels`, `world.categories` | ada di form, tidak pernah dibaca website (12 gambar feature card sudah terlanjur diunggah) | **dihapus dari schema**. Data lamanya tetap ada di dataset, hanya tidak lagi bisa diisi |
+| `event` | tidak ada cara menyembunyikan tanpa menghapus | punya `status` (active/draft/archived); dikosongkan = dianggap active, jadi event lama tetap tayang |
+| `brandNav`, `contactInfo`, `careerPage` | di-query `[0]` tanpa urutan — dua dokumen berarti pemenangnya acak | di-query lewat ID tetap: `brandNav`, `contactInfo`, `careerPage`; dibuka sebagai satu dokumen di Studio |
+| `noIndex` | halaman menyuruh Google `noindex`, tetapi sitemap tetap mencantumkan URL-nya | sitemap menyaring brand yang ber-`noIndex` |
+| `/sitemap.xml` | di-cache tepi (Static, Expire 1y) — brand baru tidak muncul sampai deploy ulang | dirender per permintaan (ditandai `ƒ`), ikut CMS dalam ~60 detik |
+
+**Dibuktikan dengan uji end-to-end** memakai brand sementara `template-test`
+(dibuat, diuji, lalu dihapus — dataset kembali bersih):
+
+- status `draft` → `/template-test` **404 dalam 1 detik**
+- diaktifkan → **200 dalam 74 detik**, 8/8 konten dari CMS tampil (hero, text,
+  specs, features, menu, map, address, hours), masuk `/brands` **dan** sitemap
+- `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
+- dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
+
+**Cadangan sebelum perubahan data:** `studio-sams-sams/backups/sanity/production-2026-10-18_1638.tar.gz` (59,79 MB).

@@ -295,19 +295,15 @@ Section Map **tidak muncul** kalau Lat atau Lng kosong.
 
 ### 3.5 Menu
 
-Ada **dua cara** pasang menu. Pilih salah satu.
-
-#### Cara A — Lewat Section (disarankan)
+Hanya ada **satu cara** pasang menu.
 
 Buat section tipe **Menu**, lalu isi **Menu Panels** di dalamnya.
-Heading section dipakai sebagai judul.
+Heading section dipakai sebagai judul; kalau Heading dikosongkan, yang dipakai
+adalah **Menu Heading** (default `MENU`).
 
-#### Cara B — Langsung di field Menu
-
-Isi **Standalone Menu Panels** langsung. Section Menu akan dibuat otomatis
-dengan judul dari **Menu Heading** (default `MENU`).
-
-> Kalau keduanya terisi, section Menu yang dipakai. Jangan isi dua-duanya.
+> Field **Standalone Menu Panels** sudah dihapus dari schema (18/10). Website
+> tidak pernah membacanya, jadi menu yang diisi di sana tidak muncul di halaman
+> mana pun. Semua menu harus lewat section **Menu**.
 
 ### 3.6 Location & Map
 
@@ -721,7 +717,7 @@ Setiap field `world`, grouped:
 `specifications[]`, `features[]`, `image`, `menuPanels[]`, `mapLat`, `mapLng`,
 `mapZoom`
 
-**Menu** — `menuPanels[]`, `menuHeading`
+**Menu** — `menuHeading` (judul bawaan section Menu)
 
 **Location & Map** — `address`, `hours[]`
 
@@ -892,7 +888,7 @@ utuh. Hapus yang tidak terpakai untuk bebaskan kuota.
 | Area | Status |
 |---|---|
 | Schema `world.ts` | 61 field (termasuk sub-field), 9 tab, `tsc` 0 error |
-| Field `Categories` | **Masih di schema**, tidak diproyeksikan & tidak dibaca website |
+| Field `Categories` | **Sudah dihapus dari schema** (18/10) — memang tidak pernah dibaca website |
 | Dokumen `brandNav` | Dibuat, 5 baris, urutan sesuai brandNav |
 | Dropdown BRANDS | **Full CMS** — urutan & judul dari dokumen `brandNav` |
 | Label See All / Hover | Full CMS dari `brandNav` |
