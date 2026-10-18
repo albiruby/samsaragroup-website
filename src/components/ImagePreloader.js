@@ -3,12 +3,9 @@
 import { useEffect } from "react";
 
 const preloadMap = {
-  // Hanya gambar hero. Sebelumnya di sini ada tiga gambar, dua di antaranya ada di
-  // bawah layar (dan satu bahkan tidak dipakai di homepage) — semuanya diunduh di
-  // prioritas tinggi dan berebut bandwidth dengan hero yang justru menentukan LCP.
-  "/": [
-    "/ambiencesamsara/DSC08930.webp",
-  ],
+  // The homepage hero used to be preloaded from here, but it can now be chosen in
+  // the Studio, so its address is only known at render time. The <img> sits in the
+  // first bytes of the HTML with fetchpriority=high, so Chrome starts it on its own.
   "/about": [
     "/ambiencesamsara/DSC08913.webp",
   ],

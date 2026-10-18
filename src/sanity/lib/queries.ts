@@ -45,6 +45,48 @@ export async function getEventsPage(): Promise<EventsPageDoc | null> {
   }
 }
 
+export type HomePageDoc = {
+  heroImage?: unknown;
+  heroImageAlt?: string;
+  heroLine1?: string;
+  heroLine2?: string;
+  aboutEyebrow?: string;
+  aboutHeadingLine1?: string;
+  aboutHeadingLine2?: string;
+  aboutBody?: string;
+  aboutCtaLabel?: string;
+  aboutCtaHref?: string;
+  aboutImage?: unknown;
+  aboutImageAlt?: string;
+  brandsEyebrow?: string;
+  brandsHeading?: string;
+  brandsBody?: string;
+  brandsCounterLabel?: string;
+};
+
+/**
+ * The homepage copy and its two images. Queried by fixed id so a stray second
+ * document cannot make the page flip between two versions. Every value has a
+ * fallback in the page itself, so a missing document is not an error.
+ */
+export async function getHomePage(): Promise<HomePageDoc | null> {
+  try {
+    return await client.fetch(
+      `*[_id == "homePage"][0]{
+        heroImage, heroImageAlt, heroLine1, heroLine2,
+        aboutEyebrow, aboutHeadingLine1, aboutHeadingLine2, aboutBody,
+        aboutCtaLabel, aboutCtaHref, aboutImage, aboutImageAlt,
+        brandsEyebrow, brandsHeading, brandsBody, brandsCounterLabel
+      }`,
+      {},
+      revalidate
+    );
+  } catch (e) {
+    console.error("getHomePage failed:", e.message);
+    return null;
+  }
+}
+
 const WORLD_PROJECTION = `{
   _id,
   name,

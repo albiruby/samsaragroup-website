@@ -155,12 +155,14 @@ const SEED_CARDS = [
   href: `/${c.slug}`,
   name: (brandCopy(c.slug)?.name || c.slug).toUpperCase(),
   tagline: brandCopy(c.slug)?.title || "",
+  disciplines: brandCopy(c.slug)?.disciplines || "",
   noIndex: false,
 }));
 
 export type BrandCard = (typeof SEED_CARDS)[number] & {
   image: unknown;
   noIndex: boolean;
+  disciplines: string;
 };
 
 function toCard(world: NavWorld): BrandCard {
@@ -171,6 +173,10 @@ function toCard(world: NavWorld): BrandCard {
     slug,
     name: (world.name || slug).toUpperCase(),
     tagline: world.tagline || brandCopy(slug)?.title || "",
+    // The speciality line, read from the CMS so the homepage cards and the
+    // BRANDS dropdown cannot drift apart. The seeded copy keeps it honest when
+    // the field is empty.
+    disciplines: world.speciality || brandCopy(slug)?.disciplines || "",
     href: `/${slug}`,
     fallback: seed?.fallback ?? null,
     logo: legacyLogo ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),

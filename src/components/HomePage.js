@@ -12,7 +12,11 @@ import ScrollMarquee from "@/components/ScrollMarquee";
 import { useTheme } from "@/components/ThemeProvider";
 import { BRAND_COPY } from "@/lib/brands-copy";
 
-const worlds = BRAND_COPY.map(({ slug, name, title, disciplines }) => ({
+/**
+ * Used only when the CMS returns no cards at all, so a Sanity outage cannot leave
+ * the brand grid empty. On the happy path these come from the world documents.
+ */
+const fallbackWorlds = BRAND_COPY.map(({ slug, name, title, disciplines }) => ({
   name,
   tagline: title,
   disciplines,
@@ -34,8 +38,16 @@ const fallbackMarquee = [
   { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
 ];
 
-export default function HomePage({ marqueeImages }) {
+export default function HomePage({ marqueeImages, home, brandCards }) {
   const slides = marqueeImages?.length ? marqueeImages : fallbackMarquee;
+  const worlds = brandCards?.length
+    ? brandCards.map((c) => ({
+        name: c.name,
+        tagline: c.tagline,
+        disciplines: c.disciplines,
+        href: c.href,
+      }))
+    : fallbackWorlds;
   const { setTheme } = useTheme();
   useEffect(() => { setTheme("dark"); return () => setTheme("light"); }, [setTheme]);
 
@@ -55,8 +67,8 @@ export default function HomePage({ marqueeImages }) {
         {/* ── Hero ── */}
         <section className="relative w-full h-[100dvh] min-h-[600px] overflow-hidden">
           <img
-            src="/ambiencesamsara/DSC08930.webp"
-            alt="Sams Group"
+            src={home.heroImageUrl}
+            alt={home.heroImageAlt}
             width={1920}
             height={1280}
             fetchPriority="high"
@@ -66,8 +78,8 @@ export default function HomePage({ marqueeImages }) {
           <div className="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 lg:pb-24">
             <div className="hero-stagger">
               <h1 className="font-display font-bold text-headline-lg-mobile md:text-headline-lg lg:text-display-hero uppercase leading-[0.95] tracking-wider text-white max-w-5xl">
-                EVERY SOUL<br />
-                <span className="text-white/80">FINDS ITS GROUND.</span>
+                {home.heroLine1}<br />
+                <span className="text-white/80">{home.heroLine2}</span>
               </h1>
             </div>
           </div>
@@ -78,26 +90,26 @@ export default function HomePage({ marqueeImages }) {
           <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div>
-                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">ABOUT US</span>
+                <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-3 block">{home.aboutEyebrow}</span>
                 <TextClipReveal>
                   <h2 className="font-display text-headline-md lg:text-headline-md uppercase leading-[0.95] tracking-tight mb-5 text-on-surface">
-                    MANY IDENTITIES,<br />ONE STANDARD.
+                    {home.aboutHeadingLine1}<br />{home.aboutHeadingLine2}
                   </h2>
                 </TextClipReveal>
                 <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-lg">
-                  Samsara Group is a lifestyle and hospitality group that develops and operates distinct destination concepts across Indonesia, from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.
+                  {home.aboutBody}
                 </p>
                 <Link
-                  href="/about"
+                  href={home.aboutCtaHref}
                   className="mt-6 inline-flex items-center gap-3 bg-primary px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-primary transition-colors hover:bg-primary-container"
                 >
-                  MORE ABOUT US
+                  {home.aboutCtaLabel}
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h10M7 2l4 4-4 4" /></svg>
                 </Link>
               </div>
               <ImageParallax className="relative h-[400px] lg:h-[500px]">
                 <div className="img-zoom-out h-full w-full">
-                  <img src="/ambiencesamsara/DSC08926.webp" alt="About" width={1920} height={1280} loading="lazy" className="h-full w-full object-cover" />
+                  <img src={home.aboutImageUrl} alt={home.aboutImageAlt} width={1920} height={1280} loading="lazy" className="h-full w-full object-cover" />
                 </div>
               </ImageParallax>
             </div>
@@ -107,19 +119,19 @@ export default function HomePage({ marqueeImages }) {
         {/* ── Four Worlds ── */}
         <section className="bg-surface-container-low w-full">
           <div className="max-w-[1520px] mx-auto px-6 lg:px-10 py-10 lg:py-16">
-            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-2 block">OUR BRANDS</span>
+            <span className="font-label text-body-sm uppercase tracking-[0.15em] text-on-surface-variant mb-2 block">{home.brandsEyebrow}</span>
             <div className="flex items-end gap-4 mb-4 lg:mb-6">
               <TextClipReveal>
                 <h2 className="font-display text-headline-md lg:text-headline-lg uppercase leading-[0.95] tracking-tight text-on-surface">
-                  WORLDS OF THEIR OWN
+                  {home.brandsHeading}
                 </h2>
               </TextClipReveal>
             </div>
             <p className="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-xl mb-6 lg:mb-8">
-              Each concept with its own character, all crafted by Samsara Group.
+              {home.brandsBody}
             </p>
             <p className="font-label text-body-sm uppercase tracking-[0.1em] text-on-surface-variant mb-6 lg:mb-8">
-              <NumberCounter target={worlds.length} duration={1000} /> worlds under one group
+              <NumberCounter target={worlds.length} duration={1000} /> {home.brandsCounterLabel}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
               {worlds.map((world) => (
