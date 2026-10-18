@@ -5,24 +5,33 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
-import { getEvents } from "@/sanity/lib/queries";
+import { getEvents, getEventsPage } from "@/sanity/lib/queries";
 import { sizedUrl } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Events — Samsara Group",
-  description: "Upcoming gatherings, performances, and curated experiences by Samsara Group.",
-  alternates: {
-canonical: "/events",
-    },
-    openGraph: openGraphFor({ path: "/events" }),
+/** Served from the CMS so an editor can change the title and description without a deploy. */
+export async function generateMetadata() {
+  const page = await getEventsPage();
+  const title = page?.seoTitle || "Events — Samsara Group";
+  const description =
+    page?.seoDescription ||
+    "Upcoming gatherings, performances, and curated experiences by Samsara Group.";
+  return {
+    title,
+    description,
+    alternates: { canonical: "/events" },
+    openGraph: openGraphFor({ path: "/events", title, description }),
   };
+}
 
 export default async function EventsPage() {
-  const events = await getEvents();
+  const [events, pageDoc] = await Promise.all([getEvents(), getEventsPage()]);
   const nonce = (await headers()).get("x-nonce");
+  const eyebrow = pageDoc?.eyebrow || "UPCOMING";
+  const headline = pageDoc?.title || "EVENTS";
+  const emptyMessage = pageDoc?.emptyMessage || "No upcoming events at this time.";
 
   return (
     <>
@@ -59,9 +68,9 @@ url: siteUrl("/events"),
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
         <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">UPCOMING</span>
+          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">{eyebrow}</span>
           <TextClipReveal>
-            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">EVENTS</h1>
+            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">{headline}</h1>
           </TextClipReveal>
         </ScrollReveal>
       </section>
@@ -69,7 +78,7 @@ url: siteUrl("/events"),
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
         {events.length === 0 ? (
           <ScrollReveal>
-            <p className="text-body-md text-on-surface-variant">No upcoming events at this time.</p>
+            <p className="text-body-md text-on-surface-variant">{emptyMessage}</p>
           </ScrollReveal>
         ) : (
           <div className="space-y-8">

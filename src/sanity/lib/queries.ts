@@ -18,6 +18,33 @@ export async function getEvents() {
   }
 }
 
+export type EventsPageDoc = {
+  eyebrow?: string;
+  title?: string;
+  emptyMessage?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+/**
+ * The document that owns the /events copy: the small label, the headline, the
+ * message shown while there are no events, and SEO. Queried by its fixed id so a
+ * stray second copy cannot make the page flip between two versions. Returns null
+ * when it is missing, and the page falls back to its own wording.
+ */
+export async function getEventsPage(): Promise<EventsPageDoc | null> {
+  try {
+    return await client.fetch(
+      `*[_id == "eventsPage"][0]{ eyebrow, title, emptyMessage, seoTitle, seoDescription }`,
+      {},
+      revalidate
+    );
+  } catch (e) {
+    console.error("getEventsPage failed:", e.message);
+    return null;
+  }
+}
+
 const WORLD_PROJECTION = `{
   _id,
   name,
