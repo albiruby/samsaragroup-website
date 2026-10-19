@@ -285,6 +285,19 @@ Di repo website (`scripts/`):
 
 > Backup **tidak boleh** di-commit. Repo website publik, dan arsipnya memuat seluruh database konten.
 
+### Uji cepat setelah deploy
+
+```powershell
+npm run smoke                                                  # uji situs produksi
+$env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server lokal
+```
+
+74 pemeriksaan: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, sitemap 11 URL semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan).
+
+Baris terakhir itu yang paling penting: halaman yang diam-diam jatuh ke teks hardcoded karena sambungan CMS-nya putus **tetap membalas 200**, jadi pemeriksaan status saja tidak akan menangkapnya.
+
+Tidak butuh token — dataset Sanity publik untuk dibaca.
+
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` bukan `production`, **atau** backup dulu.
 - Jalankan versi `--dry-run` bila tersedia.
