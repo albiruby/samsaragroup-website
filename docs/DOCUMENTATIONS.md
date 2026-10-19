@@ -2,7 +2,7 @@
 
 Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten CMS, aturan bisnis, cara menjalankan, deploy, cookbook, dan jebakannya.
 
-> **Status dokumen:** disusun 13 Oktober 2026, diperbarui 13 Oktober 2026 — berdasarkan website commit `a236e18` dan Studio commit `788a84b`.
+> **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 19 Oktober 2026** — berdasarkan website commit `30d64e0` dan Studio commit `f8175d6`.
 > **Lokasi file:** `Versi Next.js\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
 > **Dokumen pendamping (semuanya di folder `docs\` ini):** `PEMELIHARAAN.md` (operasional ringkas), `Sanity CMS Tutorial.md` (panduan editor CMS), `Overall Codebase Security Audit.md` (audit keamanan), `Migrasi-Hostinger.md` (rencana migrasi — tidak dijalankan).
 
@@ -27,6 +27,10 @@ Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten C
 15. [Jebakan & peringatan](#15-jebakan--peringatan)
 16. [Utang teknis](#16-utang-teknis)
 17. [Checklist mengubah sesuatu](#17-checklist-mengubah-sesuatu)
+18. [Perubahan kontrak Studio dan Website — 18 Oktober 2026](#18-perubahan-kontrak-studio-dan-website--18-oktober-2026)
+19. [Menambah brand baru — perubahan paling berdampak](#19-menambah-brand-baru--perubahan-paling-berdampak)
+20. [Keputusan konten — 19 Oktober 2026](#20-keputusan-konten--19-oktober-2026)
+21. [Yang masih kurang — satu daftar lengkap](#21-yang-masih-kurang--satu-daftar-lengkap-19-oktober-2026)
 
 ---
 
@@ -694,7 +698,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 ## 16. Utang teknis
 
-> Daftar **gabungan** — isi, teknis, dan hal-hal yang sengaja dibiarkan — ada di **§20**. Bagian ini hanya menyimpan catatan teknis per item.
+> Daftar **gabungan** — isi, teknis, dan hal-hal yang sengaja dibiarkan — ada di **§21**. Bagian ini hanya menyimpan catatan teknis per item.
 
 1. ~~**Halaman hand-tuned tidak menegakkan `status`/`featured`** (§8.1).~~ **Selesai 18/10** — kelima halaman statis kini memanggil `notFound()` bila dokumennya ada dan berstatus draft/archived/not-featured. Bila dokumennya tidak ada sama sekali (CMS mati), halaman tetap tampil dari salinan bawaan.
 2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`) — satu perubahan nomor harus diedit berulang.
@@ -735,7 +739,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 ---
 
-## Perubahan kontrak Studio ↔ Website — 18 Oktober 2026
+## 18. Perubahan kontrak Studio dan Website — 18 Oktober 2026
 
 Audit schema ↔ query ↔ rendering menemukan beberapa janji Studio yang tidak
 dipenuhi website, dan satu tempat website diam-diam membatalkan kerja editor.
@@ -764,7 +768,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 
 ---
 
-## 18. Menambah brand baru — perubahan paling berdampak
+## 19. Menambah brand baru — perubahan paling berdampak
 
 Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer, dan `sitemap.xml`.
 
@@ -796,7 +800,7 @@ Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** men
 
 ---
 
-## 19. Keputusan konten — 19 Oktober 2026
+## 20. Keputusan konten — 19 Oktober 2026
 
 Pemilik memeriksa isi yang tayang, lalu memutuskan:
 
@@ -810,11 +814,11 @@ Pemilik memeriksa isi yang tayang, lalu memutuskan:
 | 6 | `/events` kosong | **Dibiarkan** — tidak ada event, halaman menampilkan pesan kosong |
 | 7 | Gambar hero & About homepage | **Dibiarkan** — memakai dua foto yang sekarang |
 
-**Apa yang diperkirakan berubah di masa depan:** brand bisa bertambah; lowongan berubah mengikuti kondisi; slide marquee dan logo bertambah mengikuti brand baru. Sisanya diperkirakan tetap — karena itu §18 diberi bobot paling besar.
+**Apa yang diperkirakan berubah di masa depan:** brand bisa bertambah; lowongan berubah mengikuti kondisi; slide marquee dan logo bertambah mengikuti brand baru. Sisanya diperkirakan tetap — karena itu §19 diberi bobot paling besar.
 
 ---
 
-## 20. Yang masih kurang — satu daftar lengkap (19 Oktober 2026)
+## 21. Yang masih kurang — satu daftar lengkap (19 Oktober 2026)
 
 Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 
@@ -863,7 +867,7 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 | `world.description` kelima brand | Deskripsi yang tampil **diambil dari section "THE VISION"** secara otomatis (`hydrateWorld()`). Mengisinya justru akan menimpa teks itu |
 | `careerPage.emptyHeadline` & `emptyMessage` | Ada kalimat bawaan di kode |
 | `/events` tanpa event | Halaman menampilkan pesan kosong yang memang disiapkan |
-| `world.hours` kosong | Belum ditentukan (§19) — bukan lupa |
+| `world.hours` kosong | Belum ditentukan (§20) — bukan lupa |
 | Kedua repo **publik** | Keputusan pemilik. Konsekuensinya: **ekspor konten tidak boleh di-commit** |
 | Aset Sanity bisa dibaca publik tanpa login | Memang desainnya — karena itu **dokumen pribadi tidak boleh diunggah** ke dataset ini |
 | `.playwright-mcp/` & `_dev-logs/` di root lokal | Dibuat ulang sendiri oleh alat; ~0 MB dan di luar repo |

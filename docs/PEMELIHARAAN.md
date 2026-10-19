@@ -282,7 +282,7 @@ Di repo website (`scripts/`):
 
 > **Backup dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10). Cukup minta "backup" kapan saja — tidak perlu commit atau push.
 
-> **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATIONS.md` **§20**.
+> **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATIONS.md` **§21**.
 
 > Backup **tidak boleh** di-commit. Repo website publik, dan arsipnya memuat seluruh database konten.
 
