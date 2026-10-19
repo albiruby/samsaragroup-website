@@ -509,7 +509,7 @@ npm run build        # cek schema
 npm run deploy       # HANYA kalau schema berubah
 ```
 
-> **CATATAN.** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa menulis, mem-patch, atau menghapus. Jadi `next dev` **tidak lagi bisa mengubah data produksi**. Watcher tetap bisa dimatikan dengan `SYNC_CMS_DISABLED=1`. *(Catatan terpisah: `sync-cms-to-site.mjs` masih bisa menulis field SEO ke CMS, tetapi itu skrip manual — bukan bagian dari watcher.)*
+> **CATATAN.** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa menulis, mem-patch, atau menghapus. Jadi `next dev` **tidak lagi bisa mengubah data produksi**. Watcher tetap bisa dimatikan dengan `SYNC_CMS_DISABLED=1`.
 
 ---
 
