@@ -314,7 +314,7 @@ Dokumen terbesar, terbagi **9 grup** di Studio:
 | **8 - SEO** | `seoTitle`, `seoDescription`, `socialImage`, `noIndex` |
 | **9 - Publishing** | `order`, `status`, `featured` |
 
-\* `categories` masih ada di schema (agar data lama tidak memicu error *Unknown field*, dan mencegahnya dihapus otomatis), tetapi **tidak diproyeksikan dan tidak dibaca** website mana pun.
+\* Field `categories`, `sections[].image`, `sections[].features[].image`, dan `world.menuPanels` **sudah dihapus dari schema (19/10)** — keempatnya tidak pernah diproyeksikan dan tidak dibaca website mana pun.
 
 Catatan tipe masuk:
 
@@ -509,7 +509,7 @@ npm run build        # cek schema
 npm run deploy       # HANYA kalau schema berubah
 ```
 
-> **PERINGATAN.** `src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`, otomatis menyinkronkan hardcoded → CMS (termasuk patch/hapus) setiap kali `next dev` boot. Jangan menjalankan `next dev` dengan `.env.local` yang menunjuk dataset `production` kalau tidak siap mengubah data live. Matikan dengan `SYNC_CMS_DISABLED=1`.
+> **CATATAN.** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa menulis, mem-patch, atau menghapus. Jadi `next dev` **tidak lagi bisa mengubah data produksi**. Watcher tetap bisa dimatikan dengan `SYNC_CMS_DISABLED=1`. *(Catatan terpisah: `sync-cms-to-site.mjs` masih bisa menulis field SEO ke CMS, tetapi itu skrip manual — bukan bagian dari watcher.)*
 
 ---
 
@@ -680,7 +680,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 1. **Mengosongkan field CMS = memunculkan teks hardcoded**, bukan menghilangkannya (§3.1).
 2. **`featured: false` hanya men-404 di `[slug]`.** Halaman hand-tuned tetap hidup (§8.1).
-3. **Watcher dev bisa menulis ke production** saat `next dev` boot (§11).
+3. ~~**Watcher dev bisa menulis ke production** saat `next dev` boot (§11).~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` sekarang **lapor-saja**: tidak mengunggah, tidak mem-patch, tidak menghapus, apa pun argumennya. *(Catatan: `sync-cms-to-site.mjs` masih bisa menulis field SEO ke CMS, tetapi itu skrip manual — bukan dijalankan otomatis oleh watcher.)*
 4. **`seed-careers.mjs clear` menghapus semua lowongan.**
 5. **`sync-cms-to-site.mjs` punya flag `--dry` yang mati** — jalankan seolah-olah selalu menulis.
 6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`. Sejak 18/10 ia **lapor-saja**: tidak pernah menulis ke CMS.
@@ -693,18 +693,18 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 ## 16. Utang teknis
 
-1. **Halaman hand-tuned tidak menegakkan `status`/`featured`** (§8.1).
+1. ~~**Halaman hand-tuned tidak menegakkan `status`/`featured`** (§8.1).~~ **Selesai 18/10** — kelima halaman statis kini memanggil `notFound()` bila dokumennya ada dan berstatus draft/archived/not-featured. Bila dokumennya tidak ada sama sekali (CMS mati), halaman tetap tampil dari salinan bawaan.
 2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`) — satu perubahan nomor harus diedit berulang.
-3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`; fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
-4. **`world.categories`** ada di schema tetapi tidak diproyeksikan/dibaca — warisan yang dipertahankan hanya untuk mencegah error field.
+3. **Dua sumber data brand:** `/brands` dan homepage pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`; fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
+4. ~~**`world.categories`** ada di schema tetapi tidak diproyeksikan/dibaca.~~ **Sudah dihapus dari schema (19/10)** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`; keempatnya tidak pernah dibaca website.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
-7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode.
+7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode. *(Berbeda dari hero homepage, yang sekarang bisa dipilih dari Studio.)*
 8. **Belum ada unit/integration test, dan belum ada CI.** Yang tersedia sekarang: **`npm run smoke`** — 74 pemeriksaan (route, struktur halaman, metadata, header keamanan, dan **kecocokan halaman dengan isi Sanity**) — plus uptime monitor 15 menit. Yang belum: test yang berjalan sendiri di CI. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
-9. **File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md` — perlu ditinjau (hapus/rapikan).
+9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. **Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
-12. **`.git` website ±1,7 GB** sedangkan file ter-track hanya 225 — riwayat menyimpan blob besar. Repo **publik**, jadi setiap clone mengunduh ±1,63 GB.
+12. ~~**`.git` website ±1,7 GB** sedangkan file ter-track hanya 225.~~ **Selesai 19/10:** riwayat ditulis ulang untuk membuang 183 `.jpg` + 1 `.pdf` yang sudah tidak dilacak → **1.695 MB menjadi 59 MB**, dan isi berkasnya identik (diverifikasi dengan `diff` terhadap commit lama di GitHub sebelum force-push). Temuan yang membuatnya jelas: dari 1.640 MB blob besar di riwayat, **nol** yang masih dipakai website — semuanya berkas yang sudah dihapus.
 
 ---
 
@@ -757,4 +757,54 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 - `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
 - dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
 
-**Cadangan sebelum perubahan data:** `studio-samsara/backups/sanity/production-2026-10-18_1638.tar.gz` (59,79 MB).
+**Cadangan sebelum perubahan data:** arsip terbaru di `studio-samsara`-nya satu tingkat di atas, folder `backups\sanity\` — dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. Yang tersimpan saat laporan ini ditulis termasuk satu snapshot **sebelum** seluruh perubahan konten 19 Oktober.
+
+---
+
+## 18. Menambah brand baru — perubahan paling berdampak
+
+Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer, dan `sitemap.xml`.
+
+**Wajib:**
+
+| Langkah | Di mana |
+|---|---|
+| 1. Buat dokumen `world` — Name, Slug, **Card Image (wajib)**, Tagline, Speciality, galeri, section, tombol | Studio → *Brands & Brand Pages — World* |
+| 2. Tambahkan brand ke sebuah baris **BRANDS Dropdown** | Studio → *Header Menu — BRANDS Dropdown* |
+| 3. `status = Active`, `featured = true` | dokumen `world` |
+| 4. Slug jangan salah satu dari `samsara`, `svarga`, `acasa`, `outpace`, `grove` | schema menolak sendiri |
+
+**Kenapa langkah 2 wajib:** dropdown header dibaca dari dokumen BRANDS Dropdown, bukan dari daftar brand. Tanpa menambahkannya ke sebuah baris, brand baru **tidak akan muncul di menu header** — walaupun footer, `/brands`, dan sitemap sudah memuatnya otomatis.
+
+**Kenapa langkah 3 wajib:** `status` bukan `active` **atau** `featured: false` membuat `/<slug>` mengembalikan **404**. Ini berlaku di template dinamis maupun di kelima halaman hand-tuned.
+
+**Opsional** (semuanya punya cadangan, jadi brand tetap tampil tanpa ini):
+
+| Berkas | Isinya | Kalau dilewati |
+|---|---|---|
+| `src/lib/brands-copy.js` | teks cadangan per brand | saat CMS mati, brand baru tidak punya kartu cadangan |
+| `src/sanity/lib/brands.ts` | `LEGACY_LOGO`, `CARD_LOGO`, `SEED_CARDS` | tidak ada logo/kartu cadangan — tetap terisi dari CMS |
+| `src/components/Header.js` → `brandImages` | gambar latar saat hover di dropdown | brand tampil tanpa gambar latar |
+| `src/components/ImagePreloader.js` → `preloadMap` | preload per halaman | tanpa preload; halaman tetap normal |
+
+**Sudah dibuktikan 18/10/2026** dengan brand sementara `template-test` yang dibuat hanya dari CMS: halaman langsung tampil lengkap (8 dari 8 jenis field), muncul di `/brands` dan sitemap dalam ~74 detik, dan mengembalikan **404** saat statusnya `draft`.
+
+> **Soal tombol:** jenis yang bisa dipilih dari Studio hanya `reservation`, `roomrate`, `instagram`. Tombol di halaman hand-tuned — mis. `padel` dan `receptionist` di Acasa — ditulis di kode sebagai *fallback*, jadi tidak muncul di field `ctas` CMS dan tidak bisa diedit dari Studio.
+
+---
+
+## 19. Keputusan konten — 19 Oktober 2026
+
+Pemilik memeriksa isi yang tayang, lalu memutuskan:
+
+| # | Hal | Keputusan |
+|---|---|---|
+| 1 | Jam buka brand | **Belum ditentukan** — dibiarkan kosong. Catatan: `hours` hanya dirender di dalam section Map, jadi mengisinya tanpa section Map pun tetap tidak tampil |
+| 2 | `socialImage` (gambar preview saat link dibagikan) | **Dibiarkan kosong** — preview memakai gambar kartu brand |
+| 3 | Tombol halaman Acasa | **Sudah ada** — datang dari `ACASA_ACTIONS` di `acasa/page.js` (RESERVE PADEL, RECEPTIONIST, ROOM RATE, INSTAGRAM), bukan dari field `ctas` CMS |
+| 4 | Outpace & Grove | **Dibiarkan publik apa adanya** — ini simulasi & kesiapan, belum dirilis; masih ada yang perlu ditambah |
+| 5 | Google Form lowongan | **TBD** — keenam lowongan memakai satu form yang sama |
+| 6 | `/events` kosong | **Dibiarkan** — tidak ada event, halaman menampilkan pesan kosong |
+| 7 | Gambar hero & About homepage | **Dibiarkan** — memakai dua foto yang sekarang |
+
+**Apa yang diperkirakan berubah di masa depan:** brand bisa bertambah; lowongan berubah mengikuti kondisi; slide marquee dan logo bertambah mengikuti brand baru. Sisanya diperkirakan tetap — karena itu §18 diberi bobot paling besar.

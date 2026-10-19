@@ -270,7 +270,7 @@ Di repo website (`scripts/`):
 | `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs` | snapshot HTML halaman | baca saja |
 | `screenshot-desktop.mjs` | screenshot | baca saja |
 
-**Peringatan:** `src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`, otomatis menyinkronkan hardcoded → CMS (termasuk patch/hapus) setiap kali `next dev` boot. Jangan pernah menjalankan `next dev` dengan `.env.local` yang menunjuk dataset production kalau tidak siap mengubah data.
+**Catatan:** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa pernah menulis, mem-patch, atau menghapus. Jadi `next dev` tidak lagi bisa mengubah data produksi. Tetap bijak memastikan `.env.local` menunjuk dataset yang kamu maksud.
 
 ### Backup & monitoring
 
@@ -326,10 +326,10 @@ File `.env.local` di repo website (tidak ter-commit):
 1. **Halaman hand-tuned tidak menegakkan `status`/`featured`.** Brand yang di-archive masih tampil di `/<brand>`. (Lihat §5.)
 2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`). Satu perubahan nomor harus diedit di beberapa tempat.
 3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`. Fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
-4. **Field mati**: `world.categories` masih ada di schema tetapi tidak diproyeksikan dan tidak dibaca website. (`world.hours` sekarang sudah dirender; `event.slug` dan `event.featured` sudah dihapus dari schema sekaligus datanya.)
+4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
-6. **Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot (lihat §11).
-7. **Belum ada test otomatis maupun CI.** Verifikasi masih manual (`npm run lint` + `npm run build`). Yang sudah otomatis: uptime monitor 15 menit dan backup harian (lihat §11).
+6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` kini lapor-saja, tidak pernah menulis. (lihat §11).
+7. **Belum ada test otomatis yang berjalan di CI.** Yang tersedia: **`npm run smoke`** (74 pemeriksaan — lihat §"Uji cepat setelah deploy" di atas) dan uptime monitor 15 menit. Backup **tidak lagi terjadwal** — dijalankan atas permintaan. (lihat §11).
 
 ---
 

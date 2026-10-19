@@ -10,6 +10,7 @@
 > - **Kredensial lingkungan deploy sudah ditangani.** `SANITY_API_WRITE_TOKEN` dan `SANITY_API_READ_TOKEN` di project Vercel sudah dikosongkan; sisanya tinggal dihapus permanen dari dashboard (langkahnya di `DOCUMENTATIONS.md` §10).
 > - **Klaim domain dikoreksi.** `samsaragroup.com` **bukan milik proyek ini** — dipegang pihak lain. Domain kita: `https://samsaragroup.vercel.app` (`DOCUMENTATIONS.md` §1).
 > - **Ketahanan ditambah:** backup dataset atas permintaan (lokal + Google Drive) + uptime monitor tiap 15 menit (`DOCUMENTATIONS.md` §14).
+> - **19/10 — paparan aset publik ditutup.** Dataset ini publik untuk dibaca, jadi **setiap aset yang pernah diunggah bisa diunduh siapa pun yang tahu URL-nya** — tanpa login. Ditemukan satu scan KTP yang tidak direferensikan dokumen mana pun; aset itu dihapus dari Sanity (URL-nya kini 404) dan kelima arsip backup lama dibersihkan agar tidak ikut terbawa. Aturan yang berlaku sejak itu: **dokumen pribadi tidak boleh diunggah ke dataset ini.**
 > - Temuan lain yang masih terbuka terdaftar di `DOCUMENTATIONS.md` §16.
 
 ---

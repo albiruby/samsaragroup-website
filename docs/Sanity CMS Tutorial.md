@@ -688,15 +688,15 @@ Dropdown dibaca dari dokumen **Header Menu — BRANDS Dropdown**. Cek:
 > Dulu dropdown dibaca dari file hardcoded `src/data/brandCategories.js`. File
 > itu **sudah dihapus** — sekarang semuanya dari dokumen BRANDS Dropdown.
 
-### Field Categories
+### Field Categories — sudah dihapus
 
-Field `categories` **masih ada di schema**, tetapi **tidak diproyeksikan dan tidak
-dibaca website** — warisan dari model lama. Pengelompokan dropdown BRANDS sekarang
-diatur lewat dokumen **BRANDS Dropdown** (`brandNav`), bukan field ini.
+Field `categories` **sudah dihapus dari schema (19/10)**, bersama tiga field lain yang juga tidak pernah dibaca website:
 
-Field-nya sengaja dipertahankan supaya data lama tidak memicu error
-*Unknown field*. Nilainya (`ICONIC`, `EVERYDAY`, dll) masih tersimpan dan tidak
-perlu dibersihkan.
+- `sections[].image` — gambar section (dijanjikan "kolom kanan blok teks", tidak pernah dirender)
+- `sections[].features[].image` — gambar kartu fitur (12 gambar sudah terlanjur diunggah ke situ)
+- `world.menuPanels` — panel menu standalone (menu selalu lewat section **Menu**)
+
+Pengelompokan dropdown BRANDS memang sudah lama diatur lewat dokumen **BRANDS Dropdown** (`brandNav`), bukan field `categories`. Nilai lamanya (`ICONIC`, `EVERYDAY`, dll) tidak lagi tampil di Studio dan tidak perlu dibersihkan — tidak berpengaruh pada halaman mana pun.
 
 ---
 
@@ -706,7 +706,7 @@ Setiap field `world`, grouped:
 
 **Identity** — `name`, `slug`
 
-**Listing & Navigation** — `tagline`, `speciality`, `categories`*, `image`, `logo`
+**Listing & Navigation** — `tagline`, `speciality`, `image`, `logo`
 
 **Hero & Copy** — `theme`, `heroEyebrow`, `heroTitle`, `heroIntro`, `gallery`,
 `description`
@@ -714,7 +714,7 @@ Setiap field `world`, grouped:
 **Sections** — `sections[]`
 
 &nbsp;&nbsp;&nbsp;&nbsp;└─ setiap section: `type`, `heading`, `body`,
-`specifications[]`, `features[]`, `image`, `menuPanels[]`, `mapLat`, `mapLng`,
+`specifications[]`, `features[]`, `menuPanels[]`, `mapLat`, `mapLng`,
 `mapZoom`
 
 **Menu** — `menuHeading` (judul bawaan section Menu)
@@ -727,10 +727,7 @@ Setiap field `world`, grouped:
 
 **Publishing** — `order`, `status`, `featured`
 
-Field `categories`* **masih ada di schema** tetapi tidak dibaca website (lihat
-[7](#7-troubleshooting)). Field `tagline`, `speciality`, `image`, `logo` ada di
-grup Listing & Navigation; `sections`, `menuPanels`, `ctas`, `hours` punya
-sub-field masing-masing (lihat [section 8](#8-ringkasan-field)).
+Catatan: `image` di sini adalah **Card Image** — thumbnail kartu di `/brands`. Field `categories` **sudah dihapus** (lihat [7](#7-troubleshooting)), begitu juga `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Field `tagline`, `speciality`, `image`, `logo` ada di grup Listing & Navigation; `sections`, `menuPanels` (di dalam section), `ctas`, `hours` punya sub-field masing-masing.
 
 ---
 
