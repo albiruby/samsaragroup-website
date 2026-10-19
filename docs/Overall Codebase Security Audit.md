@@ -1,7 +1,7 @@
 # Overall Codebase Audit — Samsara Group
 
 **Website:** `Versi Next.js` · **Source ref:** `f6d3df2` (branch `master`, worktree bersih)
-**CMS Studio:** `studio-sams-sams` · **Dataset:** `production`
+**CMS Studio:** `studio-samsara` · **Dataset:** `production`
 **Tanggal:** 10 Oktober 2026 · **Profil:** `standard` · **Metode skill:** `security-audit` (6 fase penuh)
 **Run metadata:** `C:\Users\ALBIREO\security-audit-skill\samsaragroup-website\run-1\`
 
@@ -9,7 +9,7 @@
 > Laporan ini rekaman audit per 10 Oktober 2026 dan **isinya tidak diubah**. Yang sudah berubah sejak itu:
 > - **Kredensial lingkungan deploy sudah ditangani.** `SANITY_API_WRITE_TOKEN` dan `SANITY_API_READ_TOKEN` di project Vercel sudah dikosongkan; sisanya tinggal dihapus permanen dari dashboard (langkahnya di `DOCUMENTATIONS.md` §10).
 > - **Klaim domain dikoreksi.** `samsaragroup.com` **bukan milik proyek ini** — dipegang pihak lain. Domain kita: `https://samsaragroup.vercel.app` (`DOCUMENTATIONS.md` §1).
-> - **Ketahanan ditambah:** backup dataset harian + uptime monitor tiap 15 menit (`DOCUMENTATIONS.md` §14).
+> - **Ketahanan ditambah:** backup dataset atas permintaan (lokal + Google Drive) + uptime monitor tiap 15 menit (`DOCUMENTATIONS.md` §14).
 > - Temuan lain yang masih terbuka terdaftar di `DOCUMENTATIONS.md` §16.
 
 ---
@@ -108,7 +108,7 @@ Enam record `rejected` di atas **tetap berisi defect nyata**. Yang paling serius
 
 ## 4. BAGIAN B — KONTRAK CMS → WEBSITE (temuan operasional utama)
 
-Ini kelas bug yang Anda temukan dengan `postedAt`. Saya cross-reference setiap field di `studio-sams-sams/schemaTypes/` terhadap proyeksi GROQ di `src/sanity/lib/queries.ts` dan terhadap seluruh pemakaian di `src/`.
+Ini kelas bug yang Anda temukan dengan `postedAt`. Saya cross-reference setiap field di `studio-samsara/schemaTypes/` terhadap proyeksi GROQ di `src/sanity/lib/queries.ts` dan terhadap seluruh pemakaian di `src/`.
 
 **Total: 8 `defineField` type, 91 field** (setelah field generik seperti `_key`/`type`/`title` dikecualikan).
 

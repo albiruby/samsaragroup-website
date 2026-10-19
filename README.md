@@ -10,10 +10,10 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-Studio CMS ada di repo terpisah, `../studio-sams-sams`:
+Studio CMS ada di repo terpisah, `../studio-samsara`:
 
 ```bash
-cd ../studio-sams-sams
+cd ../studio-samsara
 npm run dev        # http://localhost:3333
 ```
 

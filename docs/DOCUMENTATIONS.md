@@ -58,7 +58,7 @@ Halaman website: Home, About, Brands, lima halaman brand, Events, Career, Contac
 | Bagian | Lokasi lokal | Remote | Hosting |
 |---|---|---|---|
 | **Website** | `\Versi Next.js\` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel (auto-deploy tiap push ke `master`) |
-| **Studio (CMS)** | `\studio-sams-sams\` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting |
+| **Studio (CMS)** | `\studio-samsara\` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting |
 
 Keduanya repo terpisah dengan riwayat commit sendiri. Folder induk `Samsara Group Website\` **bukan** repo Git.
 
@@ -99,7 +99,7 @@ Versi Next.js/
 ### 2.3 Struktur Studio
 
 ```
-studio-sams-sams/
+studio-samsara/
 ├── schemaTypes/
 │   ├── index.ts                   daftar tipe yang didaftarkan
 │   ├── world.ts                   dokumen brand (paling besar, 9 grup)
@@ -117,9 +117,9 @@ Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk
 | Item | Keterangan |
 |---|---|
 | `Versi Next.js\` | repo website — termasuk `docs\` di dalamnya |
-| `studio-sams-sams\` | repo Studio (CMS) |
+| `studio-samsara\` | repo Studio (CMS) |
 | `source-assets\` | aset mentah: `acasa\`, `samsara\`, `svarga\`, `svvara\`, `logosamsara\`, `2026 Samsara Menu Images\`. **Tidak dirujuk kode** — versi terbitnya sudah dikonversi ke `public\` |
-| `backups\` | arsip backup Sanity (±60 MB/berkas, simpan 14 terbaru). **Tidak boleh masuk repo** — repo publik |
+| `backups\` | arsip backup Sanity (±28,6 MB/berkas, simpan 14 terbaru) + salinan terbaru di Google Drive. **Tidak boleh masuk repo** — repo publik |
 | `screenshots\` | artefak screenshot: `desktop\`, `tablet\`, `mobile\`, `responsive\` |
 | `samsara-ad\` | **proyek terpisah** (Node/HyperFrames, punya `package.json` + `dist\`), belum punya repo Git sendiri |
 | `.agents\` | bundel skill agen + `skills-lock.json` |
@@ -502,7 +502,7 @@ npm run build        # harus sukses sebelum push
 ### Studio
 
 ```bash
-cd "studio-sams-sams"
+cd "studio-samsara"
 npm install
 npm run dev          # port 3333
 npm run build        # cek schema
@@ -518,7 +518,7 @@ npm run deploy       # HANYA kalau schema berubah
 | Yang diubah | Yang harus dilakukan | Muncul di web |
 |---|---|---|
 | Isi dokumen CMS | tidak ada (langsung tersimpan) | ~1 menit |
-| **Schema** Studio | `npm run deploy` di `studio-sams-sams` | segera |
+| **Schema** Studio | `npm run deploy` di `studio-samsara` | segera |
 | Kode website / gambar `public/` | `git add` → `commit` → `git push origin master` | setelah Vercel build (~1–3 menit) |
 
 Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`, kecuali kalau di-skip oleh `ignoreCommand` (lihat bawah).
@@ -637,19 +637,22 @@ Trik yang terbukti: **scroll dulu, baru tunggu gambar** (gambar lazy-load tidak 
 
 ### Backup dataset Sanity
 
-Skrip: `studio-sams-sams/scripts/backup-dataset.ps1`.
+Skrip: `studio-samsara/scripts/backup-dataset.ps1` (ekspor + simpan lokal) dan
+`studio-samsara/scripts/backup-and-upload.ps1` (ekspor + simpan lokal + unggah ke Google Drive).
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -Keep 30
 ```
 
-- Mengekspor dataset `production` (dokumen **dan** aset — 30 dokumen + 124 aset, ±60 MB) ke `..\..\backups\sanity\` — **di luar repo**.
+- Mengekspor dataset `production` (dokumen **dan** aset — 28 dokumen + 103 aset, ±28,6 MB) ke `..\..\backups\sanity\` — **di luar repo**.
 - Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis.
 - Mencatat setiap hasil (OK/GAGAL) ke `backups\sanity\backup.log`.
 - Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
 
-**Terjadwal:** Windows Task Scheduler, nama tugas **`Samsara - Sanity Backup`**, tiap hari **09:00**, berjalan sebagai user yang sedang login.
+**Dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10) — backup harian menyalin gambar yang sama 30 kali tanpa menambah keamanan, sementara teksnya hanya berubah beberapa kilobyte. Backup dilakukan saat pemilik memintanya, atau bersamaan dengan push kalau perubahannya menyentuh data.
+
+Perintahnya satu: `backup-and-upload.ps1` — ekspor, simpan 14 lokal, unggah yang terbaru ke Google Drive, simpan 7 di Drive. Drive dipakai lewat remote rclone `samsara-drive`, dikunci dengan `root_folder_id` ke satu folder saja sehingga tidak bisa menulis ke folder lain. Setelah mengunggah, skrip membandingkan ukuran berkas di Drive dengan yang lokal dan gagal kalau tidak sama persis.
 
 ```powershell
 Get-ScheduledTask  -TaskName "Samsara - Sanity Backup"
@@ -697,7 +700,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
 7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode.
-8. **Belum ada test otomatis maupun CI.** Verifikasi masih manual (`npm run lint` + `npm run build`). Yang sudah otomatis: uptime monitor 15 menit dan backup harian (§14).
+8. **Belum ada test otomatis maupun CI.** Verifikasi masih manual (`npm run lint` + `npm run build`). Yang otomatis sekarang: uptime monitor 15 menit. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. **File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md` — perlu ditinjau (hapus/rapikan).
 10. **Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
@@ -754,4 +757,4 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 - `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
 - dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
 
-**Cadangan sebelum perubahan data:** `studio-sams-sams/backups/sanity/production-2026-10-18_1638.tar.gz` (59,79 MB).
+**Cadangan sebelum perubahan data:** `studio-samsara/backups/sanity/production-2026-10-18_1638.tar.gz` (59,79 MB).

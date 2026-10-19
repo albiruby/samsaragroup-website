@@ -24,7 +24,7 @@ Sanity Studio. Tidak perlu menyentuh kode.
 
 ```
 D:\Cek Website JSD - Infia\Sams Group\
-├── studio-sams-sams\        ← Sanity Studio (panel admin)
+├── studio-samsara\        ← Sanity Studio (panel admin)
 │   ├── sanity.config.ts     ← struktur sidebar
 │   └── schemaTypes\
 │       ├── world.ts         ← BRAND. File ini yang paling sering dipakai.
@@ -145,7 +145,7 @@ Studio online **tidak** auto-deploy dari GitHub. Kalau kamu mengubah
 `schemaTypes/*.ts`, wajib jalankan:
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\studio-sams-sams"
+cd "D:\Cek Website JSD - Infia\Sams Group\studio-samsara"
 npx sanity deploy
 ```
 
@@ -777,7 +777,7 @@ Hanya 1 dokumen. Isi hero, judul daftar lowongan, link Google Form, SEO.
 ### Studio
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\studio-sams-sams"
+cd "D:\Cek Website JSD - Infia\Sams Group\studio-samsara"
 npx sanity deploy           # WAJIB setelah ubah schemaTypes
 npx sanity dev -- --no-auto-updates   # kalau mau jalan manual (Dev.cmd lebih praktis)
 npx tsc --noEmit            # cek error TypeScript

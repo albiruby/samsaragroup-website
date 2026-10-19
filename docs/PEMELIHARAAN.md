@@ -22,14 +22,14 @@ Dokumen ini ada di `Versi Next.js\docs\`, jadi **ikut version control** bersama 
 | Bagian | Lokasi | Git remote | Hosting |
 |---|---|---|---|
 | Website | `D:\Project Website INFIA\Samsara Group Website\Versi Next.js` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
-| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio-sams-sams` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ |
+| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio-samsara` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ |
 | Dokumentasi | `Versi Next.js\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
   > ⚠️ `samsaragroup.com` **BUKAN milik kita.** Domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah menaruhnya di `NEXT_PUBLIC_SITE_URL` — canonical, `og:url`, sitemap, dan robots kita akan menunjuk ke situs mereka.
 - **Sanity project:** `p5zu5azj` · **dataset:** `production`
 - **Stack website:** Next.js 16 (App Router, Turbopack), React 19, Tailwind v4.
-- **Studio lokal:** `npm run dev` di repo `studio-sams-sams` (port 3333).
+- **Studio lokal:** `npm run dev` di repo `studio-samsara` (port 3333).
 
 ---
 
@@ -240,7 +240,7 @@ Lihat §10.
 
 ### Studio
 - **Ubah konten/dokumen:** tidak perlu apa-apa, langsung tersimpan & tersinkron.
-- **Ubah schema (field baru, dll.):** dari repo `studio-sams-sams`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/.
+- **Ubah schema (field baru, dll.):** dari repo `studio-samsara`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/.
 - Studio lokal untuk pratinjau: `npm run dev` (port 3333).
 
 ---
@@ -272,13 +272,16 @@ Di repo website (`scripts/`):
 
 **Peringatan:** `src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`, otomatis menyinkronkan hardcoded → CMS (termasuk patch/hapus) setiap kali `next dev` boot. Jangan pernah menjalankan `next dev` dengan `.env.local` yang menunjuk dataset production kalau tidak siap mengubah data.
 
-### Backup & monitoring (otomatis)
+### Backup & monitoring
 
 | Alat | Fungsi | Lokasi |
 |---|---|---|
-| `backup-dataset.ps1` | ekspor dataset `production` (dokumen + aset, ±60 MB) ke `backups\sanity\`, simpan 14 terbaru | repo **studio**, `scripts/` |
-| Task Scheduler **"Samsara - Sanity Backup"** | menjalankan backup tiap hari **09:00** | Windows |
+| `backup-and-upload.ps1` | ekspor dataset `production` (dokumen + aset, ±28,6 MB) → simpan 14 lokal → unggah ke Google Drive → simpan 7 di Drive | repo **studio**, `scripts/` |
+| `backup-dataset.ps1` | hanya bagian lokalnya: ekspor + simpan 14 terbaru, tanpa unggah | repo **studio**, `scripts/` |
+| remote rclone `samsara-drive` | tujuan unggahan, dikunci `root_folder_id` ke satu folder Drive saja | `%APPDATA%\rclone\rclone.conf` |
 | `.github/workflows/uptime.yml` | tiap **15 menit** cek 11 route + `robots.txt` + `sitemap.xml`; gagal → issue (email), pulih → issue ditutup | repo website |
+
+> **Backup dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10). Cukup minta "backup" kapan saja — tidak perlu commit atau push.
 
 > Backup **tidak boleh** di-commit. Repo website publik, dan arsipnya memuat seluruh database konten.
 
@@ -358,7 +361,7 @@ Versi Next.js/
   public/                      gambar (ambiencesamsara, assetsvarga, assetacasa, menusamsara, dll)
   scripts/                     skrip sinkronisasi & utilitas
 
-studio-sams-sams/
+studio-samsara/
   schemaTypes/                 world, event, career, careerPage, contactInfo,
                                carouselImage, brandNav, index
   sanity.config.ts             konfigurasi Studio
