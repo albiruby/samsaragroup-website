@@ -23,7 +23,7 @@ Sanity Studio. Tidak perlu menyentuh kode.
 ## 1. Struktur Project
 
 ```
-D:\Cek Website JSD - Infia\Sams Group\
+D:\Project Website INFIA\Samsara Group Website\
 ├── studio-samsara\        ← Sanity Studio (panel admin)
 │   ├── sanity.config.ts     ← struktur sidebar
 │   └── schemaTypes\
@@ -108,7 +108,7 @@ memang mau override.
 **Pakai `Dev.cmd`**, bukan `npm run dev` langsung:
 
 ```
-D:\Cek Website JSD - Infia\Sams Group\Dev.cmd
+D:\Project Website INFIA\Samsara Group Website\Dev.cmd
 ```
 
 Launcher ini menjalankan website (port 3000) dan Studio (port 3333)
@@ -145,7 +145,7 @@ Studio online **tidak** auto-deploy dari GitHub. Kalau kamu mengubah
 `schemaTypes/*.ts`, wajib jalankan:
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\studio-samsara"
+cd "D:\Project Website INFIA\Samsara Group Website\studio-samsara"
 npx sanity deploy
 ```
 
@@ -774,7 +774,7 @@ Hanya 1 dokumen. Isi hero, judul daftar lowongan, link Google Form, SEO.
 ### Studio
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\studio-samsara"
+cd "D:\Project Website INFIA\Samsara Group Website\studio-samsara"
 npx sanity deploy           # WAJIB setelah ubah schemaTypes
 npx sanity dev -- --no-auto-updates   # kalau mau jalan manual (Dev.cmd lebih praktis)
 npx tsc --noEmit            # cek error TypeScript
@@ -783,7 +783,7 @@ npx tsc --noEmit            # cek error TypeScript
 ### Website
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\Versi Next.js"
+cd "D:\Project Website INFIA\Samsara Group Website\Versi Next.js"
 npm run dev                       # jalankan website
 npm run build                     # build production
 npm run lint                      # cek kode
@@ -794,8 +794,8 @@ npm run smoke                     # cek situs + kecocokan halaman dengan isi San
 ### Launcher
 
 ```powershell
-D:\Cek Website JSD - Infia\Sams Group\Dev.cmd            # website + studio + watchdog
-D:\Cek Website JSD - Infia\Sams Group\Dev.cmd --status   # cek status saja
+D:\Project Website INFIA\Samsara Group Website\Dev.cmd            # website + studio + watchdog
+D:\Project Website INFIA\Samsara Group Website\Dev.cmd --status   # cek status saja
 ```
 
 ### Kalau lupa, section kosong tidak merusak halaman
