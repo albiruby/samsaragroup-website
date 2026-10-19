@@ -694,6 +694,8 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 ## 16. Utang teknis
 
+> Daftar **gabungan** — isi, teknis, dan hal-hal yang sengaja dibiarkan — ada di **§20**. Bagian ini hanya menyimpan catatan teknis per item.
+
 1. ~~**Halaman hand-tuned tidak menegakkan `status`/`featured`** (§8.1).~~ **Selesai 18/10** — kelima halaman statis kini memanggil `notFound()` bila dokumennya ada dan berstatus draft/archived/not-featured. Bila dokumennya tidak ada sama sekali (CMS mati), halaman tetap tampil dari salinan bawaan.
 2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`) — satu perubahan nomor harus diedit berulang.
 3. **Dua sumber data brand:** `/brands` dan homepage pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`; fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
@@ -809,3 +811,63 @@ Pemilik memeriksa isi yang tayang, lalu memutuskan:
 | 7 | Gambar hero & About homepage | **Dibiarkan** — memakai dua foto yang sekarang |
 
 **Apa yang diperkirakan berubah di masa depan:** brand bisa bertambah; lowongan berubah mengikuti kondisi; slide marquee dan logo bertambah mengikuti brand baru. Sisanya diperkirakan tetap — karena itu §18 diberi bobot paling besar.
+
+---
+
+## 20. Yang masih kurang — satu daftar lengkap (19 Oktober 2026)
+
+Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
+
+| | Jumlah | Arti |
+|---|---|---|
+| ✅ terpenuhi | **34** | jalan dan terverifikasi |
+| ⚠️ perlu perhatian | **9** | berfungsi, tapi belum ideal |
+| ❌ belum ada | **0** | tidak ada item yang benar-benar kosong |
+| — tidak berlaku | 7 | arsitektur ini tanpa backend, login, form, dan unggahan |
+
+### A. Yang menahan status "publish-ready"
+
+1. **Domain sendiri belum ada.** Situs berjalan di `samsaragroup.vercel.app`. `samsaragroup.com` **bukan milik proyek ini** (dipegang pihak lain). Ini satu-satunya *deployment blocker*.
+2. **Privacy policy & halaman legal belum ada.** Diputuskan **dilewati** oleh pemilik (19/10) — bukan kelalaian, tapi konsekuensinya item "Privacy & consent" dan "Legal pages" tetap ⚠️.
+3. **Persetujuan rilis** — menunggu keputusan pemilik atas isi yang tayang (§19).
+
+### B. Isi yang belum lengkap
+
+| Hal | Keadaan | Catatan |
+|---|---|---|
+| **Outpace & Grove** | tanpa alamat, Instagram, tombol, logo, menu, peta — **tapi halamannya publik** dan ikut di sitemap | disengaja: simulasi & kesiapan, belum dirilis |
+| **Jam buka** kelima brand | kosong | belum ditentukan; dan `hours` hanya tampil di dalam section Map |
+| **`socialImage`** kelima brand | kosong | preview link memakai gambar kartu brand — berfungsi, tidak ideal |
+| **Google Form lowongan** | keenam lowongan memakai satu form yang sama | TBD |
+| **Tombol halaman hand-tuned** | ditulis di kode, bukan di CMS | mis. Acasa: RESERVE PADEL, RECEPTIONIST. Tidak bisa diedit dari Studio |
+| **`noIndex`** | tidak dipakai satu halaman pun | fitur siap, tinggal dipakai kalau perlu |
+
+### C. Pekerjaan teknis yang belum
+
+| Hal | Dampak kalau dibiarkan |
+|---|---|
+| **Test otomatis & CI** — `npm run smoke` ada, tapi harus dijalankan manual | regresi diam-diam tidak ada yang menangkap. Ini kelemahan paling serius |
+| **7 kerentanan dependensi** (website) & 24 (studio) | mayoritas tooling dev/CLI, tapi belum ditangani |
+| **Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas | halaman brand jauh lebih berat daripada homepage (yang sudah 118 KB) |
+| **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
+| **Nama folder lokal** (`Versi Next.js`, `studio-samsara`) ≠ nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | membingungkan saat clone dari GitHub |
+| **Lima halaman brand hand-tuned** menyimpan layout di kode | dua cara berbeda menambah brand: lewat template dinamis (mudah) vs mengubah kode (berat) |
+| **Belum ada unit/integration test** | logika bisnis nyaris tidak ada, jadi risikonya kecil — tapi tetap nol |
+
+### D. Yang **DISENGAJA** seperti ini — jangan "diperbaiki"
+
+Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal yang memang sudah benar:
+
+| Yang terlihat kosong | Kenapa dibiarkan |
+|---|---|
+| `world.description` kelima brand | Deskripsi yang tampil **diambil dari section "THE VISION"** secara otomatis (`hydrateWorld()`). Mengisinya justru akan menimpa teks itu |
+| `careerPage.emptyHeadline` & `emptyMessage` | Ada kalimat bawaan di kode |
+| `/events` tanpa event | Halaman menampilkan pesan kosong yang memang disiapkan |
+| `world.hours` kosong | Belum ditentukan (§19) — bukan lupa |
+| Kedua repo **publik** | Keputusan pemilik. Konsekuensinya: **ekspor konten tidak boleh di-commit** |
+| Aset Sanity bisa dibaca publik tanpa login | Memang desainnya — karena itu **dokumen pribadi tidak boleh diunggah** ke dataset ini |
+| `.playwright-mcp/` & `_dev-logs/` di root lokal | Dibuat ulang sendiri oleh alat; ~0 MB dan di luar repo |
+
+### E. Kalau mau naik dari 8 ke 9+
+
+Urutan yang paling berdampak: **CI menjalankan `npm run smoke`** → **domain** → **kerentanan dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.
