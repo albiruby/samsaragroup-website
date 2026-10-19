@@ -641,8 +641,8 @@ punya field versi lama. Atau `world.ts` diubah tapi browser belum reload.
 3. Kalau masih muncul, jalankan audit:
 
 ```powershell
-cd "D:\Cek Website JSD - Infia\Sams Group\Versi Next.js"
-node scripts/audit-schema.mjs
+cd "D:\Project Website INFIA\Samsara Group Website\Versi Next.js"
+npm run smoke
 ```
 
 Script ini membaca semua dokumen di Sanity lalu bandingkan dengan field yang
@@ -788,8 +788,7 @@ npm run dev                       # jalankan website
 npm run build                     # build production
 npm run lint                      # cek kode
 npm audit                         # cek dependency
-node scripts/audit-schema.mjs     # cek konsistensi schema vs data Sanity
-node scripts/security-scan.mjs    # sapuan keamanan source
+npm run smoke                     # cek situs + kecocokan halaman dengan isi Sanity
 ```
 
 ### Launcher

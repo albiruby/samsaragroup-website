@@ -610,11 +610,12 @@ Di `Versi Next.js/scripts/`:
 | Script | Fungsi | Risiko |
 |---|---|---|
 | `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS, lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis** — termasuk saat dipanggil watcher dev. Studio adalah sumber kebenaran. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
-| `sync-cms-to-site.mjs` | menulis field SEO dari website ke CMS | **Menulis ke production**; flag `--dry` **mati** (tidak menahan tulisan) |
-| `seed-careers.mjs` | seed lowongan; `clear` = **hapus semua** dokumen `career` | **Destruktif** |
-| `audit-schema.mjs` | memeriksa schema | baca saja |
-| `sync-sections-extract.mjs` | ekstrak section | baca/tulis |
-| `security-scan.mjs` | pemindai keamanan sederhana | baca saja; tidak terhubung npm script |
+| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS, lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis** — termasuk saat dipanggil watcher dev. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
+| `smoke.mjs` | uji cepat 74 pemeriksaan ke situs live (dipakai `npm run smoke`) | baca saja |
+| `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
+| `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
+
+> **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, dan `security-scan.mjs`. **Kelima-limanya sudah tidak ada** — dihapus di commit `2035c86` ("drop the unused scripts") karena tidak satu pun dipakai npm script, watcher, atau halaman. Sebutan di dokumen lain yang masih menyisakannya adalah catatan historis, bukan hal yang bisa dijalankan.
 | `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs`, `screenshot-desktop.mjs` | snapshot/screenshot halaman | baca saja |
 
 **Checklist aman sebelum menjalankan script yang menulis:**
@@ -680,9 +681,9 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 
 1. **Mengosongkan field CMS = memunculkan teks hardcoded**, bukan menghilangkannya (§3.1).
 2. **`featured: false` hanya men-404 di `[slug]`.** Halaman hand-tuned tetap hidup (§8.1).
-3. ~~**Watcher dev bisa menulis ke production** saat `next dev` boot (§11).~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` sekarang **lapor-saja**: tidak mengunggah, tidak mem-patch, tidak menghapus, apa pun argumennya. *(Catatan: `sync-cms-to-site.mjs` masih bisa menulis field SEO ke CMS, tetapi itu skrip manual — bukan dijalankan otomatis oleh watcher.)*
-4. **`seed-careers.mjs clear` menghapus semua lowongan.**
-5. **`sync-cms-to-site.mjs` punya flag `--dry` yang mati** — jalankan seolah-olah selalu menulis.
+3. **Watcher dev tidak lagi bisa menulis ke production.** ~~Watcher dev bisa menulis ke production saat `next dev` boot (§11).~~ Selesai 18/10 — `sync-hardcode-to-cms.mjs` sekarang **lapor-saja**: tidak mengunggah, mem-patch, maupun menghapus, apa pun argumennya.
+4. ~~`seed-careers.mjs clear` menghapus semua lowongan.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
+5. ~~`sync-cms-to-site.mjs` punya flag `--dry` yang mati.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
 6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`. Sejak 18/10 ia **lapor-saja**: tidak pernah menulis ke CMS.
 7. **JSON-LD tanpa nonce akan diblokir CSP.**
 8. **`public/assetacasa/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
@@ -702,7 +703,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode. *(Berbeda dari hero homepage, yang sekarang bisa dipilih dari Studio.)*
 8. **Belum ada unit/integration test, dan belum ada CI.** Yang tersedia sekarang: **`npm run smoke`** — 74 pemeriksaan (route, struktur halaman, metadata, header keamanan, dan **kecocokan halaman dengan isi Sanity**) — plus uptime monitor 15 menit. Yang belum: test yang berjalan sendiri di CI. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
-10. **Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).
+10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10** — kedua folder `scripts/` kini hanya berisi berkas yang benar-benar dipakai: `sync-hardcode-to-cms.mjs` + `smoke.mjs` (website), `backup-dataset.ps1` + `backup-and-upload.ps1` (studio). Lima skrip lama sudah dihapus di `2035c86`.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
 12. ~~**`.git` website ±1,7 GB** sedangkan file ter-track hanya 225.~~ **Selesai 19/10:** riwayat ditulis ulang untuk membuang 183 `.jpg` + 1 `.pdf` yang sudah tidak dilacak → **1.695 MB menjadi 59 MB**, dan isi berkasnya identik (diverifikasi dengan `diff` terhadap commit lama di GitHub sebelum force-push). Temuan yang membuatnya jelas: dari 1.640 MB blob besar di riwayat, **nol** yang masih dipakai website — semuanya berkas yang sudah dihapus.
 

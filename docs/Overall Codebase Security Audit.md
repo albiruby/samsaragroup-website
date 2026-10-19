@@ -11,6 +11,7 @@
 > - **Klaim domain dikoreksi.** `samsaragroup.com` **bukan milik proyek ini** — dipegang pihak lain. Domain kita: `https://samsaragroup.vercel.app` (`DOCUMENTATIONS.md` §1).
 > - **Ketahanan ditambah:** backup dataset atas permintaan (lokal + Google Drive) + uptime monitor tiap 15 menit (`DOCUMENTATIONS.md` §14).
 > - **19/10 — paparan aset publik ditutup.** Dataset ini publik untuk dibaca, jadi **setiap aset yang pernah diunggah bisa diunduh siapa pun yang tahu URL-nya** — tanpa login. Ditemukan satu scan KTP yang tidak direferensikan dokumen mana pun; aset itu dihapus dari Sanity (URL-nya kini 404) dan kelima arsip backup lama dibersihkan agar tidak ikut terbawa. Aturan yang berlaku sejak itu: **dokumen pribadi tidak boleh diunggah ke dataset ini.**
+> - **19/10 — catatan atas temuan skrip.** Beberapa temuan di bawah menyebut skrip yang **sudah tidak ada**: `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, dan `security-scan.mjs` dihapus di commit `2035c86`. Temuannya tetap benar sebagai catatan historis — apa yang salah pada skrip itu memang nyata — tetapi tidak ada lagi yang bisa dijalankan, jadi rekomendasinya sudah tidak perlu ditindak.
 > - Temuan lain yang masih terbuka terdaftar di `DOCUMENTATIONS.md` §16.
 
 ---
