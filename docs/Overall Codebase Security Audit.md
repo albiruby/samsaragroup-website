@@ -194,3 +194,59 @@ Jadi pola ini: **CMS contract ditulis di repo Studio, tapi tidak ada satu pun me
 | `selfcheck-ledger.cjs` / `selfcheck-findings.cjs` | Pemeriksaan struktural pengganti validator resmi |
 
 **Catatan akhir:** bagian A dan B tidak boleh dicampur. "0 vulnerability confirmed" adalah pernyataan tentang bukti yang tersedia, bukan jaminan situs aman. Dan bagian B menunjukkan bahwa inheritance dari audit sebelumnya — yang tidak memeriksa rantai CMS sama sekali — adalah bagaimana `postedAt` bisa lolos begitu lama.
+
+---
+
+## 8. Audit ulang — 21 Oktober 2026
+
+Audit kedua atas kedua repo **pada kode saat ini** (`samsaragroup-website` + `samsaragroup-sanity`), mencakup pula integrasi Sanity ↔ website ↔ Vercel. Metode: empat pemburu atas 16 unit cakupan, lalu tiga verifier independen yang tidak melihat hasil pemburunya. Tanpa eksekusi kode target dan tanpa memanggil endpoint ter-deploy mana pun.
+
+**Hasil: 1 `confirmed`, 5 `needs_validation`, 14 `rejected`.** Perinciannya disimpan di luar repo ini (folder audit terpisah), sesuai keputusan bahwa repo ini publik.
+
+### 8.1 Yang berubah sejak audit pertama
+
+Audit pertama menutup dengan **0 temuan `confirmed`**. Kini ada satu — dan penyebabnya bukan kode yang bertambah buruk, melainkan kesadaran bahwa **batas baca dataset tidak berada di kode**.
+
+### 8.2 Satu temuan terkonfirmasi: batas baca dataset
+
+**`status`/`featured`/`noIndex` adalah kontrol presentasi, bukan kontrol akses.** Field itu menyembunyikan konten dari HTML yang dirender website, tidak dari siapa pun yang membaca dataset secara langsung. Konsekuensinya: konten yang ditandai belum tampil, beserta seluruh aset, berada di luar kendali halaman web.
+
+Severity **Medium**, dan hampir seluruh bobotnya berasal dari insiden 19 Oktober (dokumen pribadi yang tidak direferensikan sempat bisa diunduh publik) — bukan dari konten marketing yang memang dipublikasikan.
+
+**Klasifikasi yang jujur:** ini kebocoran kerahasiaan atas data milik kita sendiri, **bukan** pelewatan otorisasi. Penulisan tetap butuh token dan ditolak tanpa token. Tidak ada pihak ketiga yang memperoleh kemampuan baru.
+
+**Tiga pilihan, dan hanya tiga:**
+
+| Pilihan | Konsekuensi |
+|---|---|
+| Dataset dibuat **private** | Satu-satunya cara menutup batas. Butuh paket berbayar **dan** pekerjaan tambahan, karena gambar saat ini ditautkan langsung ke CDN aset |
+| Tetap public + **tata kelola data** | Kendali efektif satu-satunya di paket saat ini: jangan pernah unggah dokumen pribadi (aturan pasca-KTP), dan bersihkan aset tak terpakai secara berkala |
+| Terima risikonya secara sadar | Sah saja, asal dicatat sebagai keputusan — bukan sebagai kelalaian |
+
+### 8.3 Yang ternyata sudah benar — jangan dikerjakan ulang
+
+Empat hal yang tampak mencurigakan ternyata sudah dijaga dengan benar. Dicatat di sini supaya tidak ada yang menghabiskan waktu "memperbaikinya":
+
+- **Escape JSON-LD kedap.** Breakout `</script>`, komentar HTML, maupun injeksi struktur JSON tidak mungkin.
+- **Sanitizer React aktif di jalur server**, bukan hanya di browser — terverifikasi langsung dari paket yang terpasang. Klaim lama di dokumen ini bahwa React memblokir `javascript:` **benar** untuk render server juga.
+- **Interpolasi GROQ pada operasi hapus aman**, dan seluruh jalur mutasi sudah mati di belakang satu konstanta `dryRun`.
+- **Tidak ada sink berbahaya lain** di seluruh kedua repo.
+
+### 8.4 Yang perlu diperbaiki (kecil, tapi menyesatkan kalau dibiarkan)
+
+1. **Klaim "URL dari CMS disaring `safeUrl()`" tidak berlaku untuk tiga jalur:** tombol About di homepage, tautan event, dan tautan brand yang dibentuk dari slug. Bukan kerentanan (penulisnya hanya operator, dan `javascript:` sudah diblokir), tetapi kalimatnya harus diluruskan.
+2. **Bentuk slug tidak divalidasi sama sekali.** Cukup tambahkan aturan karakter sederhana sebelum slug dipakai membentuk tautan.
+3. **Komentar basi di `client.ts`.** Komentar itu menyatakan klien dipakai juga di komponen client — padahal sudah terbukti hanya dipakai di server. Komentar yang salah ini justru menghalangi perbaikan yang benar.
+4. **`ignoreCommand` hanya membandingkan commit terakhir.** Push berisi dua commit bisa membuat perubahan kode tidak ikut tayang. Ini regresi dari perbaikan 21 Oktober — perbaikan itu menukar satu mode kegagalan dengan mode kegagalan lain.
+
+### 8.5 Kredensial
+
+Token tulis di `.env.local` **tidak diperlukan lagi** — semua mutasi sudah mati, dan operasi baca tidak butuh token. Audit menemukan salinannya juga tersimpan di cache build lokal. Tidak ditemukan jejaknya di riwayat git maupun di arsip backup.
+
+Karena selama audit terjadi **insiden proses** yang mengekspos nilai token ke log sesi, **rotasinya wajib dilakukan sekarang** — bukan sekadar disarankan. Setelah dirotasi: hapus dari `.env.local`, bersihkan folder `.next/`, dan buat token bersifat opsional pada skrip sinkronisasi.
+
+### 8.6 Batas audit ini
+
+- **Validator resmi tidak bisa jalan di Windows** (keterbatasan API berkas di platform ini). Struktur artefak diperiksa sendiri, tetapi itu bukan pengganti validator resmi. Status run: `incomplete`.
+- **Sandbox yang diwajibkan tidak tersedia** di mesin ini, sehingga tidak ada kode target yang dieksekusi sama sekali.
+- **Lima kandidat masih terbuka** karena fakta penentunya ada di luar source: semantik cache CDN untuk CSP, perilaku `perspective` Content Lake, model peran folder Google Drive, perilaku argumen PowerShell terhadap rclone, dan lingkup ACL token. Rencana validasi untuk masing-masing sudah tersedia; tidak ada satupun yang berdampak langsung pada pengunjung situs.
