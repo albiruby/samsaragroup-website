@@ -693,6 +693,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 8. **`public/assetacasa/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
 10. **Jangan hapus `scripts/` yang masih dirujuk** `.env.example`/`instrumentation.js` sebelum memastikan tidak ada pemakai.
+11. **`ignoreCommand` di `vercel.json` tidak boleh bergantung pada `$VERCEL_GIT_PREVIOUS_SHA`.** Nilai itu menunjuk commit yang terakhir **berhasil** dideploy. Pada 19/10 riwayat repo ditulis ulang lalu di-*force push*, jadi commit yang ditunjuk (`56e37d8`) lenyap dan `git diff` mati dengan `fatal: bad object`. Akibatnya **9 deploy berturut-turut gagal dalam 3 detik** — `next build` tidak pernah mulai, commit dokumentasi pun ikut "gagal" padahal seharusnya dilewati, dan masalahnya tidak bisa pulih sendiri karena percobaan berikutnya menunjuk commit yang sama. Perbaikannya (21/10, `da88bb1`): bandingkan dengan `HEAD^`, yang selalu ada. Diuji lokal — dokumentasi saja → exit 0 (lewati), menyentuh `src/` → exit 1 (bangun).
 
 ---
 
