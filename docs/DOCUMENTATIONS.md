@@ -160,7 +160,7 @@ Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk
 | `source-assets\` | aset mentah: `acasa\`, `samsara\`, `svarga\`, `svvara\`, `logosamsara\`, `2026 Samsara Menu Images\`. **Tidak dirujuk kode** — versi terbitnya sudah dikonversi ke `public\` |
 | `backups\` | arsip backup Sanity (±28,6 MB/berkas, simpan 14 terbaru) + salinan terbaru di Google Drive. **Tidak boleh masuk repo** — repo publik |
 | `screenshots\` | artefak screenshot: `desktop\`, `tablet\`, `mobile\`, `responsive\` |
-| `samsara-ad\` | **proyek terpisah** (Node/HyperFrames, punya `package.json` + `dist\`), belum punya repo Git sendiri |
+| `samsara-ad\` | **sudah tidak ada** di folder induk saat dokumen ini diperbarui. Dulu proyek Node/HyperFrames terpisah dengan `package.json` + `dist\` sendiri |
 | `.agents\` | bundel skill agen + `skills-lock.json` |
 | `_dev-logs\` | log `dev-launcher.ps1` — **infrastruktur hidup, bukan sampah** (dibuat ulang tiap launcher jalan) |
 | `dev-launcher.ps1`, `Dev.cmd` | launcher dev (website + studio sekaligus) |
