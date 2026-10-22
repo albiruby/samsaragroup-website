@@ -159,8 +159,6 @@ Semua nilai harus diisi manual di panel Hostinger.
 | `NEXT_PUBLIC_SITE_URL` | tidak | domain final tanpa trailing slash | Anda pilih |
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | tidak | `p5zu5azj` | Sanity project |
 | `NEXT_PUBLIC_SANITY_DATASET` | tidak | `production` | Sanity dataset |
-| `SANITY_API_TOKEN` | **YA** | token dari sanity.io/manage | Sanity Manage → API tokens |
-| `NEXT_PUBLIC_SANITY_STUDIO_URL` | tidak | `https://samsaragroup.sanity.studio` | Studio |
 
 ### 5.2 Kenapa `NEXT_PUBLIC_SITE_URL` wajib diisi benar
 
@@ -190,7 +188,7 @@ Default di kode masih `https://samsaragroup.vercel.app`, jadi variabel ini
 4. Centang untuk Production (dan Preview/Staging bila ada)
 5. Save, lalu **restart** app supaya variabel terbaca
 
-`SANITY_API_TOKEN` tidak boleh masuk `.env.example` atau commit apa pun.
+Situs ini tidak membutuhkan token Sanity: semua query berjalan server-side ke dataset publik, dan skrip sinkronisasi hanya membaca. Jangan menaruh token di `.env.example` atau commit apa pun.
 
 ---
 
@@ -317,7 +315,6 @@ lighthouse cache bisa menahan `.next/` lama.
 - [ ] `NEXT_PUBLIC_SITE_URL` = domain final
 - [ ] `NEXT_PUBLIC_SANITY_PROJECT_ID` = `p5zu5azj`
 - [ ] `NEXT_PUBLIC_SANITY_DATASET` = `production`
-- [ ] `SANITY_API_TOKEN` diisi (rahasia)
 - [ ] App di-restart/rebuild setelah env var diisi
 
 ### Kode

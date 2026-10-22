@@ -270,7 +270,7 @@ Di repo website (`scripts/`):
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja — tidak pernah menulis lagi** (sejak 18/10). Studio adalah sumber kebenaran |
+| `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja — tidak pernah menulis** (sejak 18/10). Tidak dipanggil otomatis dan tidak butuh token |
 | `smoke.mjs` | uji cepat ke situs live, dipakai `npm run smoke` | baca saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukurannya diverifikasi |
 
@@ -278,7 +278,7 @@ Di repo website (`scripts/`):
 | `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs` | snapshot HTML halaman | baca saja |
 | `screenshot-desktop.mjs` | screenshot | baca saja |
 
-**Catatan:** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa pernah menulis, mem-patch, atau menghapus. Jadi `next dev` tidak lagi bisa mengubah data produksi. Tetap bijak memastikan `.env.local` menunjuk dataset yang kamu maksud.
+**Catatan:** tidak ada watcher otomatis saat `next dev`. `sync-hardcode-to-cms.mjs` hanya dijalankan manual (`npm run sync:cms`) dan tetap **lapor-saja** — ia membandingkan fallback di kode dengan isi CMS, tanpa menulis, mem-patch, atau menghapus. Skrip ini juga tidak butuh token.
 
 ### Backup & monitoring
 
@@ -310,7 +310,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` bukan `production`, **atau** backup dulu.
-- Jalankan versi `--dry-run` bila tersedia.
+- `sync-hardcode-to-cms.mjs` selalu lapor-saja; tidak ada jalur tulis.
 - Baca ulang peringatan di script.
 
 ---
@@ -323,11 +323,9 @@ File `.env.local` di repo website (tidak ter-commit):
 |---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `p5zu5azj` |
 | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
-| `NEXT_PUBLIC_SANITY_STUDIO_URL` | URL Studio (lokal `http://localhost:3333`) |
-| `SANITY_API_TOKEN` | token tulis — **hanya untuk script lokal**, tidak pernah dipakai di browser |
 | `NEXT_PUBLIC_SITE_URL` | `https://samsaragroup.vercel.app` (default di `src/lib/site.js`) |
 
-> Catatan: `.env.example` masih menyimpan satu karakter rusak (mojibake) di baris komentarnya. Nilainya sendiri sudah benar: `https://samsaragroup.vercel.app`.
+> Catatan: tidak ada token di `.env.local` maupun `.env.example`; keduanya hanya berisi project ID, dataset, dan URL situs.
 
 ---
 
@@ -338,7 +336,7 @@ File `.env.local` di repo website (tidak ter-commit):
 3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`. Fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
 4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
-6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` kini lapor-saja, tidak pernah menulis. (lihat §11).
+6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` dibuat lapor-saja. **22/10 watcher-nya dihapus**; skrip kini hanya dijalankan manual. (lihat §11).
 7. **Belum ada test otomatis yang berjalan di CI.** Yang tersedia: **`npm run smoke`** (74 pemeriksaan — lihat §"Uji cepat setelah deploy" di atas) dan uptime monitor 15 menit. Backup **tidak lagi terjadwal** — dijalankan atas permintaan. (lihat §11).
 
 ---
@@ -380,7 +378,6 @@ website/
                                MenuSection, MenuGallery, BrandHours, LeafletMap, dll
   src/lib/site.js              SITE_URL, safeUrl, openGraphFor, CTA_LABELS
   src/proxy.js                 CSP nonce + headers (pengganti middleware)
-  src/instrumentation.js       watcher dev → sync CMS
   public/                      gambar lokal — ASSETS-SAMSARA/{ambience,logo,menu},
                                ASSETS-SVARGA, ASSETS-ACASA (lihat DOCUMENTATIONS §2.2a)
   scripts/                     skrip sinkronisasi & utilitas

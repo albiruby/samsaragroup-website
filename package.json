@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "smoke": "node scripts/smoke.mjs",
-    "sync:cms": "node scripts/sync-hardcode-to-cms.mjs",
-    "sync:cms:dry": "node scripts/sync-hardcode-to-cms.mjs --dry-run"
+    "sync:cms": "node scripts/sync-hardcode-to-cms.mjs"
   },
   "dependencies": {
     "@sanity/client": "^7.27.0",

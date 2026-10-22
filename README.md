@@ -32,12 +32,13 @@ npm run build      # harus sukses
 
 ## Peringatan
 
-`src/instrumentation.js` menjalankan watcher yang, saat `NODE_ENV=development`,
-menyinkronkan nilai hardcoded → CMS — **termasuk menulis ke dataset `production`**.
-Matikan dengan `SYNC_CMS_DISABLED=1` kalau `.env.local` menunjuk produksi.
+`scripts/sync-hardcode-to-cms.mjs` **lapor-saja**: ia membandingkan galeri dan
+fallback di kode dengan isi CMS, tanpa pernah menulis. Jalankan manual dengan
+`npm run sync:cms`; tidak ada watcher otomatis saat `next dev`, dan skrip ini
+tidak butuh token.
 
-Jangan pernah menaruh `SANITY_API_TOKEN` di `src/sanity/lib/client.ts`: file itu
-dipakai komponen server *dan* client.
+Jangan menaruh `SANITY_API_TOKEN` di `src/`: tidak ada kode situs yang
+membutuhkannya, dan apa pun yang masuk bundel browser akan terekspos.
 
 ## Dokumentasi
 

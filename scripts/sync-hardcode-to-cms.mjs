@@ -8,8 +8,7 @@
 // menunjuk ke dataset `production`, setiap `npm run dev` di laptop membatalkan
 // editan editor di Studio pada data yang dibaca situs live. Mutasi dihapus.
 //
-// Jalankan: node scripts/sync-hardcode-to-cms.mjs
-// Di dev: startWatcher() dipanggil otomatis dari src/instrumentation.js (lapor saja).
+// Jalankan manual: npm run sync:cms (lapor-saja; tidak butuh token).
 
 import fs from "node:fs";
 import path from "node:path";
@@ -41,7 +40,7 @@ const shaFromRef = (ref) => ref?.match(/^image-([0-9a-f]{40})-/)?.[1] || null;
 
 function makeClient({ token, projectId, dataset }) {
   const base = `https://${projectId}.api.sanity.io/v1`;
-  const auth = { Authorization: "Bearer " + token };
+  const auth = token ? { Authorization: "Bearer " + token } : {};
   return {
     async gql(query) {
       const r = await fetch(
@@ -126,7 +125,6 @@ export async function sync({ source = "cli" } = {}) {
   const dryRun = true;
   const t0 = Date.now();
   const env = loadEnv();
-  if (!env.token) throw new Error("SANITY_API_TOKEN tidak ditemukan di .env.local");
   const c = makeClient(env);
 
   const [worlds, slides, assets] = await Promise.all([
@@ -304,41 +302,11 @@ export async function sync({ source = "cli" } = {}) {
   return { notes: notes.length, mutations: mutations.length, uploads, errors };
 }
 
-export function startWatcher({ debounce = 900 } = {}) {
-  if (globalThis.__SYNC_CMS_WATCHER__) return;
-  globalThis.__SYNC_CMS_WATCHER__ = true;
-  const files = [
-    ...BRANDS.map((s) => path.join(ROOT, "src", "app", s, "page.js")),
-    path.join(ROOT, "src", "app", "brands", "page.js"),
-    path.join(ROOT, "src", "components", "HomePage.js"),
-  ];
-  let timer = null;
-  let queue = Promise.resolve();
-  const run = (source) => {
-    queue = queue
-      .then(() => sync({ source }))
-      .catch((e) => warn("sync gagal:", e.message));
-  };
-  for (const f of files) {
-    try {
-      fs.watch(f, () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => run("watch"), debounce);
-      });
-    } catch (e) {
-      warn("watch gagal:", path.relative(ROOT, f), e.message);
-    }
-  }
-  run("startup");
-  log(`watcher aktif — ${files.length} file dipantau (hanya dev)`);
-}
-
 const invokedDirectly =
   process.argv[1] &&
   path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invokedDirectly) {
-  const dryRun = process.argv.includes("--dry-run");
-  sync({ dryRun, source: dryRun ? "dry-run" : "cli" })
+  sync({ source: "cli" })
     .then((r) => process.exit(r.errors ? 1 : 0))
     .catch((e) => {
       warn(e.message);

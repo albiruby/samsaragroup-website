@@ -81,7 +81,7 @@ Enam record `rejected` di atas **tetap berisi defect nyata**. Yang paling serius
 | Prioritas | Defect | Lokasi | Dampak |
 |---|---|---|---|
 | **Tinggi** | `clear` menghapus **seluruh** dokumen `career` tanpa konfirmasi | `scripts/seed-careers.mjs:136-141` | Menghapus semua lowongan live di dataset production karena satu ketikan argumen. Tidak ada prompt, threshold, atau dry-run. |
-| ~~**Tinggi**~~ **SELESAI 18/10** | Watcher CMS menulis ke production saat `next dev` boot | `sync-hardcode-to-cms.mjs:306-309,321` | `dryRun` default `false`, `--dry-run` tidak pernah terlihat oleh `startWatcher`. Full patch/create/delete + upload aset setiap boot. |
+| ~~**Tinggi**~~ **SELESAI 18/10, watcher dihapus 22/10** | Watcher CMS menulis ke production saat `next dev` boot | `sync-hardcode-to-cms.mjs:306-309,321` | `dryRun` default `false`, `--dry-run` tidak pernah terlihat oleh `startWatcher`. Full patch/create/delete + upload aset setiap boot. |
 | **Sedang** | `--dry` mati | `sync-cms-to-site.mjs:105,113` | Operator mengira aman, production tetap ditulis. |
 | **Sedang** | Hapus CMS didorong diff posisional | `sync-hardcode-to-cms.mjs:266` | Menghapus satu gambar dari `samsara/page.js` = hapus dokumen CMS di boot `next dev` berikutnya. |
 | **Sedah** | 9 sink URL tanpa allowlist | scattered | Inkonsistensi praktik, bukan lubang. |
@@ -243,7 +243,7 @@ Empat hal yang tampak mencurigakan ternyata sudah dijaga dengan benar. Dicatat d
 
 Token tulis di `.env.local` **tidak diperlukan lagi** — semua mutasi sudah mati, dan operasi baca tidak butuh token. Audit menemukan salinannya juga tersimpan di cache build lokal. Tidak ditemukan jejaknya di riwayat git maupun di arsip backup.
 
-Karena selama audit terjadi **insiden proses** yang mengekspos nilai token ke log sesi, **rotasinya wajib dilakukan sekarang** — bukan sekadar disarankan. Setelah dirotasi: hapus dari `.env.local`, bersihkan folder `.next/`, dan buat token bersifat opsional pada skrip sinkronisasi.
+**Tindak lanjut 22/10:** token sudah **dihapus dari `.env.local`**, `.next/` dibersihkan, dan `sync-hardcode-to-cms.mjs` dibuat tokenless (auth hanya dikirim kalau token ada). Yang masih perlu: **cabut/rotasi token itu di dashboard Sanity** — langkah itu hanya bisa dilakukan pemilik akun.
 
 ### 8.6 Batas audit ini
 

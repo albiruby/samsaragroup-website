@@ -90,8 +90,7 @@ website/
 │   │   ├── queries.ts             semua GROQ + hydrateWorld()
 │   │   ├── brands.ts              getBrandCards(), getBrandNav(), isPublic()
 │   │   └── image.ts               urlFor(), sizedUrl()
-│   ├── proxy.js                   CSP nonce + security headers (pengganti middleware)
-│   └── instrumentation.js         watcher dev → tulis ke CMS
+│   └── proxy.js                   CSP nonce + security headers (pengganti middleware)
 ├── public/                        gambar lokal — satu folder per brand: `ASSETS-<BRAND>` (§2.2a)
 ├── scripts/                       skrip sinkronisasi & utilitas (lihat §14)
 ├── next.config.mjs                images.remotePatterns + headers
@@ -482,7 +481,7 @@ Next.js versi ini memakai konvensi **`proxy.js`** untuk interceptor request. Fil
 
 ### 9.3 Aturan menulis kode aman
 
-- **Jangan pernah** menaruh `SANITY_API_TOKEN` di `client.ts` — file itu dipakai komponen server *dan* client. Token hanya untuk skrip lokal.
+- **Jangan pernah** menaruh `SANITY_API_TOKEN` di mana pun di `src/` — tidak ada kode situs yang membutuhkannya, dan apa pun di bundel browser akan terekspos. Klien Sanity berjalan server-side saja.
 - JSON-LD **selalu** lewat `jsonLdHtml()` (meng-escape `<`, `>`, U+2028/9).
 - URL dari CMS disaring `safeUrl()` (hanya `http:`/`https:`).
 - `images.remotePatterns` di `next.config.mjs` saat ini **inert** — kode memakai `<img>` biasa, bukan `next/image`.
@@ -517,12 +516,9 @@ Hero Samsara kini memakai **galeri CMS** seperti brand lain, sehingga gambarnya 
 |---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `p5zu5azj` |
 | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
-| `NEXT_PUBLIC_SANITY_STUDIO_URL` | URL Studio (lokal: `http://localhost:3333`) |
-| `SANITY_API_TOKEN` | token tulis — **hanya untuk skrip lokal**, tidak pernah ikut ke browser |
 | `NEXT_PUBLIC_SITE_URL` | default `https://samsaragroup.vercel.app` (di `src/lib/site.js`) |
-| `SYNC_CMS_DISABLED` (opsional) | set apa pun untuk mematikan watcher dev |
 
-> **Catatan:** `.env.example` masih menyimpan komentar lama (`sams-sams.vercel.app`) dan satu karakter rusak (mojibake) di komentarnya. Nilai sebenarnya ada di `src/lib/site.js` = `samsaragroup.vercel.app`.
+> **Catatan:** tidak ada token di `.env.local` maupun `.env.example`. Keduanya hanya berisi project ID, dataset, dan (contoh) URL situs.
 
 ---
 
@@ -548,7 +544,7 @@ npm run build        # cek schema
 npm run deploy       # HANYA kalau schema berubah
 ```
 
-> **CATATAN.** `src/instrumentation.js` masih menjalankan watcher di mode development, tetapi sejak 18/10 `sync-hardcode-to-cms.mjs` **lapor-saja** — ia membandingkan gambar di kode dengan yang di CMS lalu melaporkan selisihnya, tanpa menulis, mem-patch, atau menghapus. Jadi `next dev` **tidak lagi bisa mengubah data produksi**. Watcher tetap bisa dimatikan dengan `SYNC_CMS_DISABLED=1`.
+> **CATATAN.** Tidak ada watcher otomatis saat `next dev`. `sync-hardcode-to-cms.mjs` hanya dijalankan manual (`npm run sync:cms`) dan tetap **lapor-saja** — membandingkan fallback di kode dengan CMS, tanpa menulis, mem-patch, atau menghapus. Skrip ini tidak butuh token.
 
 ---
 
@@ -648,18 +644,16 @@ Di `website/scripts/`:
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS, lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis** — termasuk saat dipanggil watcher dev. Studio adalah sumber kebenaran. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
-| `sync-hardcode-to-cms.mjs` | membandingkan gambar hardcode di kode dengan gambar di CMS, lalu melaporkan selisihnya (dipakai `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis** — termasuk saat dipanggil watcher dev. **Wajib dipertahankan** (dipakai npm script + `instrumentation.js`) |
+| `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS, lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis.** Studio adalah sumber kebenaran; selisih fallback bukan masalah. Tidak dipanggil otomatis dan tidak butuh token |
 | `smoke.mjs` | uji cepat 74 pemeriksaan ke situs live (dipakai `npm run smoke`) | baca saja |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
 
-> **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, dan `security-scan.mjs`. **Kelima-limanya sudah tidak ada** — dihapus di commit `2035c86` ("drop the unused scripts") karena tidak satu pun dipakai npm script, watcher, atau halaman. Sebutan di dokumen lain yang masih menyisakannya adalah catatan historis, bukan hal yang bisa dijalankan.
-| `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs`, `screenshot-desktop.mjs` | snapshot/screenshot halaman | baca saja |
+> **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`, dan skrip snapshot/screenshot. **Semuanya sudah tidak ada** — dihapus di commit `2035c86` ("drop the unused scripts") karena tidak satu pun dipakai npm script, watcher, atau halaman. Sebutan di dokumen lain yang masih menyisakannya adalah catatan historis, bukan hal yang bisa dijalankan.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` **bukan** `production`, **atau** backup dulu.
-- Jalankan versi `--dry-run` bila tersedia.
+- `sync-hardcode-to-cms.mjs` selalu lapor-saja; tidak ada jalur tulis.
 - Baca ulang peringatan di dalam script.
 
 ### Screenshot
@@ -720,14 +714,14 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 
 1. **Mengosongkan field CMS = memunculkan teks hardcoded**, bukan menghilangkannya (§3.1).
 2. **`featured: false` hanya men-404 di `[slug]`.** Halaman hand-tuned tetap hidup (§8.1).
-3. **Watcher dev tidak lagi bisa menulis ke production.** ~~Watcher dev bisa menulis ke production saat `next dev` boot (§11).~~ Selesai 18/10 — `sync-hardcode-to-cms.mjs` sekarang **lapor-saja**: tidak mengunggah, mem-patch, maupun menghapus, apa pun argumennya.
+3. **Tidak ada watcher dev.** ~~Watcher dev bisa menulis ke production saat `next dev` boot (§11).~~ Selesai 18/10 — skrip dibuat **lapor-saja**: tidak mengunggah, mem-patch, maupun menghapus, apa pun argumennya. **22/10 watcher-nya dihapus**; skrip hanya dijalankan manual.
 4. ~~`seed-careers.mjs clear` menghapus semua lowongan.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
 5. ~~`sync-cms-to-site.mjs` punya flag `--dry` yang mati.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
-6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`. Sejak 18/10 ia **lapor-saja**: tidak pernah menulis ke CMS.
+6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script `sync:cms`. Sejak 18/10 ia **lapor-saja**, dan sejak 22/10 tidak dipanggil otomatis.
 7. **JSON-LD tanpa nonce akan diblokir CSP.**
 8. **`public/ASSETS-ACASA/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
-10. **Jangan hapus `scripts/` yang masih dirujuk** `.env.example`/`instrumentation.js` sebelum memastikan tidak ada pemakai.
+10. **Jangan hapus `scripts/` yang masih dirujuk** `package.json` sebelum memastikan tidak ada pemakai.
 11. **`ignoreCommand` di `vercel.json` tidak boleh bergantung pada `$VERCEL_GIT_PREVIOUS_SHA`.** Nilai itu menunjuk commit yang terakhir **berhasil** dideploy. Pada 19/10 riwayat repo ditulis ulang lalu di-*force push*, jadi commit yang ditunjuk (`56e37d8`) lenyap dan `git diff` mati dengan `fatal: bad object`. Akibatnya **9 deploy berturut-turut gagal dalam 3 detik** — `next build` tidak pernah mulai, commit dokumentasi pun ikut "gagal" padahal seharusnya dilewati, dan masalahnya tidak bisa pulih sendiri karena percobaan berikutnya menunjuk commit yang sama. Perbaikannya (21/10, `da88bb1`): bandingkan dengan `HEAD^`, yang selalu ada. Diuji lokal — dokumentasi saja → exit 0 (lewati), menyentuh `src/` → exit 1 (bangun).
 
 ---
@@ -783,7 +777,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 
 | Perubahan | Sebelum | Sesudah |
 |---|---|---|
-| `scripts/sync-hardcode-to-cms.mjs` | menimpa `world.gallery`, `world.image`, dan `carouselImage(placement=home)` dengan nilai hardcode **di dataset produksi**, setiap `npm run dev` | **lapor-saja** — tidak ada upload, patch, atau delete |
+| `scripts/sync-hardcode-to-cms.mjs` | menimpa `world.gallery`, `world.image`, dan `carouselImage(placement=home)` dengan nilai hardcode **di dataset produksi**, setiap `npm run dev` | **lapor-saja** — tidak ada upload, patch, atau delete; sejak 22/10 watcher dev dihapus, skrip hanya manual |
 | `status` / `featured` | hanya berlaku di template `[slug]`; 5 halaman brand statis mengabaikannya | berlaku di kelima halaman statis juga (`notFound()`); bila dokumennya tidak ada, halaman tetap tampil dari fallback-nya |
 | `sections[].image`, `sections[].features[].image`, `world.menuPanels`, `world.categories` | ada di form, tidak pernah dibaca website (12 gambar feature card sudah terlanjur diunggah) | **dihapus dari schema**. Data lamanya tetap ada di dataset, hanya tidak lagi bisa diisi |
 | `event` | tidak ada cara menyembunyikan tanpa menghapus | punya `status` (active/draft/archived); dikosongkan = dianggap active, jadi event lama tetap tayang |
