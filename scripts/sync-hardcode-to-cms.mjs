@@ -95,7 +95,7 @@ export function extractHeroPaths(src) {
 export function extractBrandFallbacks(src) {
   // SEED_CARDS entries carry `slug` and `fallback`, not `name` + `fallback`.
   const out = {};
-  const block = src.match(/const SEED_CARDS\s*=\s*\[([\s\S]*?)\n\];/);
+  const block = src.match(/const SEED_CARDS\s*=\s*\[([\s\S]*?)\n\]/);
   if (!block) return null;
   for (const entry of block[1].split(/\n\s*\},?\s*\n/)) {
     const slug = entry.match(/slug:\s*"([^"]+)"/);
