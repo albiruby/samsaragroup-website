@@ -163,7 +163,7 @@ Hand-tuned. Ringkasan sumber tiap bagian:
 | Eyebrow hero | `heroEyebrow` CMS | idem | idem | idem | idem |
 | Judul hero | logo gambar hardcoded | logo gambar hardcoded | logo gambar hardcoded | teks hardcoded | teks hardcoded |
 | Paragraf hero | `tagline` CMS | `tagline` CMS | `tagline` CMS | hardcoded | hardcoded |
-| Hero carousel | **hardcoded** 12 gambar | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
+| Hero carousel | `gallery` CMS (fallback 12 lokal) | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
 | Deskripsi + tabel spesifikasi | `description` + `specifications` CMS | idem | idem | idem | idem |
 | Tombol aksi | `ctas` + `instagramUrl` CMS | idem | **hardcoded** padel/receptionist/roomrate + `instagramUrl` | (tidak ada) | (tidak ada) |
 | Foto kolom kanan | `image` CMS | `image` CMS | **hardcoded** `open-hour-acasa.webp` | `image` CMS | `image` CMS |
@@ -203,7 +203,8 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 - **Hardcoded** di `src/app/about/page.js`. Ubah kode → push.
 
 ### F. Ganti gambar hero Samsara
-- **Hardcoded** di `src/app/samsara/page.js` (array 12 path). Letakkan gambar di `public/ASSETS-SAMSARA/ambience/`, ubah kode, push.
+- **Studio** → **Brands & Brand Pages — World** → dokumen **Samsara** → field **Gallery**. Urutan gambar mengikuti urutan di Studio.
+- Halaman memakai galeri CMS selama tidak kosong. Kalau kosong atau CMS tidak bisa dihubungi, halaman jatuh ke 12 gambar lokal di `public/ASSETS-SAMSARA/ambience/` (array fallback di `src/app/samsara/page.js`); mengubah fallback itu butuh kode + push.
 
 ### G. Ganti menu Svarga / Acasa
 - **Hardcoded**: `/ASSETS-SVARGA/menusvarga.webp` dan `/ASSETS-ACASA/acasamenufood.webp` + `acasamenubeverages.webp`. Ganti file gambar (nama sama) atau ubah path di kode, lalu push.

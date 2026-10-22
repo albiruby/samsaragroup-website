@@ -123,20 +123,24 @@ export default async function SamsaraPage() {
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
         <ScrollReveal>
           <HeroCarousel
-            images={[
-              "/ASSETS-SAMSARA/ambience/DSC08187.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08177.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08930.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08926.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08913.webp",
-              "/ASSETS-SAMSARA/ambience/DSC09006.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08998.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08568.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08420.webp",
-              "/ASSETS-SAMSARA/ambience/DSC08635.webp",
-              "/ASSETS-SAMSARA/ambience/DSC09003.webp",
-              "/ASSETS-SAMSARA/ambience/DSC09354.webp",
-            ]}
+            images={
+              world?.gallery?.length
+                ? world.gallery.map((g) => sizedUrl(g, 1600))
+                : [
+                    "/ASSETS-SAMSARA/ambience/DSC08187.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08177.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08930.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08926.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08913.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09006.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08998.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08568.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08420.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08635.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09003.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09354.webp",
+                  ]
+            }
             alt="Samsara Sanctuary"
           />
         </ScrollReveal>

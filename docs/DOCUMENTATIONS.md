@@ -270,7 +270,7 @@ Ada juga `app/error.js` dan `app/not-found.js`.
 | Eyebrow hero | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS | `heroEyebrow` CMS |
 | Judul hero | logo gambar hardcoded | logo gambar hardcoded | logo gambar hardcoded | teks hardcoded | teks hardcoded |
 | Paragraf hero | `tagline` CMS | `tagline` CMS | `tagline` CMS | hardcoded | hardcoded |
-| Hero carousel | **hardcoded** 12 gambar | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
+| Hero carousel | `gallery` CMS (fallback 12 lokal) | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
 | Deskripsi + tabel spesifikasi | `description` + `specifications` CMS | idem | idem | idem | idem |
 | Tombol aksi | `ctas` + `instagramUrl` CMS | idem | idem | idem | idem |
 | Foto kolom kanan | `image` CMS | `image` CMS | **hardcoded** `open-hour-acasa.webp` | `image` CMS | `image` CMS |
@@ -505,7 +505,7 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
 Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
 
-Hero Samsara masih **gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas, 113–374 KB) sehingga tidak bisa di-resize lewat Sanity — perlu re-encode berkasnya kalau mau dikecilkan.
+Hero Samsara kini memakai **galeri CMS** seperti brand lain, sehingga gambarnya di-resize lewat `sizedUrl(…, 1600)`. Fallback 12 gambar lokal (`public/ASSETS-SAMSARA/ambience/*.webp`, 113–374 KB) hanya dikirim kalau `world.gallery` kosong — dalam kondisi normal berkas berat itu tidak dipakai.
 
 ---
 
@@ -614,7 +614,7 @@ Catatan penting:
 
 **E. Ubah teks About / Vision / Philosophy** → **hardcoded** di `src/app/about/page.js` → push.
 
-**F. Ganti gambar hero Samsara** → **hardcoded** array 12 path di `src/app/samsara/page.js`; taruh gambar di `public/ASSETS-SAMSARA/ambience/` → push.
+**F. Ganti gambar hero Samsara** → Studio → **Brands & Brand Pages — World** → **Samsara** → field **Gallery**; urutan mengikuti Studio. Kalau galeri kosong, halaman jatuh ke 12 gambar lokal di `public/ASSETS-SAMSARA/ambience/` (array fallback di `src/app/samsara/page.js`).
 
 **G. Ganti menu Svarga / Acasa** → **hardcoded**: `/ASSETS-SVARGA/menusvarga.webp`, `/ASSETS-ACASA/acasamenufood.webp`, `acasamenubeverages.webp`.
 
@@ -742,7 +742,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 4. ~~**`world.categories`** ada di schema tetapi tidak diproyeksikan/dibaca.~~ **Sudah dihapus dari schema (19/10)** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`; keempatnya tidak pernah dibaca website.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
-7. **Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode. *(Berbeda dari hero homepage, yang sekarang bisa dipilih dari Studio.)*
+7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
 8. **Belum ada unit/integration test, dan belum ada CI.** Yang tersedia sekarang: **`npm run smoke`** — 74 pemeriksaan (route, struktur halaman, metadata, header keamanan, dan **kecocokan halaman dengan isi Sanity**) — plus uptime monitor 15 menit. Yang belum: test yang berjalan sendiri di CI. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10** — kedua folder `scripts/` kini hanya berisi berkas yang benar-benar dipakai: `sync-hardcode-to-cms.mjs` + `smoke.mjs` (website), `backup-dataset.ps1` + `backup-and-upload.ps1` (studio). Lima skrip lama sudah dihapus di `2035c86`.
