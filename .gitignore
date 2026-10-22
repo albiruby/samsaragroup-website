@@ -55,3 +55,7 @@ _archives/
 # local verification artefacts
 .verify/
 
+# rewritten by `next dev` on every run — keep it out of diffs
+/AGENTS.md
+/CLAUDE.md
+
