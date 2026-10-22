@@ -49,7 +49,7 @@ url: siteUrl("/about"),
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <ImageParallax className="img-hover h-[400px] lg:h-[520px]">
-              <img src="/ambiencesamsara/DSC08913.webp" alt="Samsara Group" className="h-full w-full object-cover" />
+              <img src="/ASSETS-SAMSARA/ambience/DSC08913.webp" alt="Samsara Group" className="h-full w-full object-cover" />
             </ImageParallax>
             <div>
               <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">ABOUT US</span>

@@ -112,7 +112,7 @@ export default async function SamsaraPage() {
             {world?.heroEyebrow || "BRANDS"}
           </span>
           <h1 className="h-12 md:h-16 w-fit">
-            <img src="/Black Logo Samsara/blackfullsamping.png" alt="Samsara" className="h-full w-auto" />
+            <img src="/ASSETS-SAMSARA/logo/blackfullsamping.png" alt="Samsara" className="h-full w-auto" />
           </h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Sound. Food. Culture. A sanctuary where every frequency is designed."}
@@ -124,18 +124,18 @@ export default async function SamsaraPage() {
         <ScrollReveal>
           <HeroCarousel
             images={[
-              "/ambiencesamsara/DSC08187.webp",
-              "/ambiencesamsara/DSC08177.webp",
-              "/ambiencesamsara/DSC08930.webp",
-              "/ambiencesamsara/DSC08926.webp",
-              "/ambiencesamsara/DSC08913.webp",
-              "/ambiencesamsara/DSC09006.webp",
-              "/ambiencesamsara/DSC08998.webp",
-              "/ambiencesamsara/DSC08568.webp",
-              "/ambiencesamsara/DSC08420.webp",
-              "/ambiencesamsara/DSC08635.webp",
-              "/ambiencesamsara/DSC09003.webp",
-              "/ambiencesamsara/DSC09354.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08187.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08177.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08930.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08926.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08913.webp",
+              "/ASSETS-SAMSARA/ambience/DSC09006.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08998.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08568.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08420.webp",
+              "/ASSETS-SAMSARA/ambience/DSC08635.webp",
+              "/ASSETS-SAMSARA/ambience/DSC09003.webp",
+              "/ASSETS-SAMSARA/ambience/DSC09354.webp",
             ]}
             alt="Samsara Sanctuary"
           />
@@ -177,7 +177,7 @@ export default async function SamsaraPage() {
                   {world?.image ? (
                     <img src={sizedUrl(world.image, 1100)} alt="Samsara Interior" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/ambiencesamsara/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SAMSARA/ambience/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
                   )}
                 </div>
               </div>

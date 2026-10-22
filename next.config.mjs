@@ -20,6 +20,19 @@ const nextConfig = {
       ],
     },
   ],
+  // The brand asset folders were renamed to ASSETS-<BRAND> (uppercase). These keep
+  // any already-indexed or externally hotlinked image URL working. Order matters:
+  // /menusamsara/thumbs/ is covered by the /menusamsara/:path* rule below it.
+  redirects: async () => [
+    { source: '/ambiencesamsara/:path*', destination: '/ASSETS-SAMSARA/ambience/:path*', permanent: true },
+    { source: '/menusamsara/:path*', destination: '/ASSETS-SAMSARA/menu/:path*', permanent: true },
+    { source: '/assetacasa/:path*', destination: '/ASSETS-ACASA/:path*', permanent: true },
+    { source: '/assetsvarga/:path*', destination: '/ASSETS-SVARGA/:path*', permanent: true },
+    // The old folder names contained spaces. Next matches redirect sources against
+    // the still-encoded pathname, so the space has to be written as %20.
+    { source: '/Black%20Logo%20Samsara/:path*', destination: '/ASSETS-SAMSARA/logo/:path*', permanent: true },
+    { source: '/White%20Logo%20Samsara/:path*', destination: '/ASSETS-SAMSARA/logo/:path*', permanent: true },
+  ],
 };
 
 export default nextConfig;

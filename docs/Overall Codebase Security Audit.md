@@ -1,7 +1,7 @@
 # Overall Codebase Audit — Samsara Group
 
-**Website:** `Versi Next.js` · **Source ref:** `f6d3df2` (branch `master`, worktree bersih)
-**CMS Studio:** `studio-samsara` · **Dataset:** `production`
+**Website:** `website` · **Source ref:** `f6d3df2` (branch `master`, worktree bersih)
+**CMS Studio:** `studio` · **Dataset:** `production`
 **Tanggal:** 10 Oktober 2026 · **Profil:** `standard` · **Metode skill:** `security-audit` (6 fase penuh)
 **Run metadata:** `C:\Users\ALBIREO\security-audit-skill\samsaragroup-website\run-1\`
 
@@ -37,7 +37,7 @@ Ini adalah temuan yang sebenarnya penting secara operasional, dan sama sekali **
 |---|---|---|
 | "Audit sebelumnya sudah mencakup semuanya" | ❌ Salah | Audit sebelumnya tidak pernah menyentuh rantai schema→proyeksi→render. `postedAt` terambil di `queries.ts:192` dan dipakai di `career/page.js:110` untuk JSON-LD, tapi nolcek yang memeriksa apakah ia **dirender**. |
 | "Tidak ada vulnerability" | ⚠️ Belum pernah dibuktikan | Audit lama tidak punya fase verifikasi independen. Sekarang: 0 confirmed dari 7 kandidat yang diverifikasi, dengan 160 sitasi diperiksa ulang. |
-| "CMS ter-audit" | ❌ Salah | Schema Sanity berada di repo **Studio terpisah**, bukan di `Versi Next.js`. Audit sebelumnya mengasumsikan `src/sanity/schema/*.ts` ada di repo website — direktori itu tidak pernah ada. |
+| "CMS ter-audit" | ❌ Salah | Schema Sanity berada di repo **Studio terpisah**, bukan di `website`. Audit sebelumnya mengasumsikan `src/sanity/schema/*.ts` ada di repo website — direktori itu tidak pernah ada. |
 | "1 needs_validation di events JSON-LD" | ✅ Sudah refutasi | Kedua premisnya salah di source sekarang: `src/lib/jsonld.js:2-4` meng-escape `<`, `>`, U+2028/9 di seluruh string, dan `src/proxy.js:9` memakai nonce per-request + `strict-dynamic` tanpa `unsafe-inline`. |
 
 ---
@@ -110,7 +110,7 @@ Enam record `rejected` di atas **tetap berisi defect nyata**. Yang paling serius
 
 ## 4. BAGIAN B — KONTRAK CMS → WEBSITE (temuan operasional utama)
 
-Ini kelas bug yang Anda temukan dengan `postedAt`. Saya cross-reference setiap field di `studio-samsara/schemaTypes/` terhadap proyeksi GROQ di `src/sanity/lib/queries.ts` dan terhadap seluruh pemakaian di `src/`.
+Ini kelas bug yang Anda temukan dengan `postedAt`. Saya cross-reference setiap field di `studio/schemaTypes/` terhadap proyeksi GROQ di `src/sanity/lib/queries.ts` dan terhadap seluruh pemakaian di `src/`.
 
 **Total: 8 `defineField` type, 91 field** (setelah field generik seperti `_key`/`type`/`title` dikecualikan).
 

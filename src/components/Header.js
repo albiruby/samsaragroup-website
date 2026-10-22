@@ -8,23 +8,23 @@ import { useBrandNav } from "./BrandsProvider.jsx";
 
 const brandImages = {
   "/samsara": [
-    "/ambiencesamsara/DSC08187.webp", "/ambiencesamsara/DSC08177.webp", "/ambiencesamsara/DSC08930.webp",
-    "/ambiencesamsara/DSC08926.webp", "/ambiencesamsara/DSC08913.webp", "/ambiencesamsara/DSC09006.webp",
-    "/ambiencesamsara/DSC08998.webp", "/ambiencesamsara/DSC08568.webp", "/ambiencesamsara/DSC08420.webp",
-    "/ambiencesamsara/DSC08635.webp", "/ambiencesamsara/DSC09003.webp", "/ambiencesamsara/DSC09354.webp",
+    "/ASSETS-SAMSARA/ambience/DSC08187.webp", "/ASSETS-SAMSARA/ambience/DSC08177.webp", "/ASSETS-SAMSARA/ambience/DSC08930.webp",
+    "/ASSETS-SAMSARA/ambience/DSC08926.webp", "/ASSETS-SAMSARA/ambience/DSC08913.webp", "/ASSETS-SAMSARA/ambience/DSC09006.webp",
+    "/ASSETS-SAMSARA/ambience/DSC08998.webp", "/ASSETS-SAMSARA/ambience/DSC08568.webp", "/ASSETS-SAMSARA/ambience/DSC08420.webp",
+    "/ASSETS-SAMSARA/ambience/DSC08635.webp", "/ASSETS-SAMSARA/ambience/DSC09003.webp", "/ASSETS-SAMSARA/ambience/DSC09354.webp",
   ],
   "/svarga": [
-    "/assetsvarga/ADR (3 of 15).webp",
-    "/assetsvarga/ADR (4 of 4).webp",
-    "/assetsvarga/ADR (2 of 4).webp",
-    "/assetsvarga/ADR (3 of 4).webp",
-    "/assetsvarga/ADR (1 of 4).webp",
+    "/ASSETS-SVARGA/ADR (3 of 15).webp",
+    "/ASSETS-SVARGA/ADR (4 of 4).webp",
+    "/ASSETS-SVARGA/ADR (2 of 4).webp",
+    "/ASSETS-SVARGA/ADR (3 of 4).webp",
+    "/ASSETS-SVARGA/ADR (1 of 4).webp",
   ],
   "/acasa": [
-    "/assetacasa/ADR-06545.webp", "/assetacasa/ADR-06529.webp", "/assetacasa/ADR-06507.webp",
-    "/assetacasa/ADR-06480.webp", "/assetacasa/ADR-06474.webp", "/assetacasa/ADR-06468.webp",
-    "/assetacasa/ADR-06368.webp", "/assetacasa/ADR-06325.webp",
-    "/assetacasa/ADR-06293.webp", "/assetacasa/ADR-06254.webp",
+    "/ASSETS-ACASA/ADR-06545.webp", "/ASSETS-ACASA/ADR-06529.webp", "/ASSETS-ACASA/ADR-06507.webp",
+    "/ASSETS-ACASA/ADR-06480.webp", "/ASSETS-ACASA/ADR-06474.webp", "/ASSETS-ACASA/ADR-06468.webp",
+    "/ASSETS-ACASA/ADR-06368.webp", "/ASSETS-ACASA/ADR-06325.webp",
+    "/ASSETS-ACASA/ADR-06293.webp", "/ASSETS-ACASA/ADR-06254.webp",
   ],
 };
 
@@ -90,7 +90,7 @@ export default function Header() {
     >
       <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
         <Link href="/" className="col-start-1 justify-self-start flex-shrink-0 flex items-center h-full overflow-hidden">
-          <img src="/White Logo Samsara/whitefullsamping-480.webp" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
+          <img src="/ASSETS-SAMSARA/logo/whitefullsamping-480.webp" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
         <nav className="col-start-2 hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8 justify-self-center">

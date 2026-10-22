@@ -25,7 +25,7 @@ export const metadata = {
  * a gap in the page.
  */
 const HOME_DEFAULTS = {
-  heroImageUrl: "/ambiencesamsara/DSC08930.webp",
+  heroImageUrl: "/ASSETS-SAMSARA/ambience/DSC08930.webp",
   heroImageAlt: "Sams Group",
   heroLine1: "EVERY SOUL",
   heroLine2: "FINDS ITS GROUND.",
@@ -36,7 +36,7 @@ const HOME_DEFAULTS = {
     "Samsara Group is a lifestyle and hospitality group that develops and operates distinct destination concepts across Indonesia, from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.",
   aboutCtaLabel: "MORE ABOUT US",
   aboutCtaHref: "/about",
-  aboutImageUrl: "/ambiencesamsara/DSC08926.webp",
+  aboutImageUrl: "/ASSETS-SAMSARA/ambience/DSC08926.webp",
   aboutImageAlt: "About",
   brandsEyebrow: "OUR BRANDS",
   brandsHeading: "WORLDS OF THEIR OWN",

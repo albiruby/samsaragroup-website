@@ -3,7 +3,7 @@
 Dokumen ini untuk siapa pun yang mengubah konten, kode, atau CMS website Samsara Group.
 Ditulis berdasarkan kondisi repo per commit `5054108` (website) dan `788a84b` (Studio). Untuk gambaran arsitektur yang lengkap, lihat `DOCUMENTATIONS.md` — dokumen ini fokus ke operasional sehari-hari.
 
-Dokumen ini ada di `Versi Next.js\docs\`, jadi **ikut version control** bersama kode website.
+Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode website.
 
 ---
 
@@ -21,15 +21,15 @@ Dokumen ini ada di `Versi Next.js\docs\`, jadi **ikut version control** bersama 
 
 | Bagian | Lokasi | Git remote | Hosting |
 |---|---|---|---|
-| Website | `D:\Project Website INFIA\Samsara Group Website\Versi Next.js` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
-| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio-samsara` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ |
-| Dokumentasi | `Versi Next.js\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
+| Website | `D:\Project Website INFIA\Samsara Group Website\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
+| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ |
+| Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
   > ⚠️ `samsaragroup.com` **BUKAN milik kita.** Domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah menaruhnya di `NEXT_PUBLIC_SITE_URL` — canonical, `og:url`, sitemap, dan robots kita akan menunjuk ke situs mereka.
 - **Sanity project:** `p5zu5azj` · **dataset:** `production`
 - **Stack website:** Next.js 16 (App Router, Turbopack), React 19, Tailwind v4.
-- **Studio lokal:** `npm run dev` di repo `studio-samsara` (port 3333).
+- **Studio lokal:** `npm run dev` di repo `studio` (port 3333).
 
 ---
 
@@ -69,7 +69,7 @@ Jadi kalau kamu mengosongkan sebuah field di Studio, website **tidak jadi kosong
 | Isi dokumen CMS (teks, gambar, event, career, kontak, marquee) | ~1 menit (data cache `revalidate: 60`) | Tidak |
 | Field/schema baru di Studio | Segera setelah `sanity deploy` | Ya, `sanity deploy` |
 | Kode website (`src/**`) | Setelah push → Vercel build | Ya, push ke `master` |
-| Gambar baru di `Versi Next.js/public/**` | Setelah push → Vercel build | Ya, push ke `master` |
+| Gambar baru di `website/public/**` | Setelah push → Vercel build | Ya, push ke `master` |
 
 Catatan teknis: semua halaman memakai `export const dynamic = "force-dynamic"` (render per request), tetapi setiap `client.fetch` diberi `next: { revalidate: 60 }`, sehingga permintaan ke Sanity di-cache 60 detik.
 
@@ -136,7 +136,7 @@ Field yang **dibaca** (paling relevan):
 ## 7. Per-halaman: apa yang CMS vs hardcoded
 
 ### Home `/`
-- Hero image: **hardcoded** (`/ambiencesamsara/DSC08930.webp`).
+- Hero image: **hardcoded** (`/ASSETS-SAMSARA/ambience/DSC08930.webp`).
 - Semua copy: **hardcoded** (di `src/components/HomePage.js`).
 - Marquee: `carouselImage` (placement `home`) dengan fallback literal.
 
@@ -203,13 +203,13 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 - **Hardcoded** di `src/app/about/page.js`. Ubah kode → push.
 
 ### F. Ganti gambar hero Samsara
-- **Hardcoded** di `src/app/samsara/page.js` (array 12 path). Letakkan gambar di `public/ambiencesamsara/`, ubah kode, push.
+- **Hardcoded** di `src/app/samsara/page.js` (array 12 path). Letakkan gambar di `public/ASSETS-SAMSARA/ambience/`, ubah kode, push.
 
 ### G. Ganti menu Svarga / Acasa
-- **Hardcoded**: `/assetsvarga/menusvarga.webp` dan `/assetacasa/acasamenufood.webp` + `acasamenubeverages.webp`. Ganti file gambar (nama sama) atau ubah path di kode, lalu push.
+- **Hardcoded**: `/ASSETS-SVARGA/menusvarga.webp` dan `/ASSETS-ACASA/acasamenufood.webp` + `acasamenubeverages.webp`. Ganti file gambar (nama sama) atau ubah path di kode, lalu push.
 
 ### H. Ubah foto samping Acasa (jam buka)
-- File: `public/assetacasa/open-hour-acasa.webp`. Ganti gambarnya (rasio ideal 4:5), lalu push. Path direferensikan di `src/app/acasa/page.js`.
+- File: `public/ASSETS-ACASA/open-hour-acasa.webp`. Ganti gambarnya (rasio ideal 4:5), lalu push. Path direferensikan di `src/app/acasa/page.js`.
 
 ### I. Ganti koordinat peta
 - **Hardcoded** per halaman: `COORDS` di `samsara/page.js`, `SVARGA_COORDS`, `ACASA_COORDS`, `OUTPACE_COORDS`, `GROVE_COORDS`. Ubah kode, push.
@@ -234,7 +234,7 @@ Lihat §10.
 ## 9. Deploy & rilis
 
 ### Website
-1. `git add` + `git commit` + `git push origin master` dari repo `Versi Next.js`.
+1. `git add` + `git commit` + `git push origin master` dari repo `website`.
 2. Vercel otomatis build & deploy. Cek di dashboard Vercel bila perlu.
 3. Sebelum commit, jalankan `npm run lint` dan `npm run build` lokal (harus 0 error).
 
@@ -248,7 +248,7 @@ Cara cepat memastikan kodenya sehat: `npm run build` di lokal. Kalau exit 0, mas
 
 ### Studio
 - **Ubah konten/dokumen:** tidak perlu apa-apa, langsung tersimpan & tersinkron.
-- **Ubah schema (field baru, dll.):** dari repo `studio-samsara`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/.
+- **Ubah schema (field baru, dll.):** dari repo `studio`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/.
 - Studio lokal untuk pratinjau: `npm run dev` (port 3333).
 
 ---
@@ -366,7 +366,7 @@ File `.env.local` di repo website (tidak ter-commit):
 ## 15. Daftar file penting
 
 ```
-Versi Next.js/
+website/
   src/app/                     route per halaman (page.js)
     layout.js                  metadata global + JSON-LD Organization
     page.js                    homepage
@@ -380,10 +380,11 @@ Versi Next.js/
   src/lib/site.js              SITE_URL, safeUrl, openGraphFor, CTA_LABELS
   src/proxy.js                 CSP nonce + headers (pengganti middleware)
   src/instrumentation.js       watcher dev → sync CMS
-  public/                      gambar (ambiencesamsara, assetsvarga, assetacasa, menusamsara, dll)
+  public/                      gambar lokal — ASSETS-SAMSARA/{ambience,logo,menu},
+                               ASSETS-SVARGA, ASSETS-ACASA (lihat DOCUMENTATIONS §2.2a)
   scripts/                     skrip sinkronisasi & utilitas
 
-studio-samsara/
+studio/
   schemaTypes/                 world, event, career, careerPage, contactInfo,
                                carouselImage, brandNav, index
   sanity.config.ts             konfigurasi Studio

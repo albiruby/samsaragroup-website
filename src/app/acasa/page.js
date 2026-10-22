@@ -109,7 +109,7 @@ export default async function AcasaPage() {
             {world?.heroEyebrow || "BRANDS"}
           </span>
           <h1 className="h-12 md:h-16 w-fit">
-            <img src="/assetacasa/logoacasahitam.webp" alt="Acasa" className="h-full w-auto" />
+            <img src="/ASSETS-ACASA/logoacasahitam.webp" alt="Acasa" className="h-full w-auto" />
           </h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "A Sanctuary of Refined Living — Resto, Cottages, Padel."}
@@ -125,18 +125,18 @@ export default async function AcasaPage() {
               world?.gallery?.length
                 ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
-                    "/assetacasa/ADR-06545.webp",
-                    "/assetacasa/ADR-06529.webp",
-                    "/assetacasa/ADR-06507.webp",
-                    "/assetacasa/ADR-06480.webp",
-                    "/assetacasa/ADR-06474.webp",
-                    "/assetacasa/ADR-06468.webp",
-                    "/assetacasa/ADR-06368.webp",
-                    "/assetacasa/ADR-06325.webp",
-                    "/assetacasa/ADR-06293.webp",
-                    "/assetacasa/ADR-06254.webp",
-                    "/assetacasa/ADR-06504.webp",
-                    "/assetacasa/ADR-06514.webp",
+                    "/ASSETS-ACASA/ADR-06545.webp",
+                    "/ASSETS-ACASA/ADR-06529.webp",
+                    "/ASSETS-ACASA/ADR-06507.webp",
+                    "/ASSETS-ACASA/ADR-06480.webp",
+                    "/ASSETS-ACASA/ADR-06474.webp",
+                    "/ASSETS-ACASA/ADR-06468.webp",
+                    "/ASSETS-ACASA/ADR-06368.webp",
+                    "/ASSETS-ACASA/ADR-06325.webp",
+                    "/ASSETS-ACASA/ADR-06293.webp",
+                    "/ASSETS-ACASA/ADR-06254.webp",
+                    "/ASSETS-ACASA/ADR-06504.webp",
+                    "/ASSETS-ACASA/ADR-06514.webp",
                   ]
             }
             alt="Acasa Resort"
@@ -180,7 +180,7 @@ export default async function AcasaPage() {
               <div className="space-y-8">
                 <ImageParallax className="img-hover w-full aspect-[4/5]">
                   <img
-                    src="/assetacasa/open-hour-acasa.webp"
+                    src="/ASSETS-ACASA/open-hour-acasa.webp"
                     alt="Acasa opening hours"
                     className="h-full w-full object-cover"
                   />
@@ -200,13 +200,13 @@ export default async function AcasaPage() {
             <div>
               <p className="mb-3 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">Food</p>
               <div className="border border-outline-variant overflow-hidden">
-                <ZoomableImage src="/assetacasa/acasamenufood.webp" alt="Acasa Food Menu" className="w-full h-auto" />
+                <ZoomableImage src="/ASSETS-ACASA/acasamenufood.webp" alt="Acasa Food Menu" className="w-full h-auto" />
               </div>
             </div>
             <div>
               <p className="mb-3 text-label-caps-sm uppercase tracking-widest text-on-surface-variant">Beverages</p>
               <div className="border border-outline-variant overflow-hidden">
-                <ZoomableImage src="/assetacasa/acasamenubeverages.webp" alt="Acasa Beverages Menu" className="w-full h-auto" />
+                <ZoomableImage src="/ASSETS-ACASA/acasamenubeverages.webp" alt="Acasa Beverages Menu" className="w-full h-auto" />
               </div>
             </div>
           </div>

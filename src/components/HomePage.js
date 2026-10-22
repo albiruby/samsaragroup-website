@@ -24,18 +24,18 @@ const fallbackWorlds = BRAND_COPY.map(({ slug, name, title, disciplines }) => ({
 }));
 
 const fallbackMarquee = [
-  { src: "/ambiencesamsara/DSC09421.webp", brand: "Samsara" },
-  { src: "/assetsvarga/ADR (1 of 15).webp", brand: "Svarga" },
-  { src: "/assetacasa/ADR-06545.webp", brand: "Acasa" },
-  { src: "/ambiencesamsara/DSC09072.webp", brand: "Samsara" },
-  { src: "/assetsvarga/ADR (3 of 15).webp", brand: "Svarga" },
-  { src: "/assetacasa/ADR-06480.webp", brand: "Acasa" },
-  { src: "/ambiencesamsara/DSC08998.webp", brand: "Samsara" },
-  { src: "/assetsvarga/ADR (2 of 4).webp", brand: "Svarga" },
-  { src: "/assetacasa/ADR-06368.webp", brand: "Acasa" },
-  { src: "/ambiencesamsara/DSC08575.webp", brand: "Samsara" },
-  { src: "/assetsvarga/ADR (1 of 7).webp", brand: "Svarga" },
-  { src: "/assetacasa/ADR-06529.webp", brand: "Acasa" },
+  { src: "/ASSETS-SAMSARA/ambience/DSC09421.webp", brand: "Samsara" },
+  { src: "/ASSETS-SVARGA/ADR (1 of 15).webp", brand: "Svarga" },
+  { src: "/ASSETS-ACASA/ADR-06545.webp", brand: "Acasa" },
+  { src: "/ASSETS-SAMSARA/ambience/DSC09072.webp", brand: "Samsara" },
+  { src: "/ASSETS-SVARGA/ADR (3 of 15).webp", brand: "Svarga" },
+  { src: "/ASSETS-ACASA/ADR-06480.webp", brand: "Acasa" },
+  { src: "/ASSETS-SAMSARA/ambience/DSC08998.webp", brand: "Samsara" },
+  { src: "/ASSETS-SVARGA/ADR (2 of 4).webp", brand: "Svarga" },
+  { src: "/ASSETS-ACASA/ADR-06368.webp", brand: "Acasa" },
+  { src: "/ASSETS-SAMSARA/ambience/DSC08575.webp", brand: "Samsara" },
+  { src: "/ASSETS-SVARGA/ADR (1 of 7).webp", brand: "Svarga" },
+  { src: "/ASSETS-ACASA/ADR-06529.webp", brand: "Acasa" },
 ];
 
 export default function HomePage({ marqueeImages, home, brandCards }) {

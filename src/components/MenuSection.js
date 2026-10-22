@@ -5,10 +5,10 @@ import ZoomableImage from "@/components/ZoomableImage";
 
 const TOTAL_PAGES = 36;
 
-const srcFor = (page) => `/menusamsara/${String(page).padStart(4, "0")}.webp`;
+const srcFor = (page) => `/ASSETS-SAMSARA/menu/${String(page).padStart(4, "0")}.webp`;
 
 /** The strip shows these at 48px wide, so it uses the 96px thumbs, not the 9.8 MB originals. */
-const thumbFor = (page) => `/menusamsara/thumbs/${String(page).padStart(4, "0")}.webp`;
+const thumbFor = (page) => `/ASSETS-SAMSARA/menu/thumbs/${String(page).padStart(4, "0")}.webp`;
 
 export default function MenuSection() {
   const [current, setCurrent] = useState(1);

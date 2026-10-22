@@ -3,7 +3,7 @@
 Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten CMS, aturan bisnis, cara menjalankan, deploy, cookbook, dan jebakannya.
 
 > **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 19 Oktober 2026** — berdasarkan website commit `30d64e0` dan Studio commit `f8175d6`.
-> **Lokasi file:** `Versi Next.js\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
+> **Lokasi file:** `website\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
 > **Dokumen pendamping (semuanya di folder `docs\` ini):** `PEMELIHARAAN.md` (operasional ringkas), `Sanity CMS Tutorial.md` (panduan editor CMS), `Overall Codebase Security Audit.md` (audit keamanan), `Migrasi-Hostinger.md` (rencana migrasi — tidak dijalankan).
 
 ---
@@ -61,15 +61,15 @@ Halaman website: Home, About, Brands, lima halaman brand, Events, Career, Contac
 
 | Bagian | Lokasi lokal | Remote | Hosting |
 |---|---|---|---|
-| **Website** | `\Versi Next.js\` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel (auto-deploy tiap push ke `master`) |
-| **Studio (CMS)** | `\studio-samsara\` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting |
+| **Website** | `\website\` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel (auto-deploy tiap push ke `master`) |
+| **Studio (CMS)** | `\studio\` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting |
 
 Keduanya repo terpisah dengan riwayat commit sendiri. Folder induk `Samsara Group Website\` **bukan** repo Git.
 
 ### 2.2 Struktur website
 
 ```
-Versi Next.js/
+website/
 ├── docs/                          dokumentasi proyek (DOCUMENTATIONS.md, PEMELIHARAAN.md, ...)
 ├── src/
 │   ├── app/
@@ -92,7 +92,7 @@ Versi Next.js/
 │   │   └── image.ts               urlFor(), sizedUrl()
 │   ├── proxy.js                   CSP nonce + security headers (pengganti middleware)
 │   └── instrumentation.js         watcher dev → tulis ke CMS
-├── public/                        gambar (ambiencesamsara, assetsvarga, assetacasa, "Black Logo Samsara", dll)
+├── public/                        gambar lokal — satu folder per brand: `ASSETS-<BRAND>` (§2.2a)
 ├── scripts/                       skrip sinkronisasi & utilitas (lihat §14)
 ├── next.config.mjs                images.remotePatterns + headers
 ├── vercel.json                    ignoreCommand — lewati build untuk commit docs-only (§12.1)
@@ -100,10 +100,45 @@ Versi Next.js/
 └── .env.example                   contoh
 ```
 
+### 2.2a Folder aset `public/` — konvensi `ASSETS-<BRAND>`
+
+Tidak ada gambar di akar `public/` selain `og-default.png` dan berkas verifikasi Google. Setiap brand menempati satu folder, huruf besar, dengan tanda hubung:
+
+```
+public/
+├── ASSETS-SAMSARA/
+│   ├── ambience/     33 foto suasana (dipakai /samsara, /outpace, /grove, /about, homepage)
+│   ├── logo/         3 logo korporat (hitam + putih)
+│   └── menu/         36 halaman menu + thumbs/ (36 thumbnail 96px)
+├── ASSETS-SVARGA/    16 berkas — 13 foto galeri, 1 gambar menu, 2 logo
+├── ASSETS-ACASA/     19 berkas — 13 foto galeri, 2 menu, 3 logo, 1 foto jam buka
+├── google4a3c3d93edab2ca5.html     verifikasi Google Search Console — jangan dihapus
+└── og-default.png                  gambar Open Graph bawaan
+```
+
+`ASSETS-OUTPACE` dan `ASSETS-GROVE` **tidak ada** — kedua brand itu hanya memakai gambar dari CMS, dan saat CMS kosong hero-nya jatuh ke kolam foto Samsara.
+
+**Huruf besar itu disengaja, dan penting.** Windows tidak membedakan huruf besar/kecil; Vercel (Linux) membedakannya. Menulis `/assets-samsara/…` akan jalan di lokal tapi **404 di produksi**.
+
+Nama folder lama masih hidup sebagai **redirect permanen** di `next.config.mjs` (`redirects()`), supaya URL gambar yang sudah terindeks Google atau dipakai di luar tidak mati:
+
+| URL lama | Dialihkan ke |
+|---|---|
+| `/ambiencesamsara/*` | `/ASSETS-SAMSARA/ambience/*` |
+| `/menusamsara/*` | `/ASSETS-SAMSARA/menu/*` |
+| `/assetacasa/*` | `/ASSETS-ACASA/*` |
+| `/assetsvarga/*` | `/ASSETS-SVARGA/*` |
+| `/Black%20Logo%20Samsara/*` | `/ASSETS-SAMSARA/logo/*` |
+| `/White%20Logo%20Samsara/*` | `/ASSETS-SAMSARA/logo/*` |
+
+Dua aturan terakhir memakai `%20` di `source`, bukan spasi literal: Next mencocokkan `source` terhadap pathname yang masih ter-encode, jadi spasi tidak akan pernah cocok.
+
+Karena redirect ini meredam kesalahan, **status HTTP tidak membuktikan tidak ada rujukan lama yang tertinggal**. Setiap kali folder aset diubah lagi: grep seluruh `src/` untuk nama lama dan pastikan hasilnya nol.
+
 ### 2.3 Struktur Studio
 
 ```
-studio-samsara/
+studio/
 ├── schemaTypes/
 │   ├── index.ts                   daftar tipe yang didaftarkan
 │   ├── world.ts                   dokumen brand (paling besar, 9 grup)
@@ -120,8 +155,8 @@ Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk
 
 | Item | Keterangan |
 |---|---|
-| `Versi Next.js\` | repo website — termasuk `docs\` di dalamnya |
-| `studio-samsara\` | repo Studio (CMS) |
+| `website\` | repo website — termasuk `docs\` di dalamnya |
+| `studio\` | repo Studio (CMS) |
 | `source-assets\` | aset mentah: `acasa\`, `samsara\`, `svarga\`, `svvara\`, `logosamsara\`, `2026 Samsara Menu Images\`. **Tidak dirujuk kode** — versi terbitnya sudah dikonversi ke `public\` |
 | `backups\` | arsip backup Sanity (±28,6 MB/berkas, simpan 14 terbaru) + salinan terbaru di Google Drive. **Tidak boleh masuk repo** — repo publik |
 | `screenshots\` | artefak screenshot: `desktop\`, `tablet\`, `mobile\`, `responsive\` |
@@ -470,7 +505,7 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
 Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
 
-Hero Samsara masih **gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas, 113–374 KB) sehingga tidak bisa di-resize lewat Sanity — perlu re-encode berkasnya kalau mau dikecilkan.
+Hero Samsara masih **gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas, 113–374 KB) sehingga tidak bisa di-resize lewat Sanity — perlu re-encode berkasnya kalau mau dikecilkan.
 
 ---
 
@@ -496,7 +531,7 @@ Hero Samsara masih **gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas,
 ### Website
 
 ```bash
-cd "Versi Next.js"
+cd "website"
 npm install
 npm run dev          # biasanya http://localhost:3000
 npm run lint         # harus 0 error
@@ -506,7 +541,7 @@ npm run build        # harus sukses sebelum push
 ### Studio
 
 ```bash
-cd "studio-samsara"
+cd "studio"
 npm install
 npm run dev          # port 3333
 npm run build        # cek schema
@@ -522,7 +557,7 @@ npm run deploy       # HANYA kalau schema berubah
 | Yang diubah | Yang harus dilakukan | Muncul di web |
 |---|---|---|
 | Isi dokumen CMS | tidak ada (langsung tersimpan) | ~1 menit |
-| **Schema** Studio | `npm run deploy` di `studio-samsara` | segera |
+| **Schema** Studio | `npm run deploy` di `studio` | segera |
 | Kode website / gambar `public/` | `git add` → `commit` → `git push origin master` | setelah Vercel build (~1–3 menit) |
 
 Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`, kecuali kalau di-skip oleh `ignoreCommand` (lihat bawah).
@@ -579,11 +614,11 @@ Catatan penting:
 
 **E. Ubah teks About / Vision / Philosophy** → **hardcoded** di `src/app/about/page.js` → push.
 
-**F. Ganti gambar hero Samsara** → **hardcoded** array 12 path di `src/app/samsara/page.js`; taruh gambar di `public/ambiencesamsara/` → push.
+**F. Ganti gambar hero Samsara** → **hardcoded** array 12 path di `src/app/samsara/page.js`; taruh gambar di `public/ASSETS-SAMSARA/ambience/` → push.
 
-**G. Ganti menu Svarga / Acasa** → **hardcoded**: `/assetsvarga/menusvarga.webp`, `/assetacasa/acasamenufood.webp`, `acasamenubeverages.webp`.
+**G. Ganti menu Svarga / Acasa** → **hardcoded**: `/ASSETS-SVARGA/menusvarga.webp`, `/ASSETS-ACASA/acasamenufood.webp`, `acasamenubeverages.webp`.
 
-**H. Ubah foto kolom kanan Acasa (jam buka)** → `public/assetacasa/open-hour-acasa.webp` (rasio ideal 4:5) → push. Path dirujuk di `src/app/acasa/page.js`.
+**H. Ubah foto kolom kanan Acasa (jam buka)** → `public/ASSETS-ACASA/open-hour-acasa.webp` (rasio ideal 4:5) → push. Path dirujuk di `src/app/acasa/page.js`.
 
 **I. Ganti koordinat peta** → **hardcoded** per halaman: `COORDS` (Samsara), `SVARGA_COORDS`, `ACASA_COORDS`, `OUTPACE_COORDS`, `GROVE_COORDS`. Samsara bisa lewat CMS: `world.sections[]` `type: "map"`.
 
@@ -609,7 +644,7 @@ Catatan penting:
 
 ## 14. Script
 
-Di `Versi Next.js/scripts/`:
+Di `website/scripts/`:
 
 | Script | Fungsi | Risiko |
 |---|---|---|
@@ -642,8 +677,8 @@ Trik yang terbukti: **scroll dulu, baru tunggu gambar** (gambar lazy-load tidak 
 
 ### Backup dataset Sanity
 
-Skrip: `studio-samsara/scripts/backup-dataset.ps1` (ekspor + simpan lokal) dan
-`studio-samsara/scripts/backup-and-upload.ps1` (ekspor + simpan lokal + unggah ke Google Drive).
+Skrip: `studio/scripts/backup-dataset.ps1` (ekspor + simpan lokal) dan
+`studio/scripts/backup-and-upload.ps1` (ekspor + simpan lokal + unggah ke Google Drive).
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1
@@ -669,7 +704,7 @@ Unregister-ScheduledTask -TaskName "Samsara - Sanity Backup" -Confirm:$false   #
 
 ### Monitoring uptime
 
-Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
+Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 
 - Jalan otomatis **tiap 15 menit** (dan bisa dipicu manual lewat tab **Actions → Uptime check → Run workflow**).
 - Memeriksa 11 route + `robots.txt` + `sitemap.xml`; semua harus **HTTP 200** (tiap request punya 2 retry supaya tidak alarm palsu).
@@ -690,7 +725,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 5. ~~`sync-cms-to-site.mjs` punya flag `--dry` yang mati.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
 6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script dan `instrumentation.js`. Sejak 18/10 ia **lapor-saja**: tidak pernah menulis ke CMS.
 7. **JSON-LD tanpa nonce akan diblokir CSP.**
-8. **`public/assetacasa/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
+8. **`public/ASSETS-ACASA/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
 10. **Jangan hapus `scripts/` yang masih dirujuk** `.env.example`/`instrumentation.js` sebelum memastikan tidak ada pemakai.
 11. **`ignoreCommand` di `vercel.json` tidak boleh bergantung pada `$VERCEL_GIT_PREVIOUS_SHA`.** Nilai itu menunjuk commit yang terakhir **berhasil** dideploy. Pada 19/10 riwayat repo ditulis ulang lalu di-*force push*, jadi commit yang ditunjuk (`56e37d8`) lenyap dan `git diff` mati dengan `fatal: bad object`. Akibatnya **9 deploy berturut-turut gagal dalam 3 detik** — `next build` tidak pernah mulai, commit dokumentasi pun ikut "gagal" padahal seharusnya dilewati, dan masalahnya tidak bisa pulih sendiri karena percobaan berikutnya menunjuk commit yang sama. Perbaikannya (21/10, `da88bb1`): bandingkan dengan `HEAD^`, yang selalu ada. Diuji lokal — dokumentasi saja → exit 0 (lewati), menyentuh `src/` → exit 1 (bangun).
@@ -707,7 +742,7 @@ Workflow: `Versi Next.js/.github/workflows/uptime.yml` (GitHub Actions).
 4. ~~**`world.categories`** ada di schema tetapi tidak diproyeksikan/dibaca.~~ **Sudah dihapus dari schema (19/10)** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`; keempatnya tidak pernah dibaca website.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
-7. **Hero Samsara masih gambar lokal** (`public/ambiencesamsara/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode. *(Berbeda dari hero homepage, yang sekarang bisa dipilih dari Studio.)*
+7. **Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4). Alternatif termurah: kurangi jumlah slide, bukan re-encode. *(Berbeda dari hero homepage, yang sekarang bisa dipilih dari Studio.)*
 8. **Belum ada unit/integration test, dan belum ada CI.** Yang tersedia sekarang: **`npm run smoke`** — 74 pemeriksaan (route, struktur halaman, metadata, header keamanan, dan **kecocokan halaman dengan isi Sanity**) — plus uptime monitor 15 menit. Yang belum: test yang berjalan sendiri di CI. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10** — kedua folder `scripts/` kini hanya berisi berkas yang benar-benar dipakai: `sync-hardcode-to-cms.mjs` + `smoke.mjs` (website), `backup-dataset.ps1` + `backup-and-upload.ps1` (studio). Lima skrip lama sudah dihapus di `2035c86`.
@@ -765,7 +800,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 - `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
 - dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
 
-**Cadangan sebelum perubahan data:** arsip terbaru di `studio-samsara`-nya satu tingkat di atas, folder `backups\sanity\` — dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. Yang tersimpan saat laporan ini ditulis termasuk satu snapshot **sebelum** seluruh perubahan konten 19 Oktober.
+**Cadangan sebelum perubahan data:** arsip terbaru ada satu tingkat di atas repo `studio`, di folder `backups\sanity\` — dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. Yang tersimpan saat laporan ini ditulis termasuk satu snapshot **sebelum** seluruh perubahan konten 19 Oktober.
 
 ---
 
@@ -855,7 +890,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 | **7 kerentanan dependensi** (website) & 24 (studio) | mayoritas tooling dev/CLI, tapi belum ditangani |
 | **Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas | halaman brand jauh lebih berat daripada homepage (yang sudah 118 KB) |
 | **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
-| **Nama folder lokal** (`Versi Next.js`, `studio-samsara`) ≠ nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | membingungkan saat clone dari GitHub |
+| **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | **Lima halaman brand hand-tuned** menyimpan layout di kode | dua cara berbeda menambah brand: lewat template dinamis (mudah) vs mengubah kode (berat) |
 | **Belum ada unit/integration test** | logika bisnis nyaris tidak ada, jadi risikonya kecil — tapi tetap nol |
 

@@ -111,18 +111,18 @@ export default async function GrovePage() {
               world?.gallery?.length
                 ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
-                    "/ambiencesamsara/DSC09048.webp",
-                    "/ambiencesamsara/DSC09058.webp",
-                    "/ambiencesamsara/DSC08482.webp",
-                    "/ambiencesamsara/DSC08494.webp",
-                    "/ambiencesamsara/DSC08527.webp",
-                    "/ambiencesamsara/DSC08558.webp",
-                    "/ambiencesamsara/DSC08575.webp",
-                    "/ambiencesamsara/DSC09408.webp",
-                    "/ambiencesamsara/DSC09421.webp",
-                    "/ambiencesamsara/DSC08397.webp",
-                    "/ambiencesamsara/DSC08401.webp",
-                    "/ambiencesamsara/DSC08409.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09048.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09058.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08482.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08494.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08527.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08558.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08575.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09408.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09421.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08397.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08401.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08409.webp",
                   ]
             }
             alt="Grove"
@@ -168,7 +168,7 @@ export default async function GrovePage() {
                   {world?.image ? (
                     <img src={sizedUrl(world.image, 1100)} alt="Grove" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/ambiencesamsara/DSC09048.webp" alt="Grove" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SAMSARA/ambience/DSC09048.webp" alt="Grove" className="h-full w-full object-cover" />
                   )}
                 </div>
               </div>

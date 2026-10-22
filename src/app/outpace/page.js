@@ -130,18 +130,18 @@ export default async function OutpacePage() {
               world?.gallery?.length
                 ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
-                    "/ambiencesamsara/DSC09014.webp",
-                    "/ambiencesamsara/DSC09052.webp",
-                    "/ambiencesamsara/DSC09056.webp",
-                    "/ambiencesamsara/DSC09072.webp",
-                    "/ambiencesamsara/DSC08196.webp",
-                    "/ambiencesamsara/DSC08200.webp",
-                    "/ambiencesamsara/DSC08220.webp",
-                    "/ambiencesamsara/DSC08237.webp",
-                    "/ambiencesamsara/DSC08253.webp",
-                    "/ambiencesamsara/DSC08397.webp",
-                    "/ambiencesamsara/DSC08401.webp",
-                    "/ambiencesamsara/DSC08409.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09014.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09052.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09056.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC09072.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08196.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08200.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08220.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08237.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08253.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08397.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08401.webp",
+                    "/ASSETS-SAMSARA/ambience/DSC08409.webp",
                   ]
             }
             alt="Outpace"
@@ -201,7 +201,7 @@ export default async function OutpacePage() {
                   {world?.image ? (
                     <img src={sizedUrl(world.image, 1100)} alt="Outpace" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/ambiencesamsara/DSC09014.webp" alt="Outpace" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SAMSARA/ambience/DSC09014.webp" alt="Outpace" className="h-full w-full object-cover" />
                   )}
                 </div>
               </div>

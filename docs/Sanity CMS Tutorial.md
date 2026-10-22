@@ -24,7 +24,7 @@ Sanity Studio. Tidak perlu menyentuh kode.
 
 ```
 D:\Project Website INFIA\Samsara Group Website\
-├── studio-samsara\        ← Sanity Studio (panel admin)
+├── studio\            ← Sanity Studio (panel admin)
 │   ├── sanity.config.ts     ← struktur sidebar
 │   └── schemaTypes\
 │       ├── world.ts         ← BRAND. File ini yang paling sering dipakai.
@@ -36,7 +36,7 @@ D:\Project Website INFIA\Samsara Group Website\
 │       ├── careerPage.ts    ← Teks halaman /career
 │       └── index.ts         ← Daftar semua tipe
 │
-└── Versi Next.js\           ← Website (kode, biasanya tidak perlu diubah)
+└── website\           ← Website (kode, biasanya tidak perlu diubah)
     └── src\
         ├── sanity\lib\queries.ts   ← Query yang membaca isi CMS
         ├── sanity\lib\brands.ts    ← Mengubah data jadi bentuk komponen
@@ -145,7 +145,7 @@ Studio online **tidak** auto-deploy dari GitHub. Kalau kamu mengubah
 `schemaTypes/*.ts`, wajib jalankan:
 
 ```powershell
-cd "D:\Project Website INFIA\Samsara Group Website\studio-samsara"
+cd "D:\Project Website INFIA\Samsara Group Website\studio"
 npx sanity deploy
 ```
 
@@ -641,7 +641,7 @@ punya field versi lama. Atau `world.ts` diubah tapi browser belum reload.
 3. Kalau masih muncul, jalankan audit:
 
 ```powershell
-cd "D:\Project Website INFIA\Samsara Group Website\Versi Next.js"
+cd "D:\Project Website INFIA\Samsara Group Website\website"
 npm run smoke
 ```
 
@@ -774,7 +774,7 @@ Hanya 1 dokumen. Isi hero, judul daftar lowongan, link Google Form, SEO.
 ### Studio
 
 ```powershell
-cd "D:\Project Website INFIA\Samsara Group Website\studio-samsara"
+cd "D:\Project Website INFIA\Samsara Group Website\studio"
 npx sanity deploy           # WAJIB setelah ubah schemaTypes
 npx sanity dev -- --no-auto-updates   # kalau mau jalan manual (Dev.cmd lebih praktis)
 npx tsc --noEmit            # cek error TypeScript
@@ -783,7 +783,7 @@ npx tsc --noEmit            # cek error TypeScript
 ### Website
 
 ```powershell
-cd "D:\Project Website INFIA\Samsara Group Website\Versi Next.js"
+cd "D:\Project Website INFIA\Samsara Group Website\website"
 npm run dev                       # jalankan website
 npm run build                     # build production
 npm run lint                      # cek kode

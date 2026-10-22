@@ -96,7 +96,7 @@ export default async function SvargaPage() {
             {world?.heroEyebrow || "BRANDS"}
           </span>
           <h1 className="h-12 md:h-16 w-fit">
-            <img src="/assetsvarga/Svarga logo black.webp" alt="Svarga" className="h-full w-auto" />
+            <img src="/ASSETS-SVARGA/Svarga logo black.webp" alt="Svarga" className="h-full w-auto" />
           </h1>
           <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
             {world?.tagline || "Cerita rasa sudah dimulai. Rasa, alam, dan tradisi berpadu jadi satu."}
@@ -112,18 +112,18 @@ export default async function SvargaPage() {
               world?.gallery?.length
                 ? world.gallery.map((g) => sizedUrl(g, 1600))
                 : [
-                    "/assetsvarga/ADR (3 of 15).webp",
-                    "/assetsvarga/ADR (4 of 4).webp",
-                    "/assetsvarga/ADR (2 of 4).webp",
-                    "/assetsvarga/ADR (3 of 4).webp",
-                    "/assetsvarga/ADR (1 of 4).webp",
-                    "/assetsvarga/ADR (1 of 15).webp",
-                    "/assetsvarga/ADR (2 of 15).webp",
-                    "/assetsvarga/ADR (5 of 15).webp",
-                    "/assetsvarga/ADR (8 of 15).webp",
-                    "/assetsvarga/ADR (9 of 15).webp",
-                    "/assetsvarga/ADR (10 of 15).webp",
-                    "/assetsvarga/ADR (11 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (3 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (4 of 4).webp",
+                    "/ASSETS-SVARGA/ADR (2 of 4).webp",
+                    "/ASSETS-SVARGA/ADR (3 of 4).webp",
+                    "/ASSETS-SVARGA/ADR (1 of 4).webp",
+                    "/ASSETS-SVARGA/ADR (1 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (2 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (5 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (8 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (9 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (10 of 15).webp",
+                    "/ASSETS-SVARGA/ADR (11 of 15).webp",
                   ]
             }
             alt="Svarga Estate"
@@ -169,7 +169,7 @@ export default async function SvargaPage() {
                   {world?.image ? (
                     <img src={sizedUrl(world.image, 1100)} alt="Svarga Suite" className="h-full w-full object-cover" />
                   ) : (
-                    <img src="/assetsvarga/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SVARGA/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
                   )}
                 </ImageParallax>
               </div>
@@ -184,7 +184,7 @@ export default async function SvargaPage() {
             <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">MENU</h2>
           </TextClipReveal>
           <div className="mx-auto w-full max-w-[720px] border border-outline-variant overflow-hidden">
-            <ZoomableImage src="/assetsvarga/menusvarga.webp" alt="Svarga Menu" className="w-full h-auto" />
+            <ZoomableImage src="/ASSETS-SVARGA/menusvarga.webp" alt="Svarga Menu" className="w-full h-auto" />
           </div>
         </ScrollReveal>
       </section>

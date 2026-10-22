@@ -35,9 +35,9 @@ const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
  * the marquee uses the black mark, the cards use the white mark with `invert`.
  */
 const LEGACY_LOGO: Record<string, string> = {
-  samsara: "/Black Logo Samsara/blackfullsamping-480.webp",
-  svarga: "/assetsvarga/Svarga logo black-480.webp",
-  acasa: "/assetacasa/logoacasahitam-480.webp",
+  samsara: "/ASSETS-SAMSARA/logo/blackfullsamping-480.webp",
+  svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
+  acasa: "/ASSETS-ACASA/logoacasahitam-480.webp",
 };
 
 /**
@@ -46,9 +46,9 @@ const LEGACY_LOGO: Record<string, string> = {
  * keeps it legible on photography.
  */
 const CARD_LOGO: Record<string, string> = {
-  samsara: "/White Logo Samsara/whitefullsamping-480.webp",
-  svarga: "/assetsvarga/Svarga logo black-480.webp",
-  acasa: "/assetacasa/Main Logo3-480.webp",
+  samsara: "/ASSETS-SAMSARA/logo/whitefullsamping-480.webp",
+  svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
+  acasa: "/ASSETS-ACASA/Main Logo3-480.webp",
 };
 
 function slugOf(world: NavWorld): string {
@@ -122,31 +122,31 @@ function fallbackNav(): BrandNav {
 const SEED_CARDS = [
   {
     slug: "samsara",
-    fallback: "/ambiencesamsara/DSC08177.webp",
-    logo: "/White Logo Samsara/whitefullsamping-480.webp",
+    fallback: "/ASSETS-SAMSARA/ambience/DSC08177.webp",
+    logo: "/ASSETS-SAMSARA/logo/whitefullsamping-480.webp",
     image: null,
   },
   {
     slug: "svarga",
-    fallback: "/assetsvarga/ADR (9 of 15).webp",
-    logo: "/assetsvarga/Svarga logo black-480.webp",
+    fallback: "/ASSETS-SVARGA/ADR (9 of 15).webp",
+    logo: "/ASSETS-SVARGA/Svarga logo black-480.webp",
     image: null,
   },
   {
     slug: "acasa",
-    fallback: "/assetacasa/ADR-06539.webp",
-    logo: "/assetacasa/Main Logo3-480.webp",
+    fallback: "/ASSETS-ACASA/ADR-06539.webp",
+    logo: "/ASSETS-ACASA/Main Logo3-480.webp",
     image: null,
   },
   {
     slug: "outpace",
-    fallback: "/ambiencesamsara/DSC09014.webp",
+    fallback: "/ASSETS-SAMSARA/ambience/DSC09014.webp",
     logo: null,
     image: null,
   },
   {
     slug: "grove",
-    fallback: "/ambiencesamsara/DSC09048.webp",
+    fallback: "/ASSETS-SAMSARA/ambience/DSC09048.webp",
     logo: null,
     image: null,
   },
