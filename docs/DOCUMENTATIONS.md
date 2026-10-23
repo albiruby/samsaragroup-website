@@ -569,12 +569,12 @@ Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push
 
 ### 12.1 Ignored Build Step — jangan build untuk commit dokumentasi
 
-`vercel.json` di root repo memasang `ignoreCommand` yang memanggil `scripts/should-build.sh`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
+`vercel.json` di root repo memasang `ignoreCommand` yang memanggil `scripts/should-build.mjs`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
 
-```bash
-base="${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}"
-git cat-file -e "${base}^{commit}" 2>/dev/null || exit 1
-git diff --quiet "$base" HEAD -- src public scripts package.json package-lock.json next.config.mjs vercel.json postcss.config.mjs jsconfig.json tsconfig.json
+```js
+const base = process.env.VERCEL_GIT_PREVIOUS_SHA || "HEAD^";
+if (!git(["cat-file", "-e", `${base}^{commit}`])) process.exit(1); // build
+process.exit(git(["diff", "--quiet", base, "HEAD", "--", ...paths]) ? 0 : 1);
 ```
 
 Cara kerjanya:
@@ -588,7 +588,7 @@ Cara kerjanya:
 
 Catatan penting:
 
-- Logika dipindah ke `scripts/should-build.sh` karena `ignoreCommand` dibatasi **256 karakter** oleh schema Vercel; script bisa lebih panjang dan diuji lokal.
+- Logika dipindah ke `scripts/should-build.mjs` karena `ignoreCommand` dibatasi **256 karakter** oleh schema Vercel; script bisa lebih panjang dan diuji lokal.
 - Guard `git cat-file -e` menutup insiden 19/10: SHA yang lenyap setelah force push tidak lagi membuat deployment gagal — script memilih **BUILD**.
 - `VERCEL_GIT_PREVIOUS_SHA` dipakai bila tersedia supaya push multi-commit tidak salah skip; `HEAD^` hanya fallback.
 - **Kalau menambah file/direktori baru di root yang memengaruhi build**, tambahkan path-nya di script — kalau tidak, perubahan itu bisa ikut ter-skip.
@@ -650,7 +650,7 @@ Di `website/scripts/`:
 |---|---|---|
 | `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS, lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis.** Studio adalah sumber kebenaran; selisih fallback bukan masalah. Tidak dipanggil otomatis dan tidak butuh token |
 | `smoke.mjs` | uji cepat 74 pemeriksaan ke situs live (dipakai `npm run smoke`) | baca saja |
-| `should-build.sh` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
+| `should-build.mjs` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
 
@@ -727,7 +727,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 8. **`public/ASSETS-ACASA/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
 10. **Jangan hapus `scripts/` yang masih dirujuk** `package.json` sebelum memastikan tidak ada pemakai.
-11. **`ignoreCommand` sekarang aman untuk dua mode kegagalan.** `scripts/should-build.sh` membandingkan `VERCEL_GIT_PREVIOUS_SHA` (fallback `HEAD^`) dan memeriksa `git cat-file -e`. SHA yang lenyap setelah force push → **BUILD**, bukan deploy gagal; push multi-commit tidak lagi salah skip. Insiden 19/10 dan perbaikan `HEAD^` 21/10 tetap tercatat di riwayat, tetapi mekanismenya diganti 23/10.
+11. **`ignoreCommand` sekarang aman untuk dua mode kegagalan.** `scripts/should-build.mjs` membandingkan `VERCEL_GIT_PREVIOUS_SHA` (fallback `HEAD^`) dan memeriksa `git cat-file -e`. SHA yang lenyap setelah force push → **BUILD**, bukan deploy gagal; push multi-commit tidak lagi salah skip. Insiden 19/10 dan perbaikan `HEAD^` 21/10 tetap tercatat di riwayat, tetapi mekanismenya diganti 23/10.
 
 ---
 

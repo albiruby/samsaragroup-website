@@ -237,7 +237,7 @@ Empat hal yang tampak mencurigakan ternyata sudah dijaga dengan benar. Dicatat d
 1. **Sebagian selesai 23/10.** Tombol About di homepage sekarang lewat `safeHref()` di `src/app/page.js`; tautan event dan tautan brand dari slug masih mengandalkan sanitasi React/schema. Bukan kerentanan (penulisnya hanya operator, dan `javascript:` sudah diblokir), tetapi klaim di dokumentasi sudah diluruskan.
 2. **Bentuk slug tidak divalidasi sama sekali.** Cukup tambahkan aturan karakter sederhana sebelum slug dipakai membentuk tautan.
 3. ~~**Komentar basi di `client.ts`.**~~ **Selesai 22/10** — komentar sekarang menyatakan klien server-only.
-4. ~~**`ignoreCommand` hanya membandingkan commit terakhir.**~~ **Selesai 23/10** — `scripts/should-build.sh` membandingkan SHA deployment terakhir (fallback `HEAD^`) dengan guard `git cat-file -e`; SHA hilang → build, bukan gagal.
+4. ~~**`ignoreCommand` hanya membandingkan commit terakhir.**~~ **Selesai 23/10** — `scripts/should-build.mjs` membandingkan SHA deployment terakhir (fallback `HEAD^`) dengan guard `git cat-file -e`; SHA hilang → build, bukan gagal.
 
 ### 8.5 Kredensial
 
