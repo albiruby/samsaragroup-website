@@ -55,7 +55,7 @@ supervisor. Redeploy cukup klik di panel.
 Paket yang mendukung: **Business Web Hosting**, atau **Cloud Startup /
 Professional / Enterprise / Enterprise Plus**.
 
-Node.js yang didukung: 18, 20, 22, 24. Website ini jalan di Node 24.15.0 lokal.
+Hostinger menyediakan Node.js 18, 20, 22, dan 24. **Pakai 24** — website ini diuji di **24.22.1**, versi minimum yang memuat patch keamanan Node.js 21 Oktober 2026. Node 18 dan 20 sudah EOL dan tidak menerima patch tersebut.
 
 ### 2.2 Cloud VPS (alternatif)
 
@@ -135,7 +135,7 @@ Import Git repository**, Hostinger akan auto-detect. Konfirmasi atau koreksi:
 |---|---|---|
 | Framework preset | Next.js | Auto-detect dari `package.json` |
 | Branch | `master` | Branch yang memicu build |
-| Node.js version | **24** | Sesuai `node -v` lokal (24.15.0) |
+| Node.js version | **24** | `node -v` lokal: **24.22.1** (minimum aman untuk patch keamanan Okt 2026) |
 | Root directory | repo root | `package.json` ada di root |
 | Install command | `npm ci` | Lebih deterministik dari `npm install` karena ada `package-lock.json` |
 | Build command | `npm run build` | Sudah ada di `scripts` |
