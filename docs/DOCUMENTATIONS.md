@@ -170,12 +170,13 @@ Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk
 
 | Lapis | Teknologi |
 |---|---|
-| Framework | **Next.js 16.3.8** (App Router, Turbopack) |
+| Framework | **Next.js 16.4.2** (App Router, Turbopack) |
 | UI | **React 19.2.8**, **Tailwind CSS v4** (`@tailwindcss/postcss`) |
 | CMS | **Sanity v6** (`@sanity/client` ^7) + Studio v6 |
 | Peta | **Leaflet** 1.9 (tile OpenStreetMap) |
 | Analitik | `@vercel/analytics`, `@vercel/speed-insights` |
 | Dev tool | Playwright 1.63 (screenshot) |
+| Runtime | Node.js **24.22.1+** (`.nvmrc`), `engines.node: 24.x` |
 | Deploy | Vercel (website), Sanity hosting (Studio) |
 
 ### 3.1 Konsep inti: dua lapis konten
@@ -483,7 +484,7 @@ Next.js versi ini memakai konvensi **`proxy.js`** untuk interceptor request. Fil
 
 - **Jangan pernah** menaruh `SANITY_API_TOKEN` di mana pun di `src/` — tidak ada kode situs yang membutuhkannya, dan apa pun di bundel browser akan terekspos. Klien Sanity berjalan server-side saja.
 - JSON-LD **selalu** lewat `jsonLdHtml()` (meng-escape `<`, `>`, U+2028/9).
-- URL dari CMS disaring `safeUrl()` (hanya `http:`/`https:`).
+- URL absolut dari CMS disaring `safeUrl()` (hanya `http:`/`https:`); path internal (`/...`) dicek agar tidak diawali `//`. Sejak 23/10 ini juga berlaku untuk `home.aboutCtaHref`.
 - `images.remotePatterns` di `next.config.mjs` saat ini **inert** — kode memakai `<img>` biasa, bukan `next/image`.
 
 ### 9.4 Ukuran gambar — pakai `sizedUrl()`, bukan `urlFor()`
@@ -568,30 +569,33 @@ Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push
 
 ### 12.1 Ignored Build Step — jangan build untuk commit dokumentasi
 
-`vercel.json` di root repo memasang `ignoreCommand`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
+`vercel.json` di root repo memasang `ignoreCommand` yang memanggil `scripts/should-build.sh`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
 
-```
-test -n "$VERCEL_GIT_PREVIOUS_SHA" && git diff --quiet $VERCEL_GIT_PREVIOUS_SHA HEAD -- src public scripts package.json package-lock.json next.config.mjs vercel.json postcss.config.mjs jsconfig.json tsconfig.json
+```bash
+base="${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}"
+git cat-file -e "${base}^{commit}" 2>/dev/null || exit 1
+git diff --quiet "$base" HEAD -- src public scripts package.json package-lock.json next.config.mjs vercel.json postcss.config.mjs jsconfig.json tsconfig.json
 ```
 
 Cara kerjanya:
 
 | Kondisi | Exit | Hasil |
 |---|---|---|
-| `VERCEL_GIT_PREVIOUS_SHA` kosong (deploy pertama di branch) | 1 | **BUILD** |
-| Ada perubahan di salah satu path di atas | 1 | **BUILD** |
-| Semua perubahan hanya di `docs/`, `*.md`, atau `.github/` | 0 | **SKIP** |
-| `git` error (mis. clone terlalu dangkal) | ≠0 | **BUILD** (aman) |
+| `VERCEL_GIT_PREVIOUS_SHA` kosong | — | fallback ke `HEAD^` |
+| SHA deployment terakhir hilang (force push) | 1 | **BUILD** — bukan gagal |
+| Ada perubahan di salah satu path build | 1 | **BUILD** |
+| Semua perubahan hanya `docs/`, `*.md`, `.github/` | 0 | **SKIP** |
 
 Catatan penting:
 
-- **`ignoreCommand` dibatasi 256 karakter oleh schema Vercel.** Perintah di atas 212 karakter. Kalau melewati batas, build-nya **gagal dengan `ERROR`** — bukan cuma diabaikan. Jadi kalau menambah path baru, panjangnya harus tetap di bawah 256.
-- `test -n` di depan itu **wajib**. Tanpa itu, saat `VERCEL_GIT_PREVIOUS_SHA` kosong argumennya hilang dan `git diff` membandingkan HEAD dengan working tree yang bersih → exit 0 → **salah skip**.
-- **Kalau menambah file/direktori baru di root yang memengaruhi build** (mis. `middleware.js`), tambahkan path-nya — kalau tidak, perubahan di file itu bisa ikut ter-skip.
-- Pakai `VERCEL_GIT_PREVIOUS_SHA` (SHA deployment terakhir), bukan `HEAD^`. Bedanya: `HEAD^` cuma melihat commit terakhir, jadi push 3 commit sekaligus dengan commit terakhir docs-only akan **salah skip**. `VERCEL_GIT_PREVIOUS_SHA` membandingkan dengan deployment terakhir, jadi mencakup semuanya.
-- Jangan pakai pathspec `:(exclude)` kalau mau memangkas daftar path — perilakunya bersama `--quiet` tidak berhasil diverifikasi (hasilnya tidak konsisten). Daftar path eksplisit bisa diuji dan itu yang dipakai.
+- Logika dipindah ke `scripts/should-build.sh` karena `ignoreCommand` dibatasi **256 karakter** oleh schema Vercel; script bisa lebih panjang dan diuji lokal.
+- Guard `git cat-file -e` menutup insiden 19/10: SHA yang lenyap setelah force push tidak lagi membuat deployment gagal — script memilih **BUILD**.
+- `VERCEL_GIT_PREVIOUS_SHA` dipakai bila tersedia supaya push multi-commit tidak salah skip; `HEAD^` hanya fallback.
+- **Kalau menambah file/direktori baru di root yang memengaruhi build**, tambahkan path-nya di script — kalau tidak, perubahan itu bisa ikut ter-skip.
+- Jangan pakai pathspec `:(exclude)`; daftar path eksplisit yang dipakai.
+- Build paksa saat Redeploy: **Deployments** → `⋯` → **Redeploy** → **uncheck "Use project's Ignore Build Step"**.
 
-**Kalau perlu build paksa saat Redeploy:** di dashboard → **Deployments** → `⋯` pada deployment → **Redeploy** → **uncheck "Use project's Ignore Build Step"**. Kalau tidak di-uncheck, redeploy bisa ikut ter-skip.
+Script diuji lokal: docs-only → exit 0 (skip), SHA hilang → exit 1 (build), perubahan kode → exit 1 (build).
 
 ---
 
@@ -646,6 +650,7 @@ Di `website/scripts/`:
 |---|---|---|
 | `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS, lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis.** Studio adalah sumber kebenaran; selisih fallback bukan masalah. Tidak dipanggil otomatis dan tidak butuh token |
 | `smoke.mjs` | uji cepat 74 pemeriksaan ke situs live (dipakai `npm run smoke`) | baca saja |
+| `should-build.sh` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
 
@@ -722,7 +727,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 8. **`public/ASSETS-ACASA/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
 10. **Jangan hapus `scripts/` yang masih dirujuk** `package.json` sebelum memastikan tidak ada pemakai.
-11. **`ignoreCommand` di `vercel.json` tidak boleh bergantung pada `$VERCEL_GIT_PREVIOUS_SHA`.** Nilai itu menunjuk commit yang terakhir **berhasil** dideploy. Pada 19/10 riwayat repo ditulis ulang lalu di-*force push*, jadi commit yang ditunjuk (`56e37d8`) lenyap dan `git diff` mati dengan `fatal: bad object`. Akibatnya **9 deploy berturut-turut gagal dalam 3 detik** — `next build` tidak pernah mulai, commit dokumentasi pun ikut "gagal" padahal seharusnya dilewati, dan masalahnya tidak bisa pulih sendiri karena percobaan berikutnya menunjuk commit yang sama. Perbaikannya (21/10, `da88bb1`): bandingkan dengan `HEAD^`, yang selalu ada. Diuji lokal — dokumentasi saja → exit 0 (lewati), menyentuh `src/` → exit 1 (bangun).
+11. **`ignoreCommand` sekarang aman untuk dua mode kegagalan.** `scripts/should-build.sh` membandingkan `VERCEL_GIT_PREVIOUS_SHA` (fallback `HEAD^`) dan memeriksa `git cat-file -e`. SHA yang lenyap setelah force push → **BUILD**, bukan deploy gagal; push multi-commit tidak lagi salah skip. Insiden 19/10 dan perbaikan `HEAD^` 21/10 tetap tercatat di riwayat, tetapi mekanismenya diganti 23/10.
 
 ---
 
@@ -881,7 +886,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 | Hal | Dampak kalau dibiarkan |
 |---|---|
 | **Test otomatis & CI** — `npm run smoke` ada, tapi harus dijalankan manual | regresi diam-diam tidak ada yang menangkap. Ini kelemahan paling serius |
-| **7 kerentanan dependensi** (website) & 24 (studio) | mayoritas tooling dev/CLI, tapi belum ditangani |
+| **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
 | **Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas | halaman brand jauh lebih berat daripada homepage (yang sudah 118 KB) |
 | **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
@@ -904,4 +909,4 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 
 ### E. Kalau mau naik dari 8 ke 9+
 
-Urutan yang paling berdampak: **CI menjalankan `npm run smoke`** → **domain** → **kerentanan dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.
+Urutan yang paling berdampak: **CI menjalankan `npm run smoke`** → **domain** → **otomatisasi audit dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.

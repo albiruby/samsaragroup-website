@@ -234,10 +234,10 @@ Empat hal yang tampak mencurigakan ternyata sudah dijaga dengan benar. Dicatat d
 
 ### 8.4 Yang perlu diperbaiki (kecil, tapi menyesatkan kalau dibiarkan)
 
-1. **Klaim "URL dari CMS disaring `safeUrl()`" tidak berlaku untuk tiga jalur:** tombol About di homepage, tautan event, dan tautan brand yang dibentuk dari slug. Bukan kerentanan (penulisnya hanya operator, dan `javascript:` sudah diblokir), tetapi kalimatnya harus diluruskan.
+1. **Sebagian selesai 23/10.** Tombol About di homepage sekarang lewat `safeHref()` di `src/app/page.js`; tautan event dan tautan brand dari slug masih mengandalkan sanitasi React/schema. Bukan kerentanan (penulisnya hanya operator, dan `javascript:` sudah diblokir), tetapi klaim di dokumentasi sudah diluruskan.
 2. **Bentuk slug tidak divalidasi sama sekali.** Cukup tambahkan aturan karakter sederhana sebelum slug dipakai membentuk tautan.
-3. **Komentar basi di `client.ts`.** Komentar itu menyatakan klien dipakai juga di komponen client — padahal sudah terbukti hanya dipakai di server. Komentar yang salah ini justru menghalangi perbaikan yang benar.
-4. **`ignoreCommand` hanya membandingkan commit terakhir.** Push berisi dua commit bisa membuat perubahan kode tidak ikut tayang. Ini regresi dari perbaikan 21 Oktober — perbaikan itu menukar satu mode kegagalan dengan mode kegagalan lain.
+3. ~~**Komentar basi di `client.ts`.**~~ **Selesai 22/10** — komentar sekarang menyatakan klien server-only.
+4. ~~**`ignoreCommand` hanya membandingkan commit terakhir.**~~ **Selesai 23/10** — `scripts/should-build.sh` membandingkan SHA deployment terakhir (fallback `HEAD^`) dengan guard `git cat-file -e`; SHA hilang → build, bukan gagal.
 
 ### 8.5 Kredensial
 

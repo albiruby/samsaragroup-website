@@ -1,4 +1,4 @@
-import { openGraphFor } from "@/lib/site";
+import { openGraphFor, safeUrl } from "@/lib/site";
 import HomePage from "@/components/HomePage";
 import { getCarouselImages, getHomePage } from "@/sanity/lib/queries";
 import { getBrandCards } from "@/sanity/lib/brands";
@@ -47,6 +47,13 @@ const HOME_DEFAULTS = {
 /** A CMS string only wins when it actually has something in it. */
 const isi = (nilai, bawaan) => (typeof nilai === "string" && nilai.trim() ? nilai : bawaan);
 
+/** Internal paths are fine; anything else must be an absolute http(s) URL. */
+const safeHref = (nilai, bawaan) => {
+  const value = isi(nilai, bawaan);
+  if (value.startsWith("/") && !value.startsWith("//")) return value;
+  return safeUrl(value) || bawaan;
+};
+
 export default async function Page() {
   const [slides, doc, cards] = await Promise.all([
     getCarouselImages("home"),
@@ -74,7 +81,7 @@ export default async function Page() {
     aboutHeadingLine2: isi(doc?.aboutHeadingLine2, HOME_DEFAULTS.aboutHeadingLine2),
     aboutBody: isi(doc?.aboutBody, HOME_DEFAULTS.aboutBody),
     aboutCtaLabel: isi(doc?.aboutCtaLabel, HOME_DEFAULTS.aboutCtaLabel),
-    aboutCtaHref: isi(doc?.aboutCtaHref, HOME_DEFAULTS.aboutCtaHref),
+    aboutCtaHref: safeHref(doc?.aboutCtaHref, HOME_DEFAULTS.aboutCtaHref),
     aboutImageAlt: isi(doc?.aboutImageAlt, HOME_DEFAULTS.aboutImageAlt),
     brandsEyebrow: isi(doc?.brandsEyebrow, HOME_DEFAULTS.brandsEyebrow),
     brandsHeading: isi(doc?.brandsHeading, HOME_DEFAULTS.brandsHeading),

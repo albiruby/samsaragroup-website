@@ -243,7 +243,7 @@ Lihat §10.
 
 **Build normal butuh ~40–60 detik.** Kalau gagalnya 3 detik dan log hanya 7 baris, build **tidak pernah mulai** — yang gagal adalah langkah "ignore build" dari `vercel.json`, bukan kodemu.
 
-Pesan `fatal: bad object <sha>` berarti `ignoreCommand` mencari commit yang sudah tidak ada — biasanya terjadi setelah riwayat repo ditulis ulang. Perbaikannya ada di `DOCUMENTATIONS.md` §15 butir 11: bandingkan dengan `HEAD^`, jangan dengan `$VERCEL_GIT_PREVIOUS_SHA`.
+Pesan `fatal: bad object <sha>` berarti `ignoreCommand` mencari commit yang sudah tidak ada — biasanya terjadi setelah riwayat repo ditulis ulang. Perbaikannya ada di `scripts/should-build.sh`: guard `git cat-file -e` memilih **BUILD** kalau SHA hilang. Lihat `DOCUMENTATIONS.md` §12.1/§15.
 
 Cara cepat memastikan kodenya sehat: `npm run build` di lokal. Kalau exit 0, masalahnya di Vercel, bukan di repo.
 

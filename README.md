@@ -3,7 +3,7 @@
 Website profil **Samsara Group** (Samsara · Svarga · Acasa · Outpace · Grove).
 Next.js 16 (App Router) + Sanity CMS, di-deploy ke Vercel.
 
-Prasyarat: **Node.js 24.22.1+** (memuat patch keamanan Node.js 21 Oktober 2026) dan npm 11+.
+Prasyarat: **Node.js 24.22.1+** (memuat patch keamanan Node.js 21 Oktober 2026; versi lokal ada di `.nvmrc`) dan npm 11+.
 
 ## Menjalankan lokal
 
