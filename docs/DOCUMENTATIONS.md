@@ -295,7 +295,7 @@ Di `src/components/` (±30 file).
 | `MobileMenu.js` | overlay menu layar kecil |
 | `Footer.js` | kolom **CONNECT** (General Inquiry, Events), **EXPLORE** (About, Career), **BRANDS** + marquee logo |
 | `BackToTop.js`, `ScrollProgressBar.js` | kontrol scroll |
-| `PageTransition.js`, `PathnamePreloader.js`, `Preloader.js`, `ImagePreloader.js` | transisi & preload (flag sesi: `sessionStorage["samsara-preloaded"]`) |
+| `PageTransition.js`, `Preloader.js` | transisi halaman (flag sesi: `sessionStorage["samsara-preloaded"]`) |
 | `CustomCursor.js` | kursor kustom |
 
 **Konten**
@@ -500,6 +500,8 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 | Kartu `/events` | **1100** | slot render ±539 px |
 | Logo | **480** | `world.logo`, kartu `/brands` |
 | Marquee homepage | **640** | `src/app/page.js` |
+
+**Aset lokal (24/10):** semua WebP >120 KB di `public/` di-re-encode ke lebar maksimum 1600 px — quality 76 untuk foto, 82 untuk menu. Total `public/` turun 28,1 MB → 17,3 MB; berkas terbesar 427 KB. Jangan menaikkan kembali tanpa mengukur LCP.
 
 **Yang TIDAK boleh diubah:** gambar SEO/OpenGraph (`seo.image`, `socialImage`) tetap lewat `urlFor` — crawler sosial butuh berkas penuh.
 
@@ -869,7 +871,7 @@ Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** men
 | `src/lib/brands-copy.js` | teks cadangan per brand | saat CMS mati, brand baru tidak punya kartu cadangan |
 | `src/sanity/lib/brands.ts` | `LEGACY_LOGO`, `CARD_LOGO`, `SEED_CARDS` | tidak ada logo/kartu cadangan — tetap terisi dari CMS |
 | `src/components/Header.js` → `brandImages` | gambar latar saat hover di dropdown | brand tampil tanpa gambar latar |
-| `src/components/ImagePreloader.js` → `preloadMap` | preload per halaman | tanpa preload; halaman tetap normal |
+| ~~`src/components/ImagePreloader.js` → `preloadMap`~~ | ~~preload per halaman~~ | **Dihapus 24/10** — preload gambar lokal (terutama fallback yang tidak dipakai) bersaing dengan LCP; komponen `PathnamePreloader` juga dihapus |
 
 **Sudah dibuktikan 18/10/2026** dengan brand sementara `template-test` yang dibuat hanya dari CMS: halaman langsung tampil lengkap (8 dari 8 jenis field), muncul di `/brands` dan sitemap dalam ~74 detik, dan mengembalikan **404** saat statusnya `draft`.
 
@@ -929,7 +931,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 |---|---|
 | ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit/integration test masih nol; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
-| **Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas | halaman brand jauh lebih berat daripada homepage (yang sudah 118 KB) |
+| ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — sudah di-re-encode; terbesar 427 KB, `public/` 17,3 MB. **Sisa:** halaman brand masih memuat seluruh galeri CMS sekaligus; optimasi carousel menyusul | halaman brand masih lebih berat daripada homepage |
 | **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | **Lima halaman brand hand-tuned** menyimpan layout di kode | dua cara berbeda menambah brand: lewat template dinamis (mudah) vs mengubah kode (berat) |
