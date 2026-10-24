@@ -63,7 +63,7 @@ Checklist:
 - [ ] `npm run smoke` → **74/74** (produksi).
 - [ ] `/` membalas **200**.
 - [ ] Header keamanan masih ada (`content-security-policy`, `strict-transport-security`, `x-frame-options`).
-- [ ] `/sitemap.xml` berisi 11 URL dan semua hidup.
+- [ ] `/sitemap.xml` berisi semua URL publik (saat ini 9) dan semua hidup.
 - [ ] `/robots.txt` berisi `Allow: /` + `Sitemap:`.
 - [ ] Satu halaman brand (mis. `/svarga`) tampil normal.
 - [ ] Satu gambar dari halaman itu membalas 200.

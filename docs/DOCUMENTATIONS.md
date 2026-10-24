@@ -903,7 +903,7 @@ Pemilik memeriksa isi yang tayang, lalu memutuskan:
 | 1 | Jam buka brand | **Belum ditentukan** — dibiarkan kosong. Catatan: `hours` hanya dirender di dalam section Map, jadi mengisinya tanpa section Map pun tetap tidak tampil |
 | 2 | `socialImage` (gambar preview saat link dibagikan) | **Dibiarkan kosong** — preview memakai gambar kartu brand |
 | 3 | Tombol halaman Acasa | **Sudah ada** — datang dari `ACASA_ACTIONS` di `acasa/page.js` (RESERVE PADEL, RECEPTIONIST, ROOM RATE, INSTAGRAM), bukan dari field `ctas` CMS |
-| 4 | Outpace & Grove | **Dibiarkan publik apa adanya** — ini simulasi & kesiapan, belum dirilis; masih ada yang perlu ditambah |
+| 4 | Outpace & Grove | **Publik, tetapi `noIndex` sejak 24/10** — halaman tetap bisa diakses langsung; tidak masuk sitemap; kontennya masih belum lengkap |
 | 5 | Google Form lowongan | **TBD** — keenam lowongan memakai satu form yang sama |
 | 6 | `/events` kosong | **Dibiarkan** — tidak ada event, halaman menampilkan pesan kosong |
 | 7 | Gambar hero & About homepage | **Dibiarkan** — memakai dua foto yang sekarang |
@@ -933,7 +933,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 
 | Hal | Keadaan | Catatan |
 |---|---|---|
-| **Outpace & Grove** | tanpa alamat, Instagram, tombol, logo, menu, peta — **tapi halamannya publik** dan ikut di sitemap | disengaja: simulasi & kesiapan, belum dirilis |
+| **Outpace & Grove** | tanpa alamat, Instagram, tombol, logo, menu, peta — **halamannya publik, tetapi `noIndex` dan tidak di sitemap sejak 24/10** | disengaja: simulasi & kesiapan, belum dirilis |
 | **Jam buka** kelima brand | kosong | belum ditentukan; dan `hours` hanya tampil di dalam section Map |
 | **`socialImage`** kelima brand | kosong | preview link memakai gambar kartu brand — berfungsi, tidak ideal |
 | **Google Form lowongan** | keenam lowongan memakai satu form yang sama | TBD |

@@ -307,7 +307,7 @@ $env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server loka
 $env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke  # staging
 ```
 
-74 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, sitemap 11 URL semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
+74 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, **sitemap memuat semua URL publik (9 saat ini; otomatis mengikuti brand `noIndex`)** semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
 
 Baris terakhir itu yang paling penting: halaman yang diam-diam jatuh ke teks hardcoded karena sambungan CMS-nya putus **tetap membalas 200**, jadi pemeriksaan status saja tidak akan menangkapnya.
 
