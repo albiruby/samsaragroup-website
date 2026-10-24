@@ -293,6 +293,8 @@ Di repo website (`scripts/`):
 
 > **Backup dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10). Cukup minta "backup" kapan saja — tidak perlu commit atau push.
 
+> **Restore drill (24/10/2026):** arsip `production-2026-10-19_1418.tar.gz` diimpor ke `staging` dengan `--replace` → 28 dokumen, 53,2 detik; counts sama dengan production; smoke preview 75/75. Staging kembali menjadi salinan production.
+
 > **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATIONS.md` **§21**.
 
 > Backup **tidak boleh** di-commit. Repo website publik, dan arsipnya memuat seluruh database konten.

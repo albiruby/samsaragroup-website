@@ -744,6 +744,17 @@ Start-ScheduledTask -TaskName "Samsara - Sanity Backup"   # jalankan sekarang
 Unregister-ScheduledTask -TaskName "Samsara - Sanity Backup" -Confirm:$false   # hapus
 ```
 
+**Restore drill — 24/10/2026.** Arsip `backups\sanity\production-2026-10-19_1418.tar.gz` (28,6 MB) diimpor ke `staging` dengan `--replace`:
+
+| Hasil | Nilai |
+|---|---|
+| Import | **28 dokumen**, 53,2 detik |
+| Counts setelah restore | 131 total, 5 world, 6 career, 12 carousel, 103 aset, 5 singleton — **sama dengan production** |
+| Situs membaca staging | 31 URL gambar `cdn.sanity.io/.../staging/`, 0 production |
+| Smoke preview | **75/75** |
+
+Staging berisi salinan production; drill ini membuktikan arsip backup bisa direstore dan situs bisa membacanya.
+
 > ⚠️ **Repo ini PUBLIK.** Arsip backup tidak boleh ikut di-commit — isinya seluruh database konten. Karena itu outputnya sengaja diletakkan di luar repo, dan hanya skripnya yang di-version-control.
 
 ### Monitoring uptime
