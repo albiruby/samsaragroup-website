@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { BrandsProvider } from "@/components/BrandsProvider.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
-import PathnamePreloader from "@/components/PathnamePreloader";
 import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
@@ -82,7 +81,6 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className="bg-surface font-sans text-on-surface antialiased overflow-x-hidden">
-        <PathnamePreloader />
         <CustomCursor />
         <ScrollProgressBar />
         <ThemeProvider>
