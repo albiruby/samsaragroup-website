@@ -9,7 +9,7 @@ function srcSetFor(src) {
   return WIDTHS.map((w) => `${src.replace(/([?&])w=\d+/, `$1w=${w}`)} ${w}w`).join(", ");
 }
 
-export default function HeroCarousel({ images, alt = "Hero image", interval = 4000, aspect = "aspect-[4/3] md:aspect-[21/9]" }) {
+export default function HeroCarousel({ images, alt = "Hero image", interval = 8000, aspect = "aspect-[4/3] md:aspect-[21/9]" }) {
   const [current, setCurrent] = useState(0);
 
   const prev = useCallback(() => {
