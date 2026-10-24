@@ -571,6 +571,8 @@ CI menjalankan lint, audit produksi, dan build di setiap push/PR (§12.3). Verce
 4. `git push origin master`.
 5. Verifikasi di halaman live (bisa `Invoke-WebRequest` + cek umur/markup).
 
+**Rollback:** lihat [ROLLBACK.md](ROLLBACK.md) — runbook Vercel, termasuk verifikasi dan rollback data CMS.
+
 ### 12.1 Ignored Build Step — jangan build untuk commit dokumentasi
 
 `vercel.json` di root repo memasang `ignoreCommand` yang memanggil `scripts/should-build.mjs`. Tujuannya: **berhenti membuang kuota Deployment Storage** (~85 MB per build) untuk commit yang cuma mengubah dokumentasi.
@@ -945,7 +947,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 | ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit/integration test masih nol; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
 | ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — WebP di-re-encode (max 1600 px; terbesar 427 KB), preloader dihapus, `HeroCarousel` hanya memuat current+next dengan `srcSet`, gambar bawah fold `lazy`. Lighthouse `/svarga` mobile: **35 → 96**, LCP **10,4 → 2,8 s** | — |
-| **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
+| ~~**Prosedur rollback** belum ditulis & belum pernah diuji~~ **Runbook ditulis 24/10** — `docs/ROLLBACK.md`; **belum diuji** di production | tombolnya ada di Vercel; uji pertama harus dijadwalkan |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | **Lima halaman brand hand-tuned** menyimpan layout di kode | dua cara berbeda menambah brand: lewat template dinamis (mudah) vs mengubah kode (berat) |
 | **Belum ada unit/integration test** | logika bisnis nyaris tidak ada, jadi risikonya kecil — tapi tetap nol |
@@ -966,4 +968,4 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 
 ### E. Kalau mau naik dari 8 ke 9+
 
-Urutan yang paling berdampak: **monitoring eksternal** → **domain** → **otomatisasi audit dependensi** → **width/height eksplisit** → **tulis + uji prosedur rollback**.
+Urutan yang paling berdampak: **monitoring eksternal** → **domain** → **otomatisasi audit dependensi** → **width/height eksplisit** → **uji prosedur rollback**.

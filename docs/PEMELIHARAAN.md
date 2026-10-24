@@ -352,6 +352,7 @@ File `.env.local` di repo website (tidak ter-commit):
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` dibuat lapor-saja. **22/10 watcher-nya dihapus**; skrip kini hanya dijalankan manual. (lihat §11).
 7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
 8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
+9. **Rollback:** runbook ada di `docs/ROLLBACK.md` (24/10), tetapi **belum pernah diuji di production**. Uji pertama harus dijadwalkan.
 
 ---
 
