@@ -557,7 +557,7 @@ npm run deploy       # HANYA kalau schema berubah
 | **Schema** Studio | `npm run deploy` di `studio` | segera |
 | Kode website / gambar `public/` | `git add` → `commit` → `git push origin master` | setelah Vercel build (~1–3 menit) |
 
-Website tidak punya CI atau `CODEOWNERS` — Vercel mem-build otomatis tiap push ke `master`, kecuali kalau di-skip oleh `ignoreCommand` (lihat bawah).
+CI menjalankan lint, audit produksi, dan build di setiap push/PR (§12.3). Vercel tetap mem-build otomatis tiap push ke `master`, kecuali kalau di-skip oleh `ignoreCommand` (lihat bawah).
 
 **Alur rilis yang dipakai:**
 
@@ -625,6 +625,18 @@ $env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_P
 Smoke produksi tetap 74 cek; mode preview menambah cek `X-Robots-Tag` dan aturan robots, jadi **75 cek**. Setelah mengubah env Preview di Vercel, redeploy preview agar nilai baru terbaca.
 
 > **Staging publik.** Sama seperti `production`: siapa pun yang tahu project + dataset bisa membacanya. Jangan unggah dokumen pribadi, draft sensitif, atau data pelanggan ke `staging`.
+
+### 12.3 CI & monitoring
+
+Tiga workflow di `.github/workflows/`:
+
+| Workflow | Jadwal | Isi |
+|---|---|---|
+| `ci.yml` | setiap push ke `master` + pull request | `npm ci`, `npm run lint`, `npm audit --omit=dev`, `npm run build` |
+| `smoke.yml` | harian 08:00 WIB + manual | `npm run smoke` ke produksi; gagal → issue |
+| `uptime.yml` | tiap 15 menit | membaca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue |
+
+Semua read-only dan tanpa secret. `ci.yml` memakai Node dari `.nvmrc`. Workflow terjadwal bisa dinonaktifkan GitHub setelah repo 60 hari tanpa aktivitas — cek tab Actions kalau alert berhenti.
 
 ---
 
@@ -735,7 +747,7 @@ Unregister-ScheduledTask -TaskName "Samsara - Sanity Backup" -Confirm:$false   #
 Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 
 - Jalan otomatis **tiap 15 menit** (dan bisa dipicu manual lewat tab **Actions → Uptime check → Run workflow**).
-- Memeriksa 11 route + `robots.txt` + `sitemap.xml`; semua harus **HTTP 200** (tiap request punya 2 retry supaya tidak alarm palsu).
+- Membaca **`sitemap.xml`**, lalu memeriksa **semua URL** di dalamnya + `robots.txt`; semua harus **HTTP 200** (tiap request punya 2 retry supaya tidak alarm palsu). Sitemap yang gagal diambil atau kosong juga dianggap gagal.
 - Kalau ada yang gagal → **membuat issue baru**, atau **mengomentari issue yang masih terbuka**. GitHub mengirim email notifikasi ke pemilik repo — itulah alarmnya.
 - Begitu semua hijau lagi → issue **otomatis ditutup**.
 - Tidak butuh akun atau dashboard baru, dan tidak ada apa pun yang di-deploy oleh workflow ini.
@@ -772,7 +784,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
 7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
-8. **Belum ada unit/integration test, dan belum ada CI.** Yang tersedia sekarang: **`npm run smoke`** — 74 pemeriksaan (route, struktur halaman, metadata, header keamanan, dan **kecocokan halaman dengan isi Sanity**) — plus uptime monitor 15 menit. Yang belum: test yang berjalan sendiri di CI. **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
+8. **CI sudah ada; unit/integration test belum.** `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10** — kedua folder `scripts/` kini hanya berisi berkas yang benar-benar dipakai: `sync-hardcode-to-cms.mjs` + `smoke.mjs` (website), `backup-dataset.ps1` + `backup-and-upload.ps1` (studio). Lima skrip lama sudah dihapus di `2035c86`.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
@@ -915,7 +927,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 
 | Hal | Dampak kalau dibiarkan |
 |---|---|
-| **Test otomatis & CI** — `npm run smoke` ada, tapi harus dijalankan manual | regresi diam-diam tidak ada yang menangkap. Ini kelemahan paling serius |
+| ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit/integration test masih nol; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
 | **Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas | halaman brand jauh lebih berat daripada homepage (yang sudah 118 KB) |
 | **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
@@ -939,4 +951,4 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 
 ### E. Kalau mau naik dari 8 ke 9+
 
-Urutan yang paling berdampak: **CI menjalankan `npm run smoke`** → **domain** → **otomatisasi audit dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.
+Urutan yang paling berdampak: **monitoring eksternal** → **domain** → **otomatisasi audit dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.

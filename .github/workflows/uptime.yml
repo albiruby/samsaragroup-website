@@ -1,7 +1,7 @@
 name: Uptime check
 
-# Checks the live site's routes on a schedule. A failure opens (or comments on) a
-# GitHub issue, which GitHub emails to the repo owner -- that is the alert.
+# Checks every URL in sitemap.xml on a schedule, so a new brand is covered
+# automatically. A failure opens (or comments on) a GitHub issue.
 #
 # Note: keep BACKUPS out of this repo. It is public, so a Sanity export committed
 # here would publish the whole content database.
@@ -15,9 +15,14 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: uptime-check
+  cancel-in-progress: true
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check every route
         id: check
@@ -25,17 +30,38 @@ jobs:
           set -uo pipefail
 
           BASE="https://samsaragroup.vercel.app"
-          PATHS="/ /about /brands /samsara /svarga /acasa /outpace /grove /events /career /contact /robots.txt /sitemap.xml"
-
           FAILED=""
-          for path in $PATHS; do
-            # Two retries so a single hiccup does not raise a false alarm.
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 "$BASE$path" || echo "000")
-            printf '%-4s %s\n' "$code" "$path"
-            if [ "$code" != "200" ]; then
-              FAILED="${FAILED}- \`$path\` returned HTTP $code"$'\n'
+
+          SITEMAP=$(curl -fsS --max-time 20 --retry 2 --retry-delay 3 "$BASE/sitemap.xml" || true)
+          if [ -z "$SITEMAP" ]; then
+            FAILED="${FAILED}- \`/sitemap.xml\` could not be fetched"$'\n'
+            echo "::error::sitemap.xml could not be fetched"
+          else
+            URLS=$(printf '%s' "$SITEMAP" | grep -o '<loc>[^<]*' | sed 's#<loc>##' | sort -u)
+            COUNT=$(printf '%s\n' "$URLS" | grep -c '^https://' || true)
+            echo "Checking $COUNT URLs from sitemap.xml"
+
+            if [ "$COUNT" -eq 0 ]; then
+              FAILED="${FAILED}- \`/sitemap.xml\` contained no URLs"$'\n'
+              echo "::error::sitemap.xml contained no URLs"
+            else
+              for url in $URLS; do
+                # Two retries so a single hiccup does not raise a false alarm.
+                code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 "$url" || echo "000")
+                printf '%-4s %s\n' "$code" "$url"
+                if [ "$code" != "200" ]; then
+                  FAILED="${FAILED}- \`$url\` returned HTTP $code"$'\n'
+                fi
+              done
             fi
-          done
+          fi
+
+          # robots.txt is not in the sitemap; keep checking it explicitly.
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 "$BASE/robots.txt" || echo "000")
+          printf '%-4s %s\n' "$code" "$BASE/robots.txt"
+          if [ "$code" != "200" ]; then
+            FAILED="${FAILED}- \`/robots.txt\` returned HTTP $code"$'\n'
+          fi
 
           if [ -n "$FAILED" ]; then
             echo "failed=1" >> "$GITHUB_OUTPUT"
@@ -60,7 +86,7 @@ jobs:
             const body = [
               `Checked at ${new Date().toISOString()}`,
               "",
-              "These routes did not return HTTP 200:",
+              "These URLs did not return HTTP 200:",
               "",
               process.env.FAILED_PATHS || "(no details captured)",
               "",
@@ -101,7 +127,7 @@ jobs:
               await github.rest.issues.createComment({
                 ...context.repo,
                 issue_number: issue.number,
-                body: `Recovered: every route returned HTTP 200 at ${new Date().toISOString()}.`,
+                body: `Recovered: every sitemap URL returned HTTP 200 at ${new Date().toISOString()}.`,
               });
               await github.rest.issues.update({
                 ...context.repo,

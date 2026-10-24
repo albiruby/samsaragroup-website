@@ -271,7 +271,7 @@ Di repo website (`scripts/`):
 | Script | Fungsi | Risiko |
 |---|---|---|
 | `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja — tidak pernah menulis** (sejak 18/10). Tidak dipanggil otomatis dan tidak butuh token |
-| `smoke.mjs` | uji cepat ke situs live, dipakai `npm run smoke` | baca saja |
+| `smoke.mjs` | uji cepat 74 produksi / 75 preview; manual + harian CI | baca saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukurannya diverifikasi |
 
 > Lima skrip lain yang dulu tercatat di sini (`sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`) **sudah dihapus** di commit `2035c86`.
@@ -287,7 +287,9 @@ Di repo website (`scripts/`):
 | `backup-and-upload.ps1` | ekspor dataset `production` (dokumen + aset, ±28,6 MB) → simpan 14 lokal → unggah ke Google Drive → simpan 7 di Drive | repo **studio**, `scripts/` |
 | `backup-dataset.ps1` | hanya bagian lokalnya: ekspor + simpan 14 terbaru, tanpa unggah | repo **studio**, `scripts/` |
 | remote rclone `samsara-drive` | tujuan unggahan, dikunci `root_folder_id` ke satu folder Drive saja | `%APPDATA%\rclone\rclone.conf` |
-| `.github/workflows/uptime.yml` | tiap **15 menit** cek 11 route + `robots.txt` + `sitemap.xml`; gagal → issue (email), pulih → issue ditutup | repo website |
+| `.github/workflows/ci.yml` | setiap push/PR: `npm ci`, lint, audit produksi, build | repo website |
+| `.github/workflows/smoke.yml` | harian 08:00 WIB: `npm run smoke`; gagal → issue (email), pulih → issue ditutup | repo website |
+| `.github/workflows/uptime.yml` | tiap **15 menit** baca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue (email), pulih → issue ditutup | repo website |
 
 > **Backup dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10). Cukup minta "backup" kapan saja — tidak perlu commit atau push.
 
@@ -346,7 +348,7 @@ File `.env.local` di repo website (tidak ter-commit):
 4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` dibuat lapor-saja. **22/10 watcher-nya dihapus**; skrip kini hanya dijalankan manual. (lihat §11).
-7. **Belum ada test otomatis yang berjalan di CI.** Yang tersedia: **`npm run smoke`** (74 pemeriksaan produksi / 75 preview — lihat §"Uji cepat setelah deploy" di atas) dan uptime monitor 15 menit. Backup **tidak lagi terjadwal** — dijalankan atas permintaan. (lihat §11).
+7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
 8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
 
 ---

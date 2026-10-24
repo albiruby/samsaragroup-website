@@ -28,6 +28,8 @@ npm run lint       # harus 0 error
 npm run build      # harus sukses
 ```
 
+CI menjalankan langkah yang sama di setiap push/PR; `smoke` produksi berjalan harian.
+
 ## Deploy
 
 - Push ke `master` → Vercel build & deploy otomatis.
