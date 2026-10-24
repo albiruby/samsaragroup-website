@@ -11,7 +11,7 @@ Sanity Studio. Tidak perlu menyentuh kode.
 |---|---|
 | **Project ID** | `p5zu5azj` |
 | **Dataset** | `production` |
-| **Studio online** | https://samsaragroup.sanity.studio |
+| **Studio online** | https://samsaragroup.sanity.studio/production |
 | **Studio lokal** | http://localhost:3333 |
 | **Website** | https://samsaragroup.vercel.app |
 
@@ -115,7 +115,11 @@ Launcher ini menjalankan website (port 3000) dan Studio (port 3333)
 sekaligus, plus watchdog yang auto-restart kalau server mati.
 
 Studio juga bisa dibuka langsung di
-https://samsaragroup.sanity.studio — isinya sama persis, tanpa perlu kode lokal.
+https://samsaragroup.sanity.studio/production — isinya sama persis, tanpa perlu kode lokal.
+
+> **Staging:** workspace uji coba ada di
+> https://samsaragroup.sanity.studio/staging. Dataset `staging` bersifat
+> **publik** — jangan unggah dokumen pribadi atau draft sensitif ke sana.
 
 > **Kenapa harus pakai `Dev.cmd`?** Studio menjalankan dengan flag
 > `--no-auto-updates`. Tanpa flag itu, Sanity menanyakan "upgrade local

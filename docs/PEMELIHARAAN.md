@@ -22,7 +22,7 @@ Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode w
 | Bagian | Lokasi | Git remote | Hosting |
 |---|---|---|---|
 | Website | `D:\Project Website INFIA\Samsara Group Website\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
-| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ |
+| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ — produksi `/production`, staging `/staging` |
 | Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
@@ -249,7 +249,7 @@ Cara cepat memastikan kodenya sehat: `npm run build` di lokal. Kalau exit 0, mas
 
 ### Studio
 - **Ubah konten/dokumen:** tidak perlu apa-apa, langsung tersimpan & tersinkron.
-- **Ubah schema (field baru, dll.):** dari repo `studio`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/.
+- **Ubah schema (field baru, dll.):** dari repo `studio`, `npm run deploy` (SCL: `sanity deploy`). Ini meng-upload schema ke https://samsaragroup.sanity.studio/ (kedua workspace).
 - Studio lokal untuk pratinjau: `npm run dev` (port 3333).
 
 ---
@@ -312,7 +312,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 ### Staging (preview)
 
 - Dataset `staging` adalah salinan `production` (public); Vercel **Preview** memakai `NEXT_PUBLIC_SANITY_DATASET=staging`. Production/Development tetap `production`.
-- Studio: workspace **Sams Sams (Staging)** di `/staging`.
+- Studio: **Sams Sams** di `/production`; **Sams Sams (Staging)** di `/staging`.
 - Preview mengirim `X-Robots-Tag: noindex, nofollow` dan `robots.txt` `Disallow: /`.
 - Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATIONS.md` §12.2.
 - Jangan unggah dokumen pribadi: staging publik.

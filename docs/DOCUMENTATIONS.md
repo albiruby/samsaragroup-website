@@ -48,7 +48,7 @@ Website profil/hospitality **Samsara Group** — sebuah *cultural institution & 
 
 **URL produksi (sementara):** <https://samsaragroup.vercel.app>
 > ⚠️ `samsaragroup.com` **bukan milik kita** — domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah dipakai sebagai `NEXT_PUBLIC_SITE_URL`.
-**Studio (CMS):** <https://samsaragroup.sanity.studio/>
+**Studio (CMS):** <https://samsaragroup.sanity.studio/> — produksi di `/production`, staging di `/staging`
 **Sanity:** project `p5zu5azj`, dataset `production`
 
 Halaman website: Home, About, Brands, lima halaman brand, Events, Career, Contact, plus template dinamis `[slug]` untuk brand baru.
@@ -605,7 +605,7 @@ Dataset **`staging`** adalah salinan `production` (public, 28 dokumen konten + 1
 |---|---|
 | Dataset | `staging` (public) |
 | Vercel Preview | `NEXT_PUBLIC_SANITY_DATASET=staging` |
-| Studio | workspace **Sams Sams (Staging)** di `/staging` |
+| Studio | **Sams Sams** di `/production`; **Sams Sams (Staging)** di `/staging` |
 | Robots | `X-Robots-Tag: noindex, nofollow` + `robots.txt` `Disallow: /` |
 
 **Refresh staging dari production.** `datasets copy` diblokir plan saat ini (`advanced dataset management`), jadi pakai export/import:
