@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const isPreview = process.env.VERCEL_ENV === "preview";
+
 const nextConfig = {
   poweredByHeader: false,
   images: {
@@ -9,6 +11,14 @@ const nextConfig = {
     ],
   },
   headers: async () => [
+    ...(isPreview
+      ? [
+          {
+            source: '/(.*)',
+            headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+          },
+        ]
+      : []),
     {
       source: '/(.*)',
       headers: [

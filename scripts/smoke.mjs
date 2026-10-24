@@ -12,6 +12,7 @@
  *
  *   npm run smoke                              # against production
  *   SMOKE_BASE_URL=http://localhost:3000 npm run smoke
+ *   SMOKE_PREVIEW=1 SMOKE_BASE_URL=... npm run smoke   # staging/preview
  *
  * Exits non-zero if any check fails.
  */
@@ -19,6 +20,7 @@
 const BASE = (process.env.SMOKE_BASE_URL || "https://samsaragroup.vercel.app").replace(/\/$/, "");
 const PROJECT = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "p5zu5azj";
 const DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+const PREVIEW = process.env.SMOKE_PREVIEW === "1";
 
 const ROUTES = [
   "/", "/about", "/brands", "/samsara", "/svarga", "/acasa", "/outpace", "/grove",
@@ -81,8 +83,13 @@ for (const path of EXTRA) {
     const r = await ambil(path);
     hasil(r.status === 200, `GET ${path}`, `HTTP ${r.status}`);
     if (path === "/robots.txt") {
-      hasil(/Allow:\s*\//.test(r.body), "  robots.txt mengizinkan root");
-      hasil(/Sitemap:/i.test(r.body), "  robots.txt menunjuk sitemap");
+      if (PREVIEW) {
+        hasil(/Disallow:\s*\//.test(r.body), "  robots.txt memblokir crawler (preview)");
+        hasil(!/Sitemap:/i.test(r.body), "  robots.txt preview tanpa sitemap");
+      } else {
+        hasil(/Allow:\s*\//.test(r.body), "  robots.txt mengizinkan root");
+        hasil(/Sitemap:/i.test(r.body), "  robots.txt menunjuk sitemap");
+      }
     }
     if (path === "/sitemap.xml") {
       const urls = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
@@ -116,6 +123,10 @@ try {
   for (const [nama, pola] of Object.entries(perlu)) {
     const nilai = r.headers.get(nama) || "";
     hasil(pola.test(nilai), `header ${nama}`);
+  }
+  if (PREVIEW) {
+    const noindex = r.headers.get("x-robots-tag") || "";
+    hasil(/noindex/i.test(noindex), "header x-robots-tag noindex (preview)", noindex);
   }
 } catch (e) {
   hasil(false, "header keamanan", String(e).slice(0, 60));

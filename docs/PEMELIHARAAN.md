@@ -299,14 +299,23 @@ Di repo website (`scripts/`):
 
 ```powershell
 npm run smoke                                                  # uji situs produksi
-$env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server lokal
+$env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server lokal (production)
+$env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke  # staging
 ```
 
-74 pemeriksaan: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, sitemap 11 URL semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan).
+74 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, sitemap 11 URL semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
 
 Baris terakhir itu yang paling penting: halaman yang diam-diam jatuh ke teks hardcoded karena sambungan CMS-nya putus **tetap membalas 200**, jadi pemeriksaan status saja tidak akan menangkapnya.
 
 Tidak butuh token — dataset Sanity publik untuk dibaca.
+
+### Staging (preview)
+
+- Dataset `staging` adalah salinan `production` (public); Vercel **Preview** memakai `NEXT_PUBLIC_SANITY_DATASET=staging`. Production/Development tetap `production`.
+- Studio: workspace **Sams Sams (Staging)** di `/staging`.
+- Preview mengirim `X-Robots-Tag: noindex, nofollow` dan `robots.txt` `Disallow: /`.
+- Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATIONS.md` §12.2.
+- Jangan unggah dokumen pribadi: staging publik.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` bukan `production`, **atau** backup dulu.
@@ -322,10 +331,10 @@ File `.env.local` di repo website (tidak ter-commit):
 | Variabel | Isi |
 |---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `p5zu5azj` |
-| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` (Vercel Preview: `staging` — §11) |
 | `NEXT_PUBLIC_SITE_URL` | `https://samsaragroup.vercel.app` (default di `src/lib/site.js`) |
 
-> Catatan: tidak ada token di `.env.local` maupun `.env.example`; keduanya hanya berisi project ID, dataset, dan URL situs.
+> Catatan: tidak ada token di `.env.local` maupun `.env.example`; keduanya hanya berisi project ID, dataset, dan URL situs. Di Vercel, dataset punya dua record: Production/Development = `production`, Preview = `staging`.
 
 ---
 
@@ -337,7 +346,8 @@ File `.env.local` di repo website (tidak ter-commit):
 4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` dibuat lapor-saja. **22/10 watcher-nya dihapus**; skrip kini hanya dijalankan manual. (lihat §11).
-7. **Belum ada test otomatis yang berjalan di CI.** Yang tersedia: **`npm run smoke`** (74 pemeriksaan — lihat §"Uji cepat setelah deploy" di atas) dan uptime monitor 15 menit. Backup **tidak lagi terjadwal** — dijalankan atas permintaan. (lihat §11).
+7. **Belum ada test otomatis yang berjalan di CI.** Yang tersedia: **`npm run smoke`** (74 pemeriksaan produksi / 75 preview — lihat §"Uji cepat setelah deploy" di atas) dan uptime monitor 15 menit. Backup **tidak lagi terjadwal** — dijalankan atas permintaan. (lihat §11).
+8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
 
 ---
 

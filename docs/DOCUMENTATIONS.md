@@ -516,10 +516,10 @@ Hero Samsara kini memakai **galeri CMS** seperti brand lain, sehingga gambarnya 
 | Variabel | Isi |
 |---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `p5zu5azj` |
-| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` — di Vercel, target **Preview** memakai `staging` (§12.2) |
 | `NEXT_PUBLIC_SITE_URL` | default `https://samsaragroup.vercel.app` (di `src/lib/site.js`) |
 
-> **Catatan:** tidak ada token di `.env.local` maupun `.env.example`. Keduanya hanya berisi project ID, dataset, dan (contoh) URL situs.
+> **Catatan:** tidak ada token di `.env.local` maupun `.env.example`. Keduanya hanya berisi project ID, dataset, dan (contoh) URL situs. Di Vercel ada dua record untuk dataset: Production/Development = `production`, Preview = `staging`.
 
 ---
 
@@ -597,6 +597,35 @@ Catatan penting:
 
 Script diuji lokal: docs-only → exit 0 (skip), SHA hilang → exit 1 (build), perubahan kode → exit 1 (build).
 
+### 12.2 Staging & preview
+
+Dataset **`staging`** adalah salinan `production` (public, 28 dokumen konten + 103 aset). Vercel **Preview** membaca dataset ini; Production dan Development tetap `production`.
+
+| Hal | Nilai |
+|---|---|
+| Dataset | `staging` (public) |
+| Vercel Preview | `NEXT_PUBLIC_SANITY_DATASET=staging` |
+| Studio | workspace **Sams Sams (Staging)** di `/staging` |
+| Robots | `X-Robots-Tag: noindex, nofollow` + `robots.txt` `Disallow: /` |
+
+**Refresh staging dari production.** `datasets copy` diblokir plan saat ini (`advanced dataset management`), jadi pakai export/import:
+
+```powershell
+sanity datasets export production "$env:TEMP\production.tar.gz" --overwrite
+sanity datasets import "$env:TEMP\production.tar.gz" -d staging --replace
+```
+
+**Uji lokal dengan data staging:**
+
+```powershell
+$env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run dev
+$env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke
+```
+
+Smoke produksi tetap 74 cek; mode preview menambah cek `X-Robots-Tag` dan aturan robots, jadi **75 cek**. Setelah mengubah env Preview di Vercel, redeploy preview agar nilai baru terbaca.
+
+> **Staging publik.** Sama seperti `production`: siapa pun yang tahu project + dataset bisa membacanya. Jangan unggah dokumen pribadi, draft sensitif, atau data pelanggan ke `staging`.
+
 ---
 
 ## 13. Cookbook — tugas umum
@@ -649,7 +678,7 @@ Di `website/scripts/`:
 | Script | Fungsi | Risiko |
 |---|---|---|
 | `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS, lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis.** Studio adalah sumber kebenaran; selisih fallback bukan masalah. Tidak dipanggil otomatis dan tidak butuh token |
-| `smoke.mjs` | uji cepat 74 pemeriksaan ke situs live (dipakai `npm run smoke`) | baca saja |
+| `smoke.mjs` | uji cepat 74 pemeriksaan produksi / 75 preview (dipakai `npm run smoke`; `SMOKE_PREVIEW=1` untuk staging) | baca saja |
 | `should-build.mjs` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
@@ -728,6 +757,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
 10. **Jangan hapus `scripts/` yang masih dirujuk** `package.json` sebelum memastikan tidak ada pemakai.
 11. **`ignoreCommand` sekarang aman untuk dua mode kegagalan.** `scripts/should-build.mjs` membandingkan `VERCEL_GIT_PREVIOUS_SHA` (fallback `HEAD^`) dan memeriksa `git cat-file -e`. SHA yang lenyap setelah force push → **BUILD**, bukan deploy gagal; push multi-commit tidak lagi salah skip. Insiden 19/10 dan perbaikan `HEAD^` 21/10 tetap tercatat di riwayat, tetapi mekanismenya diganti 23/10.
+12. **Dataset `staging` publik.** Jangan unggah dokumen pribadi, draft sensitif, atau data pelanggan ke sana; siapa pun yang tahu project + dataset bisa membacanya.
 
 ---
 

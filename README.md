@@ -12,6 +12,8 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
+Preview Vercel memakai dataset `staging` (bukan `production`) dan di-noindex; detail di `docs/DOCUMENTATIONS.md` §12.2.
+
 Studio CMS ada di repo terpisah, `../studio`:
 
 ```bash
