@@ -179,9 +179,9 @@ export default async function SamsaraPage() {
               <div className="space-y-8">
                 <div className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
-                    <img src={sizedUrl(world.image, 1100)} alt="Samsara Interior" className="h-full w-full object-cover" />
+                    <img src={sizedUrl(world.image, 1100)} alt="Samsara Interior" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   ) : (
-                    <img src="/ASSETS-SAMSARA/ambience/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SAMSARA/ambience/DSC08177.webp" alt="Samsara Interior" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   )}
                 </div>
               </div>

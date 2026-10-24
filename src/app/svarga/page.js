@@ -167,9 +167,9 @@ export default async function SvargaPage() {
               <div className="space-y-8">
                 <ImageParallax className="img-hover w-full aspect-[4/5]">
                   {world?.image ? (
-                    <img src={sizedUrl(world.image, 1100)} alt="Svarga Suite" className="h-full w-full object-cover" />
+                    <img src={sizedUrl(world.image, 1100)} alt="Svarga Suite" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   ) : (
-                    <img src="/ASSETS-SVARGA/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" />
+                    <img src="/ASSETS-SVARGA/ADR (9 of 15).webp" alt="Svarga Suite" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                   )}
                 </ImageParallax>
               </div>

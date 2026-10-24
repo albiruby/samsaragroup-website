@@ -92,6 +92,8 @@ export default function ZoomableImage({ src, alt, className = "" }) {
         className={`${className} cursor-zoom-in`}
         data-cursor="ZOOM"
         onClick={() => setOpen(true)}
+        loading="lazy"
+        decoding="async"
       />
       {open &&
         createPortal(

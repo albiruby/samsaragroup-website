@@ -183,6 +183,8 @@ export default async function AcasaPage() {
                     src="/ASSETS-ACASA/open-hour-acasa.webp"
                     alt="Acasa opening hours"
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </ImageParallax>
               </div>
