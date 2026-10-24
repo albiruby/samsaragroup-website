@@ -93,7 +93,20 @@ for (const path of EXTRA) {
     }
     if (path === "/sitemap.xml") {
       const urls = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-      hasil(urls.length >= 11, "  sitemap memuat semua halaman publik", `${urls.length} URL`);
+      // Six static pages plus every active, featured brand that is not noIndexed.
+      // This keeps the check valid when a brand is hidden or added.
+      let publicBrands = 1;
+      try {
+        publicBrands = await sanity(
+          'count(*[_type=="world" && status=="active" && featured!=false && noIndex!=true])',
+        );
+      } catch {}
+      const minUrls = 6 + publicBrands;
+      hasil(
+        urls.length >= minUrls,
+        "  sitemap memuat semua halaman publik",
+        `${urls.length} URL (min ${minUrls})`,
+      );
       let rusak = 0;
       for (const u of urls) {
         const res = await fetch(u, { redirect: "manual" });
