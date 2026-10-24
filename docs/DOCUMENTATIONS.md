@@ -636,7 +636,7 @@ Tiga workflow di `.github/workflows/`:
 | `smoke.yml` | harian 08:00 WIB + manual | `npm run smoke` ke produksi; gagal → issue |
 | `uptime.yml` | tiap 15 menit | membaca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue |
 
-Semua read-only dan tanpa secret. `ci.yml` memakai Node dari `.nvmrc`. Workflow terjadwal bisa dinonaktifkan GitHub setelah repo 60 hari tanpa aktivitas — cek tab Actions kalau alert berhenti.
+Semua read-only dan tanpa secret. `ci.yml` memakai Node dari `.nvmrc`. `client.ts` membutuhkan `NEXT_PUBLIC_SANITY_PROJECT_ID` saat build; CI mengisinya dengan project ID publik `p5zu5azj` dan dataset `production` — tanpa itu `next build` gagal sebelum kompilasi. Workflow terjadwal bisa dinonaktifkan GitHub setelah repo 60 hari tanpa aktivitas — cek tab Actions kalau alert berhenti.
 
 ---
 
