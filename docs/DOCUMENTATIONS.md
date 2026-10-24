@@ -503,6 +503,8 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
 **Aset lokal (24/10):** semua WebP >120 KB di `public/` di-re-encode ke lebar maksimum 1600 px — quality 76 untuk foto, 82 untuk menu. Total `public/` turun 28,1 MB → 17,3 MB; berkas terbesar 427 KB. Jangan menaikkan kembali tanpa mengukur LCP.
 
+**Carousel brand (24/10):** hanya slide aktif + berikutnya yang dirender; setiap gambar memakai `srcSet` 480–1600 + `sizes="100vw"`. Auto-advance 8 detik agar tidak memicu kandidat LCP baru pada 4 detik. Jangan mengembalikan render semua slide.
+
 **Yang TIDAK boleh diubah:** gambar SEO/OpenGraph (`seo.image`, `socialImage`) tetap lewat `urlFor` — crawler sosial butuh berkas penuh.
 
 Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
@@ -931,7 +933,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 |---|---|
 | ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit/integration test masih nol; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
-| ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — sudah di-re-encode; terbesar 427 KB, `public/` 17,3 MB. **Sisa:** halaman brand masih memuat seluruh galeri CMS sekaligus; optimasi carousel menyusul | halaman brand masih lebih berat daripada homepage |
+| ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — WebP di-re-encode (max 1600 px; terbesar 427 KB), preloader dihapus, `HeroCarousel` hanya memuat current+next dengan `srcSet`, gambar bawah fold `lazy`. Lighthouse `/svarga` mobile: **35 → 96**, LCP **10,4 → 2,8 s** | — |
 | **Prosedur rollback** belum ditulis & belum pernah diuji | tombolnya ada di Vercel, tapi tidak ada yang tahu langkahnya |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | **Lima halaman brand hand-tuned** menyimpan layout di kode | dua cara berbeda menambah brand: lewat template dinamis (mudah) vs mengubah kode (berat) |
@@ -953,4 +955,4 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 
 ### E. Kalau mau naik dari 8 ke 9+
 
-Urutan yang paling berdampak: **monitoring eksternal** → **domain** → **otomatisasi audit dependensi** → **gambar halaman brand** → **tulis + uji prosedur rollback**.
+Urutan yang paling berdampak: **monitoring eksternal** → **domain** → **otomatisasi audit dependensi** → **width/height eksplisit** → **tulis + uji prosedur rollback**.
