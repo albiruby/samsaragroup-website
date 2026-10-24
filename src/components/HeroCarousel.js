@@ -2,6 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+const WIDTHS = [480, 640, 960, 1280, 1600];
+
+function srcSetFor(src) {
+  if (!/[?&]w=\d+/.test(src)) return undefined;
+  return WIDTHS.map((w) => `${src.replace(/([?&])w=\d+/, `$1w=${w}`)} ${w}w`).join(", ");
+}
+
 export default function HeroCarousel({ images, alt = "Hero image", interval = 4000, aspect = "aspect-[4/3] md:aspect-[21/9]" }) {
   const [current, setCurrent] = useState(0);
 
@@ -23,6 +30,8 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
 
   if (!images || images.length === 0) return null;
 
+  const shouldRender = (i) => i === current || i === (current + 1) % images.length;
+
   return (
     <div
       className={`relative w-full ${aspect} overflow-hidden bg-surface-container-low group`}
@@ -35,7 +44,18 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 40
           className="absolute inset-0 transition-opacity duration-800 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
         >
-          <img src={src} alt={`${alt} ${i + 1}`} className="h-full w-full object-cover" />
+          {shouldRender(i) && (
+            <img
+              src={src}
+              srcSet={srcSetFor(src)}
+              sizes="100vw"
+              alt={`${alt} ${i + 1}`}
+              loading={i === current ? "eager" : "lazy"}
+              fetchPriority={i === current ? "high" : "low"}
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+          )}
         </div>
       ))}
 
