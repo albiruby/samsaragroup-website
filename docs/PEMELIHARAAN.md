@@ -312,7 +312,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 ### Staging (preview)
 
 - Dataset `staging` adalah salinan `production` (public); Vercel **Preview** memakai `NEXT_PUBLIC_SANITY_DATASET=staging`. Production/Development tetap `production`.
-- Studio: **Sams Sams** di `/production`; **Sams Sams (Staging)** di `/staging`.
+- Studio: **Samsara Group** di `/production`; **Samsara Group (Staging)** di `/staging`.
 - Preview mengirim `X-Robots-Tag: noindex, nofollow` dan `robots.txt` `Disallow: /`.
 - Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATIONS.md` §12.2.
 - Jangan unggah dokumen pribadi: staging publik.

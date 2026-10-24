@@ -605,7 +605,7 @@ Dataset **`staging`** adalah salinan `production` (public, 28 dokumen konten + 1
 |---|---|
 | Dataset | `staging` (public) |
 | Vercel Preview | `NEXT_PUBLIC_SANITY_DATASET=staging` |
-| Studio | **Sams Sams** di `/production`; **Sams Sams (Staging)** di `/staging` |
+| Studio | **Samsara Group** di `/production`; **Samsara Group (Staging)** di `/staging` |
 | Robots | `X-Robots-Tag: noindex, nofollow` + `robots.txt` `Disallow: /` |
 
 **Refresh staging dari production.** `datasets copy` diblokir plan saat ini (`advanced dataset management`), jadi pakai export/import:
