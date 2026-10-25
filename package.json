@@ -10,8 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "smoke": "node scripts/smoke.mjs",
-    "sync:cms": "node scripts/sync-hardcode-to-cms.mjs"
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@sanity/client": "^7.27.0",

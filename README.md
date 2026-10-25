@@ -38,10 +38,8 @@ CI menjalankan langkah yang sama di setiap push/PR; `smoke` produksi berjalan ha
 
 ## Peringatan
 
-`scripts/sync-hardcode-to-cms.mjs` **lapor-saja**: ia membandingkan galeri dan
-fallback di kode dengan isi CMS, tanpa pernah menulis. Jalankan manual dengan
-`npm run sync:cms`; tidak ada watcher otomatis saat `next dev`, dan skrip ini
-tidak butuh token.
+Skrip `scripts/sync-hardcode-to-cms.mjs` sudah dihapus (25/10). **Studio adalah
+sumber kebenaran**; tidak ada sinkronisasi otomatis dari kode ke CMS.
 
 Jangan menaruh `SANITY_API_TOKEN` di `src/`: tidak ada kode situs yang
 membutuhkannya, dan apa pun yang masuk bundel browser akan terekspos.
@@ -52,6 +50,8 @@ Dokumentasi lengkap ada di folder `docs/` repo ini:
 
 - `docs/DOCUMENTATIONS.md` — arsitektur, model konten, aturan bisnis, cookbook
 - `docs/PEMELIHARAAN.md` — panduan operasional ringkas
+- `docs/HANDOVER.md` — checklist serah terima dan kalender perawatan
+- `docs/ROLLBACK.md` — prosedur rollback production
 - `docs/Sanity CMS Tutorial.md` — panduan editor CMS
 - `docs/Overall Codebase Security Audit.md` — audit keamanan
 

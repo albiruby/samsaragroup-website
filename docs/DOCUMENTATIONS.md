@@ -549,7 +549,7 @@ npm run build        # cek schema
 npm run deploy       # HANYA kalau schema berubah
 ```
 
-> **CATATAN.** Tidak ada watcher otomatis saat `next dev`. `sync-hardcode-to-cms.mjs` hanya dijalankan manual (`npm run sync:cms`) dan tetap **lapor-saja** — membandingkan fallback di kode dengan CMS, tanpa menulis, mem-patch, atau menghapus. Skrip ini tidak butuh token.
+> **CATATAN.** Tidak ada watcher atau skrip sinkronisasi. `sync-hardcode-to-cms.mjs` **dihapus 25/10**; Studio adalah sumber kebenaran, dan kode tidak pernah menulis ke CMS.
 
 ---
 
@@ -695,17 +695,18 @@ Di `website/scripts/`:
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS, lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja, tidak pernah menulis.** Studio adalah sumber kebenaran; selisih fallback bukan masalah. Tidak dipanggil otomatis dan tidak butuh token |
 | `smoke.mjs` | uji cepat 74 pemeriksaan produksi / 75 preview (dipakai `npm run smoke`; `SMOKE_PREVIEW=1` untuk staging) | baca saja |
 | `should-build.mjs` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
 
-> **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`, dan skrip snapshot/screenshot. **Semuanya sudah tidak ada** — dihapus di commit `2035c86` ("drop the unused scripts") karena tidak satu pun dipakai npm script, watcher, atau halaman. Sebutan di dokumen lain yang masih menyisakannya adalah catatan historis, bukan hal yang bisa dijalankan.
+> **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`, dan skrip snapshot/screenshot. **Semuanya sudah tidak ada** — yang lama dihapus di commit `2035c86` ("drop the unused scripts"); `sync-hardcode-to-cms.mjs` dihapus 25/10. Sebutan di dokumen lain adalah catatan historis, bukan hal yang bisa dijalankan.
+
+> **Serah terima:** checklist akun, kalender perawatan, dan risiko yang masih terbuka ada di `HANDOVER.md`.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` **bukan** `production`, **atau** backup dulu.
-- `sync-hardcode-to-cms.mjs` selalu lapor-saja; tidak ada jalur tulis.
+- Tidak ada skrip yang menulis ke CMS; perubahan konten hanya lewat Studio.
 - Baca ulang peringatan di dalam script.
 
 ### Screenshot
@@ -777,10 +778,10 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 
 1. **Mengosongkan field CMS = memunculkan teks hardcoded**, bukan menghilangkannya (§3.1).
 2. **`featured: false` hanya men-404 di `[slug]`.** Halaman hand-tuned tetap hidup (§8.1).
-3. **Tidak ada watcher dev.** ~~Watcher dev bisa menulis ke production saat `next dev` boot (§11).~~ Selesai 18/10 — skrip dibuat **lapor-saja**: tidak mengunggah, mem-patch, maupun menghapus, apa pun argumennya. **22/10 watcher-nya dihapus**; skrip hanya dijalankan manual.
+3. **Tidak ada watcher atau skrip sync.** ~~Watcher dev bisa menulis ke production saat `next dev` boot (§11).~~ **22/10 watcher-nya dihapus**, dan **25/10 `sync-hardcode-to-cms.mjs` dihapus**; tidak ada lagi jalur kode → CMS. Konten hanya diubah lewat Studio.
 4. ~~`seed-careers.mjs clear` menghapus semua lowongan.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
 5. ~~`sync-cms-to-site.mjs` punya flag `--dry` yang mati.~~ **Tidak berlaku lagi** — skrip itu sudah dihapus.
-6. **`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script `sync:cms`. Sejak 18/10 ia **lapor-saja**, dan sejak 22/10 tidak dipanggil otomatis.
+6. ~~**`sync-hardcode-to-cms.mjs` tidak boleh dihapus** — dipakai npm script `sync:cms`.~~ **Dihapus 25/10** — tidak ada lagi audit drift kode ↔ CMS; Studio adalah sumber kebenaran.
 7. **JSON-LD tanpa nonce akan diblokir CSP.**
 8. **`public/ASSETS-ACASA/open-hour-acasa.webp` jangan dihapus** (dipakai halaman Acasa).
 9. **UI yang butuh interaksi tidak bisa di-screenshot lewat `resize_page` chrome-devtools MCP** — itu mengubah ukuran window OS (minimum ~500 px, tinggi mentok tinggi window). Pakai `emulate` dengan `390x844x1,mobile,touch`.
@@ -803,7 +804,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
 8. **CI sudah ada; unit/integration test belum.** `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
-10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10** — kedua folder `scripts/` kini hanya berisi berkas yang benar-benar dipakai: `sync-hardcode-to-cms.mjs` + `smoke.mjs` (website), `backup-dataset.ps1` + `backup-and-upload.ps1` (studio). Lima skrip lama sudah dihapus di `2035c86`.
+10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10; diperbarui 25/10** — folder `scripts/` website kini hanya berisi `smoke.mjs` + `should-build.mjs`; studio berisi `backup-dataset.ps1` + `backup-and-upload.ps1`. `sync-hardcode-to-cms.mjs` dihapus 25/10.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
 12. ~~**`.git` website ±1,7 GB** sedangkan file ter-track hanya 225.~~ **Selesai 19/10:** riwayat ditulis ulang untuk membuang 183 `.jpg` + 1 `.pdf` yang sudah tidak dilacak → **1.695 MB menjadi 59 MB**, dan isi berkasnya identik (diverifikasi dengan `diff` terhadap commit lama di GitHub sebelum force-push). Temuan yang membuatnya jelas: dari 1.640 MB blob besar di riwayat, **nol** yang masih dipakai website — semuanya berkas yang sudah dihapus.
 
@@ -841,7 +842,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 
 | Perubahan | Sebelum | Sesudah |
 |---|---|---|
-| `scripts/sync-hardcode-to-cms.mjs` | menimpa `world.gallery`, `world.image`, dan `carouselImage(placement=home)` dengan nilai hardcode **di dataset produksi**, setiap `npm run dev` | **lapor-saja** — tidak ada upload, patch, atau delete; sejak 22/10 watcher dev dihapus, skrip hanya manual |
+| ~~`scripts/sync-hardcode-to-cms.mjs`~~ **Dihapus 25/10** | menimpa `world.gallery`, `world.image`, dan `carouselImage(placement=home)` dengan nilai hardcode **di dataset produksi**, setiap `npm run dev` | **Tidak berlaku** — skrip dihapus; Studio adalah sumber kebenaran |
 | `status` / `featured` | hanya berlaku di template `[slug]`; 5 halaman brand statis mengabaikannya | berlaku di kelima halaman statis juga (`notFound()`); bila dokumennya tidak ada, halaman tetap tampil dari fallback-nya |
 | `sections[].image`, `sections[].features[].image`, `world.menuPanels`, `world.categories` | ada di form, tidak pernah dibaca website (12 gambar feature card sudah terlanjur diunggah) | **dihapus dari schema**. Data lamanya tetap ada di dataset, hanya tidak lagi bisa diisi |
 | `event` | tidak ada cara menyembunyikan tanpa menghapus | punya `status` (active/draft/archived); dikosongkan = dianggap active, jadi event lama tetap tayang |

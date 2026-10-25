@@ -21,8 +21,8 @@ Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode w
 
 | Bagian | Lokasi | Git remote | Hosting |
 |---|---|---|---|
-| Website | `D:\Project Website INFIA\Samsara Group Website\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
-| Studio (CMS) | `D:\Project Website INFIA\Samsara Group Website\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ — produksi `/production`, staging `/staging` |
+| Website | `D:\Project Website Samsara Group\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
+| Studio (CMS) | `D:\Project Website Samsara Group\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ — produksi `/production`, staging `/staging` |
 | Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
@@ -270,15 +270,13 @@ Di repo website (`scripts/`):
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `sync-hardcode-to-cms.mjs` | membandingkan galeri/fallback di kode dengan isi CMS lalu melaporkan selisihnya (manual: `npm run sync:cms`) | **Lapor-saja — tidak pernah menulis** (sejak 18/10). Tidak dipanggil otomatis dan tidak butuh token |
+| `should-build.mjs` | gate Vercel: exit 0 = skip build, exit 1 = build | baca git; dipanggil Vercel, bukan npm |
 | `smoke.mjs` | uji cepat 74 produksi / 75 preview; manual + harian CI | baca saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukurannya diverifikasi |
 
-> Lima skrip lain yang dulu tercatat di sini (`sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`) **sudah dihapus** di commit `2035c86`.
-| `dump-html.mjs`, `snapshot-pages.mjs`, `diff-snapshots.mjs`, `scan-encoding.mjs` | snapshot HTML halaman | baca saja |
-| `screenshot-desktop.mjs` | screenshot | baca saja |
+> Lima skrip lain yang dulu tercatat di sini (`sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`) **sudah dihapus** di commit `2035c86`. `sync-hardcode-to-cms.mjs` **dihapus 25/10**.
 
-**Catatan:** tidak ada watcher otomatis saat `next dev`. `sync-hardcode-to-cms.mjs` hanya dijalankan manual (`npm run sync:cms`) dan tetap **lapor-saja** — ia membandingkan fallback di kode dengan isi CMS, tanpa menulis, mem-patch, atau menghapus. Skrip ini juga tidak butuh token.
+**Catatan:** tidak ada watcher atau skrip sync. `sync-hardcode-to-cms.mjs` **dihapus 25/10**; Studio adalah sumber kebenaran, dan tidak ada jalur kode → CMS.
 
 ### Backup & monitoring
 
@@ -296,6 +294,8 @@ Di repo website (`scripts/`):
 > **Restore drill (24/10/2026):** arsip `production-2026-10-19_1418.tar.gz` diimpor ke `staging` dengan `--replace` → 28 dokumen, 53,2 detik; counts sama dengan production; smoke preview 75/75. Staging kembali menjadi salinan production.
 
 > **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATIONS.md` **§21**.
+
+> **Serah terima:** checklist akun, kalender perawatan, dan risiko yang masih terbuka ada di `HANDOVER.md`.
 
 > Backup **tidak boleh** di-commit. Repo website publik, dan arsipnya memuat seluruh database konten.
 
@@ -323,7 +323,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
 - Pastikan `NEXT_PUBLIC_SANITY_DATASET` bukan `production`, **atau** backup dulu.
-- `sync-hardcode-to-cms.mjs` selalu lapor-saja; tidak ada jalur tulis.
+- Tidak ada skrip yang menulis ke CMS; perubahan konten hanya lewat Studio.
 - Baca ulang peringatan di script.
 
 ---
@@ -349,7 +349,7 @@ File `.env.local` di repo website (tidak ter-commit):
 3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`. Fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
 4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
-6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **Selesai 18/10** — `sync-hardcode-to-cms.mjs` dibuat lapor-saja. **22/10 watcher-nya dihapus**; skrip kini hanya dijalankan manual. (lihat §11).
+6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **22/10 watcher-nya dihapus; 25/10 `sync-hardcode-to-cms.mjs` dihapus.** Tidak ada lagi jalur kode → CMS. (lihat §11).
 7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
 8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
 9. **Rollback:** runbook ada di `docs/ROLLBACK.md` (24/10), tetapi **belum pernah diuji di production**. Uji pertama harus dijadwalkan.
