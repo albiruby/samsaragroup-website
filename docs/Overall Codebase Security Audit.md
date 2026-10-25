@@ -244,7 +244,7 @@ Empat hal yang tampak mencurigakan ternyata sudah dijaga dengan benar. Dicatat d
 
 Token tulis di `.env.local` **tidak diperlukan lagi** — semua mutasi sudah mati, dan operasi baca tidak butuh token. Audit menemukan salinannya juga tersimpan di cache build lokal. Tidak ditemukan jejaknya di riwayat git maupun di arsip backup.
 
-**Tindak lanjut 22/10:** token sudah **dihapus dari `.env.local`**, `.next/` dibersihkan, dan `sync-hardcode-to-cms.mjs` dibuat tokenless (auth hanya dikirim kalau token ada). Yang masih perlu: **cabut/rotasi token itu di dashboard Sanity** — langkah itu hanya bisa dilakukan pemilik akun.
+**Tindak lanjut 22/10:** token sudah **dihapus dari `.env.local`**, `.next/` dibersihkan, dan `sync-hardcode-to-cms.mjs` dibuat tokenless (auth hanya dikirim kalau token ada). **Selesai 25/10:** ketiga token project dihapus; `sanity tokens list` = 0.
 
 ### 8.6 Batas audit ini
 

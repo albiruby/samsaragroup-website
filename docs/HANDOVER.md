@@ -78,7 +78,7 @@ Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password ma
 2. Pindahkan billing Vercel/Sanity dan perpanjangan domain.
 3. Ganti penerima notifikasi issue GitHub ke email pemilik baru.
 4. Tentukan siapa yang menjalankan backup; lakukan satu backup + restore drill.
-5. Cabut token Sanity lama; buat token baru hanya jika benar-benar diperlukan.
+5. Token Sanity: **sudah dihapus semua pada 25/10** (`sanity tokens list` = 0). Buat token baru hanya jika benar-benar diperlukan.
 6. Verifikasi: push perubahan kecil → CI hijau → Vercel deploy → `npm run smoke` 74/74.
 7. Kalau pindah domain: ubah `NEXT_PUBLIC_SITE_URL`, default URL di `scripts/smoke.mjs`, dan `BASE` di `uptime.yml`.
 8. Baca `ROLLBACK.md`; jadwalkan uji rollback pertama.
@@ -150,7 +150,7 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - Rollback runbook ada, tetapi belum diuji.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.
 - Backup manual, tidak terjadwal.
-- Token Sanity lama belum dicabut.
+- ~~Token Sanity lama belum dicabut.~~ **Selesai 25/10** — ketiga token project dihapus; `sanity tokens list` = 0.
 - Belum ada unit/integration test dan `typecheck`.
 
 ---
@@ -164,7 +164,7 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] Email alert sudah diarahkan ke pemilik baru.
 - [ ] Backup owner ditunjuk; satu backup berhasil dibuat.
 - [ ] Restore drill berhasil.
-- [ ] Token Sanity lama dicabut.
+- [x] Token Sanity lama sudah dicabut (25/10; `tokens list` = 0).
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
 - [ ] `npm run smoke` 74/74.
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
