@@ -46,6 +46,19 @@ function safeUrl(value) {
   }
 }
 
+/**
+ * Keep the brand strip balanced as the group grows. Five or fewer stays on one
+ * row; six splits 3+3; seven or eight uses four columns; nine or ten uses five.
+ * Above ten, four columns keeps every row full without a lonely last item.
+ */
+function brandStripColumns(count) {
+  if (count <= 5) return "lg:grid-cols-5";
+  if (count === 6) return "lg:grid-cols-3";
+  if (count <= 8) return "lg:grid-cols-4";
+  if (count <= 10) return "lg:grid-cols-5";
+  return "lg:grid-cols-4";
+}
+
 export async function generateMetadata() {
   const page = await getCareerPage();
   return {
@@ -95,6 +108,7 @@ export default async function CareerPageRoute() {
    * when we simply could not load them.
    */
   const noOpenPositions = !unavailable && jobs.length === 0;
+  const brandStripCols = brandStripColumns(brandNav.all.length);
 
   return (
     <>
@@ -162,7 +176,7 @@ export default async function CareerPageRoute() {
               the same primary/on-primary tokens as the header so the strip and the nav
               read as one surface.
             */}
-            <div className="grid grid-cols-2 gap-6 bg-primary px-6 py-10 sm:grid-cols-3 lg:grid-cols-5 lg:px-10">
+            <div className={`grid grid-cols-2 gap-6 bg-primary px-6 py-10 sm:grid-cols-3 ${brandStripCols} lg:px-10`}>
               {brandNav.all.map((brand) => (
                 <div key={brand.slug} className="flex flex-col items-center gap-4">
                   {brand.logo ? (
