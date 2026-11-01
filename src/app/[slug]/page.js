@@ -1,4 +1,4 @@
-import { openGraphFor } from "@/lib/site";
+import { isSafeSlug, openGraphFor } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -12,7 +12,7 @@ import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 import MenuGallery from "@/components/MenuGallery";
 import { getWorldBySlug } from "@/sanity/lib/queries";
-import { sizedUrl, urlFor } from "@/sanity/lib/image";
+import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
 
@@ -25,8 +25,13 @@ const SITE = "Samsara Group";
  */
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  if (!isSafeSlug(slug)) {
+    return { title: SITE, robots: { index: false, follow: false } };
+  }
   const world = await getWorldBySlug(slug);
-  if (!world) return { title: SITE };
+  if (!world || world.status !== "active" || world.featured === false) {
+    return { title: SITE, robots: { index: false, follow: false } };
+  }
 
   const name = world.name || slug;
   return {
@@ -37,7 +42,7 @@ export async function generateMetadata({ params }) {
       path: `/${slug}`,
         title: world.seoTitle || `${name} — ${SITE}`,
         description: world.seoDescription || world.tagline || world.description || "",
-        image: urlFor(world.socialImage || world.image || null)?.url,
+        image: ogImageUrl(world.socialImage || world.image),
         alt: world.name,
       }),
     ...(world.noIndex ? { robots: { index: false, follow: false } } : {}),
@@ -70,6 +75,7 @@ function panelsOf(section, world) {
 
 export default async function BrandPage({ params }) {
   const { slug } = await params;
+  if (!isSafeSlug(slug)) notFound();
   const world = await getWorldBySlug(slug);
 
   if (!world || world.status !== "active" || world.featured === false) notFound();

@@ -9,7 +9,9 @@ import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import { getWorlds } from "@/sanity/lib/queries";
-import { sizedUrl, urlFor } from "@/sanity/lib/image";
+import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
+
+const DEFAULT_NOINDEX = true;
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -31,6 +33,8 @@ export async function generateMetadata() {
   try {
     const world = (await getWorlds()).find((w) => w.slug?.current === "outpace");
     seo = {
+      status: world?.status,
+      featured: world?.featured,
       title: world?.seoTitle,
       description: world?.seoDescription,
       image: world?.socialImage,
@@ -42,11 +46,17 @@ export async function generateMetadata() {
     seo = {};
   }
 
+  const hidden = seo.status && (seo.status !== "active" || seo.featured === false);
+  if (hidden) {
+    return { title: "Samsara Group", robots: { index: false, follow: false } };
+  }
+  const noIndex = seo.noIndex ?? DEFAULT_NOINDEX;
+
 const og = openGraphFor({
       path: "/outpace",
       title: seo.title,
       description: seo.description,
-      image: urlFor(seo.image || seo.card || null)?.url,
+      image: ogImageUrl(seo.image || seo.card),
       alt: seo.brandName,
     });
 
@@ -57,7 +67,7 @@ const og = openGraphFor({
         "Outpace is a running cafe in Bogor â€” coffee, showers and a community of runners. Gear up, cool down, and stay awhile.",
     alternates: { canonical: "/outpace" },
     openGraph: og,
-    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+    ...(noIndex ? { robots: { index: false, follow: false } } : {}),
   };
 }
 

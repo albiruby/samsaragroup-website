@@ -50,7 +50,7 @@ const isi = (nilai, bawaan) => (typeof nilai === "string" && nilai.trim() ? nila
 /** Internal paths are fine; anything else must be an absolute http(s) URL. */
 const safeHref = (nilai, bawaan) => {
   const value = isi(nilai, bawaan);
-  if (value.startsWith("/") && !value.startsWith("//")) return value;
+  if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return value;
   return safeUrl(value) || bawaan;
 };
 

@@ -1,4 +1,5 @@
 import { openGraphFor, ogImages, siteUrl } from "@/lib/site";
+import { headers } from "next/headers";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -26,11 +27,13 @@ openGraph: openGraphFor({ path: "/brands" }),
  */
 export default async function BrandsPage() {
   const brands = await getBrandCards();
+  const nonce = (await headers()).get("x-nonce");
 
   return (
     <>
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: jsonLdHtml({
             "@context": "https://schema.org",

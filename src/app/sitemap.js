@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, isSafeSlug, siteUrl } from "@/lib/site";
 import { getBrandCards } from "@/sanity/lib/brands";
 
 const BASE_URL = SITE_URL;
@@ -22,9 +22,9 @@ export default async function sitemap() {
    * Brands marked "Hide from Search Engines" are dropped: their pages already send
    * `robots: noindex`, and listing a URL here would contradict that.
    */
-  const cards = (await getBrandCards()).filter((c) => !c.noIndex);
+  const cards = (await getBrandCards()).filter((c) => !c.noIndex && isSafeSlug(c.slug));
   const brandUrls = cards.map((c, i) => ({
-    url: `${BASE_URL}${c.href}`,
+    url: siteUrl(c.href),
     lastModified,
     changeFrequency: "monthly",
     priority: i < 3 ? 0.8 : 0.7,
