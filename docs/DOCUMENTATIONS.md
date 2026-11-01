@@ -698,7 +698,7 @@ Di `website/scripts/`:
 | `smoke.mjs` | uji cepat 74 pemeriksaan produksi / 75 preview (dipakai `npm run smoke`; `SMOKE_PREVIEW=1` untuk staging) | baca saja |
 | `should-build.mjs` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
-| `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukurannya diverifikasi byte-per-byte |
+| `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukuran + MD5 diverifikasi bila tersedia |
 
 > **Skrip lain sudah dihapus.** Dokumen ini dulu menyebut `sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`, dan skrip snapshot/screenshot. **Semuanya sudah tidak ada** — yang lama dihapus di commit `2035c86` ("drop the unused scripts"); `sync-hardcode-to-cms.mjs` dihapus 25/10. Sebutan di dokumen lain adalah catatan historis, bukan hal yang bisa dijalankan.
 
@@ -730,16 +730,18 @@ Skrip: `studio/scripts/backup-dataset.ps1` (ekspor + simpan lokal) dan
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -Keep 30
+powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -PurgeBefore "2026-10-19"
 ```
 
 - Mengekspor dataset `production` (dokumen **dan** aset — 28 dokumen + 103 aset, ±28,6 MB) ke `..\..\backups\sanity\` — **di luar repo**.
-- Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis.
-- Mencatat setiap hasil (OK/GAGAL) ke `backups\sanity\backup.log`.
+- Menulis ke `.partial` lalu rename hanya setelah export sukses; exit code `npx sanity` diperiksa.
+- Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis. `-PurgeBefore` menghapus arsip lebih lama dari tanggal tertentu (pakai hanya setelah verifikasi).
+- Mencatat setiap hasil (OK/GAGAL) + SHA-256 ke `backups\sanity\backup.log`.
 - Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
 
 **Dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10) — backup harian menyalin gambar yang sama 30 kali tanpa menambah keamanan, sementara teksnya hanya berubah beberapa kilobyte. Backup dilakukan saat pemilik memintanya, atau bersamaan dengan push kalau perubahannya menyentuh data.
 
-Perintahnya satu: `backup-and-upload.ps1` — ekspor, simpan 14 lokal, unggah yang terbaru ke Google Drive, simpan 7 di Drive. Drive dipakai lewat remote rclone `samsara-drive`, dikunci dengan `root_folder_id` ke satu folder saja sehingga tidak bisa menulis ke folder lain. Setelah mengunggah, skrip membandingkan ukuran berkas di Drive dengan yang lokal dan gagal kalau tidak sama persis.
+Perintahnya satu: `backup-and-upload.ps1` — ekspor, simpan 14 lokal, unggah yang terbaru ke Google Drive, simpan 7 di Drive. Drive dipakai lewat remote rclone `samsara-drive`, dikunci dengan `root_folder_id` ke satu folder saja sehingga tidak bisa menulis ke folder lain. Setelah mengunggah, skrip memverifikasi ukuran dan MD5 (bila didukung Drive); gagal kalau berbeda. Penghapusan arsip lama memakai Drive trash dan memeriksa exit code.
 
 ```powershell
 Get-ScheduledTask  -TaskName "Samsara - Sanity Backup"

@@ -272,7 +272,7 @@ Di repo website (`scripts/`):
 |---|---|---|
 | `should-build.mjs` | gate Vercel: exit 0 = skip build, exit 1 = build | baca git; dipanggil Vercel, bukan npm |
 | `smoke.mjs` | uji cepat 74 produksi / 75 preview; manual + harian CI | baca saja |
-| `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukurannya diverifikasi |
+| `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukuran + MD5 diverifikasi bila tersedia |
 
 > Lima skrip lain yang dulu tercatat di sini (`sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`) **sudah dihapus** di commit `2035c86`. `sync-hardcode-to-cms.mjs` **dihapus 25/10**.
 
