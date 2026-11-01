@@ -9,7 +9,7 @@
  */
 import { execFileSync } from "node:child_process";
 
-const base = process.env.VERCEL_GIT_PREVIOUS_SHA || "HEAD^";
+const base = process.env.VERCEL_GIT_PREVIOUS_SHA;
 
 const paths = [
   "src",
@@ -22,6 +22,7 @@ const paths = [
   "postcss.config.mjs",
   "jsconfig.json",
   "tsconfig.json",
+  ".nvmrc",
 ];
 
 function git(args) {
@@ -33,8 +34,9 @@ function git(args) {
   }
 }
 
-// A missing base (force push, shallow clone, first commit) must build, not fail.
-if (!git(["cat-file", "-e", `${base}^{commit}`])) process.exit(1);
+// A missing base (force push, shallow clone, first commit, or a Vercel run that
+// does not provide the previous SHA) must build, not fail or silently skip.
+if (!base || !git(["cat-file", "-e", `${base}^{commit}`])) process.exit(1);
 
 // `git diff --quiet` exits 1 when the paths differ; that means build.
 process.exit(git(["diff", "--quiet", base, "HEAD", "--", ...paths]) ? 0 : 1);
