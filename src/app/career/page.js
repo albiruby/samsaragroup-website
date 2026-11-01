@@ -1,4 +1,5 @@
 import { openGraphFor, siteUrl, SITE_URL } from "@/lib/site";
+import { headers } from "next/headers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -79,6 +80,7 @@ export default async function CareerPageRoute() {
     getCareers(),
     getBrandNav(),
   ]);
+  const nonce = (await headers()).get("x-nonce");
 
   const copy = {
     eyebrow: page?.eyebrow || DEFAULT.eyebrow,
@@ -114,6 +116,7 @@ export default async function CareerPageRoute() {
     <>
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: jsonLdHtml({
             "@context": "https://schema.org",

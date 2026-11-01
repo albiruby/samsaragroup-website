@@ -1,6 +1,7 @@
 import { getWorlds, getBrandNavConfig } from "./queries";
 import { sizedUrl } from "./image";
 import { BRAND_COPY, brandCopy } from "@/lib/brands-copy";
+import { isSafeSlug } from "@/lib/site";
 
 const DEFAULT_SEE_ALL = "See All Brands →";
 const DEFAULT_EMPTY = "Hover a brand";
@@ -84,7 +85,7 @@ function toBrand(world: NavWorld): NavBrand {
     slug,
     label: world.name ?? slug,
     speciality: world.speciality ?? "",
-    href: `/${slug}`,
+    href: isSafeSlug(slug) ? `/${slug}` : "/brands",
     logo: LEGACY_LOGO[slug] ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
     image: world.image ?? null,
   };
@@ -177,7 +178,7 @@ function toCard(world: NavWorld): BrandCard {
     // BRANDS dropdown cannot drift apart. The seeded copy keeps it honest when
     // the field is empty.
     disciplines: world.speciality || brandCopy(slug)?.disciplines || "",
-    href: `/${slug}`,
+    href: isSafeSlug(slug) ? `/${slug}` : "/brands",
     fallback: seed?.fallback ?? null,
     logo: legacyLogo ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
     image: world.image ?? null,
@@ -194,7 +195,10 @@ function toCard(world: NavWorld): BrandCard {
 export async function getBrandCards(): Promise<BrandCard[]> {
   try {
     const worlds = (await getWorlds()) as NavWorld[];
-    const cards = worlds.filter(isPublic).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)).map(toCard);
+    const cards = worlds
+      .filter((world) => isPublic(world) && isSafeSlug(slugOf(world)))
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map(toCard);
     if (cards.length) return cards;
   } catch (e) {
     console.error("getBrandCards falling back to seed:", (e as Error).message);
@@ -228,7 +232,7 @@ export async function getBrandNav(): Promise<BrandNav> {
   }
 
   const publicWorlds = worlds
-    .filter(isPublic)
+    .filter((world) => isPublic(world) && isSafeSlug(slugOf(world)))
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   if (!publicWorlds.length) return fallbackNav();

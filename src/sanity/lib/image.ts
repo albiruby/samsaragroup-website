@@ -15,3 +15,17 @@ export function urlFor(source) {
 export function sizedUrl(source, width: number) {
   return builder.image(source).auto("format").width(width).quality(70).url();
 }
+
+/**
+ * Returns a usable CDN URL, or null when the CMS has no image (or a malformed
+ * reference). Metadata generation must not throw just because a document is
+ * incomplete or Sanity is temporarily unreachable.
+ */
+export function ogImageUrl(source): string | null {
+  if (!source) return null;
+  try {
+    return builder.image(source).auto("format").url();
+  } catch {
+    return null;
+  }
+}

@@ -1,4 +1,4 @@
-import { openGraphFor, siteUrl } from "@/lib/site";
+import { openGraphFor, safeUrl, siteUrl } from "@/lib/site";
 import Link from "next/link";
 import { headers } from "next/headers";
 import Header from "@/components/Header";
@@ -83,7 +83,7 @@ url: siteUrl("/events"),
         ) : (
           <div className="space-y-8">
             {events.map((event) => {
-              const href = event.link || null;
+              const href = safeUrl(event.link);
               const isExternal = Boolean(href);
               const Wrapper = href ? Link : "div";
               const wrapperProps = href

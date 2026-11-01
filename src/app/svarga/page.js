@@ -11,7 +11,9 @@ import HeroCarousel from "@/components/HeroCarousel";
 import LeafletMap from "@/components/LeafletMap";
 import ZoomableImage from "@/components/ZoomableImage";
 import { getWorlds } from "@/sanity/lib/queries";
-import { sizedUrl, urlFor } from "@/sanity/lib/image";
+import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
+
+const DEFAULT_NOINDEX = false;
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
 
@@ -38,6 +40,8 @@ export async function generateMetadata() {
   try {
     const world = (await getWorlds()).find((w) => w.slug?.current === "svarga");
     seo = {
+      status: world?.status,
+      featured: world?.featured,
       title: world?.seoTitle,
       description: world?.seoDescription,
       image: world?.socialImage,
@@ -49,11 +53,17 @@ export async function generateMetadata() {
     seo = {};
   }
 
+  const hidden = seo.status && (seo.status !== "active" || seo.featured === false);
+  if (hidden) {
+    return { title: "Samsara Group", robots: { index: false, follow: false } };
+  }
+  const noIndex = seo.noIndex ?? DEFAULT_NOINDEX;
+
 const og = openGraphFor({
       path: "/svarga",
       title: seo.title,
       description: seo.description,
-      image: urlFor(seo.image || seo.card || null)?.url,
+      image: ogImageUrl(seo.image || seo.card),
       alt: seo.brandName,
     });
 
@@ -62,7 +72,7 @@ const og = openGraphFor({
     description: seo.description || "Cerita rasa sudah dimulai. Svarga terbuka untukmu. Javanese heritage restaurant with pendopo, prasmanan, and skydeck in the highlands of Sukabumi.",
     alternates: { canonical: "/svarga" },
     openGraph: og,
-    ...(seo.noIndex ? { robots: { index: false, follow: false } } : {}),
+    ...(noIndex ? { robots: { index: false, follow: false } } : {}),
   };
 }
 

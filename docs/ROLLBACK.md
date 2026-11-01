@@ -87,16 +87,26 @@ Target waktu: **< 10 menit** dari keputusan rollback.
 - **Seluruh dataset:** hanya dengan persetujuan pemilik. Backup dulu.
 
 ```powershell
-# HANYA dengan persetujuan. Backup production dulu.
-sanity datasets export production "$env:TEMP\pre-restore.tar.gz" --overwrite
-sanity datasets import "$env:TEMP\pre-restore.tar.gz" -d production --replace
+# HANYA dengan persetujuan. Pilih arsip yang diketahui baik, BUKAN hasil export
+# keadaan production yang sedang rusak. Ganti nama file sesuai arsip sebenarnya.
+$archive = "D:\Project Website Samsara Group\backups\sanity\production-2026-10-19_1418.tar.gz"
+Get-FileHash -LiteralPath $archive -Algorithm SHA256
+
+# Simpan keadaan sekarang ke path BARU; jangan menimpa arsip restore.
+$pre = "$env:TEMP\pre-restore-$(Get-Date -Format 'yyyyMMdd-HHmmss').tar.gz"
+sanity datasets export production $pre
+
+# Import arsip yang dipilih ke production.
+sanity datasets import $archive -d production --replace
 ```
 
 Peringatan:
 
 - `--replace` **tidak menghapus** dokumen yang tidak ada di arsip. Untuk restore snapshot bersih, target harus kosong (dataset baru atau delete-recreate) — jangan lakukan ke `production` tanpa izin.
+- File `$pre` adalah salinan keadaan **sekarang**, bukan sumber restore. Jangan pernah mengimpor `$pre` sebagai pengganti arsip yang dipilih.
 - Setelah restore: cocokkan counts (total, world, career, carousel, assets, singleton), cek satu URL gambar, lalu `npm run smoke`.
 - Arsip backup ada di `backups\sanity\` (14 terbaru) dan Google Drive (7 terbaru). Jangan commit arsip ke repo publik.
+- Arsip lama sebelum insiden data dapat dibersihkan dengan `backup-dataset.ps1 -PurgeBefore "2026-10-19"` **hanya setelah** memastikan arsip tersebut tidak diperlukan.
 
 ## 7. Template catatan insiden
 
