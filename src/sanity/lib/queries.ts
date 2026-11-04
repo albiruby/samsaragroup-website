@@ -225,7 +225,7 @@ export async function getWorldBySlug(slug: string) {
     );
     return doc ? hydrateWorld(doc as World) : null;
   } catch (e) {
-    console.error(`getWorldBySlug(${slug}) failed:`, e.message);
+    console.error("getWorldBySlug failed:", e.message);
     return null;
   }
 }

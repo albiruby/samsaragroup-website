@@ -6,6 +6,16 @@ Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten C
 > **Lokasi file:** `website\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
 > **Dokumen pendamping (semuanya di folder `docs\` ini):** `PEMELIHARAAN.md` (operasional ringkas), `Sanity CMS Tutorial.md` (panduan editor CMS), `Overall Codebase Security Audit.md` (audit keamanan), `Migrasi-Hostinger.md` (rencana migrasi — tidak dijalankan).
 
+> **Pembaruan 4 November 2026 - audit Run 3.** Yang berubah dari kode:
+> - Gate metadata dan gate badan halaman pada lima halaman brand statis disamakan.
+> - `images.remotePatterns` dihapus; tidak ada `next/image` di `src/`.
+> - `uptime.yml` memakai delimiter `GITHUB_OUTPUT` acak.
+> - Actions di ketiga workflow dipin ke commit SHA.
+> - Studio: Vision hanya di workspace staging, `autoUpdates: false`, URL skema dibatasi `https`.
+> - `backup-dataset.ps1 -PurgeBefore` membaca tanggal dari nama arsip, bukan `LastWriteTime`.
+> - Arsip `production-2026-10-18_1808.tar.gz` sudah dihapus; Drive hanya menyimpan arsip pasca-pembersihan.
+> - Sisa pekerjaan pemilik: ACL folder Drive, visibilitas dataset, dan client_id rclone sendiri (shared client_id rclone berhenti berfungsi selama 2026).
+
 ---
 
 ## Daftar isi
@@ -735,7 +745,7 @@ powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -PurgeBefore
 
 - Mengekspor dataset `production` (dokumen **dan** aset — 28 dokumen + 103 aset, ±28,6 MB) ke `..\..\backups\sanity\` — **di luar repo**.
 - Menulis ke `.partial` lalu rename hanya setelah export sukses; exit code `npx sanity` diperiksa.
-- Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis. `-PurgeBefore` menghapus arsip lebih lama dari tanggal tertentu (pakai hanya setelah verifikasi).
+- Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis. `-PurgeBefore` menghapus arsip yang **tanggal ekspornya** (dibaca dari nama file) lebih lama dari tanggal tertentu (pakai hanya setelah verifikasi). `LastWriteTime` tidak dipakai karena berubah saat file disalin atau dipulihkan.
 - Mencatat setiap hasil (OK/GAGAL) + SHA-256 ke `backups\sanity\backup.log`.
 - Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
 
@@ -861,7 +871,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 - `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
 - dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
 
-**Cadangan sebelum perubahan data:** arsip terbaru ada satu tingkat di atas repo `studio`, di folder `backups\sanity\` — dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. Yang tersimpan saat laporan ini ditulis termasuk satu snapshot **sebelum** seluruh perubahan konten 19 Oktober.
+**Cadangan sebelum perubahan data:** arsip terbaru ada satu tingkat di atas repo `studio`, di folder `backups\sanity\` - dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. **Per 4 November 2026** arsip pra-pembersihan `production-2026-10-18_1808.tar.gz` sudah dihapus; folder lokal dan Drive hanya berisi arsip pasca-pembersihan.
 
 ---
 

@@ -3,13 +3,9 @@ const isPreview = process.env.VERCEL_ENV === "preview";
 
 const nextConfig = {
   poweredByHeader: false,
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "cdn.sanity.io" },
-      { protocol: "https", hostname: "lh3.googleusercontent.com" },
-    ],
-  },
+  // No next/image usage anywhere in src/, so the optimizer has no legitimate
+  // remote host to serve. Leaving remotePatterns here would keep /_next/image
+  // open for anyone to proxy those hosts at our quota's expense.
   headers: async () => [
     ...(isPreview
       ? [
@@ -26,7 +22,7 @@ const nextConfig = {
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
       ],
     },
   ],

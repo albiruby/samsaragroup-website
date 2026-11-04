@@ -30,8 +30,10 @@ const OUTPACE_COORDS = { lat: -6.6002733, lng: 106.7950613 };
  */
 export async function generateMetadata() {
   let seo = {};
+  let hasWorld = false;
   try {
     const world = (await getWorlds()).find((w) => w.slug?.current === "outpace");
+    hasWorld = Boolean(world);
     seo = {
       status: world?.status,
       featured: world?.featured,
@@ -46,7 +48,11 @@ export async function generateMetadata() {
     seo = {};
   }
 
-  const hidden = seo.status && (seo.status !== "active" || seo.featured === false);
+  // A world document that exists but has no `status` is hidden by the page body
+  // (notFound), so the metadata has to agree. A missing document means the CMS
+  // could not be reached and the static fallback still renders, so it keeps the
+  // normal metadata.
+  const hidden = hasWorld && (seo.status !== "active" || seo.featured === false);
   if (hidden) {
     return { title: "Samsara Group", robots: { index: false, follow: false } };
   }

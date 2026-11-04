@@ -4,6 +4,14 @@
 **Produksi:** <https://samsaragroup.vercel.app>  
 **Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Sanity v6 · Vercel
 
+> **Pembaruan 4 November 2026 - audit Run 3.**
+> - Metadata dan badan halaman brand statis sekarang memakai gate yang sama, termasuk saat `status` kosong.
+> - `/_next/image` ditutup (`images.remotePatterns` dihapus) karena tidak ada pemakaian `next/image`.
+> - Actions GitHub dipin ke commit SHA; branch hardening lama sudah dihapus.
+> - Studio: Vision hanya di workspace staging, `autoUpdates` dimatikan, URL skema dibatasi `https`.
+> - Arsip pra-pembersihan 18 Oktober sudah dihapus dari disk lokal; Drive hanya berisi arsip pasca-pembersihan.
+> - Sisa pekerjaan pemilik: ACL folder Drive, status dataset publik, dan pembuatan client_id rclone sendiri.
+
 Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 
 - `DOCUMENTATIONS.md` — arsitektur, konten, deploy, script.
