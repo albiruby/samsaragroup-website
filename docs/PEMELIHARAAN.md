@@ -123,7 +123,7 @@ Field yang **dibaca** (paling relevan):
 
 ### `contactInfo`
 `whatsapp[]` (`label`, `city`, `display`, `phone`), `addresses[]` (`label`, `address`), `hours`.
-> `display` = yang ditampilkan; `phone` = yang benar-benar di-dial (`https://wa.me/<phone>`). **Keduanya harus konsisten.** Nomor Samsara = `+62 852-8127-1988` / `6285281271988`.
+> `display` = yang ditampilkan; `phone` = yang benar-benar di-dial (`https://wa.me/<phone>`). **Keduanya harus konsisten.** Nilai yang berlaku selalu dibaca dari Studio → **Contact Info**; jangan diduplikasi ke dokumen ini. Contoh format (bukan nomor asli): `+62 812-3456-7890` / `6281234567890`.
 
 ### `carouselImage`
 `placement` (`home` = marquee homepage), `title`, `image`, `alt`, `brand`, `order`, `active`.
@@ -182,7 +182,7 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 ## 8. Cookbook — tugas umum
 
 ### A. Ganti nomor WhatsApp (Samsara)
-1. Studio → **Contact Info** → ubah `display` **dan** `phone` (`display` boleh pakai `+` dan garis; `phone` hanya angka, mulai `62`). Contoh: `+62 852-8127-1988` / `6285281271988`.
+1. Studio → **Contact Info** → ubah `display` **dan** `phone` (`display` boleh pakai `+` dan garis; `phone` hanya angka, mulai `62`). Contoh format (bukan nomor asli): `+62 812-3456-7890` / `6281234567890` — nilai aslinya baca dari Studio.
 2. Kalau nomor itu juga muncul di halaman brand (mis. Samsara), ubah juga di kode: `src/app/samsara/page.js` (`SAMSARA_WHATSAPP` dan `SAMSARA_LINKS.reservation`), lalu push.
 > Nomor Samsara ada di 3 tempat: CMS `contactInfo`, `samsara/page.js` (display + link), dan fallback `contact/page.js`. Jaga tetap sinkron.
 

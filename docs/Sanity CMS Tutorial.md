@@ -838,19 +838,22 @@ Query GROQ bisa dibaca tanpa token apa pun. Yang bisa diambil orang lain:
 | Yang bisa di-scrape | Contoh |
 |---|---|
 | Nama brand | Acasa, Grove, Outpace, Samsara, Svarga |
-| Nomor WhatsApp | `6285281271988`, `628132148132` |
-| Alamat lengkap | Jl. Jalak Harupat No.19, Babakan, Bogor Tengah... |
+| Nomor WhatsApp | nomor brand yang tampil di `/contact` |
+| Alamat lengkap | alamat venue yang tampil di `/contact` |
 | Judul lowongan | Barista, Guest Experience Host |
 | URL aset gambar | `cdn.sanity.io/images/p5zu5azj/...` |
 | Link reservasi | `maps.app.goo.gl/...`, `linktr.ee/acasa.samsara` |
 
-Bukti:
+Nilai nomor dan alamat sengaja tidak ditulis di sini. Isinya sama dengan yang
+sudah tampil publik di situs, jadi menyalinnya ke dokumen hanya menambah satu
+daftar siap-pakai untuk spam.
 
-```bash
-# jalan tanpa token:
-curl "https://p5zu5azj.api.sanity.io/v2024-01-01/data/query/production?query={\"r\":*[_type==\"world\"][].name}"
-# → {"r":["Acasa","Grove","Outpace","Samsara","Svarga"]}
-```
+Cara memastikan: kirim satu permintaan GET tanpa header autentikasi apa pun ke
+endpoint query Content Lake (dokumentasi resmi **sanity.io → Content Lake →
+HTTP API**). Tanpa token, hasilnya persis daftar nama brand di atas. Perintah
+siap-salin tidak dicatat di dokumen publik ini — endpoint dan `projectId`
+memang bersifat publik, tetapi tidak ada gunanya menyimpan resep scrape di
+repo.
 
 Menutupnya butuh **Growth $15/seat/bulan** (private dataset). Free plan tidak
 mendukungnya sama sekali. **Write** tetap aman — mutation tanpa token ditolak

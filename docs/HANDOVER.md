@@ -28,6 +28,7 @@ Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 - Tidak ada backend, login, form, atau database sendiri. Kontak memakai WhatsApp dan Google Form.
 - Outpace & Grove saat ini **`noIndex`** (tidak masuk sitemap) karena kontennya belum lengkap.
 - Repo website dan studio **publik**; jangan pernah commit arsip Sanity, token, atau dokumen pribadi.
+- **Isi `docs/` ikut terbaca publik.** Jangan menaruh nomor atau alamat asli, nama orang, kredensial, atau perintah siap-salin (mis. contoh `curl`) di dalamnya. Rujuk ke Studio (**Contact Info**) atau dokumentasi resmi sebagai gantinya, dan pakai angka yang jelas palsu untuk contoh format. Berlaku juga untuk riwayat lama: rapikan saat dokumen itu disentuh.
 
 ---
 

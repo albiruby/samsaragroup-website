@@ -395,7 +395,7 @@ Grup: **Hero** (`eyebrow`, `title`, `intro`, `theme`), **Listings** (`showBrandS
 
 `whatsapp[]` (`label`, `city`, `display`, `phone`), `addresses[]` (`label`, `address`), `hours` (string).
 
-> **Penting:** `display` = nomor yang ditampilkan (boleh pakai `+` dan garis); `phone` = nomor untuk link `https://wa.me/<phone>`. `phone` divalidasi hanya digit (8–15 karakter, mulai `62`). **Keduanya harus konsisten.** Nomor Samsara: `+62 852-8127-1988` / `6285281271988`.
+> **Penting:** `display` = nomor yang ditampilkan (boleh pakai `+` dan garis); `phone` = nomor untuk link `https://wa.me/<phone>`. `phone` divalidasi hanya digit (8–15 karakter, mulai `62`). **Keduanya harus konsisten.** Nomor Samsara tidak dicatat di sini — baca nilainya dari Studio → **Contact Info** (contoh format: `+62 812-3456-7890` / `6281234567890`).
 
 ### 7.6 `carouselImage` — marquee homepage
 

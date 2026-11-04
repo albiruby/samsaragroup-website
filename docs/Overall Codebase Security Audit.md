@@ -3,7 +3,7 @@
 **Website:** `website` · **Source ref:** `f6d3df2` (branch `master`, worktree bersih)
 **CMS Studio:** `studio` · **Dataset:** `production`
 **Tanggal:** 10 Oktober 2026 · **Profil:** `standard` · **Metode skill:** `security-audit` (6 fase penuh)
-**Run metadata:** `C:\Users\ALBIREO\security-audit-skill\samsaragroup-website\run-1\`
+**Run metadata:** artefak run (laporan, `findings.json`, `run-metadata.json`) disimpan **di luar repo** di folder lokal pemilik — lokasi pastinya dicatat di catatan privat, bukan di repo publik ini.
 
 > **STATUS TINDAK LANJUT — 13 Oktober 2026.**
 > Laporan ini rekaman audit per 10 Oktober 2026 dan **isinya tidak diubah**. Yang sudah berubah sejak itu:
