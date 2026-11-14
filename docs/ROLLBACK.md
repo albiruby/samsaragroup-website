@@ -49,6 +49,13 @@ Vercel dapat mengubah label UI. Dua jalur yang valid:
 
 Jangan hapus deployment yang rusak; simpan sebagai bukti dan untuk perbandingan.
 
+> **Hasil uji 14 November 2026.** Rollback ke deployment lama berhasil (alias
+> produksi berpindah dan situs tetap 200), lalu dipulihkan ke deployment terbaru.
+> Satu hal yang terlihat: **deployment baru berikutnya tidak otomatis menggantikan
+> alias produksi** setelah rollback. Setelah push berikutnya, buka Vercel →
+> Deployments, pastikan alias `samsaragroup.vercel.app` menunjuk build terbaru, dan
+> **Promote to Production** bila masih menunjuk build lama.
+
 ## 4. Verifikasi setelah rollback
 
 ```powershell
@@ -63,7 +70,7 @@ Checklist:
 - [ ] `npm run smoke` → **74/74** (produksi).
 - [ ] `/` membalas **200**.
 - [ ] Header keamanan masih ada (`content-security-policy`, `strict-transport-security`, `x-frame-options`).
-- [ ] `/sitemap.xml` berisi semua URL publik (saat ini 9) dan semua hidup.
+- [ ] `/sitemap.xml` berisi semua URL publik (saat ini 11) dan semua hidup.
 - [ ] `/robots.txt` berisi `Allow: /` + `Sitemap:`.
 - [ ] Satu halaman brand (mis. `/svarga`) tampil normal.
 - [ ] Satu gambar dari halaman itu membalas 200.
@@ -76,7 +83,7 @@ Target waktu: **< 10 menit** dari keputusan rollback.
 2. Perbaiki penyebab di branch terpisah.
 3. Jalankan CI (`ci.yml`) sampai hijau.
 4. Deploy perbaikan, lalu `npm run smoke` lagi.
-5. Promote perbaikan ke production.
+5. Promote perbaikan ke production **dan pastikan alias `samsaragroup.vercel.app` benar-benar berpindah** — setelah rollback, deployment baru tidak otomatis dipromosikan (lihat catatan §3).
 6. Jangan force-push atau menulis ulang riwayat untuk “menghilangkan” commit yang rusak.
 
 ## 6. Rollback data CMS

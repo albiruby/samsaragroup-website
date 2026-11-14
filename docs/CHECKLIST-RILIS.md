@@ -35,7 +35,7 @@ Status per **14 November 2026**. Item yang sudah diverifikasi ditandai tanggal.
 | B9 | Tautan eksternal | ✅ 14/11 | 20/20 membalas 200 (kecuali form lamaran, lihat A4) |
 | B10 | Sitemap | ✅ 14/11 | 11 URL, semuanya 200 |
 | B11 | Backup pra-rilis | ✅ 14/11 | `production-2026-11-14_183859.tar.gz`, 28,7 MB, SHA-256 `a3db4c42…260c5`, 109 entri |
-| B12 | Uji rollback produksi | ✅ 14/11 | 6ba68da → d3a6589 → 6ba68da, alias terverifikasi, situs 200 sepanjang proses |
+| B12 | Uji rollback produksi | ✅ 14/11 | 6ba68da → d3a6589 → 6ba68da, alias terverifikasi, situs 200 sepanjang proses. Catatan: deployment setelah rollback perlu dipromosikan manual |
 | B13 | CI hijau | ✅ 14/11 | Lint, test, audit, build |
 
 ---
