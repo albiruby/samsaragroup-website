@@ -2,6 +2,7 @@ import { openGraphFor } from "@/lib/site";
 import { ogImageUrl } from "@/sanity/lib/image";
 import { getWorldBySlug } from "@/sanity/lib/queries";
 import { brandConfig } from "@/lib/brand-pages";
+import { isBrandHidden } from "@/lib/brand-visibility";
 
 /**
  * Reads one brand. A CMS outage returns null rather than throwing, so the page can
@@ -24,7 +25,8 @@ export async function brandMetadata(slug) {
   const world = await loadBrand(slug);
 
   // A document that exists but is not published must not advertise itself.
-  if (world && (world.status !== "active" || world.featured === false)) {
+  // Shares one predicate with the page body so the two gates cannot diverge.
+  if (isBrandHidden(world)) {
     return { title: "Samsara Group", robots: { index: false, follow: false } };
   }
 

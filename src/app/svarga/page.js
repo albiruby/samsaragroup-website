@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import BrandPageView from "@/components/BrandPageView";
 import { brandMetadata, loadBrand } from "@/lib/brand-page";
 import { BRAND_PAGES } from "@/lib/brand-pages";
+import { isBrandHidden } from "@/lib/brand-visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export async function generateMetadata() {
 export default async function SvargaPage() {
   const world = await loadBrand(KEY);
 
-  if (world && (world.status !== "active" || world.featured === false)) notFound();
+  if (isBrandHidden(world)) notFound();
 
   return <BrandPageView world={world} config={BRAND_PAGES[KEY]} />;
 }

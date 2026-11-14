@@ -38,6 +38,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Security regression tests
+        run: npm test
+
       - name: Audit production dependencies
         run: npm audit --omit=dev
 
