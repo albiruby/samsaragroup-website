@@ -74,6 +74,6 @@ Status per **14 November 2026**. Item yang sudah diverifikasi ditandai tanggal.
 | Domain sendiri | Alamat situs masih domain Vercel | Pemilik |
 | Privacy policy | Kebutuhan legal | Pemilik |
 | `/.well-known/security.txt` | Jalur pelaporan celah | Pemilik (butuh email) |
-| ACL folder Drive terverifikasi | N-02 audit | Pemilik |
+| ACL folder Drive terverifikasi | ~~N-02 audit~~ **Selesai 14/11** — folder backup `Restricted`, akses anonim ditolak, rclone tetap jalan | Pemilik |
 | `client_id` rclone sendiri | H-11, shared client akan berhenti | Pemilik |
 | Uji pencabutan aset CDN | N-01 audit | Butuh staging |
