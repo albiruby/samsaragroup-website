@@ -3,17 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import ZoomableImage from "@/components/ZoomableImage";
 
-const THUMB_HEIGHT = 64; // px — thumbnails share one height, widths follow source ratio
-const GRID_MAX = 4;
-const PAGER_MIN = 5;
-
-/** Preview images carry their own dimensions so thumbnails keep the source ratio. */
-function thumbBox(panel) {
-  const w = panel.width;
-  const h = panel.height;
-  if (!w || !h) return undefined;
-  return { aspectRatio: `${w} / ${h}`, height: THUMB_HEIGHT };
-}
+/**
+ * One page reads as a single image, two sit side by side, and three or more turn
+ * into a page turner. The strip of thumbnails was removed on purpose: the pager
+ * stays as simple as the one it replaced.
+ */
+const PAGER_MIN = 3;
 
 export default function MenuGallery({ panels = [], heading = "MENU" }) {
   const images = panels.filter((p) => p.src);
@@ -21,7 +16,7 @@ export default function MenuGallery({ panels = [], heading = "MENU" }) {
 
   const total = images.length;
   const paged = total >= PAGER_MIN;
-  const grid = total > 1 && !paged;
+  const grid = total === 2;
 
   const prev = useCallback(
     () => setCurrent((p) => Math.max(1, p - 1)),
@@ -53,11 +48,13 @@ export default function MenuGallery({ panels = [], heading = "MENU" }) {
             {heading}
           </h2>
         ) : null}
-        <ZoomableImage
-          src={images[0].src}
-          alt={images[0].alt || heading}
-          className="w-full h-auto"
-        />
+        <div className="w-full max-w-3xl">
+          <ZoomableImage
+            src={images[0].src}
+            alt={images[0].alt || heading}
+            className="w-full h-auto"
+          />
+        </div>
       </div>
     );
   }
@@ -129,32 +126,6 @@ export default function MenuGallery({ panels = [], heading = "MENU" }) {
         <span className="font-label text-body-sm tracking-[0.15em] text-on-surface-variant min-w-[80px] text-center">
           {current} / {total}
         </span>
-      </div>
-
-      <div className="w-full max-w-3xl overflow-x-auto scrollbar-none" data-cursor="DRAG">
-        <div className="flex w-max mx-auto items-end gap-2">
-          {images.map((panel, i) => (
-            <button
-              key={panel.key}
-              onClick={() => setCurrent(i + 1)}
-              style={thumbBox(panel)}
-              className={`shrink-0 border overflow-hidden transition-all ${
-                current === i + 1
-                  ? "border-terracotta ring-1 ring-terracotta opacity-100"
-                  : "border-outline-variant opacity-50 hover:opacity-80"
-              }`}
-              aria-label={`Go to page ${i + 1}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={panel.src}
-                alt={panel.tabLabel || `Page ${i + 1}`}
-                className="h-full w-full object-contain"
-                loading="lazy"
-              />
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );

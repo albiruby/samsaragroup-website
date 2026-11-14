@@ -114,6 +114,7 @@ const WORLD_PROJECTION = `{
   status,
   featured,
   address,
+  whatsapp,
   instagramUrl,
   theme,
   heroEyebrow,
