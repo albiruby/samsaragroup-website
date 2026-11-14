@@ -295,6 +295,7 @@ Sejak 14 November 2026 kelima brand memakai renderer yang sama (`BrandPageView`)
 | Kartu fitur | `sections[type=features]` | tidak dirender (hanya Outpace punya) |
 | Foto kolom kanan | `image` | file lokal per brand |
 | Tombol aksi | `ctas[]` + `instagramUrl` | `actions` di `brand-pages.js` |
+| Gambar preview sosial | `socialImage` | foto brand; dipotong 1200×630 JPEG oleh `ogImageUrl()` |
 | Menu | `sections[type=menu].menuPanels[]` | placeholder **Menu coming soon** untuk Grove & Outpace; brand lain tanpa menu → tidak dirender |
 | Peta FIND US | `sections[type=map].mapLat/mapLng/mapZoom` | `coords` di `brand-pages.js` |
 | Alamat | `address` | `brand-pages.js`; baris disembunyikan kalau tetap kosong |
@@ -540,7 +541,7 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
 **Carousel brand (24/10):** hanya slide aktif + berikutnya yang dirender; setiap gambar memakai `srcSet` 480–1600 + `sizes="100vw"`. Auto-advance 8 detik agar tidak memicu kandidat LCP baru pada 4 detik. Jangan mengembalikan render semua slide.
 
-**Yang TIDAK boleh diubah:** gambar SEO/OpenGraph (`seo.image`, `socialImage`) tetap lewat `urlFor` — crawler sosial butuh berkas penuh.
+**Gambar SEO/OpenGraph** memakai `ogImageUrl()`, bukan `urlFor()`: dipotong ke **1200×630** dan dipaksa **JPEG**. Crawler sosial tidak merender WebP, jadi `ogImages()` akan mengganti URL WebP dengan gambar bawaan — karena itu formatnya harus JPEG.
 
 Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
 

@@ -205,3 +205,4 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
 - [ ] `npm run smoke` 74/74.
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
+- [ ] Baca `CHECKLIST-RILIS.md` (kesiapan rilis) dan `LEMBAR-ISIAN-KLIEN.md` (materi yang masih kurang).
