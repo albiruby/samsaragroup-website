@@ -35,9 +35,13 @@ const DEFAULT_OG_IMAGE = {
 export function ogImages(image, alt = "Samsara Group") {
   const url = safeUrl(image);
   if (!url) return [{ ...DEFAULT_OG_IMAGE, url: siteUrl(DEFAULT_OG_IMAGE.url) }];
-  // Sanity serves WebP when the browser asks for it, but social crawlers
-  // request og:image without an Accept header for images and cannot render it.
-  if (/\.webp($|\?)/i.test(url)) return [{ ...DEFAULT_OG_IMAGE, url: siteUrl(DEFAULT_OG_IMAGE.url) }];
+  // Sanity keeps `.webp` in the path even when it re-encodes to JPEG; the
+  // requested format lives in `fm=`. Reject only URLs that will really be
+  // served as WebP, because social crawlers cannot render it.
+  const requestedJpeg = /[?&]fm=(jpe?g|png)(&|$)/i.test(url);
+  if (/\.webp($|\?)/i.test(url) && !requestedJpeg) {
+    return [{ ...DEFAULT_OG_IMAGE, url: siteUrl(DEFAULT_OG_IMAGE.url) }];
+  }
   return [{ url, width: 1200, height: 630, alt }];
 }
 

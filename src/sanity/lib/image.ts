@@ -17,14 +17,24 @@ export function sizedUrl(source, width: number) {
 }
 
 /**
- * Returns a usable CDN URL, or null when the CMS has no image (or a malformed
- * reference). Metadata generation must not throw just because a document is
- * incomplete or Sanity is temporarily unreachable.
+ * Returns a crawler-friendly Open Graph URL, or null when the CMS has no image
+ * (or a malformed reference). Metadata generation must not throw just because a
+ * document is incomplete or Sanity is temporarily unreachable.
+ *
+ * Cropped to 1200x630 and forced to JPEG: social crawlers do not render WebP,
+ * and `ogImages()` deliberately falls back to the default when the URL is WebP.
  */
 export function ogImageUrl(source): string | null {
   if (!source) return null;
   try {
-    return builder.image(source).auto("format").url();
+    return builder
+      .image(source)
+      .width(1200)
+      .height(630)
+      .fit("crop")
+      .format("jpg")
+      .quality(80)
+      .url();
   } catch {
     return null;
   }
