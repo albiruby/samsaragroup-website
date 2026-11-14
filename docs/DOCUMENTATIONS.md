@@ -673,7 +673,7 @@ Tiga workflow di `.github/workflows/`:
 
 | Workflow | Jadwal | Isi |
 |---|---|---|
-| `ci.yml` | setiap push ke `master` + pull request | `npm ci`, `npm run lint`, `npm audit --omit=dev`, `npm run build` |
+| `ci.yml` | setiap push ke `master` + pull request | `npm ci`, `npm run lint`, `npm test`, `npm audit --omit=dev`, `npm run build` |
 | `smoke.yml` | harian 08:00 WIB + manual | `npm run smoke` ke produksi; gagal → issue |
 | `uptime.yml` | tiap 15 menit | membaca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue |
 
@@ -839,7 +839,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
 7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
-8. **CI sudah ada; unit/integration test belum.** `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
+8. **CI sudah ada; unit test menyusul per kasus.** `ci.yml` menjalankan lint, `npm test`, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. Saat ini satu suite regresi keamanan berjalan (`scripts/brand-visibility.test.mjs`, mengunci gate publikasi brand — audit F-01). **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10; diperbarui 25/10** — folder `scripts/` website kini hanya berisi `smoke.mjs` + `should-build.mjs`; studio berisi `backup-dataset.ps1` + `backup-and-upload.ps1`. `sync-hardcode-to-cms.mjs` dihapus 25/10.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
@@ -982,13 +982,13 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 
 | Hal | Dampak kalau dibiarkan |
 |---|---|
-| ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit/integration test masih nol; regresi dasar sudah tertangkap otomatis |
+| ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/test/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit test menyusul per kasus; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
 | ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — WebP di-re-encode (max 1600 px; terbesar 427 KB), preloader dihapus, `HeroCarousel` hanya memuat current+next dengan `srcSet`, gambar bawah fold `lazy`. Lighthouse `/svarga` mobile: **35 → 96**, LCP **10,4 → 2,8 s** | — |
 | ~~**Prosedur rollback** belum ditulis & belum pernah diuji~~ **Runbook ditulis 24/10** — `docs/ROLLBACK.md`; **belum diuji** di production | tombolnya ada di Vercel; uji pertama harus dijadwalkan |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | ~~**Lima halaman brand hand-tuned** menyimpan layout di kode~~ **Selesai 14/11** — kelimanya memakai `BrandPageView` dengan data CMS | menambah brand tetap lewat template `[slug]`; brand mapan memakai layout dua kolom |
-| **Belum ada unit/integration test** | logika bisnis nyaris tidak ada, jadi risikonya kecil — tapi tetap nol |
+| ~~**Belum ada unit/integration test**~~ **Sebagian selesai 14/11** — `scripts/brand-visibility.test.mjs` mengunci gate publikasi brand (audit F-01) dan berjalan di CI | suite lain tetap nol; logika bisnis nyaris tidak ada |
 
 ### D. Yang **DISENGAJA** seperti ini — jangan "diperbaiki"
 

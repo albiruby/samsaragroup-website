@@ -292,7 +292,7 @@ Di repo website (`scripts/`):
 | remote rclone `samsara-drive` | tujuan unggahan, dikunci `root_folder_id` ke satu folder Drive saja | `%APPDATA%\rclone\rclone.conf` |
 
 > **Catatan 4 November 2026.** `root_folder_id` sudah benar (satu folder khusus), tetapi OAuth token rclone memakai `scope = drive` (akses seluruh Drive, bukan hanya folder itu). Kalau token bocor, cakupannya lebih luas dari yang dibutuhkan. Buat OAuth client sendiri dengan scope `drive.file` saat memperbarui config. Arsip pra-pembersihan 18 Oktober sudah dihapus; folder lokal dan Drive kini hanya berisi arsip pasca-pembersihan.
-| `.github/workflows/ci.yml` | setiap push/PR: `npm ci`, lint, audit produksi, build | repo website |
+| `.github/workflows/ci.yml` | setiap push/PR: `npm ci`, lint, `npm test`, audit produksi, build | repo website |
 | `.github/workflows/smoke.yml` | harian 08:00 WIB: `npm run smoke`; gagal → issue (email), pulih → issue ditutup | repo website |
 | `.github/workflows/uptime.yml` | tiap **15 menit** baca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue (email), pulih → issue ditutup | repo website |
 

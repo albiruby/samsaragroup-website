@@ -64,7 +64,7 @@ Semua lewat **Studio → Brands & Brand Pages — World → pilih brand**. Tidak
 |---|---|---|
 | Build & deploy | Vercel | Setiap push ke `master` |
 | Gate build | `website/scripts/should-build.mjs` | Saat Vercel build |
-| CI: `npm ci`, lint, audit produksi, build | GitHub Actions `ci.yml` | Push + pull request |
+| CI: `npm ci`, lint, test, audit produksi, build | GitHub Actions `ci.yml` | Push + pull request |
 | Smoke test 74 cek | GitHub Actions `smoke.yml` | Harian 08:00 WIB + manual |
 | Uptime 200 + sitemap | GitHub Actions `uptime.yml` | Tiap 15 menit |
 | Alert | Issue GitHub → email pemilik repo | Saat smoke/uptime gagal |
@@ -188,7 +188,7 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.
 - Backup manual, tidak terjadwal.
 - ~~Token Sanity lama belum dicabut.~~ **Selesai 25/10** — ketiga token project dihapus; `sanity tokens list` = 0.
-- Unit/integration test belum ada. `typecheck` sudah jalan untuk Studio (CI), website hanya lint + build.
+- Satu suite regresi keamanan ada (`scripts/brand-visibility.test.mjs`); unit/integration test lain belum. `typecheck` jalan untuk Studio (CI), website hanya lint + build + test.
 
 ---
 
