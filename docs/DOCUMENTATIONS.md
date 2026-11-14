@@ -519,6 +519,7 @@ Next.js versi ini memakai konvensi **`proxy.js`** untuk interceptor request. Fil
 ### 9.3 Aturan menulis kode aman
 
 - **Jangan pernah** menaruh `SANITY_API_TOKEN` di mana pun di `src/` — tidak ada kode situs yang membutuhkannya, dan apa pun di bundel browser akan terekspos. Klien Sanity berjalan server-side saja.
+- **Dataset `production` dan `staging` bersifat publik — keputusan 14/11.** Siapa pun yang tahu `projectId` + nama dataset bisa membaca seluruh dokumen lewat API, **termasuk draft**. Karena itu: jangan unggah dokumen pribadi, dan jangan menganggap `status: draft` sebagai kontrol kerahasiaan. `status`/`noIndex` hanya menyembunyikan dari tampilan, bukan dari API.
 - JSON-LD **selalu** lewat `jsonLdHtml()` (meng-escape `<`, `>`, U+2028/9).
 - URL absolut dari CMS disaring `safeUrl()` (hanya `http:`/`https:`); path internal (`/...`) dicek agar tidak diawali `//`. Sejak 23/10 ini juga berlaku untuk `home.aboutCtaHref`.
 - `images.remotePatterns` di `next.config.mjs` saat ini **inert** — kode memakai `<img>` biasa, bukan `next/image`.
