@@ -12,6 +12,13 @@
 > - Arsip pra-pembersihan 18 Oktober sudah dihapus dari disk lokal; Drive hanya berisi arsip pasca-pembersihan.
 > - Sisa pekerjaan pemilik: ACL folder Drive, status dataset publik, dan pembuatan client_id rclone sendiri.
 
+> **Pembaruan 14 November 2026 — penyeragaman jalur edit brand.**
+> - Kelima halaman brand kini memakai satu renderer (`BrandPageView`) dan membaca **seluruh** isinya dari CMS: logo, tagline, intro, judul tabel, menu, koordinat peta, alamat, dan nomor WhatsApp.
+> - Menu dipindah dari file lokal ke `sections[type=menu].menuPanels[]` (Samsara 36 halaman, Acasa 2, Svarga 1).
+> - Field baru `world.whatsapp` (schema + Studio sudah di-deploy).
+> - Grove & Outpace **tidak lagi `noIndex`** dan sudah masuk sitemap (11 URL); kontennya tetap belum lengkap.
+> - Menu Grove & Outpace menampilkan placeholder "Menu coming soon" sampai panelnya diisi.
+
 Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 
 - `DOCUMENTATIONS.md` — arsitektur, konten, deploy, script.
@@ -26,9 +33,28 @@ Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 - Website profil lima brand: **Samsara, Svarga, Acasa, Outpace, Grove**.
 - CMS Sanity adalah **sumber kebenaran** untuk konten. Tidak ada sinkronisasi kode → CMS.
 - Tidak ada backend, login, form, atau database sendiri. Kontak memakai WhatsApp dan Google Form.
-- Outpace & Grove saat ini **`noIndex`** (tidak masuk sitemap) karena kontennya belum lengkap.
+- Outpace & Grove **sudah terindeks** (sejak 14/11) meskipun kontennya belum lengkap: menu masih placeholder, alamat/logo/jam menyusul.
 - Repo website dan studio **publik**; jangan pernah commit arsip Sanity, token, atau dokumen pribadi.
 - **Isi `docs/` ikut terbaca publik.** Jangan menaruh nomor atau alamat asli, nama orang, kredensial, atau perintah siap-salin (mis. contoh `curl`) di dalamnya. Rujuk ke Studio (**Contact Info**) atau dokumentasi resmi sebagai gantinya, dan pakai angka yang jelas palsu untuk contoh format. Berlaku juga untuk riwayat lama: rapikan saat dokumen itu disentuh.
+
+---
+
+## 1a. Di mana mengubah apa — halaman brand
+
+Semua lewat **Studio → Brands & Brand Pages — World → pilih brand**. Tidak ada lagi teks brand yang perlu diubah di kode.
+
+| Yang ingin diubah | Field |
+|---|---|
+| Logo besar di atas | **Logo** |
+| Kalimat di bawah logo | **Tagline** |
+| Paragraf pembuka | tab **4 - Sections** → section **Text** → Body |
+| Judul + isi tabel | section **Specs** → Heading + Specifications |
+| Menu | section **Menu** → panel (1 panel = 1 halaman) |
+| Peta | section **Map** → Latitude / Longitude / Zoom |
+| Alamat & jam buka | tab **6 - Location & Map** |
+| Nomor WhatsApp | tab **7 - Contact & Links** → WhatsApp Number |
+| Tombol | tab **7 - Contact & Links** → Action Buttons |
+| Foto utama & galeri | **Image** dan **Gallery** |
 
 ---
 
@@ -87,7 +113,7 @@ Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password ma
 2. Pindahkan billing Vercel/Sanity dan perpanjangan domain.
 3. Ganti penerima notifikasi issue GitHub ke email pemilik baru.
 4. Tentukan siapa yang menjalankan backup; lakukan satu backup + restore drill.
-5. Token Sanity: **sudah dihapus semua pada 25/10** (`sanity tokens list` = 0). Buat token baru hanya jika benar-benar diperlukan.
+5. Token Sanity: **tidak ada token permanen** sampai 14/11. Saat itu satu token Editor dibuat untuk migrasi konten (field `whatsapp`, section map Grove/Outpace, aset logo). Token itu tidak dipakai website — website membaca dataset publik tanpa token. **Cabut atau rotasi sebelum/saat serah terima**, lalu buat baru hanya bila diperlukan.
 6. Verifikasi: push perubahan kecil → CI hijau → Vercel deploy → `npm run smoke` 74/74.
 7. Kalau pindah domain: ubah `NEXT_PUBLIC_SITE_URL`, default URL di `scripts/smoke.mjs`, dan `BASE` di `uptime.yml`.
 8. Baca `ROLLBACK.md`; jadwalkan uji rollback pertama.
@@ -154,13 +180,15 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 
 - Domain masih `samsaragroup.vercel.app`; domain sendiri belum ada.
 - Privacy policy/halaman legal belum dibuat.
-- Outpace & Grove belum lengkap; sementara `noIndex`.
+- Outpace & Grove terindeks, tetapi belum lengkap: menu placeholder, alamat/logo/jam belum ada.
+- Kelima brand belum punya jam buka; `world.hours` masih kosong.
+- `/about` masih 100% hardcoded; Career masih 6 lowongan dummy; Events masih 0 dokumen.
 - Staging **publik**; jangan unggah dokumen pribadi.
 - Rollback runbook ada, tetapi belum diuji.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.
 - Backup manual, tidak terjadwal.
 - ~~Token Sanity lama belum dicabut.~~ **Selesai 25/10** — ketiga token project dihapus; `sanity tokens list` = 0.
-- Belum ada unit/integration test dan `typecheck`.
+- Unit/integration test belum ada. `typecheck` sudah jalan untuk Studio (CI), website hanya lint + build.
 
 ---
 

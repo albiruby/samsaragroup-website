@@ -1,7 +1,7 @@
 # Panduan Pemeliharaan — Samsara Group
 
 Dokumen ini untuk siapa pun yang mengubah konten, kode, atau CMS website Samsara Group.
-Ditulis berdasarkan kondisi repo per commit `5054108` (website) dan `788a84b` (Studio). Untuk gambaran arsitektur yang lengkap, lihat `DOCUMENTATIONS.md` — dokumen ini fokus ke operasional sehari-hari.
+Ditulis berdasarkan kondisi repo per **14 November 2026**. Untuk gambaran arsitektur yang lengkap, lihat `DOCUMENTATIONS.md` — dokumen ini fokus ke operasional sehari-hari.
 
 Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode website.
 
@@ -9,9 +9,9 @@ Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode w
 
 ## 0. TL;DR — aturan yang paling sering bikin bingung
 
-1. **Dua lapis konten.** Sebagian konten datang dari **Sanity CMS** (bisa diubah tanpa deploy); sebagian **hardcoded di kode** (butuh ubah kode + push).
-2. **CMS menang hanya kalau ada isinya.** Pola kode selalu `nilaiCMS || "teks lama"`. Mengosongkan field di CMS akan memunculkan kembali teks hardcoded, bukan menghilangkannya.
-3. **Kelima halaman brand adalah halaman khusus (hand-tuned), bukan template CMS.** Banyak bagiannya (hero, menu, peta, foto) **tidak** membaca CMS. Menambah brand baru lewat CMS memakai template lain (`[slug]`).
+1. **Dua lapis konten, tetapi halaman brand kini sepenuhnya CMS.** Konten brand (logo, tagline, intro, menu, peta, alamat, WhatsApp) diubah dari Studio. Teks cadangan hanya dipakai kalau CMS mati.
+2. **CMS menang hanya kalau ada isinya.** Pola kode selalu `nilaiCMS || "teks lama"`. Mengosongkan field di CMS akan memunculkan kembali teks cadangan, bukan menghilangkannya.
+3. **Kelima halaman brand memakai satu renderer (`BrandPageView`)**, dengan layout dua kolom. Brand baru tetap memakai template `[slug]` (layout bertumpuk).
 4. **Perubahan konten CMS muncul ~1 menit** (`revalidate: 60`). **Perubahan kode** butuh push → Vercel deploy (~1–3 menit).
 5. **Mengubah field/schema di Studio butuh `sanity deploy`.** Mengubah isi dokumen tidak.
 
@@ -86,11 +86,10 @@ Di dokumen `world`:
   - `true` → masuk `/brands`, dropdown nav, sitemap.
   - `false` → halaman `/<slug>` mengembalikan **404** — brand hilang total.
 
-**JEBAKAN PENTING.** Aturan `featured: false → 404` **hanya berlaku di template `[slug]`**. Kelima halaman hand-tuned (`samsara`, `svarga`, `acasa`, `outpace`, `grove`) **tidak** memeriksa `status` maupun `featured`. Jadi:
-- Brand yang di-`archived`/`featured: false` masih tampil penuh di halaman hand-tuned-nya.
-- Ia menghilang dari `/brands`, dropdown nav, footer, dan sitemap — tapi URL-nya tetap melayani konten.
+**Tidak ada lagi jebakan di sini.** Gate `status`/`featured` berlaku di template `[slug]` dan di kelima halaman brand mapan; sejak 14/11 keduanya memakai jalur yang sama (`BrandPageView`). Jadi brand yang di-`archived` atau `featured: false`:
 
-Ini utang teknis yang belum diperbaiki (lihat §13).
+- menghilang dari `/brands`, dropdown nav, footer, dan sitemap;
+- URL-nya juga berhenti melayani halaman (404).
 
 ---
 
@@ -100,17 +99,18 @@ Ringkas. "Dibaca web" = kode website benar-benar memakai field itu.
 
 ### `world` — satu dokumen per brand
 Field yang **dibaca** (paling relevan):
-- `name`, `slug`, `tagline`, `description`, `image`, `gallery`
+- `name`, `slug`, `tagline`, `description`, `image`, `gallery`, `logo`
 - `specifications` (tabel label/value)
-- `sections` (blok konten: text / specs / features / menu / map) — **hanya** dibaca oleh template `[slug]` dan (untuk peta) Samsara
+- `sections` (blok konten: text / specs / features / menu / map) — dibaca kelima halaman brand **dan** template `[slug]`
 - `ctas[]` (`kind`, `label`, `url`) — tombol aksi
 - `instagramUrl` — tombol Instagram
+- `whatsapp` — nomor yang ditampilkan di blok FIND US halaman brand
 - `address`, `heroEyebrow`, `heroTitle`, `heroIntro`, `menuHeading`
-- `logo`, `speciality`, `order`, `status`, `featured`, `theme`, `noIndex`
+- `speciality`, `order`, `status`, `featured`, `theme`, `noIndex`
 - `seoTitle`, `seoDescription`, `socialImage`
 - `hours` — baris `{label, value}` **per kategori** (mis. `Weekdays` / `Weekend`), bukan per hari. Dirender `BrandHours` di blok FIND US kelima halaman brand, dan di section peta `[slug]`. Kosong = blok jam tidak muncul sama sekali.
 - `categories` — **tidak dibaca di mana pun** (warisan; sekarang didefinisikan di schema agar tidak error)
-- `menuPanels` — hanya di dalam `sections[]`; versi standalone sudah dihapus 18/10
+- `menuPanels` — hanya di dalam `sections[]`; satu panel = satu halaman menu
 
 ### `career`
 `title`, `slug`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini).
@@ -156,23 +156,25 @@ Field yang **dibaca** (paling relevan):
 - `contactInfo` (whatsapp, alamat, jam) + fallback hardcoded.
 
 ### Halaman brand (Samsara / Svarga / Acasa / Outpace / Grove)
-Hand-tuned. Ringkasan sumber tiap bagian:
+Semua memakai `BrandPageView`. Sumber tiap bagian:
 
-| Bagian | Samsara | Svarga | Acasa | Outpace | Grove |
-|---|---|---|---|---|---|
-| Eyebrow hero | `heroEyebrow` CMS | idem | idem | idem | idem |
-| Judul hero | logo gambar hardcoded | logo gambar hardcoded | logo gambar hardcoded | teks hardcoded | teks hardcoded |
-| Paragraf hero | `tagline` CMS | `tagline` CMS | `tagline` CMS | hardcoded | hardcoded |
-| Hero carousel | `gallery` CMS (fallback 12 lokal) | `gallery` CMS | `gallery` CMS | `gallery` CMS | `gallery` CMS |
-| Deskripsi + tabel spesifikasi | `description` + `specifications` CMS | idem | idem | idem | idem |
-| Tombol aksi | `ctas` + `instagramUrl` CMS | idem | **hardcoded** padel/receptionist/roomrate + `instagramUrl` | (tidak ada) | (tidak ada) |
-| Foto kolom kanan | `image` CMS | `image` CMS | **hardcoded** `open-hour-acasa.webp` | `image` CMS | `image` CMS |
-| Menu | `<MenuSection />` hardcoded | gambar hardcoded | 2 gambar hardcoded | (tidak ada) | (tidak ada) |
-| Peta FIND US | `sections` map CMS + fallback | koordinat hardcoded | koordinat hardcoded | koordinat hardcoded | koordinat hardcoded |
-| Teks FIND US | `address` CMS + tagline/WA hardcoded | `address` CMS | `address` CMS | (tidak ada) | (tidak ada) |
-| Jam buka | `hours` CMS | `hours` CMS | `hours` CMS | `hours` CMS | `hours` CMS |
+| Bagian | Sumber | Kalau CMS kosong |
+|---|---|---|
+| Eyebrow hero | `heroEyebrow` | `BRANDS` |
+| Judul hero | `logo` | file lokal (Samsara/Svarga/Acasa) atau nama sebagai teks (Grove/Outpace) |
+| Paragraf hero | `tagline` | cadangan `src/lib/brand-pages.js` |
+| Hero carousel | `gallery[]` | 4 foto lokal per brand |
+| Paragraf pembuka | `sections[type=text].body` | cadangan `brand-pages.js` |
+| Judul + isi tabel | `sections[type=specs]` (heading + specifications) | `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS` |
+| Kartu fitur | `sections[type=features]` | tidak dirender (hanya Outpace) |
+| Foto kolom kanan | `image` | file lokal |
+| Tombol aksi | `ctas` + `instagramUrl` | `actions` di `brand-pages.js` (Acasa: padel/receptionist/roomrate) |
+| Menu | `sections[type=menu].menuPanels[]` | placeholder "Menu coming soon" untuk Grove/Outpace |
+| Peta FIND US | `sections[type=map]` | `coords` di `brand-pages.js` |
+| Teks FIND US | `address` + `whatsapp` + `tagline` | baris disembunyikan kalau kosong |
+| Jam buka | `hours` | blok tidak dirender |
 
-Label tabel spesifikasi sengaja berbeda per brand: AT A GLANCE / GOOD TO KNOW / OFFERINGS / SPECIFICATIONS.
+Menu: **1** panel = gambar tunggal di tengah, **2** panel = kiri–kanan, **3+** = page turner.
 
 ### Template `[slug]` (brand baru)
 Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`, `mapLat/Lng/Zoom`, `address`, `instagramUrl`, `theme`, `noIndex`. Ini yang membuat brand baru otomatis punya halaman.
@@ -181,14 +183,14 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 
 ## 8. Cookbook — tugas umum
 
-### A. Ganti nomor WhatsApp (Samsara)
-1. Studio → **Contact Info** → ubah `display` **dan** `phone` (`display` boleh pakai `+` dan garis; `phone` hanya angka, mulai `62`). Contoh format (bukan nomor asli): `+62 812-3456-7890` / `6281234567890` — nilai aslinya baca dari Studio.
-2. Kalau nomor itu juga muncul di halaman brand (mis. Samsara), ubah juga di kode: `src/app/samsara/page.js` (`SAMSARA_WHATSAPP` dan `SAMSARA_LINKS.reservation`), lalu push.
-> Nomor Samsara ada di 3 tempat: CMS `contactInfo`, `samsara/page.js` (display + link), dan fallback `contact/page.js`. Jaga tetap sinkron.
+### A. Ganti nomor WhatsApp
+1. **Halaman Contact** → Studio → **Contact Info** → ubah `display` dan `phone` (`display` boleh pakai `+` dan garis; `phone` hanya angka, mulai `62`). Contoh format (bukan nomor asli): `+62 812-3456-7890` / `6281234567890`.
+2. **Halaman brand** → dokumen brand → tab **7 - Contact & Links** → **WhatsApp Number**.
+> Dua tempat: `contactInfo` untuk halaman Contact, `world.whatsapp` untuk blok FIND US. Tidak ada nomor di kode.
 
 ### B. Ubah alamat
-- Studio → **Contact Info** → `addresses[]`.
-- Halaman brand: `world.address` (Samsara/Svarga/Acasa). Outpace/Grove tidak punya blok alamat.
+- Studio → **Contact Info** → `addresses[]` untuk halaman Contact.
+- Halaman brand: `world.address`. Kosong → baris alamat tidak ditampilkan.
 
 ### C. Tambah / ubah event
 - Studio → **Events** → dokumen `event`. Muncul di `/events` dalam ~1 menit.
@@ -202,19 +204,22 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 ### E. Ubah teks halaman About / Vision / Philosophy
 - **Hardcoded** di `src/app/about/page.js`. Ubah kode → push.
 
-### F. Ganti gambar hero Samsara
-- **Studio** → **Brands & Brand Pages — World** → dokumen **Samsara** → field **Gallery**. Urutan gambar mengikuti urutan di Studio.
-- Halaman memakai galeri CMS selama tidak kosong. Kalau kosong atau CMS tidak bisa dihubungi, halaman jatuh ke 12 gambar lokal di `public/ASSETS-SAMSARA/ambience/` (array fallback di `src/app/samsara/page.js`); mengubah fallback itu butuh kode + push.
+### F. Ganti gambar hero brand
+- **Studio** → **Brands & Brand Pages — World** → dokumen brand → field **Gallery**. Urutan gambar mengikuti urutan di Studio.
+- Kalau galeri kosong atau CMS tidak bisa dihubungi, halaman jatuh ke foto lokal yang terdaftar di `src/lib/brand-pages.js`.
 
-### G. Ganti menu Svarga / Acasa
-- **Hardcoded**: `/ASSETS-SVARGA/menusvarga.webp` dan `/ASSETS-ACASA/acasamenufood.webp` + `acasamenubeverages.webp`. Ganti file gambar (nama sama) atau ubah path di kode, lalu push.
+### G. Ganti menu brand
+- Studio → dokumen brand → tab **4 - Sections** → section **Menu** → tambah/ganti panel.
+- Satu panel = satu halaman. 1 halaman tampil tunggal, 2 kiri–kanan, 3+ jadi page turner.
+- Grove & Outpace belum punya panel; selama kosong halaman menampilkan placeholder "Menu coming soon".
 
-### H. Ubah foto samping Acasa (jam buka)
-- File: `public/ASSETS-ACASA/open-hour-acasa.webp`. Ganti gambarnya (rasio ideal 4:5), lalu push. Path direferensikan di `src/app/acasa/page.js`.
+### H. Ubah foto kolom kanan brand
+- Studio → dokumen brand → field **Image** (rasio ideal 4:5).
+- Dulu Acasa memakai file lokal `open-hour-acasa.webp`; sekarang kelimanya lewat CMS dan berkas itu hanya disimpan sebagai aset sumber.
 
 ### I. Ganti koordinat peta
-- **Hardcoded** per halaman: `COORDS` di `samsara/page.js`, `SVARGA_COORDS`, `ACASA_COORDS`, `OUTPACE_COORDS`, `GROVE_COORDS`. Ubah kode, push.
-- Samsara bisa lewat CMS: `world.sections[]` dengan `type: "map"` (`mapLat`, `mapLng`, `mapZoom`).
+- Studio → dokumen brand → tab **4 - Sections** → section **Map** → `mapLat`, `mapLng`, `mapZoom`.
+- Kelima brand sudah punya section ini; tidak ada lagi koordinat di kode.
 
 ### J. Ubah pengelompokan dropdown BRANDS
 - Studio → **BRANDS Dropdown** (`brandNav`). Kosongkan `title` untuk memakai tagline brand pertama di baris itu.
@@ -346,10 +351,10 @@ File `.env.local` di repo website (tidak ter-commit):
 
 ## 13. Masalah yang diketahui / utang teknis
 
-1. **Halaman hand-tuned tidak menegakkan `status`/`featured`.** Brand yang di-archive masih tampil di `/<brand>`. (Lihat §5.)
-2. **Kontak tersebar di 3 tempat** (CMS, `contact/page.js`, `samsara/page.js`). Satu perubahan nomor harus diedit di beberapa tempat.
+1. ~~**Halaman hand-tuned tidak menegakkan `status`/`featured`.**~~ **Selesai** — kelima halaman brand kini memakai `BrandPageView` dengan gate yang sama seperti `[slug]`.
+2. **Nomor telepon ada di dua dokumen CMS** (`contactInfo.whatsapp[]` untuk halaman Contact, `world.whatsapp` untuk FIND US) ditambah fallback kode. Satu perubahan menyentuh dua tempat di Studio.
 3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`. Fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
-4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. (`world.hours` sudah dirender, tetapi hanya di dalam section Map.)
+4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. **Per 14/11 tidak ada lagi field mati di halaman brand**: `hours`, `address`, `logo`, `sections[*]`, dan `whatsapp` semuanya dirender.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **22/10 watcher-nya dihapus; 25/10 `sync-hardcode-to-cms.mjs` dihapus.** Tidak ada lagi jalur kode → CMS. (lihat §11).
 7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
@@ -387,13 +392,15 @@ website/
     layout.js                  metadata global + JSON-LD Organization
     page.js                    homepage
     about|brands|career|contact|events/page.js
-    samsara|svarga|acasa|outpace|grove/page.js   halaman brand hand-tuned
+    samsara|svarga|acasa|outpace|grove/page.js   route tipis → BrandPageView
     [slug]/page.js             template brand CMS (brand baru)
     sitemap.js, robots.js, not-found.js, error.js
   src/sanity/lib/              client.ts, queries.ts (proyeksi GROQ), brands.ts, image.ts
-  src/components/              Header, Footer, MobileMenu, BrandActions, HeroCarousel,
-                               MenuSection, MenuGallery, BrandHours, LeafletMap, dll
+  src/components/              Header, Footer, MobileMenu, BrandPageView, BrandActions,
+                               HeroCarousel, MenuGallery, BrandHours, LeafletMap, dll
   src/lib/site.js              SITE_URL, safeUrl, openGraphFor, CTA_LABELS
+  src/lib/brand-pages.js       cadangan teks/foto/koordinat halaman brand
+  src/lib/brand-page.js        loadBrand() + brandMetadata()
   src/proxy.js                 CSP nonce + headers (pengganti middleware)
   public/                      gambar lokal — ASSETS-SAMSARA/{ambience,logo,menu},
                                ASSETS-SVARGA, ASSETS-ACASA (lihat DOCUMENTATIONS §2.2a)

@@ -237,7 +237,7 @@ Field yang tidak dipakai sebuah section otomatis disembunyikan. Jadi section
 
 | Tipe | Untuk | Field yang dipakai |
 |---|---|---|
-| **Text Block** | Judul + paragraf cerita | Heading, Body Text, Section Image |
+| **Text Block** | Judul + paragraf cerita | Heading, Body Text |
 | **Specifications** | Tabel label di kiri, nilai di kanan | Heading, Specifications |
 | **Feature Cards** | Grid kartu (mis. menu-fix untuk brand olahraga) | Heading, Features |
 | **Menu** | Viewer halaman menu | Heading, Menu Panels |
@@ -245,10 +245,10 @@ Field yang tidak dipakai sebuah section otomatis disembunyikan. Jadi section
 
 #### 3.4.1 Text Block
 
-- **Heading** — contoh: `THE VISION`
-- **Body Text** — pisahkan antar paragraf dengan **baris kosong**.
-- **Section Image** - opsional, tampil di kolom kanan. Cocok untuk brand yang punya
-  foto pendukung.
+- **Heading** - contoh: `THE VISION`
+- **Body Text** - pisahkan antar paragraf dengan **baris kosong**.
+
+Paragraf ini yang tampil sebagai pembuka di halaman brand (Samsara, Svarga, Acasa, Outpace, Grove).
 
 #### 3.4.2 Specifications
 
@@ -274,11 +274,10 @@ Label otomatis jadi huruf besar semua (CSS). Tulis normal saja: `Concept`, bukan
 
 Grid kartu. Contoh di Outpace: PROTEIN, CARBS, VITAMIN, HYDRATION.
 
-- **Title** — judul kartu, biasanya huruf besar (PROTEIN)
-- **Copy** — paragraf penjelasan
-- **Image** — opsional. Kalau diisi, gambar tampil di atas kartu.
+- **Title** - judul kartu, biasanya huruf besar (PROTEIN)
+- **Copy** - paragraf penjelasan
 
-Tanpa Image, kartu jadi teks saja.
+Field gambar pada kartu sudah dihapus dari schema; kartu selalu teks saja.
 
 #### 3.4.4 Menu
 
@@ -331,6 +330,15 @@ tanpa jarak kosong. Alamat tetap tampil sendiri.
 
 ### 3.7 Contact & Links
 
+#### WhatsApp Number
+
+Nomor yang tampil di blok **FIND US** halaman brand, tepat di bawah alamat.
+Tulis seperti yang ingin dibaca pengunjung: `0812-3456-7890` atau `+62 812-3456-7890`.
+
+Field ini **berbeda** dari Contact Info: Contact Info menggerakkan halaman `/contact`,
+field ini menggerakkan halaman brand. Kosongkan kalau brand belum punya nomor —
+baris WhatsApp tidak akan ditampilkan.
+
 #### Instagram URL
 
 Tampil sebagai tombol **INSTAGRAM** full-width di bawah halaman brand.
@@ -363,11 +371,12 @@ Data saat ini:
 | Outpace | — |
 | Grove | — |
 
-> Tombol Acasa datang dari **kode** (`src/app/acasa/page.js`), bukan CMS — jadi
+> Tombol Acasa datang dari **kode** (`src/lib/brand-pages.js`), bukan CMS - jadi
 > tetap tampil walau Action Buttons-nya kosong. Aturannya: tombol dari CMS menang
 > per jenis, kode hanya menambal jenis yang belum ada di CMS.
 
-Outpace dan Grove sengaja belum punya tombol (brand belum rilis).
+Outpace dan Grove belum punya tombol. Keduanya sudah tayang dan terindeks, jadi
+tombolnya tinggal ditambahkan lewat Action Buttons saat sudah ditentukan.
 
 ### 3.8 SEO
 
@@ -886,27 +895,28 @@ utuh. Hapus yang tidak terpakai untuk bebaskan kuota.
 
 ---
 
-## 12. Status Integrasi (per 7 Oktober 2026)
+## 12. Status Integrasi (diperbarui 14 November 2026)
 
 | Area | Status |
 |---|---|
-| Schema `world.ts` | 61 field (termasuk sub-field), 9 tab, `tsc` 0 error |
-| Field `Categories` | **Sudah dihapus dari schema** (18/10) — memang tidak pernah dibaca website |
+| Schema `world.ts` | 9 tab, `tsc` 0 error |
+| Field `Categories` | **Sudah dihapus dari schema** (18/10) - memang tidak pernah dibaca website |
 | Dokumen `brandNav` | Dibuat, 5 baris, urutan sesuai brandNav |
-| Dropdown BRANDS | **Full CMS** — urutan & judul dari dokumen `brandNav` |
+| Dropdown BRANDS | **Full CMS** - urutan & judul dari dokumen `brandNav` |
 | Label See All / Hover | Full CMS dari `brandNav` |
+| Halaman brand mapan (5) | **Satu renderer `BrandPageView`**, seluruh isi dari CMS |
 | Halaman brand baru | Otomatis lewat `src/app/[slug]/page.js` |
 | `description` di website | sourced dari section Text Block |
 | `specifications` di website | sourced dari section Specifications |
-| Kelima brand pakai Sanity | Ya, termasuk specs Outpace & Grove |
-| Lighthouse (home/brands/samsara/career) | A11y 100, BP 100, SEO 100 |
-| Lighthouse (/contact) | A11y 100 (semula 95, sudah diperbaiki) |
+| Logo, menu, peta, alamat, WhatsApp | Dibaca dari CMS di kelima halaman brand |
+| Field mati di halaman brand | **0** sejak 14/11 |
+| Grove & Outpace | Publik, terindeks, `noIndex = false`; menu masih placeholder |
 | `npm run build` | Compiled successfully, 0 error |
-| `npm run lint` | 0 error, 28 warning `<img>` (pre-existing) |
+| `npm run lint` | 0 error, 20 warning `<img>` (pre-existing) |
 | Hardcoded secret di source | 0 |
 | Token Sanity di client bundle | Tidak ada (server-side only) |
 | CSP | Nonce + `strict-dynamic`, tanpa `unsafe-eval` di production |
-| `sanity deploy` | Sudah dijalankan — Studio online pakai schema terbaru |
+| `sanity deploy` | Sudah dijalankan - Studio online memuat field `whatsapp` |
 
 ### Isu yang masih terbuka
 
