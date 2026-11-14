@@ -82,10 +82,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-[9999] transition-colors duration-300 ${
         isHomeTop
           ? "bg-transparent"
-          : "bg-primary/70 backdrop-blur-xl border-b border-white/10"
+          : "bg-primary/70 border-b border-white/10"
       }`}
     >
       <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
