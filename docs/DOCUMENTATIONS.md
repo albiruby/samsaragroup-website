@@ -925,10 +925,12 @@ Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** men
 |---|---|---|
 | `src/lib/brands-copy.js` | teks cadangan per brand | saat CMS mati, brand baru tidak punya kartu cadangan |
 | `src/sanity/lib/brands.ts` | `LEGACY_LOGO`, `CARD_LOGO`, `SEED_CARDS` | tidak ada logo/kartu cadangan — tetap terisi dari CMS |
-| `src/components/Header.js` → `brandImages` | gambar latar saat hover di dropdown | brand tampil tanpa gambar latar |
+| `src/components/Header.js` → `brandImages` | preload gambar brand saat hover | brand tampil tanpa preload |
 | ~~`src/components/ImagePreloader.js` → `preloadMap`~~ | ~~preload per halaman~~ | **Dihapus 24/10** — preload gambar lokal (terutama fallback yang tidak dipakai) bersaing dengan LCP; komponen `PathnamePreloader` juga dihapus |
 
 **Sudah dibuktikan 18/10/2026** dengan brand sementara `template-test` yang dibuat hanya dari CMS: halaman langsung tampil lengkap (8 dari 8 jenis field), muncul di `/brands` dan sitemap dalam ~74 detik, dan mengembalikan **404** saat statusnya `draft`.
+
+> **Logo (16/11).** `world.logo` adalah sumber tunggal untuk halaman brand, marquee footer, dan kartu `/brands` (kartu membaliknya menjadi putih lewat `brightness-0 invert`). `LEGACY_LOGO` dan `CARD_LOGO` hanya dipakai bila `world.logo` kosong. Sebelumnya urutannya terbalik, sehingga logo yang diunggah editor tidak pernah muncul di footer dan kartu.
 
 > **Soal tombol:** jenis yang bisa dipilih dari Studio hanya `reservation`, `roomrate`, `instagram`. Tombol tambahan seperti `padel` dan `receptionist` di Acasa masih ditulis sebagai *fallback* di `src/lib/brand-pages.js`, jadi tidak muncul di field `ctas` CMS dan belum bisa diedit dari Studio. Memindahkannya ke CMS hanya perlu menambah kind baru di schema.
 
