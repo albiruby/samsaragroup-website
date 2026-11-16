@@ -21,9 +21,9 @@ openGraph: openGraphFor({ path: "/brands" }),
 };
 
 /**
- * Card art for the established brands stays in `brands.ts` — the CMS `logo` is the
- * mark shown on the brand page header, not the one these cards use, so the local
- * paths remain authoritative until white-on-transparent assets are uploaded.
+ * Card art falls back to `brands.ts` only when the brand has no CMS logo; the
+ * overlay applies `brightness-0 invert`, so any uploaded mark becomes a white
+ * silhouette.
  */
 export default async function BrandsPage() {
   const brands = await getBrandCards();

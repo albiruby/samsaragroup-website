@@ -31,9 +31,8 @@ const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
 }));
 
 /**
- * Local logo assets for the five established brands. These win over any CMS logo
- * because the footer marquee and the /brands cards each need a different variant:
- * the marquee uses the black mark, the cards use the white mark with `invert`.
+ * Local mark used only when a brand has no CMS logo at all — a new brand before
+ * its logo is uploaded, or a CMS outage. The Studio is the source of truth.
  */
 const LEGACY_LOGO: Record<string, string> = {
   samsara: "/ASSETS-SAMSARA/logo/blackfullsamping-480.webp",
@@ -42,9 +41,8 @@ const LEGACY_LOGO: Record<string, string> = {
 };
 
 /**
- * Separate marks for the /brands cards. The CMS `logo` is the mark used on the
- * brand page header; the cards need the white variant so `brightness-0 invert`
- * keeps it legible on photography.
+ * Fallback for the /brands cards, which apply `brightness-0 invert` so any mark
+ * becomes a white silhouette. Used only when the brand has no CMS logo.
  */
 const CARD_LOGO: Record<string, string> = {
   samsara: "/ASSETS-SAMSARA/logo/whitefullsamping-480.webp",
@@ -86,7 +84,7 @@ function toBrand(world: NavWorld): NavBrand {
     label: world.name ?? slug,
     speciality: world.speciality ?? "",
     href: isSafeSlug(slug) ? `/${slug}` : "/brands",
-    logo: LEGACY_LOGO[slug] ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
+    logo: world.logo ? sizedUrl(world.logo as never, 480) : LEGACY_LOGO[slug] ?? null,
     image: world.image ?? null,
   };
 }
@@ -183,7 +181,7 @@ function toCard(world: NavWorld): BrandCard {
     disciplines: world.speciality || brandCopy(slug)?.disciplines || "",
     href: isSafeSlug(slug) ? `/${slug}` : "/brands",
     fallback: seed?.fallback ?? null,
-    logo: legacyLogo ?? (world.logo ? sizedUrl(world.logo as never, 480) : null),
+    logo: world.logo ? sizedUrl(world.logo as never, 480) : legacyLogo ?? null,
     image: world.image ?? null,
     // Dibawa ke sitemap supaya brand yang diminta "Hide from Search Engines"
     // tidak diiklankan di sitemap.xml sekaligus diminta tidak diindeks di <head>.
