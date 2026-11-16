@@ -85,10 +85,19 @@ export default function Header() {
       className={`fixed top-0 left-0 w-full z-[9999] transition-colors duration-300 ${
         isHomeTop
           ? "bg-transparent"
-          : "bg-primary border-b border-white/10"
+          : "border-b border-white/10"
       }`}
     >
-      <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
+      {/* The translucent tint lives on its own layer: keeping backdrop-filter off
+          the fixed header avoids Chrome's tiled backdrop artefacts at fractional
+          zoom, while the nav still reads as glass over the page. */}
+      {isHomeTop ? null : (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-primary/70 backdrop-blur-xl"
+        />
+      )}
+      <div className="relative w-full grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16 lg:h-20 px-6 lg:px-10">
         <Link href="/" className="col-start-1 justify-self-start flex-shrink-0 flex items-center h-full overflow-hidden">
           <img src="/ASSETS-SAMSARA/logo/whitefullsamping-480.webp" alt="Samsara" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
