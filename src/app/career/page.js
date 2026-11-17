@@ -7,7 +7,7 @@ import TextClipReveal from "@/components/TextClipReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import CareerList from "@/components/CareerList.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
-import ScrollMarquee from "@/components/ScrollMarquee";
+import BrandMarquee from "@/components/BrandMarquee";
 import { getCareers, getCareerPage } from "@/sanity/lib/queries";
 import { jsonLdHtml } from "@/lib/jsonld";
 
@@ -46,29 +46,6 @@ function safeUrl(value) {
   } catch {
     return null;
   }
-}
-
-/**
- * One logo tile for the rolling brand strip. The marks come from the CMS (black
- * artwork on a light surface) and fall back to the brand name when missing.
- */
-function brandLogo(brand) {
-  return (
-    <div key={brand.slug} className="logo-marquee-item">
-      {brand.logo ? (
-        <img
-          src={brand.logo}
-          alt={brand.label}
-          className="h-8 w-auto object-contain lg:h-10"
-          loading="lazy"
-        />
-      ) : (
-        <span className="font-display text-lg uppercase tracking-wide text-on-surface lg:text-xl">
-          {brand.label}
-        </span>
-      )}
-    </div>
-  );
 }
 
 export async function generateMetadata() {
@@ -187,15 +164,15 @@ export default async function CareerPageRoute() {
             {/*
               Same rolling logo band as the footer, on a rounded light panel: the CMS
               logos are the black artwork, so they sit directly on the surface with no
-              filter. The second copy exists only to make the loop seamless.
+              filter.
             */}
             <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface-container-low py-8 lg:py-10">
-              <ScrollMarquee className="logo-marquee-track" baseSpeed={50} data-cursor="DRAG">
-                <div className="logo-marquee-content">{brandNav.all.map(brandLogo)}</div>
-                <div className="logo-marquee-content" aria-hidden="true">
-                  {brandNav.all.map(brandLogo)}
-                </div>
-              </ScrollMarquee>
+              <BrandMarquee
+                brands={brandNav.all}
+                logoClassName="h-8 w-auto object-contain lg:h-10"
+                nameClassName="font-display text-lg uppercase tracking-wide text-on-surface lg:text-xl"
+                data-cursor="DRAG"
+              />
             </div>
           </ScrollReveal>
         </section>

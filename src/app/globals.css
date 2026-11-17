@@ -172,6 +172,7 @@
 .logo-marquee-track { display: flex; width: max-content; animation: marqueeScroll 30s linear infinite; }
 .logo-marquee-track:hover { animation-play-state: paused; }
 .logo-marquee-content { display: flex; align-items: center; gap: 4rem; padding-right: 4rem; }
+.logo-marquee-repeat { display: flex; align-items: center; gap: 4rem; }
 .logo-marquee-item { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -207,16 +208,6 @@
 .img-zoom:hover img {
   transform: scale(1.05);
 }
-
-/* Tanpa animasi opacity. Pembungkus ini menutupi seluruh <main>, dan konten yang
-   mulai dari opacity 0 tidak dihitung sebagai kandidat LCP sampai fade-nya
-   selesai — itu menahan LCP hampir semua halaman. Pada kunjungan pertama efeknya
-   tidak terlihat juga karena preloader masih menutupi layar. */
-.page-transition {
-  /* sengaja dibiarkan tanpa animasi */
-}
-
-/* The removed thumbnail strip used to hide its scrollbar here. */
 
 @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
   body { cursor: none; }

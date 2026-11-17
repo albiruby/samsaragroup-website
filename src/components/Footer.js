@@ -1,22 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import ScrollMarquee from "./ScrollMarquee";
+import BrandMarquee from "./BrandMarquee";
 import { useBrandNav } from "./BrandsProvider.jsx";
 import { footerNav } from "@/lib/nav";
 
 export default function Footer() {
   const { all: allBrands } = useBrandNav();
-
-  const logoItem = (b) => (
-    <div key={b.href} className="logo-marquee-item">
-      {b.logo ? (
-        <img src={b.logo} alt={b.label} className="h-6 md:h-8 w-auto object-contain" />
-      ) : (
-        <span className="font-display uppercase text-on-surface text-lg md:text-xl tracking-wide">{b.label}</span>
-      )}
-    </div>
-  );
 
   return (
     <footer className="w-full bg-surface-container-low border-t border-outline-variant">
@@ -56,10 +46,7 @@ export default function Footer() {
       </div>
 
       <div className="w-full overflow-hidden py-7 border-b border-outline-variant">
-        <ScrollMarquee className="logo-marquee-track" baseSpeed={50} data-cursor="DRAG">
-          <div className="logo-marquee-content">{allBrands.map(logoItem)}</div>
-          <div className="logo-marquee-content" aria-hidden="true">{allBrands.map(logoItem)}</div>
-        </ScrollMarquee>
+        <BrandMarquee brands={allBrands} data-cursor="DRAG" />
       </div>
 
       <div className="w-full px-6 lg:px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
