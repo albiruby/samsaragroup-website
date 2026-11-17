@@ -148,7 +148,7 @@ Field yang **dibaca** (paling relevan):
 - Daftar: `getBrandCards()` (hanya brand publik).
 
 ### Career `/career`
-- `careerPage` + `career` (status `active`) + strip logo brand bergulir (panel rounded, komponen `ScrollMarquee` yang sama dengan footer) dari `brandNav`.
+- `careerPage` + `career` (status `active`) + strip logo brand bergulir (panel rounded, `BrandMarquee` yang sama dengan footer) dari `brandNav`. Marquee mengulang daftar sesuai lebar panel, jadi tetap rapat saat brand sedikit maupun banyak.
 
 ### Events `/events`
 - `getEvents()` — semua dokumen event, urut `date` desc.
@@ -316,7 +316,7 @@ $env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server loka
 $env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke  # staging
 ```
 
-77 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, **sitemap memuat semua URL publik (9 saat ini; otomatis mengikuti brand `noIndex`)** semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
+77 pemeriksaan produksi / **78** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, **sitemap memuat semua URL publik (9 saat ini; otomatis mengikuti brand `noIndex`)** semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
 
 Baris terakhir itu yang paling penting: halaman yang diam-diam jatuh ke teks hardcoded karena sambungan CMS-nya putus **tetap membalas 200**, jadi pemeriksaan status saja tidak akan menangkapnya.
 

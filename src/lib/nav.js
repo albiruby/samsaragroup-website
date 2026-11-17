@@ -12,9 +12,6 @@ export const nav = {
   contact: { label: "CONTACT", href: "/contact" },
 };
 
-/** Desktop order: HOME, BRANDS (dropdown), EVENTS, CAREER, ABOUT. */
-export const primaryNav = [nav.home, nav.brands, nav.events, nav.career, nav.about];
-
 /** Mobile order: HOME, BRANDS (accordion), EVENTS, CAREER, ABOUT, CONTACT. */
 export const mobileNav = [nav.home, nav.brands, nav.events, nav.career, nav.about, nav.contact];
 

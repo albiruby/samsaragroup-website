@@ -187,7 +187,7 @@ Field di sini yang mengatur brand muncul di mana-mana.
 | **Tagline** | Judul baris di dropdown BRANDS + teks di bawah judul halaman + kartu `/brands` | `The Listening Room` |
 | **Speciality** | Baris miring kecil di dropdown navigasi | `Vinyl - Dining - Culture` |
 | **Card Image** | Gambar kartu di `/brands`. Rasio ideal **potret 4:5** | foto interior |
-| **Brand Logo** | Logo putih di tengah kartu & marquee footer | logo PNG transparan |
+| **Brand Logo** | Logo brand di kartu, marquee footer, dan strip Career | logo PNG transparan (hitam untuk latar terang) |
 
 **Tagline sekarang dipakai di 4 tempat:**
 
@@ -198,7 +198,7 @@ Field di sini yang mengatur brand muncul di mana-mana.
 | `tagline` | Teks miring di bawah nama brand, kartu `/brands` |
 | `tagline` | Tagline di bawah judul besar halaman brand |
 
-Jadi `tagline` itu field palingAGO impactful di dokumen ini. **Wajib diisi.**
+Jadi `tagline` itu field paling impactful di dokumen ini. **Wajib diisi.**
 
 > Field **Category** (`ICONIC` / `SPECIALITY` / `EVERYDAY` / `WELLBEING`)
 > sudah **dihapus** dari schema. Tidak dipakai website lagi. Pengaturan baris
@@ -501,8 +501,6 @@ Menu di Sanity berupa daftar gambar halaman menu.
 |---|---|---|
 | **Tab Label** | ya | Label di atas gambar. Untuk 1 panel boleh dikosongkan. |
 | **Menu Image** | ya | Gambar halaman menu, **format vertikal (potret)**. |
-| **Layout** | ya | `Zoomable viewer` atau `Full page`. |
-| **Download / Open URL** | tidak | Link unduh PDF, misal Google Drive. |
 
 ### 4.2 Cara tampil ditentukan jumlah panel
 
@@ -517,12 +515,11 @@ Website otomatis menyesuaikan:
 Jadi untuk menu 36 halaman Samsara: tambah 36 panel, website otomatis jadi
 pager. **Jangan** mengirim semua gambar sekaligus — itu berat dan lambat.
 
-### 4.3 Layout
+### 4.3 Cara melihat menu
 
-**`Zoomable viewer`** (default) — gambar dalam border, klik untuk zoom. Panah
-kiri/kanan keyboard untuk pindah halaman.
-
-**`Full page`** — gambar tanpa border, isi penuh lebar container.
+Semua panel memakai tampilan yang sama: gambar dalam border dan klik untuk
+zoom. Kalau panel lebih dari satu, panah kiri/kanan keyboard pindah halaman.
+Tidak ada pilihan layout.
 
 ### 4.4 Memberi nama halaman yang jelas
 

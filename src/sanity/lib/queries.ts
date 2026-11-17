@@ -230,7 +230,7 @@ export async function getWorldBySlug(slug: string) {
   }
 }
 
-export type Career = {
+type Career = {
   _id: string;
   title?: string;
   slug?: { current?: string } | string;
@@ -246,7 +246,7 @@ export type Career = {
   postedAt?: string;
 };
 
-export type CareerList = {
+type CareerList = {
   jobs: Career[];
   /** True when the CMS could not be reached, so the page can stay honest about it. */
   unavailable: boolean;

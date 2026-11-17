@@ -101,7 +101,7 @@ website/
 │   │   ├── client.ts              klien Sanity (tokenless, useCdn)
 │   │   ├── queries.ts             semua GROQ + hydrateWorld()
 │   │   ├── brands.ts              getBrandCards(), getBrandNav(), isPublic()
-│   │   └── image.ts               urlFor(), sizedUrl()
+│   │   └── image.ts               sizedUrl(), ogImageUrl()
 │   └── proxy.js                   CSP nonce + security headers (pengganti middleware)
 ├── public/                        gambar lokal — satu folder per brand: `ASSETS-<BRAND>` (§2.2a)
 ├── scripts/                       skrip sinkronisasi & utilitas (lihat §14)
@@ -188,7 +188,7 @@ Folder induk hanya menampung hal yang **tidak boleh** atau **tidak perlu** masuk
 | CMS | **Sanity v6** (`@sanity/client` ^7) + Studio v6 |
 | Peta | **Leaflet** 1.9 (tile OpenStreetMap) |
 | Analitik | `@vercel/analytics`, `@vercel/speed-insights` |
-| Dev tool | Playwright 1.63 (screenshot) |
+| Dev tool | Playwright lewat MCP (screenshot; bukan dependensi repo) |
 | Runtime | Node.js **24.22.1+** (`.nvmrc`), `engines.node: 24.x` |
 | Deploy | Vercel (website), Sanity hosting (Studio) |
 
@@ -328,7 +328,7 @@ Di `src/components/` (±30 file).
 | `MobileMenu.js` | overlay menu layar kecil |
 | `Footer.js` | kolom **CONNECT** (General Inquiry, Events), **EXPLORE** (About, Career), **BRANDS** + marquee logo |
 | `BackToTop.js`, `ScrollProgressBar.js` | kontrol scroll |
-| `PageTransition.js`, `Preloader.js` | transisi halaman (flag sesi: `sessionStorage["samsara-preloaded"]`) |
+| `Preloader.js` | preloader sesi (flag `sessionStorage["samsara-preloaded"]`) |
 | `CustomCursor.js` | kursor kustom |
 
 **Konten**
@@ -340,7 +340,7 @@ Di `src/components/` (±30 file).
 | `CareerList.jsx` | daftar lowongan + filter departemen + chip **Posted At** |
 | `HeroCarousel.js` | carousel hero halaman brand (dot `aria-label="Go to image N"`) |
 | `MenuGallery.js` | menu brand dari `menuPanels`: 1 gambar tunggal, 2 kiri–kanan, 3+ page turner |
-| `ScrollMarquee.js`, `NumberCounter.js` | marquee & angka berjalan |
+| `ScrollMarquee.js`, `BrandMarquee.js`, `NumberCounter.js` | marquee, deretan logo brand (footer & Career), & angka berjalan |
 | `ZoomableImage.js`, `ImageParallax.js` | zoom klik & parallax |
 
 **Data & tema**
@@ -525,9 +525,9 @@ Next.js versi ini memakai konvensi **`proxy.js`** untuk interceptor request. Fil
 - URL absolut dari CMS disaring `safeUrl()` (hanya `http:`/`https:`); path internal (`/...`) dicek agar tidak diawali `//`. Sejak 23/10 ini juga berlaku untuk `home.aboutCtaHref`.
 - `images.remotePatterns` di `next.config.mjs` saat ini **inert** — kode memakai `<img>` biasa, bukan `next/image`.
 
-### 9.4 Ukuran gambar — pakai `sizedUrl()`, bukan `urlFor()`
+### 9.4 Ukuran gambar — selalu lewat `sizedUrl()`
 
-`urlFor(source).url()` mengembalikan **gambar orisinal** Sanity (mis. 1920 px). `sizedUrl(source, width)` menambahkan `w` dan `q=70`, jadi CDN hanya mengirim sebesar yang dibutuhkan slot.
+`sizedUrl(source, width)` menambahkan `w` dan `q=70`, jadi CDN hanya mengirim sebesar yang dibutuhkan slot. Helper `urlFor()` yang mengembalikan **gambar orisinal** (mis. 1920 px) sudah dihapus 17/11 karena tidak dipakai lagi; metadata sosial memakai `ogImageUrl()`.
 
 Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
@@ -905,7 +905,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 
 ## 19. Menambah brand baru — perubahan paling berdampak
 
-Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer, dan `sitemap.xml`.
+Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer dan strip Career, dan `sitemap.xml`. Marquee mengulang daftar sesuai lebar panel, jadi jumlah brand berapa pun tetap tanpa celah.
 
 **Wajib:**
 
@@ -925,13 +925,13 @@ Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** men
 | Berkas | Isinya | Kalau dilewati |
 |---|---|---|
 | `src/lib/brands-copy.js` | teks cadangan per brand | saat CMS mati, brand baru tidak punya kartu cadangan |
-| `src/sanity/lib/brands.ts` | `LEGACY_LOGO`, `CARD_LOGO`, `SEED_CARDS` | tidak ada logo/kartu cadangan — tetap terisi dari CMS |
+| `src/sanity/lib/brands.ts` | `LEGACY_LOGO`, `SEED_CARDS` | tidak ada logo/kartu cadangan — tetap terisi dari CMS |
 | `src/components/Header.js` → `brandImages` | preload gambar brand saat hover | brand tampil tanpa preload |
 | ~~`src/components/ImagePreloader.js` → `preloadMap`~~ | ~~preload per halaman~~ | **Dihapus 24/10** — preload gambar lokal (terutama fallback yang tidak dipakai) bersaing dengan LCP; komponen `PathnamePreloader` juga dihapus |
 
 **Sudah dibuktikan 18/10/2026** dengan brand sementara `template-test` yang dibuat hanya dari CMS: halaman langsung tampil lengkap (8 dari 8 jenis field), muncul di `/brands` dan sitemap dalam ~74 detik, dan mengembalikan **404** saat statusnya `draft`.
 
-> **Logo (16/11).** `world.logo` adalah sumber tunggal untuk halaman brand, marquee footer, dan kartu `/brands` (kartu membaliknya menjadi putih lewat `brightness-0 invert`). `LEGACY_LOGO` dan `CARD_LOGO` hanya dipakai bila `world.logo` kosong. Sebelumnya urutannya terbalik, sehingga logo yang diunggah editor tidak pernah muncul di footer dan kartu.
+> **Logo (16/11).** `world.logo` adalah sumber tunggal untuk halaman brand, marquee footer, strip Career, dan kartu `/brands` (kartu membaliknya menjadi putih lewat `brightness-0 invert`). `LEGACY_LOGO` hanya dipakai bila `world.logo` kosong. Sebelumnya urutannya terbalik, sehingga logo yang diunggah editor tidak pernah muncul di footer dan kartu.
 
 > **Soal tombol:** jenis yang bisa dipilih dari Studio hanya `reservation`, `roomrate`, `instagram`. Tombol tambahan seperti `padel` dan `receptionist` di Acasa masih ditulis sebagai *fallback* di `src/lib/brand-pages.js`, jadi tidak muncul di field `ctas` CMS dan belum bisa diedit dari Studio. Memindahkannya ke CMS hanya perlu menambah kind baru di schema.
 
