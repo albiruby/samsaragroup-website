@@ -65,7 +65,7 @@ Semua lewat **Studio → Brands & Brand Pages — World → pilih brand**. Tidak
 | Build & deploy | Vercel | Setiap push ke `master` |
 | Gate build | `website/scripts/should-build.mjs` | Saat Vercel build |
 | CI: `npm ci`, lint, test, audit produksi, build | GitHub Actions `ci.yml` | Push + pull request |
-| Smoke test 74 cek | GitHub Actions `smoke.yml` | Harian 08:00 WIB + manual |
+| Smoke test 77 cek | GitHub Actions `smoke.yml` | Harian 08:00 WIB + manual |
 | Uptime 200 + sitemap | GitHub Actions `uptime.yml` | Tiap 15 menit |
 | Alert | Issue GitHub → email pemilik repo | Saat smoke/uptime gagal |
 
@@ -114,7 +114,7 @@ Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password ma
 3. Ganti penerima notifikasi issue GitHub ke email pemilik baru.
 4. Tentukan siapa yang menjalankan backup; lakukan satu backup + restore drill.
 5. Token Sanity: **tidak ada token permanen** sampai 14/11. Saat itu satu token Editor dibuat untuk migrasi konten (field `whatsapp`, section map Grove/Outpace, aset logo). Token itu tidak dipakai website — website membaca dataset publik tanpa token. **Cabut atau rotasi sebelum/saat serah terima**, lalu buat baru hanya bila diperlukan.
-6. Verifikasi: push perubahan kecil → CI hijau → Vercel deploy → `npm run smoke` 74/74.
+6. Verifikasi: push perubahan kecil → CI hijau → Vercel deploy → `npm run smoke` 77/77.
 7. Kalau pindah domain: ubah `NEXT_PUBLIC_SITE_URL`, default URL di `scripts/smoke.mjs`, dan `BASE` di `uptime.yml`.
 8. Baca `ROLLBACK.md`; jadwalkan uji rollback pertama.
 
@@ -124,7 +124,7 @@ Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password ma
 
 | Lokasi | Script | Fungsi |
 |---|---|---|
-| `website/scripts/` | `smoke.mjs` | 74 cek produksi / 75 preview |
+| `website/scripts/` | `smoke.mjs` | 77 cek produksi / 78 preview |
 | `website/scripts/` | `should-build.mjs` | Gate build Vercel |
 | `studio/scripts/` | `backup-dataset.ps1` | Backup lokal, simpan 14 |
 | `studio/scripts/` | `backup-and-upload.ps1` | Backup + upload Drive, simpan 7 |
@@ -203,6 +203,6 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] Restore drill berhasil.
 - [x] Token Sanity lama sudah dicabut (25/10; `tokens list` = 0).
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
-- [ ] `npm run smoke` 74/74.
+- [ ] `npm run smoke` 77/77.
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
 - [ ] Baca `CHECKLIST-RILIS.md` (kesiapan rilis) dan `LEMBAR-ISIAN-KLIEN.md` (materi yang masih kurang).

@@ -278,7 +278,7 @@ Di repo website (`scripts/`):
 | Script | Fungsi | Risiko |
 |---|---|---|
 | `should-build.mjs` | gate Vercel: exit 0 = skip build, exit 1 = build | baca git; dipanggil Vercel, bukan npm |
-| `smoke.mjs` | uji cepat 74 produksi / 75 preview; manual + harian CI | baca saja |
+| `smoke.mjs` | uji cepat 77 produksi / 78 preview; manual + harian CI | baca saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor dataset → simpan 14 lokal → unggah ke Google Drive → simpan 7 | menulis ke Drive, ukuran + MD5 diverifikasi bila tersedia |
 
 > Lima skrip lain yang dulu tercatat di sini (`sync-cms-to-site.mjs`, `seed-careers.mjs`, `audit-schema.mjs`, `sync-sections-extract.mjs`, `security-scan.mjs`) **sudah dihapus** di commit `2035c86`. `sync-hardcode-to-cms.mjs` **dihapus 25/10**.
@@ -316,7 +316,7 @@ $env:SMOKE_BASE_URL="http://localhost:3000"; npm run smoke     # uji server loka
 $env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke  # staging
 ```
 
-74 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, **sitemap memuat semua URL publik (9 saat ini; otomatis mengikuti brand `noIndex`)** semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
+77 pemeriksaan produksi / **75** di preview: semua route membalas 200, tiap halaman punya tepat satu `<h1>` + title + meta description + canonical, header keamanan terkirim, **sitemap memuat semua URL publik (9 saat ini; otomatis mengikuti brand `noIndex`)** semuanya hidup, dan **jumlah elemen di halaman dicocokkan dengan isi Sanity** (kartu brand, elemen marquee, kartu lowongan). Mode preview menambah cek `X-Robots-Tag` dan aturan robots.
 
 Baris terakhir itu yang paling penting: halaman yang diam-diam jatuh ke teks hardcoded karena sambungan CMS-nya putus **tetap membalas 200**, jadi pemeriksaan status saja tidak akan menangkapnya.
 
@@ -359,7 +359,7 @@ File `.env.local` di repo website (tidak ter-commit):
 4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. **Per 14/11 tidak ada lagi field mati di halaman brand**: `hours`, `address`, `logo`, `sections[*]`, dan `whatsapp` semuanya dirender.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **22/10 watcher-nya dihapus; 25/10 `sync-hardcode-to-cms.mjs` dihapus.** Tidak ada lagi jalur kode → CMS. (lihat §11).
-7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
+7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
 8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
 9. **Rollback:** runbook ada di `docs/ROLLBACK.md` (24/10), tetapi **belum pernah diuji di production**. Uji pertama harus dijadwalkan.
 

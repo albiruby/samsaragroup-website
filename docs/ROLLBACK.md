@@ -67,7 +67,7 @@ Invoke-WebRequest https://samsaragroup.vercel.app/robots.txt -UseBasicParsing
 
 Checklist:
 
-- [ ] `npm run smoke` → **74/74** (produksi).
+- [ ] `npm run smoke` → **77/77** (produksi).
 - [ ] `/` membalas **200**.
 - [ ] Header keamanan masih ada (`content-security-policy`, `strict-transport-security`, `x-frame-options`).
 - [ ] `/sitemap.xml` berisi semua URL publik (saat ini 11) dan semua hidup.

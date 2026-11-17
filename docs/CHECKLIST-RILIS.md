@@ -27,7 +27,7 @@ Status per **14 November 2026**. Item yang sudah diverifikasi ditandai tanggal.
 | B1 | Build produksi | ✅ 14/11 | `npm run build` sukses |
 | B2 | Lint | ✅ 14/11 | 0 error, 20 warning `<img>` |
 | B3 | Security regression test | ✅ 14/11 | `npm test` 5/5, jalan di CI |
-| B4 | Smoke produksi | ✅ 14/11 | 74/74 |
+| B4 | Smoke produksi | ✅ 14/11 | 77/77 |
 | B5 | Audit dependensi produksi | ✅ 14/11 | `npm audit --omit=dev` → 0 |
 | B6 | Lighthouse | ✅ 14/11 | Homepage, 4 brand, career, contact: a11y 100 · best-practices 100 · SEO 100 · 0 audit gagal |
 | B7 | Redirect URL lama | ✅ 14/11 | 4 path lama → 308 ke path baru |
@@ -48,7 +48,7 @@ Status per **14 November 2026**. Item yang sudah diverifikasi ditandai tanggal.
 | C2 | Ubah `NEXT_PUBLIC_SITE_URL` di Vercel | Menggerakkan canonical, `og:url`, sitemap, robots |
 | C3 | Tambahkan domain di Vercel + DNS | Ikuti `Migrasi-Hostinger.md` |
 | C4 | Ubah default `BASE` di `scripts/smoke.mjs` dan `uptime.yml` | Kalau tidak, monitor menembak domain lama |
-| C5 | Deploy + `npm run smoke` | Harus 74/74 |
+| C5 | Deploy + `npm run smoke` | Harus 77/77 |
 | C6 | Cek ulang sitemap dan `robots.txt` | Keduanya harus menyebut domain baru |
 | C7 | Ajukan ulang ke Google Search Console | Properti baru + sitemap |
 

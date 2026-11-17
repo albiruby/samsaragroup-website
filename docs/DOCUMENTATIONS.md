@@ -118,14 +118,15 @@ Tidak ada gambar di akar `public/` selain `og-default.png` dan berkas verifikasi
 ```
 public/
 ├── ASSETS-SAMSARA/
-│   ├── ambience/     33 foto suasana (dipakai /samsara, /outpace, /grove, /about, homepage)
-│   ├── logo/         3 logo korporat (hitam + putih)
-│   └── menu/         36 halaman menu lama + thumbs/ — arsip, sejak 14/11 menu dibaca dari CMS
-├── ASSETS-SVARGA/    16 berkas — 13 foto galeri, 1 gambar menu, 2 logo
-├── ASSETS-ACASA/     19 berkas — 13 foto galeri, 2 menu, 3 logo, 1 foto jam buka
+│   ├── ambience/     16 foto suasana (fallback /samsara, /outpace, /grove, /about, homepage)
+│   └── logo/         3 logo korporat (hitam + putih)
+├── ASSETS-SVARGA/    9 berkas — 7 foto galeri + 2 logo
+├── ASSETS-ACASA/     10 berkas — 6 foto galeri, 3 logo, 1 foto jam buka
 ├── google4a3c3d93edab2ca5.html     verifikasi Google Search Console — jangan dihapus
 └── og-default.png                  gambar Open Graph bawaan
 ```
+
+Menu 36 halaman, thumbnail, dan foto cadangan yang tidak lagi dirujuk **tidak ada di repo** sejak 17/11. Salinannya disimpan di luar repo: `source-assets/public-archive/` (105 file, 12,4 MB).
 
 `ASSETS-OUTPACE` dan `ASSETS-GROVE` **tidak ada** — kedua brand itu hanya memakai gambar dari CMS, dan saat CMS kosong hero-nya jatuh ke kolam foto Samsara.
 
@@ -214,14 +215,14 @@ Artinya:
 
 **Pembaruan 14 November 2026.** Kelima halaman brand kini membaca **seluruh** isinya dari CMS: logo, tagline, paragraf intro, judul tabel spesifikasi, menu, koordinat peta, alamat, dan nomor WhatsApp. Teks cadangan tidak lagi ditulis di masing-masing halaman, melainkan di satu berkas: `src/lib/brand-pages.js`. Jadi "lapis hardcoded" untuk halaman brand sekarang hanya berfungsi sebagai jaring pengaman saat CMS mati — bukan lagi jalur edit kedua.
 
-### 3.2 Dua jenis halaman brand
+### 3.2 Halaman brand mapan dan brand baru
 
-| | Halaman brand mapan (5) | Template `[slug]` |
+| | Halaman brand mapan (5) | Brand baru (`[slug]`) |
 |---|---|---|
-| File | `src/app/{samsara,svarga,acasa,outpace,grove}/page.js` + `src/components/BrandPageView.jsx` | `src/app/[slug]/page.js` |
-| Dipakai oleh | lima brand mapan | **brand baru** |
+| File | `src/app/{samsara,svarga,acasa,outpace,grove}/page.js` | `src/app/[slug]/page.js` |
+| Renderer | `src/components/BrandPageView.jsx` | `src/components/BrandPageView.jsx` (sama) |
 | Sumber | dokumen `world` (CMS); cadangan di `src/lib/brand-pages.js` | **sepenuhnya** dokumen `world` |
-| Layout | **dua kolom**: copy + spesifikasi di kiri, foto portrait di kanan | **bertumpuk**: tiap section menurun |
+| Layout | **dua kolom**: copy + spesifikasi di kiri, foto portrait di kanan | **dua kolom** (sama) |
 | Route menang | route statis menang atas `[slug]` | hanya untuk slug yang belum punya route statis |
 | Menegakkan `status`/`featured`? | ya | ya |
 
@@ -397,7 +398,7 @@ Catatan tipe masuk:
 - `theme`: mode warna halaman saat header tertutup.
 - `logo`: dipakai sebagai judul hero halaman brand. Kosong → nama brand tampil sebagai teks.
 - `whatsapp`: nomor yang **ditampilkan** di blok FIND US (boleh memakai `+` dan garis). Berbeda dari `contactInfo.whatsapp[].phone` yang dipakai untuk tautan `wa.me`.
-- `sections[type=menu].menuPanels[]`: **satu panel = satu halaman menu**. Jumlah panel menentukan tampilan (1 / 2 / 3+).
+- `sections[type=menu].menuPanels[]`: **satu panel = satu halaman menu**. Jumlah panel menentukan tampilan (1 / 2 / 3+). Field `layout` dan `downloadUrl` sudah dihapus 17/11 karena tidak pernah dirender.
 
 ### 7.2 `event` — `/events`
 
@@ -546,7 +547,7 @@ Aturannya: **ukur dulu slot-nya di browser, baru tentukan lebar.**
 
 Catatan penting saat mengukur: `cdn.sanity.io` **tidak** mengirim `Timing-Allow-Origin`, jadi Resource Timing API (`performance.getEntriesByType`) melaporkan `transferSize = 0` untuk gambar Sanity. Ukur dengan **HEAD + `Content-Length`**, bukan Resource Timing.
 
-Hero Samsara kini memakai **galeri CMS** seperti brand lain, sehingga gambarnya di-resize lewat `sizedUrl(…, 1600)`. Fallback 12 gambar lokal (`public/ASSETS-SAMSARA/ambience/*.webp`, 113–374 KB) hanya dikirim kalau `world.gallery` kosong — dalam kondisi normal berkas berat itu tidak dipakai.
+Hero Samsara kini memakai **galeri CMS** seperti brand lain, sehingga gambarnya di-resize lewat `sizedUrl(…, 1600)`. Fallback 4 foto lokal per brand (di `src/lib/brand-pages.js`) hanya dikirim kalau `world.gallery` kosong.
 
 ---
 
@@ -665,7 +666,7 @@ $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run dev
 $env:SMOKE_PREVIEW="1"; $env:SMOKE_BASE_URL="http://localhost:3000"; $env:NEXT_PUBLIC_SANITY_DATASET="staging"; npm run smoke
 ```
 
-Smoke produksi tetap 74 cek; mode preview menambah cek `X-Robots-Tag` dan aturan robots, jadi **75 cek**. Setelah mengubah env Preview di Vercel, redeploy preview agar nilai baru terbaca.
+Smoke produksi tetap 77 cek; mode preview menambah cek `X-Robots-Tag` dan aturan robots, jadi **78 cek**. Setelah mengubah env Preview di Vercel, redeploy preview agar nilai baru terbaca.
 
 > **Staging publik.** Sama seperti `production`: siapa pun yang tahu project + dataset bisa membacanya. Jangan unggah dokumen pribadi, draft sensitif, atau data pelanggan ke `staging`.
 
@@ -732,7 +733,7 @@ Di `website/scripts/`:
 
 | Script | Fungsi | Risiko |
 |---|---|---|
-| `smoke.mjs` | uji cepat 74 pemeriksaan produksi / 75 preview (dipakai `npm run smoke`; `SMOKE_PREVIEW=1` untuk staging) | baca saja |
+| `smoke.mjs` | uji cepat 77 pemeriksaan produksi / 78 preview (dipakai `npm run smoke`; `SMOKE_PREVIEW=1` untuk staging) | baca saja |
 | `should-build.mjs` | dipakai `ignoreCommand` Vercel: exit 0 = lewati build, exit 1 = build | baca git saja; dipanggil Vercel, bukan npm |
 | `backup-dataset.ps1` *(repo studio)* | ekspor dataset Sanity + simpan 14 arsip terbaru | menulis berkas lokal saja |
 | `backup-and-upload.ps1` *(repo studio)* | ekspor → unggah ke Google Drive → simpan 7 | menulis ke Drive; ukuran + MD5 diverifikasi bila tersedia |
@@ -841,7 +842,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
 7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
-8. **CI sudah ada; unit test menyusul per kasus.** `ci.yml` menjalankan lint, `npm test`, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. Saat ini satu suite regresi keamanan berjalan (`scripts/brand-visibility.test.mjs`, mengunci gate publikasi brand — audit F-01). **`npm run smoke`** tetap bisa manual (74 produksi / 75 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
+8. **CI sudah ada; unit test menyusul per kasus.** `ci.yml` menjalankan lint, `npm test`, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. Saat ini satu suite regresi keamanan berjalan (`scripts/brand-visibility.test.mjs`, mengunci gate publikasi brand — audit F-01). **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10; diperbarui 25/10** — folder `scripts/` website kini hanya berisi `smoke.mjs` + `should-build.mjs`; studio berisi `backup-dataset.ps1` + `backup-and-upload.ps1`. `sync-hardcode-to-cms.mjs` dihapus 25/10.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
