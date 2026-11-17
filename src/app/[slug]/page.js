@@ -1,27 +1,17 @@
 import { isSafeSlug, openGraphFor } from "@/lib/site";
 import { notFound } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import ScrollReveal from "@/components/ScrollReveal";
-import TextClipReveal from "@/components/TextClipReveal";
-import ThemeSetter from "@/components/ThemeSetter";
-import HeroCarousel from "@/components/HeroCarousel";
-import LeafletMap from "@/components/LeafletMap";
-import ImageParallax from "@/components/ImageParallax";
-import BrandActions from "@/components/BrandActions";
-import BrandHours from "@/components/BrandHours";
-import MenuGallery from "@/components/MenuGallery";
+import BrandPageView from "@/components/BrandPageView";
 import { getWorldBySlug } from "@/sanity/lib/queries";
-import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
+import { ogImageUrl } from "@/sanity/lib/image";
 
 export const dynamic = "force-dynamic";
 
 const SITE = "Samsara Group";
 
 /**
- * Renders one brand from CMS data alone. The five established brands keep their
- * hand-tuned pages; this template covers every brand created from here on, so a
- * new brand needs content in Sanity and nothing else.
+ * Renders any brand that does not have a hand-tuned route. The layout is the same
+ * two-column structure used by the five established brands, so a brand created
+ * in the Studio inherits the same presentation without any code change.
  */
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -40,35 +30,13 @@ export async function generateMetadata({ params }) {
     alternates: { canonical: `/${slug}` },
     openGraph: openGraphFor({
       path: `/${slug}`,
-        title: world.seoTitle || `${name} — ${SITE}`,
-        description: world.seoDescription || world.tagline || world.description || "",
-        image: ogImageUrl(world.socialImage || world.image),
-        alt: world.name,
-      }),
+      title: world.seoTitle || `${name} — ${SITE}`,
+      description: world.seoDescription || world.tagline || world.description || "",
+      image: ogImageUrl(world.socialImage || world.image),
+      alt: world.name,
+    }),
     ...(world.noIndex ? { robots: { index: false, follow: false } } : {}),
   };
-}
-
-function galleryUrls(world) {
-  return (world.gallery || [])
-    .map((item) => {
-      // gallery accepts a bare image or a galleryItem object
-      const ref = item && item._type === "galleryItem" ? item.image : item;
-      if (!ref?.asset) return null;
-      return { src: sizedUrl(ref, 1600), alt: item?.alt || world.name || "" };
-    })
-    .filter(Boolean);
-}
-
-function panelsOf(section, world) {
-  return (section.menuPanels || [])
-    .filter((p) => p.src)
-    .map((p) => ({
-      key: p._key,
-      src: p.src,
-      alt: p.tabLabel || `${world.name} menu`,
-      tabLabel: p.tabLabel,
-    }));
 }
 
 export default async function BrandPage({ params }) {
@@ -78,209 +46,10 @@ export default async function BrandPage({ params }) {
 
   if (!world || world.status !== "active" || world.featured === false) notFound();
 
-  const name = world.name || slug;
-  const heroImages = galleryUrls(world);
-  const sections = (world.sections || []).filter(Boolean);
-
-  const ctaByKind = Object.fromEntries((world.ctas || []).map((c) => [c.kind, c]));
-
   return (
-    <>
-      <ThemeSetter theme={world.theme === "light" ? "light" : "dark"} />
-      <Header />
-
-      <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
-        <ScrollReveal>
-          <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
-            {world.heroEyebrow || "BRANDS"}
-          </span>
-          {world.logo ? (
-            <h1 className="h-12 md:h-16 w-fit">
-              <img src={sizedUrl(world.logo, 600)} alt={name} className="h-full w-auto" />
-            </h1>
-          ) : (
-            <h1 className="text-display-md-mobile md:text-display-md font-display uppercase leading-[0.95] text-on-surface">
-              {world.heroTitle || name}
-            </h1>
-          )}
-          {world.tagline ? (
-            <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-              {world.tagline}
-            </p>
-          ) : null}
-          {world.heroIntro ? (
-            <p className="mt-4 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-              {world.heroIntro}
-            </p>
-          ) : null}
-        </ScrollReveal>
-      </section>
-
-      {heroImages.length > 0 ? (
-        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-          <ScrollReveal>
-            <ImageParallax className="w-full">
-              <HeroCarousel images={heroImages.map((i) => i.src)} alt={name} />
-            </ImageParallax>
-          </ScrollReveal>
-        </section>
-      ) : null}
-
-      {sections.map((section) => {
-        const key = section._key || section.type;
-
-        if (section.type === "text") {
-          if (!section.body) return null;
-          return (
-            <section key={key} className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-              <ScrollReveal>
-                <div className="max-w-3xl">
-                  {section.heading ? (
-                    <TextClipReveal>
-                      <h2 className="mb-4 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                        {section.heading}
-                      </h2>
-                    </TextClipReveal>
-                  ) : null}
-                  <p className="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-line">
-                    {section.body}
-                  </p>
-                </div>
-              </ScrollReveal>
-            </section>
-          );
-        }
-
-        if (section.type === "specs") {
-          const rows = (section.specifications || []).filter((r) => r?.label);
-          if (!rows.length) return null;
-          return (
-            <section key={key} className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-              <ScrollReveal>
-                <div className="border-t border-outline-variant pt-8 max-w-3xl">
-                  {section.heading ? (
-                    <TextClipReveal>
-                      <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                        {section.heading}
-                      </h2>
-                    </TextClipReveal>
-                  ) : null}
-                  <div className="space-y-4">
-                    {rows.map((row) => (
-                      <div
-                        key={row._key || row.label}
-                        className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4"
-                      >
-                        <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">
-                          {row.label}
-                        </span>
-                        <span className="text-body-md text-on-surface min-w-0">{row.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            </section>
-          );
-        }
-
-        if (section.type === "features") {
-          const cards = (section.features || []).filter((f) => f?.title);
-          if (!cards.length) return null;
-          return (
-            <section key={key} className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-              <ScrollReveal>
-                {section.heading ? (
-                  <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
-                    {section.heading}
-                  </span>
-                ) : null}
-                <div className="grid gap-8 border-t border-outline-variant pt-8 sm:grid-cols-2 lg:grid-cols-4">
-                  {cards.map((card) => (
-                    <div key={card._key || card.title}>
-                      <h2 className="mb-3 font-display text-headline-sm uppercase text-on-surface">
-                        {card.title}
-                      </h2>
-                      {card.copy ? (
-                        <p className="text-body-sm text-on-surface-variant leading-relaxed">{card.copy}</p>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </ScrollReveal>
-            </section>
-          );
-        }
-
-        if (section.type === "menu") {
-          const panels = panelsOf(section, world);
-          if (!panels.length) return null;
-          return (
-            <section key={key} className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-              <ScrollReveal>
-                <MenuGallery panels={panels} heading={section.heading || world.menuHeading || "MENU"} />
-              </ScrollReveal>
-            </section>
-          );
-        }
-
-        if (section.type === "map") {
-          const hasCoords = typeof section.mapLat === "number" && typeof section.mapLng === "number";
-          if (!hasCoords) return null;
-          return (
-            <section key={key} className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-              <ScrollReveal>
-                {section.heading ? (
-                  <TextClipReveal>
-                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                      {section.heading}
-                    </h2>
-                  </TextClipReveal>
-                ) : null}
-                <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
-                  <LeafletMap
-                    lat={section.mapLat}
-                    lng={section.mapLng}
-                    zoom={section.mapZoom || 16}
-                    className="w-full h-full"
-                    label={`Lokasi ${world.name}`}
-                  />
-                </div>
-                {world.address ? (
-                  <p className="mt-4 text-body-sm text-on-surface-variant">{world.address}</p>
-                ) : null}
-                <BrandHours hours={world.hours} className="mt-2" />
-              </ScrollReveal>
-            </section>
-          );
-        }
-
-        return null;
-      })}
-
-      {world.image ? (
-        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-          <ScrollReveal>
-            <div className="img-hover w-full max-w-2xl aspect-[4/5]">
-              <img
-                src={sizedUrl(world.image, 1100)}
-                alt={name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </ScrollReveal>
-        </section>
-      ) : null}
-
-      {(Object.keys(ctaByKind).length > 0 || world.instagramUrl) && (
-        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-          <ScrollReveal>
-            <BrandActions world={world} />
-          </ScrollReveal>
-        </section>
-      )}
-
-      <Footer />
-    </>
+    <BrandPageView
+      world={world}
+      theme={world.theme === "light" ? "light" : "dark"}
+    />
   );
 }

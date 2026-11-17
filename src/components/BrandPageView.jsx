@@ -50,19 +50,20 @@ function MenuPlaceholder({ heading }) {
 }
 
 /**
- * The layout shared by the five established brands: hero, carousel, an optional
- * feature row, a two-column block (copy + specs next to the portrait photo), menu,
- * then location. Every string, image and coordinate comes from the CMS; `config`
- * only supplies the fallback for a field the Studio has not filled yet.
+ * The layout shared by every brand page: hero, carousel, an optional feature row,
+ * a two-column block (copy + specs next to the portrait photo), menu, then
+ * location. Every string, image and coordinate comes from the CMS. `config`
+ * only supplies the fallback for a field the Studio has not filled yet, and is
+ * optional so a brand created purely from the CMS can use the same layout.
  */
-export default function BrandPageView({ world, config }) {
-  const name = world?.name || config.name;
-  const tagline = world?.tagline || config.tagline;
-  const intro = world?.description || config.intro;
-  const logoUrl = world?.logo ? sizedUrl(world.logo, 600) : config.logo;
+export default function BrandPageView({ world, config = {}, theme = "dark" }) {
+  const name = world?.name || config.name || "Brand";
+  const tagline = world?.tagline || config.tagline || "";
+  const intro = world?.description || config.intro || "";
+  const logoUrl = world?.logo ? sizedUrl(world.logo, 600) : config.logo || null;
 
   const gallery = galleryUrls(world?.gallery);
-  const heroImages = gallery.length ? gallery : config.gallery;
+  const heroImages = gallery.length ? gallery : config.gallery || [];
 
   const sections = (world?.sections || []).filter(Boolean);
   const specsSection = sections.find((section) => section.type === "specs");
@@ -72,23 +73,23 @@ export default function BrandPageView({ world, config }) {
 
   const specs = world?.specifications?.length
     ? world.specifications.map((row) => [row.label, row.value])
-    : config.specs;
-  const specsHeading = specsSection?.heading || config.specsHeading;
+    : config.specs || [];
+  const specsHeading = specsSection?.heading || config.specsHeading || "SPECIFICATIONS";
 
   const hasCoords =
     typeof mapSection?.mapLat === "number" && typeof mapSection?.mapLng === "number";
-  const coords = hasCoords
-    ? { lat: mapSection.mapLat, lng: mapSection.mapLng }
-    : config.coords;
+  const coords = hasCoords ? { lat: mapSection.mapLat, lng: mapSection.mapLng } : config.coords || null;
 
-  const address = world?.address || config.address;
-  const whatsapp = world?.whatsapp || config.whatsapp;
-  const portraitUrl = world?.image ? sizedUrl(world.image, 1100) : config.image;
+  const address = world?.address || config.address || null;
+  const whatsapp = world?.whatsapp || config.whatsapp || null;
+  const portraitUrl = world?.image ? sizedUrl(world.image, 1100) : config.image || null;
   const panels = menuPanels(menuSection);
+
+  const hasLocation = Boolean(coords || address || whatsapp || (world?.hours || []).length);
 
   return (
     <>
-      <ThemeSetter theme="dark" />
+      <ThemeSetter theme={theme} />
       <Header />
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
@@ -107,19 +108,23 @@ export default function BrandPageView({ world, config }) {
               </h1>
             </TextClipReveal>
           )}
-          <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
-            {tagline}
-          </p>
+          {tagline ? (
+            <p className="mt-6 max-w-lg text-body-md text-on-surface-variant leading-relaxed">
+              {tagline}
+            </p>
+          ) : null}
         </ScrollReveal>
       </section>
 
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
-        <ScrollReveal>
-          <ImageParallax className="w-full">
-            <HeroCarousel images={heroImages} alt={name} />
-          </ImageParallax>
-        </ScrollReveal>
-      </section>
+      {heroImages.length ? (
+        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
+          <ScrollReveal>
+            <ImageParallax className="w-full">
+              <HeroCarousel images={heroImages} alt={name} />
+            </ImageParallax>
+          </ScrollReveal>
+        </section>
+      ) : null}
 
       {featuresSection?.features?.length ? (
         <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
@@ -150,49 +155,55 @@ export default function BrandPageView({ world, config }) {
       ) : null}
 
       <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <div className="grid gap-8 lg:gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+        <div className={`grid gap-8 lg:gap-16 ${portraitUrl ? "lg:grid-cols-12" : ""}`}>
+          <div className={portraitUrl ? "lg:col-span-7" : ""}>
             <ScrollReveal>
               <div className="space-y-12">
-                <p className="text-body-md text-on-surface-variant leading-relaxed">{intro}</p>
+                {intro ? (
+                  <p className="text-body-md text-on-surface-variant leading-relaxed">{intro}</p>
+                ) : null}
 
-                <div className="border-t border-outline-variant pt-8">
-                  <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                    {specsHeading}
-                  </h2>
-                  <div className="space-y-4">
-                    {specs.map(([label, value]) => (
-                      <div
-                        key={label}
-                        className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4"
-                      >
-                        <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">
-                          {label}
-                        </span>
-                        <span className="text-body-md text-on-surface min-w-0">{value}</span>
-                      </div>
-                    ))}
+                {specs.length ? (
+                  <div className="border-t border-outline-variant pt-8">
+                    <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
+                      {specsHeading}
+                    </h2>
+                    <div className="space-y-4">
+                      {specs.map(([label, value]) => (
+                        <div
+                          key={label}
+                          className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-outline-variant pb-4"
+                        >
+                          <span className="text-label-caps-sm uppercase tracking-wider text-on-surface-variant shrink-0">
+                            {label}
+                          </span>
+                          <span className="text-body-md text-on-surface min-w-0">{value}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                ) : null}
+
+                <BrandActions world={world} fallbacks={config.actions || []} />
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {portraitUrl ? (
+            <div className="lg:col-span-5">
+              <ScrollReveal>
+                <div className="img-hover w-full aspect-[4/5]">
+                  <img
+                    src={portraitUrl}
+                    alt={name}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
-
-                <BrandActions world={world} fallbacks={config.actions} />
-              </div>
-            </ScrollReveal>
-          </div>
-
-          <div className="lg:col-span-5">
-            <ScrollReveal>
-              <div className="img-hover w-full aspect-[4/5]">
-                <img
-                  src={portraitUrl}
-                  alt={name}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </ScrollReveal>
-          </div>
+              </ScrollReveal>
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -211,35 +222,39 @@ export default function BrandPageView({ world, config }) {
         <MenuPlaceholder heading={menuSection?.heading || "MENU"} />
       ) : null}
 
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <ScrollReveal>
-          <TextClipReveal>
-            <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-              {mapSection?.heading || "FIND US"}
-            </h2>
-          </TextClipReveal>
-          <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
-            <LeafletMap
-              lat={coords.lat}
-              lng={coords.lng}
-              zoom={mapSection?.mapZoom || 16}
-              className="w-full h-full"
-              label={`Lokasi ${name}${address ? `, ${address}` : ""}`}
-            />
-          </div>
-          <div className="mt-6">
-            <p className="text-body-md text-on-surface font-medium">{name}</p>
-            <p className="text-body-sm text-on-surface-variant">{tagline}</p>
-            {address ? (
-              <p className="text-body-sm text-on-surface-variant">{address}</p>
+      {hasLocation ? (
+        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+          <ScrollReveal>
+            <TextClipReveal>
+              <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
+                {mapSection?.heading || "FIND US"}
+              </h2>
+            </TextClipReveal>
+            {coords ? (
+              <div className="w-full h-[300px] md:h-[400px] border border-outline-variant overflow-hidden">
+                <LeafletMap
+                  lat={coords.lat}
+                  lng={coords.lng}
+                  zoom={mapSection?.mapZoom || 16}
+                  className="w-full h-full"
+                  label={`Lokasi ${name}${address ? `, ${address}` : ""}`}
+                />
+              </div>
             ) : null}
-            {whatsapp ? (
-              <p className="text-body-sm text-on-surface-variant">WhatsApp: {whatsapp}</p>
-            ) : null}
-            <BrandHours hours={world?.hours} className="mt-4" />
-          </div>
-        </ScrollReveal>
-      </section>
+            <div className="mt-6">
+              <p className="text-body-md text-on-surface font-medium">{name}</p>
+              {tagline ? <p className="text-body-sm text-on-surface-variant">{tagline}</p> : null}
+              {address ? (
+                <p className="text-body-sm text-on-surface-variant">{address}</p>
+              ) : null}
+              {whatsapp ? (
+                <p className="text-body-sm text-on-surface-variant">WhatsApp: {whatsapp}</p>
+              ) : null}
+              <BrandHours hours={world?.hours} className="mt-4" />
+            </div>
+          </ScrollReveal>
+        </section>
+      ) : null}
 
       <Footer />
     </>
