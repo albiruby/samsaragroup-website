@@ -68,8 +68,6 @@ function panelsOf(section, world) {
       src: p.src,
       alt: p.tabLabel || `${world.name} menu`,
       tabLabel: p.tabLabel,
-      width: p.width,
-      height: p.height,
     }));
 }
 

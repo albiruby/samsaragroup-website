@@ -28,12 +28,8 @@
   --color-outline: #7a776f;
   --color-outline-variant: #cbc6bd;
   --color-warm-sand: #C9BDA8;
-  --color-walnut: #59483A;
-  --color-olive: #59604A;
   --color-terracotta: #A86B52;
-  --color-ivory: #fdf9f0;
   --color-charcoal: #171613;
-  --color-paper: #FDF9F0;
   --color-on-secondary-fixed: #26190d;
 
   --font-sans: var(--font-body-loaded), "Arial", sans-serif;
@@ -220,8 +216,7 @@
   /* sengaja dibiarkan tanpa animasi */
 }
 
-.scrollbar-none::-webkit-scrollbar { display: none; }
-.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+/* The removed thumbnail strip used to hide its scrollbar here. */
 
 @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
   body { cursor: none; }

@@ -61,7 +61,7 @@ function isPublic(world: NavWorld): boolean {
   return world.status === "active" && world.featured !== false;
 }
 
-export type NavBrand = {
+type NavBrand = {
   slug: string;
   label: string;
   speciality: string;
@@ -70,7 +70,7 @@ export type NavBrand = {
   image: unknown;
 };
 
-export type BrandNav = {
+type BrandNav = {
   categories: { name: string; brands: NavBrand[] }[];
   all: NavBrand[];
   seeAllLabel: string;
@@ -161,7 +161,7 @@ const SEED_CARDS = [
   noIndex: false,
 }));
 
-export type BrandCard = (typeof SEED_CARDS)[number] & {
+type BrandCard = (typeof SEED_CARDS)[number] & {
   image: unknown;
   noIndex: boolean;
   disciplines: string;

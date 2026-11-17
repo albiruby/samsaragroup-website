@@ -1,5 +1,4 @@
 import { client } from "./client";
-import { urlFor } from "./image";
 
 const revalidate = { next: { revalidate: 60 } };
 
@@ -18,7 +17,7 @@ export async function getEvents() {
   }
 }
 
-export type EventsPageDoc = {
+type EventsPageDoc = {
   eyebrow?: string;
   title?: string;
   emptyMessage?: string;
@@ -45,7 +44,7 @@ export async function getEventsPage(): Promise<EventsPageDoc | null> {
   }
 }
 
-export type HomePageDoc = {
+type HomePageDoc = {
   heroImage?: unknown;
   heroImageAlt?: string;
   heroLine1?: string;
@@ -103,7 +102,7 @@ const WORLD_PROJECTION = `{
     body,
     "specifications": specifications[]{ _key, label, value },
     "features": features[]{ _key, title, copy },
-    "menuPanels": menuPanels[]{ _key, tabLabel, layout, downloadUrl, "src": image.asset->url, "width": image.asset->metadata.dimensions.width, "height": image.asset->metadata.dimensions.height },
+    "menuPanels": menuPanels[]{ _key, tabLabel, "src": image.asset->url },
     mapLat,
     mapLng,
     mapZoom
@@ -168,12 +167,12 @@ function hydrateWorld(doc: World): World {
   return doc;
 }
 
-export type BrandNavRow = {
+type BrandNavRow = {
   title?: string;
   brands: unknown[];
 };
 
-export type BrandNavConfig = {
+type BrandNavConfig = {
   rows: BrandNavRow[];
   seeAllLabel?: string;
   emptyLabel?: string;
@@ -272,7 +271,7 @@ export async function getCareers(): Promise<CareerList> {
   }
 }
 
-export type CareerPageDoc = {
+type CareerPageDoc = {
   eyebrow?: string;
   title?: string;
   intro?: string;
@@ -304,7 +303,7 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
   }
 }
 
-export type AboutPageDoc = {
+type AboutPageDoc = {
   eyebrow?: string;
   titleLine1?: string;
   titleLine2?: string;

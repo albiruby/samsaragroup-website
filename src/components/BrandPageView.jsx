@@ -28,8 +28,6 @@ function menuPanels(section) {
       src: panel.src,
       alt: panel.tabLabel,
       tabLabel: panel.tabLabel,
-      width: panel.width,
-      height: panel.height,
     }));
 }
 

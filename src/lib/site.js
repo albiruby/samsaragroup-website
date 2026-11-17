@@ -9,7 +9,7 @@ export function siteUrl(path = "") {
 }
 
 /** Brand slugs are path segments, never authority or protocol-relative values. */
-export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function isSafeSlug(value) {
   return typeof value === "string" && SLUG_PATTERN.test(value);

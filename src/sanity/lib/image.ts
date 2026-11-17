@@ -3,10 +3,6 @@ import { client } from "./client";
 
 const builder = createImageUrlBuilder(client);
 
-export function urlFor(source) {
-  return builder.image(source).auto("format");
-}
-
 /**
  * Sanity serves the full-resolution original unless a width is given, so a 320px
  * marquee tile was downloading a 1920px file. Callers that render at a known
