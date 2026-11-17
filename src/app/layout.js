@@ -8,7 +8,6 @@ import { getBrandNav } from "@/sanity/lib/brands";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import BackToTop from "@/components/BackToTop";
 import CustomCursor from "@/components/CustomCursor";
-import PageTransition from "@/components/PageTransition";
 import { jsonLdHtml } from "@/lib/jsonld";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -91,11 +90,9 @@ export default async function RootLayout({ children }) {
           >
             Skip to content
           </a>
-          <PageTransition>
-            <main id="main-content" tabIndex={-1}>
-              {children}
-            </main>
-          </PageTransition>
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           </BrandsProvider>
         </ThemeProvider>
         <BackToTop />

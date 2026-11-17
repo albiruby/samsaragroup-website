@@ -44,8 +44,7 @@ const HOME_DEFAULTS = {
   brandsCounterLabel: "worlds under one group",
 };
 
-/** A CMS string only wins when it actually has something in it. */
-const isi = (nilai, bawaan) => (typeof nilai === "string" && nilai.trim() ? nilai : bawaan);
+import { pick as isi } from "@/lib/pick";
 
 /** Internal paths are fine; anything else must be an absolute http(s) URL. */
 const safeHref = (nilai, bawaan) => {

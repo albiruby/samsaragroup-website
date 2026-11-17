@@ -33,21 +33,12 @@ const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
 /**
  * Local mark used only when a brand has no CMS logo at all — a new brand before
  * its logo is uploaded, or a CMS outage. The Studio is the source of truth.
+ * Cards apply `brightness-0 invert`, so a dark mark becomes a white silhouette.
  */
 const LEGACY_LOGO: Record<string, string> = {
   samsara: "/ASSETS-SAMSARA/logo/blackfullsamping-480.webp",
   svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
   acasa: "/ASSETS-ACASA/logoacasahitam-480.webp",
-};
-
-/**
- * Fallback for the /brands cards, which apply `brightness-0 invert` so any mark
- * becomes a white silhouette. Used only when the brand has no CMS logo.
- */
-const CARD_LOGO: Record<string, string> = {
-  samsara: "/ASSETS-SAMSARA/logo/whitefullsamping-480.webp",
-  svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
-  acasa: "/ASSETS-ACASA/Main Logo3-480.webp",
 };
 
 function slugOf(world: NavWorld): string {
@@ -170,7 +161,7 @@ type BrandCard = (typeof SEED_CARDS)[number] & {
 function toCard(world: NavWorld): BrandCard {
   const slug = slugOf(world);
   const seed = SEED_CARDS.find((c) => c.slug === slug);
-  const legacyLogo = CARD_LOGO[slug];
+  const legacyLogo = LEGACY_LOGO[slug];
   return {
     slug,
     name: (world.name || slug).toUpperCase(),

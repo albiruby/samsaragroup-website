@@ -60,8 +60,7 @@ const ABOUT_DEFAULTS = {
   ],
 };
 
-/** A CMS string only wins when it actually has something in it. */
-const isi = (nilai, bawaan) => (typeof nilai === "string" && nilai.trim() ? nilai : bawaan);
+import { pick as isi } from "@/lib/pick";
 const isiArray = (nilai, bawaan) =>
   Array.isArray(nilai) && nilai.filter((x) => typeof x === "string" && x.trim()).length
     ? nilai.filter((x) => typeof x === "string" && x.trim())

@@ -3,14 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useBrandNav } from "./BrandsProvider.jsx";
-
-const mobileLinks = [
-  { label: "HOME", href: "/" },
-  { label: "EVENTS", href: "/events" },
-  { label: "CAREER", href: "/career" },
-  { label: "ABOUT", href: "/about" },
-  { label: "CONTACT", href: "/contact" },
-];
+import { mobileNav } from "@/lib/nav";
 
 export default function MobileMenu({ isOpen, onClose }) {
   const { categories: brandCategories, seeAllLabel } = useBrandNav();
@@ -91,7 +84,7 @@ export default function MobileMenu({ isOpen, onClose }) {
 
       <div className="menu-scroll w-full h-full flex flex-col overflow-y-auto px-6 py-20">
         <nav className="my-auto w-full flex flex-col items-center gap-4">
-          {mobileLinks.slice(0, 1).map((link) => (
+          {mobileNav.slice(0, 1).map((link) => (
             <Link
               key={link.label}
               href={link.href}
@@ -164,7 +157,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             </div>
           )}
 
-          {mobileLinks.slice(1).map((link) => (
+          {mobileNav.slice(2).map((link) => (
             <Link
               key={link.label}
               href={link.href}

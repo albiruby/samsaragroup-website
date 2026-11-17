@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 import { useBrandNav } from "./BrandsProvider.jsx";
+import { nav } from "@/lib/nav";
 
 export default function Header() {
   const { categories: brandCategories, seeAllLabel, emptyLabel } = useBrandNav();
@@ -66,10 +67,10 @@ export default function Header() {
 
         <nav className="col-start-2 hidden lg:pointer-fine:flex items-center gap-6 lg:gap-8 justify-self-center">
           <Link
-            href="/"
+            href={nav.home.href}
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
-            HOME
+            {nav.home.label}
           </Link>
 
           <div
@@ -181,24 +182,24 @@ export default function Header() {
           </div>
 
           <Link
-            href="/events"
+            href={nav.events.href}
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
-            EVENTS
+            {nav.events.label}
           </Link>
 
           <Link
-            href="/career"
+            href={nav.career.href}
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
-            CAREER
+            {nav.career.label}
           </Link>
 
           <Link
-            href="/about"
+            href={nav.about.href}
             className="nav-link font-label text-sm lg:text-lg tracking-[0.15em] transition-colors duration-200 text-white/70 hover:text-white"
           >
-            ABOUT
+            {nav.about.label}
           </Link>
         </nav>
 

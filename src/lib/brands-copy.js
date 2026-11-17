@@ -1,9 +1,9 @@
 /**
- * Editorial copy for each brand.
+ * Fallback copy for the five established brands.
  *
- * Single source of truth: the BRANDS dropdown, the homepage brand section and
- * the seed skeleton all read these names, so a wording change happens in one
- * place. The CMS still owns the logo, images and ordering.
+ * The CMS is the source of truth. These values are only read when a CMS field is
+ * empty or Sanity cannot be reached, so editing this file does not change the
+ * live site while the documents are filled in.
  */
 export const BRAND_COPY = [
   {

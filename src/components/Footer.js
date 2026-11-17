@@ -3,6 +3,7 @@
 import Link from "next/link";
 import ScrollMarquee from "./ScrollMarquee";
 import { useBrandNav } from "./BrandsProvider.jsx";
+import { footerNav } from "@/lib/nav";
 
 export default function Footer() {
   const { all: allBrands } = useBrandNav();
@@ -29,16 +30,18 @@ export default function Footer() {
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">CONNECT</p>
           <ul className="space-y-0">
-            <li><Link href="/contact" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">General Inquiry</Link></li>
-            <li><Link href="/events" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">Events</Link></li>
+            {footerNav.connect.map((item) => (
+              <li key={item.href}><Link href={item.href} className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">{item.label}</Link></li>
+            ))}
           </ul>
         </div>
 
         <div className="space-y-4">
           <p className="font-label text-label-uppercase text-secondary tracking-[0.14em] uppercase">EXPLORE</p>
           <ul className="space-y-0">
-            <li><Link href="/about" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">About</Link></li>
-            <li><Link href="/career" className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">Career</Link></li>
+            {footerNav.explore.map((item) => (
+              <li key={item.href}><Link href={item.href} className="inline-flex items-center min-h-[44px] font-body text-body-md text-on-surface hover:text-secondary transition-colors">{item.label}</Link></li>
+            ))}
           </ul>
         </div>
 

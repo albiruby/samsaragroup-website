@@ -178,6 +178,18 @@ if (cms && html["/career"]) {
   hasil(lowongan === cms.career, "  /career: jumlah kartu = jumlah lowongan aktif", `${lowongan} kartu vs ${cms.career} lowongan`);
 }
 
+if (cms && html["/contact"]) {
+  // Structural only: labels and valid phone shapes. Phone numbers are editorial
+  // and change legitimately, so the check must not pin their exact values.
+  const contact = await sanity('*[_id=="contactInfo"][0]{whatsapp[]{label,phone}, addresses[]{label}}');
+  const nomor = (contact?.whatsapp || []).filter((w) => w?.label && /^\d{8,15}$/.test(w?.phone || ""));
+  const alamat = (contact?.addresses || []).filter((a) => a?.label);
+  const tautanWa = (html["/contact"].match(/<a[^>]+href="https:\/\/wa\.me\//g) || []).length;
+  hasil(nomor.length >= 3, "  contactInfo: nomor WhatsApp valid", `${nomor.length} entri`);
+  hasil(alamat.length >= 3, "  contactInfo: alamat terisi", `${alamat.length} entri`);
+  hasil(tautanWa === nomor.length, "  /contact: jumlah tautan WA = nomor di CMS", `${tautanWa} tautan vs ${nomor.length} nomor`);
+}
+
 // ---------------------------------------------------------------- summary
 
 console.log("");
