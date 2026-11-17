@@ -187,9 +187,14 @@ export default async function AboutPage() {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-outline-variant">
             {philosophy.map((item) => (
-              <div key={item.title} className="bg-surface p-8 lg:p-10">
-                <h3 className="mb-3 text-title-lg font-display uppercase tracking-wide text-on-surface">{item.title}</h3>
-                <p className="text-body-sm text-on-surface-variant leading-relaxed">{item.body}</p>
+              <div
+                key={item.title}
+                className="group card-hover bg-surface-container-low p-5 lg:p-6 hover:bg-surface transition-colors"
+              >
+                <h3 className="mb-2 font-display text-headline-sm uppercase text-on-surface group-hover:text-terracotta transition-colors">
+                  {item.title}
+                </h3>
+                <p className="font-body text-body-sm text-on-surface-variant leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
