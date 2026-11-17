@@ -137,11 +137,12 @@ Field yang **dibaca** (paling relevan):
 
 ### Home `/`
 - Hero image: **hardcoded** (`/ASSETS-SAMSARA/ambience/DSC08930.webp`).
-- Semua copy: **hardcoded** (di `src/components/HomePage.js`).
+- Copy: CMS `homePage` (fallback literal di `src/app/page.js`).
 - Marquee: `carouselImage` (placement `home`) dengan fallback literal.
 
 ### About `/about`
-- **Hardcoded penuh** (`src/app/about/page.js`). Tidak ada CMS.
+- Dokumen `aboutPage` di Studio (hero, vision, 6 kartu philosophy — jumlah dikunci).
+- Fallback: teks bawaan di `app/about/page.js` saat CMS mati.
 
 ### Brands `/brands`
 - Daftar: `getBrandCards()` (hanya brand publik).
@@ -202,7 +203,8 @@ Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`,
 - **Catatan:** dulu ada `scripts/seed-careers.mjs clear` yang menghapus semua lowongan sekaligus. Skrip itu **sudah dihapus** — sekarang lowongan hanya dikelola dari Studio.
 
 ### E. Ubah teks halaman About / Vision / Philosophy
-- **Hardcoded** di `src/app/about/page.js`. Ubah kode → push.
+- Studio → **About Page** → dokumen `aboutPage`. Muncul ~1 menit.
+- Philosophy dikunci tepat 6 kartu; teksnya bebas diubah.
 
 ### F. Ganti gambar hero brand
 - **Studio** → **Brands & Brand Pages — World** → dokumen brand → field **Gallery**. Urutan gambar mengikuti urutan di Studio.

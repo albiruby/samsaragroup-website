@@ -304,6 +304,42 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
   }
 }
 
+export type AboutPageDoc = {
+  eyebrow?: string;
+  titleLine1?: string;
+  titleLine2?: string;
+  intro?: string[];
+  heroImage?: unknown;
+  heroImageAlt?: string;
+  visionEyebrow?: string;
+  visionHeading?: string;
+  visionBody?: string;
+  philosophyEyebrow?: string;
+  philosophyHeading?: string;
+  philosophy?: { _key?: string; title?: string; body?: string }[];
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export async function getAboutPage(): Promise<AboutPageDoc | null> {
+  try {
+    return await client.fetch(
+      `*[_id == "aboutPage"][0] {
+        eyebrow, titleLine1, titleLine2, intro, heroImage, heroImageAlt,
+        visionEyebrow, visionHeading, visionBody,
+        philosophyEyebrow, philosophyHeading,
+        philosophy[]{ _key, title, body },
+        seoTitle, seoDescription
+      }`,
+      {},
+      revalidate
+    );
+  } catch (e) {
+    console.error("getAboutPage failed:", e.message);
+    return null;
+  }
+}
+
 export async function getContactInfo() {
   try {
     return await client.fetch(

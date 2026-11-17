@@ -182,7 +182,7 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - Privacy policy/halaman legal belum dibuat.
 - Outpace & Grove terindeks, tetapi belum lengkap: menu placeholder, alamat/logo/jam belum ada.
 - Kelima brand belum punya jam buka; `world.hours` masih kosong.
-- `/about` masih 100% hardcoded; Career masih 6 lowongan dummy; Events masih 0 dokumen.
+- Career masih 6 lowongan dummy; Events masih 0 dokumen.
 - Staging **publik**; jangan unggah dokumen pribadi.
 - Rollback runbook ada, tetapi belum diuji.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.

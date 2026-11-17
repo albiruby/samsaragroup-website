@@ -263,7 +263,7 @@ Poin teknis:
 | Route | File | Sumber data |
 |---|---|---|
 | `/` | `app/page.js` → `HomePage.js` | **hardcoded**, kecuali marquee (`carouselImage` placement `home`) |
-| `/about` | `app/about/page.js` | **hardcoded penuh** |
+| `/about` | `app/about/page.js` | dokumen `aboutPage` (fallback literal di berkas) |
 | `/brands` | `app/brands/page.js` | `getBrandCards()` |
 | `/samsara` | `app/samsara/page.js` → `BrandPageView` | dokumen `world` (lihat §5.1) |
 | `/svarga` | `app/svarga/page.js` → `BrandPageView` | idem |
@@ -696,7 +696,7 @@ Semua read-only dan tanpa secret. `ci.yml` memakai Node dari `.nvmrc`. `client.t
 
 **D. Tambah lowongan** → Studio → **Career** → dokumen `career` dengan `status = active`; urut mengikuti `order`; `postedAt` kosong = tanggal hari ini.
 
-**E. Ubah teks About / Vision / Philosophy** → **hardcoded** di `src/app/about/page.js` → push.
+**E. Ubah teks About / Vision / Philosophy** → Studio → **About Page** → dokumen `aboutPage`. Muncul ~1 menit. Kalau CMS mati, halaman memakai teks bawaan dari `app/about/page.js`.
 
 **F. Ganti gambar hero brand** → Studio → dokumen brand → **Gallery**; urutan mengikuti Studio. Kalau galeri kosong, halaman jatuh ke foto lokal di `src/lib/brand-pages.js`.
 
