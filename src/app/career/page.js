@@ -7,6 +7,7 @@ import TextClipReveal from "@/components/TextClipReveal";
 import ThemeSetter from "@/components/ThemeSetter";
 import CareerList from "@/components/CareerList.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
+import ScrollMarquee from "@/components/ScrollMarquee";
 import { getCareers, getCareerPage } from "@/sanity/lib/queries";
 import { jsonLdHtml } from "@/lib/jsonld";
 
@@ -48,16 +49,26 @@ function safeUrl(value) {
 }
 
 /**
- * Keep the brand strip balanced as the group grows. Five or fewer stays on one
- * row; six splits 3+3; seven or eight uses four columns; nine or ten uses five.
- * Above ten, four columns keeps every row full without a lonely last item.
+ * One logo tile for the rolling brand strip. The marks come from the CMS (black
+ * artwork on a light surface) and fall back to the brand name when missing.
  */
-function brandStripColumns(count) {
-  if (count <= 5) return "lg:grid-cols-5";
-  if (count === 6) return "lg:grid-cols-3";
-  if (count <= 8) return "lg:grid-cols-4";
-  if (count <= 10) return "lg:grid-cols-5";
-  return "lg:grid-cols-4";
+function brandLogo(brand) {
+  return (
+    <div key={brand.slug} className="logo-marquee-item">
+      {brand.logo ? (
+        <img
+          src={brand.logo}
+          alt={brand.label}
+          className="h-8 w-auto object-contain lg:h-10"
+          loading="lazy"
+        />
+      ) : (
+        <span className="font-display text-lg uppercase tracking-wide text-on-surface lg:text-xl">
+          {brand.label}
+        </span>
+      )}
+    </div>
+  );
 }
 
 export async function generateMetadata() {
@@ -110,7 +121,6 @@ export default async function CareerPageRoute() {
    * when we simply could not load them.
    */
   const noOpenPositions = !unavailable && jobs.length === 0;
-  const brandStripCols = brandStripColumns(brandNav.all.length);
 
   return (
     <>
@@ -171,36 +181,21 @@ export default async function CareerPageRoute() {
         </ScrollReveal>
       </section>
 
-      {copy.showBrandStrip ? (
+      {copy.showBrandStrip && brandNav.all.length ? (
         <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
           <ScrollReveal>
             {/*
-              The brand marks are the light/white artwork, so the band is dark. It uses
-              the same primary/on-primary tokens as the header so the strip and the nav
-              read as one surface.
+              Same rolling logo band as the footer, on a rounded light panel: the CMS
+              logos are the black artwork, so they sit directly on the surface with no
+              filter. The second copy exists only to make the loop seamless.
             */}
-            <div className={`grid grid-cols-2 gap-6 bg-primary px-6 py-10 sm:grid-cols-3 ${brandStripCols} lg:px-10`}>
-              {brandNav.all.map((brand) => (
-                <div key={brand.slug} className="flex flex-col items-center gap-4">
-                  {brand.logo ? (
-                    <img
-                      src={brand.logo}
-                      alt={brand.label}
-                      className="h-8 w-auto object-contain brightness-0 invert lg:h-10"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="font-display text-lg uppercase tracking-wide text-on-primary lg:text-xl">
-                      {brand.label}
-                    </span>
-                  )}
-                  {brand.speciality ? (
-                    <span className="text-center text-body-sm italic text-on-primary/70">
-                      {brand.speciality}
-                    </span>
-                  ) : null}
+            <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface-container-low py-8 lg:py-10">
+              <ScrollMarquee className="logo-marquee-track" baseSpeed={50} data-cursor="DRAG">
+                <div className="logo-marquee-content">{brandNav.all.map(brandLogo)}</div>
+                <div className="logo-marquee-content" aria-hidden="true">
+                  {brandNav.all.map(brandLogo)}
                 </div>
-              ))}
+              </ScrollMarquee>
             </div>
           </ScrollReveal>
         </section>

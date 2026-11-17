@@ -148,7 +148,7 @@ Field yang **dibaca** (paling relevan):
 - Daftar: `getBrandCards()` (hanya brand publik).
 
 ### Career `/career`
-- `careerPage` + `career` (status `active`) + strip brand dari `brandNav`.
+- `careerPage` + `career` (status `active`) + strip logo brand bergulir (panel rounded, komponen `ScrollMarquee` yang sama dengan footer) dari `brandNav`.
 
 ### Events `/events`
 - `getEvents()` — semua dokumen event, urut `date` desc.
