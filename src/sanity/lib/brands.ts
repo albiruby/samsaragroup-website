@@ -155,10 +155,10 @@ const SEED_CARDS = [
   name: (brandCopy(c.slug)?.name || c.slug).toUpperCase(),
   tagline: brandCopy(c.slug)?.title || "",
   disciplines: brandCopy(c.slug)?.disciplines || "",
-  // Outpace and Grove are hidden from search in the CMS. The seed has to match,
-  // or a CMS outage would put them back into sitemap.xml while their pages still
-  // answer with `noindex`.
-  noIndex: c.slug === "outpace" || c.slug === "grove",
+  // The CMS marks no brand as noIndex; the seed has to match, otherwise a CMS
+  // outage would drop the same brands from sitemap.xml while their pages still
+  // answer 200.
+  noIndex: false,
 }));
 
 export type BrandCard = (typeof SEED_CARDS)[number] & {

@@ -6,35 +6,6 @@ import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 import { useBrandNav } from "./BrandsProvider.jsx";
 
-const brandImages = {
-  "/samsara": [
-    "/ASSETS-SAMSARA/ambience/DSC08187.webp", "/ASSETS-SAMSARA/ambience/DSC08177.webp", "/ASSETS-SAMSARA/ambience/DSC08930.webp",
-    "/ASSETS-SAMSARA/ambience/DSC08926.webp", "/ASSETS-SAMSARA/ambience/DSC08913.webp", "/ASSETS-SAMSARA/ambience/DSC09006.webp",
-    "/ASSETS-SAMSARA/ambience/DSC08998.webp", "/ASSETS-SAMSARA/ambience/DSC08568.webp", "/ASSETS-SAMSARA/ambience/DSC08420.webp",
-    "/ASSETS-SAMSARA/ambience/DSC08635.webp", "/ASSETS-SAMSARA/ambience/DSC09003.webp", "/ASSETS-SAMSARA/ambience/DSC09354.webp",
-  ],
-  "/svarga": [
-    "/ASSETS-SVARGA/ADR (3 of 15).webp",
-    "/ASSETS-SVARGA/ADR (4 of 4).webp",
-    "/ASSETS-SVARGA/ADR (2 of 4).webp",
-    "/ASSETS-SVARGA/ADR (3 of 4).webp",
-    "/ASSETS-SVARGA/ADR (1 of 4).webp",
-  ],
-  "/acasa": [
-    "/ASSETS-ACASA/ADR-06545.webp", "/ASSETS-ACASA/ADR-06529.webp", "/ASSETS-ACASA/ADR-06507.webp",
-    "/ASSETS-ACASA/ADR-06480.webp", "/ASSETS-ACASA/ADR-06474.webp", "/ASSETS-ACASA/ADR-06468.webp",
-    "/ASSETS-ACASA/ADR-06368.webp", "/ASSETS-ACASA/ADR-06325.webp",
-    "/ASSETS-ACASA/ADR-06293.webp", "/ASSETS-ACASA/ADR-06254.webp",
-  ],
-};
-
-function preloadImages(srcs) {
-  srcs.forEach((src) => {
-    const img = new Image();
-    img.src = src;
-  });
-}
-
 export default function Header() {
   const { categories: brandCategories, seeAllLabel, emptyLabel } = useBrandNav();
   const [scrolled, setScrolled] = useState(false);
@@ -170,10 +141,6 @@ export default function Header() {
                           <Link
                             key={b.href}
                             href={b.href}
-                            onMouseEnter={() => {
-                              const imgs = brandImages[b.href];
-                              if (imgs) preloadImages(imgs);
-                            }}
                             onClick={() => setBrandsOpen(false)}
                             className="relative flex items-center gap-4 px-5 py-3 hover:bg-surface-container-low transition-colors"
                           >
