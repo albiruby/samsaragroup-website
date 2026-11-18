@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Error({ error, reset }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface px-5vw">
+    <div className="min-h-screen flex items-center justify-center bg-surface px-[5vw]">
       <div className="text-center">
         <span className="block text-[10rem] md:text-[14rem] font-display leading-none text-primary/10 select-none">
           500
