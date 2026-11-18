@@ -9,8 +9,6 @@ import { getEvents, getEventsPage } from "@/sanity/lib/queries";
 import { sizedUrl } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
 
-export const dynamic = "force-dynamic";
-
 /** Served from the CMS so an editor can change the title and description without a deploy. */
 export async function generateMetadata() {
   const page = await getEventsPage();

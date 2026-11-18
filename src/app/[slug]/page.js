@@ -4,8 +4,6 @@ import BrandPageView from "@/components/BrandPageView";
 import { getWorldBySlug } from "@/sanity/lib/queries";
 import { ogImageUrl } from "@/sanity/lib/image";
 
-export const dynamic = "force-dynamic";
-
 const SITE = "Samsara Group";
 
 /**

@@ -4,8 +4,6 @@ import { getCarouselImages, getHomePage } from "@/sanity/lib/queries";
 import { getBrandCards } from "@/sanity/lib/brands";
 import { sizedUrl } from "@/sanity/lib/image";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = {
   title: "Samsara Group — Many Identities, One Standard",
   description: "Samsara Group is a lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia — from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.",

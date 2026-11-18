@@ -4,8 +4,6 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getContactInfo } from "@/sanity/lib/queries";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = {
   title: "Contact — Samsara Group",
   description: "Get in touch with Samsara Group for inquiries, reservations, and partnerships.",

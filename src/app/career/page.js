@@ -11,8 +11,6 @@ import BrandMarquee from "@/components/BrandMarquee";
 import { getCareers, getCareerPage } from "@/sanity/lib/queries";
 import { jsonLdHtml } from "@/lib/jsonld";
 
-export const dynamic = "force-dynamic";
-
 const SITE = "Samsara Group";
 
 /**

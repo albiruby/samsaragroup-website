@@ -9,8 +9,6 @@ import { jsonLdHtml } from "@/lib/jsonld";
 import { getAboutPage } from "@/sanity/lib/queries";
 import { sizedUrl } from "@/sanity/lib/image";
 
-export const dynamic = "force-dynamic";
-
 /**
  * Fallbacks for every string and image the About page renders. An empty field in
  * the Studio, or a CMS that cannot be reached, falls back to these rather than

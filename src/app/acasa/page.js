@@ -4,8 +4,6 @@ import { brandMetadata, loadBrand } from "@/lib/brand-page";
 import { BRAND_PAGES } from "@/lib/brand-pages";
 import { isBrandHidden } from "@/lib/brand-visibility";
 
-export const dynamic = "force-dynamic";
-
 const KEY = "acasa";
 
 export async function generateMetadata() {

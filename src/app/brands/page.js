@@ -9,8 +9,6 @@ import { sizedUrl } from "@/sanity/lib/image";
 import { getBrandCards } from "@/sanity/lib/brands";
 import { jsonLdHtml } from "@/lib/jsonld";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = {
   title: "Brands — Samsara Group",
   description: "Explore the brands of Samsara Group — Samsara, Svarga, Acasa, Outpace, and Grove.",
