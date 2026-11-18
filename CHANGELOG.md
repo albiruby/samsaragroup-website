@@ -3,7 +3,7 @@
 All notable changes to the Samsara Group website are recorded here.
 Format: keep the newest release on top. Dates are ISO (`YYYY-MM-DD`).
 
-## 1.0.0 — 2026-11-18
+## 1.1.0 — 2026-11-18
 
 First handover release of the five-brand website.
 
@@ -28,3 +28,7 @@ First handover release of the five-brand website.
   and menu Layout/Download references removed.
 - Handover, release checklist, maintenance guide and CMS tutorial aligned with
   the current code.
+
+## 1.0.0 — 2026-11-12
+
+- Repository release baseline (tag `v1.0.0`), including the project landing page.
