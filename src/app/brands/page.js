@@ -64,8 +64,10 @@ url: siteUrl("/brands"),
               <div className="relative aspect-[4/5] overflow-hidden">
                 {brand.image ? (
                   <img src={sizedUrl(brand.image, 600)} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                ) : (
+                ) : brand.fallback ? (
                   <img src={brand.fallback} alt={brand.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                ) : (
+                  <div aria-hidden="true" className="h-full w-full bg-primary" />
                 )}
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center px-6">
                   {brand.logo ? (
