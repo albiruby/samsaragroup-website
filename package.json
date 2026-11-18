@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --test scripts/brand-visibility.test.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

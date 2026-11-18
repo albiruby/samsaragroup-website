@@ -51,7 +51,9 @@ npm run dev        # http://localhost:3333
 | `npm run build` | Build produksi |
 | `npm run start` | Menjalankan hasil build |
 | `npm run lint` | ESLint — target 0 error |
-| `npm run smoke` | 74 pemeriksaan terhadap situs produksi: rute, tag SEO, header keamanan, sitemap, dan jumlah elemen yang berasal dari CMS |
+| `npm test` | 5 unit test untuk aturan visibilitas brand |
+| `npm run check:links` | Memeriksa seluruh tautan internal pada build lokal |
+| `npm run smoke` | 77 pemeriksaan terhadap situs produksi: rute, tag SEO, header keamanan, sitemap, dan jumlah elemen yang berasal dari CMS |
 
 ## Struktur
 
@@ -59,7 +61,7 @@ npm run dev        # http://localhost:3333
 src/
 ├─ app/          rute App Router: /, /about, /brands, /career, /events, /contact,
 │                lima halaman brand, dan /[slug]
-├─ components/   komponen UI — header, hero, menu, peta, transisi, counter
+├─ components/   komponen UI — header, hero, menu, peta, counter
 ├─ lib/          helper situs, JSON-LD, dan salinan teks brand
 └─ sanity/lib/   klien GROQ dan pembangun URL gambar
 public/          aset statis per brand: ASSETS-SAMSARA, ASSETS-SVARGA, ASSETS-ACASA

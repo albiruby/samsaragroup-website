@@ -13,8 +13,6 @@ const BASE_URL = SITE_URL;
 export const dynamic = "force-dynamic";
 
 export default async function sitemap() {
-  const lastModified = new Date();
-
   /*
    * getBrandCards falls back to the seeded list, so an unreachable CMS cannot strip
    * the brand URLs out of the sitemap and cost indexation on pages that still work.
@@ -25,7 +23,7 @@ export default async function sitemap() {
   const cards = (await getBrandCards()).filter((c) => !c.noIndex && isSafeSlug(c.slug));
   const brandUrls = cards.map((c, i) => ({
     url: siteUrl(c.href),
-    lastModified,
+    ...(c.lastModified ? { lastModified: new Date(c.lastModified) } : {}),
     changeFrequency: "monthly",
     priority: i < 3 ? 0.8 : 0.7,
   }));
@@ -33,38 +31,32 @@ export default async function sitemap() {
   const staticUrls = [
     {
       url: BASE_URL,
-      lastModified,
       changeFrequency: "yearly",
       priority: 1,
     },
     {
       url: `${BASE_URL}/about`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/brands`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     ...brandUrls,
     {
       url: `${BASE_URL}/career`,
-      lastModified,
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/events`,
-      lastModified,
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/contact`,
-      lastModified,
       changeFrequency: "yearly",
       priority: 0.5,
     },

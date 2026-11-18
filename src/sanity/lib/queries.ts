@@ -88,6 +88,7 @@ export async function getHomePage(): Promise<HomePageDoc | null> {
 
 const WORLD_PROJECTION = `{
   _id,
+  _updatedAt,
   name,
   slug,
   tagline,

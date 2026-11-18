@@ -8,6 +8,7 @@ const DEFAULT_EMPTY = "Hover a brand";
 
 type NavWorld = {
   _id: string;
+  _updatedAt?: string;
   name?: string;
   slug?: { current?: string } | string;
   tagline?: string;
@@ -156,6 +157,7 @@ type BrandCard = (typeof SEED_CARDS)[number] & {
   image: unknown;
   noIndex: boolean;
   disciplines: string;
+  lastModified?: string | null;
 };
 
 function toCard(world: NavWorld): BrandCard {
@@ -177,6 +179,7 @@ function toCard(world: NavWorld): BrandCard {
     // Dibawa ke sitemap supaya brand yang diminta "Hide from Search Engines"
     // tidak diiklankan di sitemap.xml sekaligus diminta tidak diindeks di <head>.
     noIndex: world.noIndex === true,
+    lastModified: world._updatedAt ?? null,
   };
 }
 

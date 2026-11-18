@@ -46,3 +46,18 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Start production server
+        run: npm run start &
+
+      - name: Wait for the server
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:3000 > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          echo "server did not start in time"
+          exit 1
+
+      - name: Link check
+        run: npm run check:links
