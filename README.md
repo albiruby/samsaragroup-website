@@ -88,7 +88,6 @@ Studio adalah **sumber kebenaran** konten: tidak ada sinkronisasi otomatis dari 
 | [`docs/HANDOVER.md`](docs/HANDOVER.md) | checklist serah terima dan kalender perawatan |
 | [`docs/ROLLBACK.md`](docs/ROLLBACK.md) | prosedur rollback produksi |
 | [`docs/Sanity CMS Tutorial.md`](docs/Sanity%20CMS%20Tutorial.md) | panduan editor CMS |
-| [`docs/Overall Codebase Security Audit.md`](docs/Overall%20Codebase%20Security%20Audit.md) | audit keamanan codebase |
 
 ## Lisensi
 

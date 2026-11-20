@@ -24,7 +24,6 @@ Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 - `DOCUMENTATIONS.md` — arsitektur, konten, deploy, script.
 - `PEMELIHARAAN.md` — operasi harian dan troubleshooting.
 - `ROLLBACK.md` — langkah rollback production.
-- `Overall Codebase Security Audit.md` — catatan keamanan historis.
 
 ---
 
@@ -82,7 +81,7 @@ Catatan: **workflow terjadwal GitHub bisa dinonaktifkan otomatis** setelah repo 
 | Ubah konten | Editor Studio | Production: `/production`; staging: `/staging` |
 | Backup dataset | Pemilik / admin | `studio/scripts/backup-and-upload.ps1`; **tidak terjadwal** |
 | Restore drill | Pemilik / admin | Minimal 3–6 bulan sekali; lihat `DOCUMENTATIONS.md` §14 |
-| Rollback production | Pemilik / admin | Ikuti `ROLLBACK.md`; **belum pernah diuji** |
+| Rollback production | Pemilik / admin | Ikuti `ROLLBACK.md`; sudah diuji 14/11/2026 |
 | Perpanjang domain/plan | Pemilik | Vercel, Sanity, domain/DNS |
 | Cabut/rotasi token | Pemilik | Sanity Manage → API → Tokens |
 
@@ -179,12 +178,12 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 ## 9. Gap yang masih terbuka
 
 - Domain masih `samsaragroup.vercel.app`; domain sendiri belum ada.
-- Privacy policy/halaman legal belum dibuat.
+- Privacy policy: **Accepted Risk** (pemilik, 18 Nov 2026) — tidak dibuat.
 - Outpace & Grove terindeks, tetapi belum lengkap: menu placeholder, alamat/logo/jam belum ada.
 - Kelima brand belum punya jam buka; `world.hours` masih kosong.
 - Career masih 6 lowongan dummy; Events masih 0 dokumen.
 - Staging **publik**; jangan unggah dokumen pribadi.
-- Rollback runbook ada, tetapi belum diuji.
+- Rollback runbook ada dan sudah diuji 14/11/2026.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.
 - Backup manual, tidak terjadwal.
 - ~~Token Sanity lama belum dicabut.~~ **Selesai 25/10** — ketiga token project dihapus; `sanity tokens list` = 0.
@@ -205,4 +204,4 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
 - [ ] `npm run smoke` 77/77.
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
-- [ ] Baca `CHECKLIST-RILIS.md` (kesiapan rilis) dan `LEMBAR-ISIAN-KLIEN.md` (materi yang masih kurang).
+- [ ] Baca `CHANGELOG.md` (riwayat rilis) dan `DOCUMENTATIONS.md` (referensi teknis).

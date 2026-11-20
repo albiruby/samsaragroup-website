@@ -909,7 +909,7 @@ utuh. Hapus yang tidak terpakai untuk bebaskan kuota.
 | Field mati di halaman brand | **0** sejak 14/11 |
 | Grove & Outpace | Publik, terindeks, `noIndex = false`; menu masih placeholder |
 | `npm run build` | Compiled successfully, 0 error |
-| `npm run lint` | 0 error, 20 warning `<img>` (pre-existing) |
+| `npm run lint` | 0 error, 17 warning `<img>` (pre-existing) |
 | Hardcoded secret di source | 0 |
 | Token Sanity di client bundle | Tidak ada (server-side only) |
 | CSP | Nonce + `strict-dynamic`, tanpa `unsafe-eval` di production |

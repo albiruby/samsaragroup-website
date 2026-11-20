@@ -2,7 +2,7 @@
 
 Berlaku untuk produksi **Vercel**: <https://samsaragroup.vercel.app> (project `samsaragroup`).
 
-> **Status uji:** runbook ditulis 24/10/2026, **belum pernah diuji** di production. Uji pertama harus dijadwalkan bersama pemilik.
+> **Status uji:** runbook ditulis 24/10/2026 dan diuji 14/11/2026 (`6ba68da → d3a6589 → 6ba68da`); situs mengembalikan 200 sepanjang proses. Ulangi setelah perubahan besar.
 
 ## 1. Kapan rollback kode
 
@@ -133,4 +133,3 @@ Peringatan:
 
 - Preview deployment memakai dataset `staging`; rollback production tidak mengubah staging.
 - `ignoreCommand` hanya membandingkan path build; saat Redeploy, uncheck opsinya.
-- Untuk Hostinger (bukan Vercel), rollback berarti revert commit + push — lihat `Migrasi-Hostinger.md` §8.

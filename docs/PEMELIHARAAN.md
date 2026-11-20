@@ -23,7 +23,7 @@ Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode w
 |---|---|---|---|
 | Website | `D:\Project Website Samsara Group\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
 | Studio (CMS) | `D:\Project Website Samsara Group\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ — produksi `/production`, staging `/staging` |
-| Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `Sanity CMS Tutorial.md`, `Migrasi-Hostinger.md`, `Overall Codebase Security Audit.md` |
+| Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `HANDOVER.md`, `ROLLBACK.md`, `Sanity CMS Tutorial.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
   > ⚠️ `samsaragroup.com` **BUKAN milik kita.** Domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah menaruhnya di `NEXT_PUBLIC_SITE_URL` — canonical, `og:url`, sitemap, dan robots kita akan menunjuk ke situs mereka.
@@ -71,7 +71,7 @@ Jadi kalau kamu mengosongkan sebuah field di Studio, website **tidak jadi kosong
 | Kode website (`src/**`) | Setelah push → Vercel build | Ya, push ke `master` |
 | Gambar baru di `website/public/**` | Setelah push → Vercel build | Ya, push ke `master` |
 
-Catatan teknis: semua halaman memakai `export const dynamic = "force-dynamic"` (render per request), tetapi setiap `client.fetch` diberi `next: { revalidate: 60 }`, sehingga permintaan ke Sanity di-cache 60 detik.
+Catatan teknis: HTML dirender per request karena nonce CSP; `force-dynamic` hanya tersisa di `sitemap.js`. Setiap `client.fetch` diberi `next: { revalidate: 60 }`, sehingga data Sanity di-cache 60 detik.
 
 ---
 
@@ -361,7 +361,7 @@ File `.env.local` di repo website (tidak ter-commit):
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **22/10 watcher-nya dihapus; 25/10 `sync-hardcode-to-cms.mjs` dihapus.** Tidak ada lagi jalur kode → CMS. (lihat §11).
 7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
 8. **Dataset `staging` publik.** Jangan unggah dokumen pribadi/draft sensitif ke sana; siapa pun yang tahu project + dataset bisa membacanya.
-9. **Rollback:** runbook ada di `docs/ROLLBACK.md` (24/10), tetapi **belum pernah diuji di production**. Uji pertama harus dijadwalkan.
+9. **Rollback:** runbook ada di `docs/ROLLBACK.md` (24/10) dan sudah diuji 14/11/2026. Ulangi setelah perubahan besar.
 
 ---
 

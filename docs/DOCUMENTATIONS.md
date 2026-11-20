@@ -2,9 +2,9 @@
 
 Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten CMS, aturan bisnis, cara menjalankan, deploy, cookbook, dan jebakannya.
 
-> **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 19 Oktober 2026** — berdasarkan website commit `30d64e0` dan Studio commit `f8175d6`.
+> **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 20 November 2026** — berdasarkan website commit `cd10566` dan Studio commit `fe67c7a`.
 > **Lokasi file:** `website\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
-> **Dokumen pendamping (semuanya di folder `docs\` ini):** `PEMELIHARAAN.md` (operasional ringkas), `Sanity CMS Tutorial.md` (panduan editor CMS), `Overall Codebase Security Audit.md` (audit keamanan), `Migrasi-Hostinger.md` (rencana migrasi — tidak dijalankan).
+> **Dokumen pendamping (semuanya di folder `docs\` ini):** `HANDOVER.md` (serah terima), `PEMELIHARAAN.md` (operasional ringkas), `ROLLBACK.md` (runbook), `Sanity CMS Tutorial.md` (panduan editor CMS).
 
 > **Pembaruan 4 November 2026 - audit Run 3.** Yang berubah dari kode:
 > - Gate metadata dan gate badan halaman pada lima halaman brand statis disamakan.
@@ -251,7 +251,7 @@ src/app/**/page.js  +  src/components/**  (BrandPageView, BrandActions, BrandHou
 
 Poin teknis:
 
-- **Semua halaman `force-dynamic`** (render per request), tetapi setiap `client.fetch` diberi `next: { revalidate: 60 }` — permintaan ke Sanity di-cache 60 detik.
+- **HTML dirender per request** karena nonce CSP; `force-dynamic` hanya tersisa di `sitemap.js`. Setiap `client.fetch` diberi `next: { revalidate: 60 }`, jadi data Sanity di-cache 60 detik.
 - **Semua `get*` menangkap error** dan mengembalikan nilai aman (`[]` / `null`), jadi CMS down tidak menjatuhkan halaman.
 - **`hydrateWorld()`** menjembatani model baru (`sections[]`) ke field datar lama (`description`, `specifications`). Nilai top-level yang ditulis eksplisit selalu menang. Inilah yang membuat `sections[type=text].body` bisa dibaca halaman brand sebagai `world.description`.
 - **`BrandPageView`** adalah satu-satunya renderer kelima brand mapan. Halaman route tinggal memanggil `loadBrand()` dan meneruskan `world` + konfigurasi cadangan.
@@ -990,7 +990,7 @@ Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 | ~~**Test otomatis & CI**~~ **Selesai 24/10** — `ci.yml` (lint/test/audit/build), `smoke.yml` harian, `uptime.yml` sitemap-driven | unit test menyusul per kasus; regresi dasar sudah tertangkap otomatis |
 | **0 kerentanan produksi** di website (23/10, Next 16.4.2 + `npm audit fix`); **5 high dev-only** (`braces` lewat `eslint-config-next`, tidak ada fix tanpa downgrade); studio 24 belum diaudit ulang | mayoritas tooling dev/CLI, bukan runtime |
 | ~~**Gambar `/svarga`, `/acasa`, menu** masih 700–790 KB per berkas~~ **Selesai 24/10** — WebP di-re-encode (max 1600 px; terbesar 427 KB), preloader dihapus, `HeroCarousel` hanya memuat current+next dengan `srcSet`, gambar bawah fold `lazy`. Lighthouse `/svarga` mobile: **35 → 96**, LCP **10,4 → 2,8 s** | — |
-| ~~**Prosedur rollback** belum ditulis & belum pernah diuji~~ **Runbook ditulis 24/10** — `docs/ROLLBACK.md`; **belum diuji** di production | tombolnya ada di Vercel; uji pertama harus dijadwalkan |
+| ~~**Prosedur rollback** belum ada~~ **Runbook ditulis 24/10 dan diuji 14/11/2026** (`6ba68da → d3a6589 → 6ba68da`, situs 200 sepanjang proses) | tombolnya ada di Vercel; ulangi setelah perubahan besar |
 | **Nama folder lokal** (`website`, `studio`) beda dari nama repo (`samsaragroup-website`, `samsaragroup-sanity`) | saat clone dari GitHub, folder yang muncul bernama repo — rename manual agar cocok dengan dokumentasi |
 | ~~**Lima halaman brand hand-tuned** menyimpan layout di kode~~ **Selesai 14/11** — kelimanya memakai `BrandPageView` dengan data CMS | menambah brand tetap lewat template `[slug]`; brand mapan memakai layout dua kolom |
 | ~~**Belum ada unit/integration test**~~ **Sebagian selesai 14/11** — `scripts/brand-visibility.test.mjs` mengunci gate publikasi brand (audit F-01) dan berjalan di CI | suite lain tetap nol; logika bisnis nyaris tidak ada |
