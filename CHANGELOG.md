@@ -3,13 +3,12 @@
 All notable changes to the Samsara Group website are recorded here.
 Format: keep the newest release on top. Dates are ISO (`YYYY-MM-DD`).
 
-## Unreleased
+## 1.1.1 — 2026-11-21
 
 ### Fixed
 
-- 404/500 pages now actually get horizontal padding. The 1.1.0 entry below
-  claimed this, but the class was still `px-5vw`, which Tailwind does not
-  generate; it is now the arbitrary value `px-[5vw]`.
+- 404/500 pages now actually get horizontal padding. `px-5vw` was not a
+  Tailwind utility; it is now the arbitrary value `px-[5vw]`.
 
 ### Added
 
@@ -17,6 +16,13 @@ Format: keep the newest release on top. Dates are ISO (`YYYY-MM-DD`).
 - `/.well-known/security.txt` pointing to the private advisory form.
 - Unit tests for `isSafeSlug`, `safeUrl`, `jsonLdHtml` and the CSP built by
   `proxy.js`; `npm test` now runs every `scripts/*.test.mjs`.
+
+### Changed
+
+- Lockfile refreshed: `npm audit` reports 0 vulnerabilities.
+- Documentation pruned from 10 to 5 active docs. The release checklist, client
+  intake form, Hostinger migration guide, old security audit, and October work
+  report are archived outside the repository.
 
 ## 1.1.0 — 2026-11-18
 
@@ -30,8 +36,6 @@ First handover release of the five-brand website.
   terracotta title as the home brand cards.
 - `force-dynamic` no longer overrides the 60-second Sanity data cache on every
   request. HTML stays dynamic (CSP nonce), the data layer is cached again.
-- ~~404/500 pages no longer render with zero horizontal padding.~~ Not actually
-  shipped in 1.1.0; see Unreleased.
 - Sitemap no longer stamps every URL with the current time; brand URLs use the
   document's `_updatedAt`.
 - CSP image allowlist dropped two hosts that were never used
