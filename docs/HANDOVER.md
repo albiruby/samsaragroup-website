@@ -22,7 +22,7 @@
 Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 
 - `DOCUMENTATIONS.md` — arsitektur, konten, deploy, script.
-- `PEMELIHARAAN.md` — operasi harian dan troubleshooting.
+- `MAINTANANCE.md` - operasi harian dan troubleshooting.
 - `ROLLBACK.md` — langkah rollback production.
 
 ---

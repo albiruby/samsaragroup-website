@@ -84,7 +84,7 @@ Studio adalah **sumber kebenaran** konten: tidak ada sinkronisasi otomatis dari 
 | Dokumen | Isi |
 |---|---|
 | [`docs/DOCUMENTATIONS.md`](docs/DOCUMENTATIONS.md) | arsitektur, model konten, aturan bisnis, cookbook |
-| [`docs/PEMELIHARAAN.md`](docs/PEMELIHARAAN.md) | panduan operasional ringkas |
+| [`docs/MAINTANANCE.md`](docs/MAINTANANCE.md) | panduan operasional ringkas |
 | [`docs/HANDOVER.md`](docs/HANDOVER.md) | checklist serah terima dan kalender perawatan |
 | [`docs/ROLLBACK.md`](docs/ROLLBACK.md) | prosedur rollback produksi |
 | [`docs/Sanity CMS Tutorial.md`](docs/Sanity%20CMS%20Tutorial.md) | panduan editor CMS |

@@ -4,7 +4,7 @@ Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten C
 
 > **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 20 November 2026** — berdasarkan website commit `cd10566` dan Studio commit `fe67c7a`.
 > **Lokasi file:** `website\docs\DOCUMENTATIONS.md` — **di dalam repo website, jadi ikut version control.**
-> **Dokumen pendamping (semuanya di folder `docs\` ini):** `HANDOVER.md` (serah terima), `PEMELIHARAAN.md` (operasional ringkas), `ROLLBACK.md` (runbook), `Sanity CMS Tutorial.md` (panduan editor CMS).
+> **Dokumen pendamping (semuanya di folder `docs\` ini):** `HANDOVER.md` (serah terima), `MAINTANANCE.md` (operasional ringkas), `ROLLBACK.md` (runbook), `Sanity CMS Tutorial.md` (panduan editor CMS).
 
 > **Pembaruan 4 November 2026 - audit Run 3.** Yang berubah dari kode:
 > - Gate metadata dan gate badan halaman pada lima halaman brand statis disamakan.
@@ -80,7 +80,7 @@ Keduanya repo terpisah dengan riwayat commit sendiri. Folder induk `Samsara Grou
 
 ```
 website/
-├── docs/                          dokumentasi proyek (DOCUMENTATIONS.md, PEMELIHARAAN.md, ...)
+├── docs/                          dokumentasi proyek (DOCUMENTATIONS.md, MAINTANANCE.md, ...)
 ├── src/
 │   ├── app/
 │   │   ├── layout.js              metadata global, JSON-LD Organization, providers
