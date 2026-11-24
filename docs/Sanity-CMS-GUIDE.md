@@ -634,6 +634,23 @@ const revalidate = { next: { revalidate: 60 } };
 Cache ini penting supaya website tidak lambat dan tidak kena rate limit Sanity.
 Perubahan baru terlihat setelah 60 detik.
 
+### Melihat hasil di staging
+
+Workspace **Samsara Group (Staging)** menulis ke dataset `staging`, bukan production. Untuk melihat hasilnya:
+
+1. Buka Studio staging: `https://samsaragroup.sanity.studio/staging`
+2. Edit konten, lalu klik **Publish**.
+3. Klik tool **Lihat Staging** di menu Studio.
+4. Tunggu ±60 detik, lalu refresh.
+
+URL staging yang dipakai tool ini:
+
+`https://samsaragroup-git-staging-janalbireo123-3375s-projects.vercel.app`
+
+Halaman staging menampilkan badge **STAGING** di kiri bawah. Production tidak berubah.
+
+> Preview Vercel memakai Standard Protection. Kalau muncul halaman login Vercel, minta akses preview ke pemilik project. Untuk beberapa editor tanpa akun Vercel, pemilik perlu menonaktifkan Vercel Authentication untuk Preview atau memakai plan Pro.
+
 ---
 
 ## 7. Troubleshooting

@@ -650,7 +650,22 @@ Dataset **`staging`** adalah salinan `production` (public, 28 dokumen konten + 1
 | Dataset | `staging` (public) |
 | Vercel Preview | `NEXT_PUBLIC_SANITY_DATASET=staging` |
 | Studio | **Samsara Group** di `/production`; **Samsara Group (Staging)** di `/staging` |
+| Branch kode | `staging` — mirror `master`, fast-forward; bukan branch kerja |
+| URL preview | `https://samsaragroup-git-staging-janalbireo123-3375s-projects.vercel.app` |
+| Tool Studio | **Lihat Staging** di workspace staging |
 | Robots | `X-Robots-Tag: noindex, nofollow` + `robots.txt` `Disallow: /` |
+
+**Branch `staging`.** Branch ini hanya memberi Vercel branch alias yang stabil. Jangan commit langsung ke sini; setelah perubahan kode di `master`, fast-forward:
+
+```powershell
+git switch staging
+git merge --ff-only master
+git push origin staging
+```
+
+Perubahan konten tidak perlu sync branch; website membaca dataset `staging` saat request.
+
+**Akses preview.** Standard Protection aktif, jadi preview meminta login Vercel. Hobby hanya mengizinkan **1 external user**. Untuk beberapa editor tanpa akun Vercel, nonaktifkan Vercel Authentication untuk Preview (preview menjadi publik, tetap noindex) atau gunakan plan Pro. Tool **Lihat Staging** di Studio membuka URL ini dan menampilkan langkahnya.
 
 **Refresh staging dari production.** `datasets copy` diblokir plan saat ini (`advanced dataset management`), jadi pakai export/import:
 
