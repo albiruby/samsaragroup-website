@@ -649,7 +649,7 @@ URL staging yang dipakai tool ini:
 
 Halaman staging menampilkan badge **STAGING** di kiri bawah. Production tidak berubah.
 
-> Preview Vercel memakai Standard Protection. Kalau muncul halaman login Vercel, minta akses preview ke pemilik project. Untuk beberapa editor tanpa akun Vercel, pemilik perlu menonaktifkan Vercel Authentication untuk Preview atau memakai plan Pro.
+> Alias staging ini dikecualikan dari Deployment Protection (Vercel Authentication), jadi bisa dibuka tanpa login Vercel. Preview lain tetap terkunci dan production tidak berubah. Halaman staging tetap `noindex`.
 
 ---
 

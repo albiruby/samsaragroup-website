@@ -665,7 +665,7 @@ git push origin staging
 
 Perubahan konten tidak perlu sync branch; website membaca dataset `staging` saat request.
 
-**Akses preview.** Standard Protection aktif, jadi preview meminta login Vercel. Hobby hanya mengizinkan **1 external user**. Untuk beberapa editor tanpa akun Vercel, nonaktifkan Vercel Authentication untuk Preview (preview menjadi publik, tetap noindex) atau gunakan plan Pro. Tool **Lihat Staging** di Studio membuka URL ini dan menampilkan langkahnya.
+**Akses preview.** Alias `...-git-staging-...` dikecualikan lewat **Deployment Protection Exception** (tersedia di Hobby), jadi bisa dibuka tanpa login Vercel. Preview lain dan deployment URL tetap Standard Protection. Halaman staging tetap `noindex, nofollow`. Tool **Lihat Staging** di Studio membuka URL ini.
 
 **Refresh staging dari production.** `datasets copy` diblokir plan saat ini (`advanced dataset management`), jadi pakai export/import:
 

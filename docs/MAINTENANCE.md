@@ -327,6 +327,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 - Dataset `staging` adalah salinan `production` (public); Vercel **Preview** memakai `NEXT_PUBLIC_SANITY_DATASET=staging`. Production/Development tetap `production`.
 - URL preview tetap: `https://samsaragroup-git-staging-janalbireo123-3375s-projects.vercel.app`; branch `staging` hanya mirror `master` (fast-forward), bukan branch kerja.
 - Editor membuka tool **Lihat Staging** di workspace staging; publish lalu tunggu ±60 detik.
+- Alias staging dikecualikan dari Deployment Protection; preview lain tetap terkunci.
 - Studio: **Samsara Group** di `/production`; **Samsara Group (Staging)** di `/staging`.
 - Preview mengirim `X-Robots-Tag: noindex, nofollow` dan `robots.txt` `Disallow: /`.
 - Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATION.md` §12.2.
