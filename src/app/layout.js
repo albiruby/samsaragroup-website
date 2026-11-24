@@ -78,6 +78,11 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className="bg-surface font-sans text-on-surface antialiased overflow-x-hidden">
+        {process.env.VERCEL_ENV === "preview" ? (
+          <div className="pointer-events-none fixed bottom-4 left-4 z-[300] rounded bg-amber-300 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-black shadow-lg">
+            Staging
+          </div>
+        ) : null}
         <CustomCursor />
         <ScrollProgressBar />
         <ThemeProvider>
