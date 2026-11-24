@@ -31,6 +31,6 @@ pihak ketiga.
 
 ## Kontrol yang sudah diterapkan
 
-Ringkasan kontrol keamanan ada di [`docs/DOCUMENTATIONS.md`](docs/DOCUMENTATIONS.md) §9.
+Ringkasan kontrol keamanan ada di [`docs/DOCUMENTATION.md`](docs/DOCUMENTATION.md) §9.
 Audit terbaru disimpan di folder dokumentasi proyek, di luar repo, dan tidak
 dipublikasikan.

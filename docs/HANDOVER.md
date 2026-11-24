@@ -21,9 +21,11 @@
 
 Dokumen ini untuk orang atau agency yang mengambil alih website. Baca juga:
 
-- `DOCUMENTATIONS.md` — arsitektur, konten, deploy, script.
-- `MAINTANANCE.md` - operasi harian dan troubleshooting.
-- `ROLLBACK.md` — langkah rollback production.
+- `DOCUMENTATION.md` - arsitektur, konten, deploy, script.
+- `MAINTENANCE.md` - operasi harian dan troubleshooting.
+- `ROLLBACK.md` - langkah rollback production.
+- `RUNBOOK.md` - insiden: Sanity, Vercel, DNS/SSL, token, form.
+- `ASSETS.md` - lisensi dan kepemilikan aset.
 
 ---
 
@@ -80,7 +82,7 @@ Catatan: **workflow terjadwal GitHub bisa dinonaktifkan otomatis** setelah repo 
 |---|---|---|
 | Ubah konten | Editor Studio | Production: `/production`; staging: `/staging` |
 | Backup dataset | Pemilik / admin | `studio/scripts/backup-and-upload.ps1`; **tidak terjadwal** |
-| Restore drill | Pemilik / admin | Minimal 3–6 bulan sekali; lihat `DOCUMENTATIONS.md` §14 |
+| Restore drill | Pemilik / admin | Minimal 3–6 bulan sekali; lihat `DOCUMENTATION.md` §14 |
 | Rollback production | Pemilik / admin | Ikuti `ROLLBACK.md`; sudah diuji 14/11/2026 |
 | Perpanjang domain/plan | Pemilik | Vercel, Sanity, domain/DNS |
 | Cabut/rotasi token | Pemilik | Sanity Manage → API → Tokens |
@@ -204,4 +206,4 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
 - [ ] `npm run smoke` 77/77.
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
-- [ ] Baca `CHANGELOG.md` (riwayat rilis) dan `DOCUMENTATIONS.md` (referensi teknis).
+- [ ] Baca `CHANGELOG.md` (riwayat rilis) dan `DOCUMENTATION.md` (referensi teknis).

@@ -1,7 +1,7 @@
 # Panduan Pemeliharaan — Samsara Group
 
 Dokumen ini untuk siapa pun yang mengubah konten, kode, atau CMS website Samsara Group.
-Ditulis berdasarkan kondisi repo per **14 November 2026**. Untuk gambaran arsitektur yang lengkap, lihat `DOCUMENTATIONS.md` — dokumen ini fokus ke operasional sehari-hari.
+Ditulis berdasarkan kondisi repo per **14 November 2026**. Untuk gambaran arsitektur yang lengkap, lihat `DOCUMENTATION.md` — dokumen ini fokus ke operasional sehari-hari.
 
 Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode website.
 
@@ -23,7 +23,7 @@ Dokumen ini ada di `website\docs\`, jadi **ikut version control** bersama kode w
 |---|---|---|---|
 | Website | `D:\Project Website Samsara Group\website` | `github.com/albiruby/samsaragroup-website` (`master`) | Vercel, auto-deploy tiap push ke `master` |
 | Studio (CMS) | `D:\Project Website Samsara Group\studio` | `github.com/albiruby/samsaragroup-sanity` (`master`) | Sanity hosting: https://samsaragroup.sanity.studio/ — produksi `/production`, staging `/staging` |
-| Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATIONS.md`, `HANDOVER.md`, `ROLLBACK.md`, `Sanity CMS Tutorial.md` |
+| Dokumentasi | `website\docs\` | ikut repo website | `DOCUMENTATION.md`, `HANDOVER.md`, `ROLLBACK.md`, `RUNBOOK.md`, `ASSETS.md`, `Sanity-CMS-GUIDE.md` |
 
 - **Domain produksi website (sementara):** https://samsaragroup.vercel.app
   > ⚠️ `samsaragroup.com` **BUKAN milik kita.** Domain itu dipegang pihak lain (GoDaddy, WordPress perusahaan pelayaran India). Jangan pernah menaruhnya di `NEXT_PUBLIC_SITE_URL` — canonical, `og:url`, sitemap, dan robots kita akan menunjuk ke situs mereka.
@@ -250,7 +250,7 @@ Lihat §10.
 
 **Build normal butuh ~40–60 detik.** Kalau gagalnya 3 detik dan log hanya 7 baris, build **tidak pernah mulai** — yang gagal adalah langkah "ignore build" dari `vercel.json`, bukan kodemu.
 
-Pesan `fatal: bad object <sha>` berarti `ignoreCommand` mencari commit yang sudah tidak ada — biasanya terjadi setelah riwayat repo ditulis ulang. Perbaikannya ada di `scripts/should-build.mjs`: guard `git cat-file -e` memilih **BUILD** kalau SHA hilang. Lihat `DOCUMENTATIONS.md` §12.1/§15.
+Pesan `fatal: bad object <sha>` berarti `ignoreCommand` mencari commit yang sudah tidak ada — biasanya terjadi setelah riwayat repo ditulis ulang. Perbaikannya ada di `scripts/should-build.mjs`: guard `git cat-file -e` memilih **BUILD** kalau SHA hilang. Lihat `DOCUMENTATION.md` §12.1/§15.
 
 Cara cepat memastikan kodenya sehat: `npm run build` di lokal. Kalau exit 0, masalahnya di Vercel, bukan di repo.
 
@@ -302,7 +302,7 @@ Di repo website (`scripts/`):
 
 > **Restore drill (24/10/2026):** arsip `production-2026-10-19_1418.tar.gz` diimpor ke `staging` dengan `--replace` → 28 dokumen, 53,2 detik; counts sama dengan production; smoke preview 75/75. Staging kembali menjadi salinan production.
 
-> **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATIONS.md` **§21**.
+> **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATION.md` **§21**.
 
 > **Serah terima:** checklist akun, kalender perawatan, dan risiko yang masih terbuka ada di `HANDOVER.md`.
 
@@ -327,7 +327,7 @@ Tidak butuh token — dataset Sanity publik untuk dibaca.
 - Dataset `staging` adalah salinan `production` (public); Vercel **Preview** memakai `NEXT_PUBLIC_SANITY_DATASET=staging`. Production/Development tetap `production`.
 - Studio: **Samsara Group** di `/production`; **Samsara Group (Staging)** di `/staging`.
 - Preview mengirim `X-Robots-Tag: noindex, nofollow` dan `robots.txt` `Disallow: /`.
-- Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATIONS.md` §12.2.
+- Refresh staging: export/import, karena `datasets copy` diblokir plan — lihat `DOCUMENTATION.md` §12.2.
 - Jangan unggah dokumen pribadi: staging publik.
 
 **Checklist aman sebelum menjalankan script yang menulis:**
@@ -405,7 +405,7 @@ website/
   src/lib/brand-page.js        loadBrand() + brandMetadata()
   src/proxy.js                 CSP nonce + headers (pengganti middleware)
   public/                      gambar lokal — ASSETS-SAMSARA/{ambience,logo,menu},
-                               ASSETS-SVARGA, ASSETS-ACASA (lihat DOCUMENTATIONS §2.2a)
+                               ASSETS-SVARGA, ASSETS-ACASA (lihat DOCUMENTATION §2.2a)
   scripts/                     skrip sinkronisasi & utilitas
 
 studio/
