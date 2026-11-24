@@ -771,10 +771,10 @@ powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -Keep 30
 powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -PurgeBefore "2026-10-19"
 ```
 
-- Mengekspor dataset `production` (dokumen **dan** aset — 28 dokumen + 103 aset, ±28,6 MB) ke `..\..\backups\sanity\` — **di luar repo**.
+- Mengekspor dataset `production` (dokumen **dan** aset — 28 dokumen + 103 aset, ±28,6 MB) ke `..\..\backups\sanity\production\` — **di luar repo**.
 - Menulis ke `.partial` lalu rename hanya setelah export sukses; exit code `npx sanity` diperiksa.
 - Menyimpan hanya **14 backup terbaru**, sisanya dihapus otomatis. `-PurgeBefore` menghapus arsip yang **tanggal ekspornya** (dibaca dari nama file) lebih lama dari tanggal tertentu (pakai hanya setelah verifikasi). `LastWriteTime` tidak dipakai karena berubah saat file disalin atau dipulihkan.
-- Mencatat setiap hasil (OK/GAGAL) + SHA-256 ke `backups\sanity\backup.log`.
+- Mencatat setiap hasil (OK/GAGAL) + SHA-256 ke `backups\sanity\production\backup.log`.
 - Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
 
 **Dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10) — backup harian menyalin gambar yang sama 30 kali tanpa menambah keamanan, sementara teksnya hanya berubah beberapa kilobyte. Backup dilakukan saat pemilik memintanya, atau bersamaan dengan push kalau perubahannya menyentuh data.
@@ -787,7 +787,7 @@ Start-ScheduledTask -TaskName "Samsara - Sanity Backup"   # jalankan sekarang
 Unregister-ScheduledTask -TaskName "Samsara - Sanity Backup" -Confirm:$false   # hapus
 ```
 
-**Restore drill — 24/10/2026.** Arsip `backups\sanity\production-2026-10-19_1418.tar.gz` (28,6 MB) diimpor ke `staging` dengan `--replace`:
+**Restore drill — 24/10/2026.** Arsip `backups\sanity\production\production-2026-10-19_1418.tar.gz` (28,6 MB) diimpor ke `staging` dengan `--replace`:
 
 | Hasil | Nilai |
 |---|---|
@@ -899,7 +899,7 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 - `noIndex` dinyalakan → **keluar dari sitemap dalam 64 detik**, halaman tetap hidup
 - dihapus → 404, bersih dari `/brands` dan sitemap, 0 dokumen tersisa
 
-**Cadangan sebelum perubahan data:** arsip terbaru ada satu tingkat di atas repo `studio`, di folder `backups\sanity\` - dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. **Per 4 November 2026** arsip pra-pembersihan `production-2026-10-18_1808.tar.gz` sudah dihapus; folder lokal dan Drive hanya berisi arsip pasca-pembersihan.
+**Cadangan sebelum perubahan data:** arsip terbaru ada satu tingkat di atas repo `studio`, di folder `backups\sanity\production\` - dibuat dengan `backup-and-upload.ps1`, disimpan 14 terbaru secara lokal dan 7 terbaru di Google Drive. **Per 4 November 2026** arsip pra-pembersihan `production-2026-10-18_1808.tar.gz` sudah dihapus; folder lokal dan Drive hanya berisi arsip pasca-pembersihan.
 
 ---
 

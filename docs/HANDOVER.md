@@ -87,7 +87,7 @@ Catatan: **workflow terjadwal GitHub bisa dinonaktifkan otomatis** setelah repo 
 | Perpanjang domain/plan | Pemilik | Vercel, Sanity, domain/DNS |
 | Cabut/rotasi token | Pemilik | Sanity Manage → API → Tokens |
 
-Backup berjalan hanya saat diminta. Kalau tidak ada yang menjalankannya, arsip terakhir akan tetap di `backups\sanity\` dan Google Drive.
+Backup berjalan hanya saat diminta. Kalau tidak ada yang menjalankannya, arsip terakhir akan tetap di `backups\sanity\production\` dan Google Drive.
 
 ---
 
