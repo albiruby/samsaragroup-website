@@ -298,9 +298,9 @@ Di repo website (`scripts/`):
 | `.github/workflows/smoke.yml` | harian 08:00 WIB: `npm run smoke`; gagal → issue (email), pulih → issue ditutup | repo website |
 | `.github/workflows/uptime.yml` | tiap **15 menit** baca `sitemap.xml`, cek semua URL + `robots.txt`; gagal → issue (email), pulih → issue ditutup | repo website |
 
-> **Backup dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10). Cukup minta "backup" kapan saja — tidak perlu commit atau push.
+> **Backup harian 09:00.** Windows Task Scheduler `Samsara - Sanity Backup` aktif (26/11/2026) dan menjalankan `backup-and-upload.ps1`: arsip lokal + upload Drive. Tetap bisa dijalankan manual kapan saja; cek `backup.log` dan Drive secara berkala.
 
-> **Restore drill (24/10/2026):** arsip `production-2026-10-19_1418.tar.gz` diimpor ke `staging` dengan `--replace` → 28 dokumen, 53,2 detik; counts sama dengan production; smoke preview 75/75. Staging kembali menjadi salinan production.
+> **Restore drill (26/11/2026):** arsip `production-2026-11-26_133918.tar.gz` diimpor ke `staging` dengan `--replace` → **29 dokumen**; 106 aset dari arsip + 2 aset lama = 108; homepage dan `/samsara` staging 200, badge STAGING, `noindex`; production tidak berubah. Drill sebelumnya (24/10) memakai arsip 19 Oktober.
 
 > **Daftar lengkap apa yang masih kurang** (isi, teknis, dan yang sengaja dibiarkan) ada di `DOCUMENTATION.md` **§21**.
 

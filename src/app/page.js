@@ -4,18 +4,27 @@ import { getCarouselImages, getHomePage } from "@/sanity/lib/queries";
 import { getBrandCards } from "@/sanity/lib/brands";
 import { sizedUrl } from "@/sanity/lib/image";
 
-export const metadata = {
-  title: "Samsara Group — Many Identities, One Standard",
-  description: "Samsara Group is a lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia — from full-service dining and heritage restaurants to resort stays, wellness cafés, and neighborhood coffee.",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: openGraphFor({
-    path: "/",
-    title: "Samsara Group",
-    description: "A lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia.",
-  }),
-};
+const HOME_SEO_TITLE = "Samsara Group — Many Identities, One Standard";
+const HOME_SEO_DESCRIPTION =
+  "Samsara Group operates five distinct dining, stay, and wellness destinations across Indonesia — Samsara, Svarga, Acasa, Outpace, and Grove.";
+
+export async function generateMetadata() {
+  const doc = await getHomePage();
+  const title = doc?.seoTitle || HOME_SEO_TITLE;
+  const description = doc?.seoDescription || HOME_SEO_DESCRIPTION;
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: openGraphFor({
+      path: "/",
+      title,
+      description,
+    }),
+  };
+}
 
 /**
  * Fallbacks for every string and image the homepage renders. An empty field in the

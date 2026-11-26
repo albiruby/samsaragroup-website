@@ -77,7 +77,7 @@ export async function generateMetadata() {
   const title = isi(doc?.seoTitle, "About — Samsara Group");
   const description = isi(
     doc?.seoDescription,
-    "Samsara Group is a lifestyle and hospitality group developing and operating distinct destination concepts across Indonesia — from full-service dining and heritage restaurants to resort stays, wellness cafes, and neighborhood coffee."
+    "Behind Samsara, Svarga, Acasa, Outpace, and Grove: a hospitality group building distinctly Indonesian destinations on heritage, craft, and place."
   );
   return {
     title,

@@ -34,3 +34,16 @@ pihak ketiga.
 Ringkasan kontrol keamanan ada di [`docs/DOCUMENTATION.md`](docs/DOCUMENTATION.md) §9.
 Audit terbaru disimpan di folder dokumentasi proyek, di luar repo, dan tidak
 dipublikasikan.
+
+## Klasifikasi data Sanity
+
+Dataset `production` dan `staging` bersifat **public-read**. Karena itu:
+
+- Sanity **hanya** untuk konten publik yang memang boleh dilihat siapa pun.
+- Jangan menyimpan KTP, NIK, CV, paspor, tanggal lahir, nomor rekening, atau data
+  pelamar di Sanity. Data lamaran tetap di Google Forms/Drive/HR system.
+- `npm run audit:pii` memeriksa tipe dan field terlarang tanpa mencetak isi; CI
+  menjalankannya pada setiap push/PR.
+- Kalau suatu saat data pribadi harus masuk Sanity, ubah dataset menjadi private
+  dan gunakan token Viewer server-side — jangan mengandalkan `status: draft`
+  sebagai kontrol kerahasiaan.

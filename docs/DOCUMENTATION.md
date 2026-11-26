@@ -2,7 +2,7 @@
 
 Dokumentasi lengkap proyek website **Samsara Group**: arsitektur, model konten CMS, aturan bisnis, cara menjalankan, deploy, cookbook, dan jebakannya.
 
-> **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 20 November 2026** — berdasarkan website commit `cd10566` dan Studio commit `fe67c7a`.
+> **Status dokumen:** disusun 13 Oktober 2026, **diperbarui 26 November 2026** — website versi **1.1.2**, Studio versi **1.0.2**.
 > **Lokasi file:** `website\docs\DOCUMENTATION.md` — **di dalam repo website, jadi ikut version control.**
 > **Dokumen pendamping (semuanya di folder `docs\` ini):** `HANDOVER.md` (serah terima), `MAINTENANCE.md` (operasional ringkas), `ROLLBACK.md` (rollback), `RUNBOOK.md` (insiden), `ASSETS.md` (lisensi aset), `Sanity-CMS-GUIDE.md` (panduan editor CMS).
 
@@ -792,7 +792,7 @@ powershell -ExecutionPolicy Bypass -File scripts\backup-dataset.ps1 -PurgeBefore
 - Mencatat setiap hasil (OK/GAGAL) + SHA-256 ke `backups\sanity\production\backup.log`.
 - Butuh sesi Sanity CLI yang sudah login (`sanity datasets list` harus jalan).
 
-**Dijalankan atas permintaan, bukan terjadwal.** Tugas Windows Task Scheduler `Samsara - Sanity Backup` **sengaja dimatikan** (19/10) — backup harian menyalin gambar yang sama 30 kali tanpa menambah keamanan, sementara teksnya hanya berubah beberapa kilobyte. Backup dilakukan saat pemilik memintanya, atau bersamaan dengan push kalau perubahannya menyentuh data.
+**Dijalankan harian pukul 09:00** oleh Windows Task Scheduler `Samsara - Sanity Backup` (diaktifkan kembali 26/11/2026), dan tetap bisa dijalankan manual kapan saja. Setiap run membuat arsip lokal, menyimpan 14 terbaru, mengunggah yang terbaru ke Google Drive, dan menyimpan 7 di Drive. Backup harian menjaga RPO tetap kecil; ukuran arsip sekitar 28,7 MB.
 
 Perintahnya satu: `backup-and-upload.ps1` — ekspor, simpan 14 lokal, unggah yang terbaru ke Google Drive, simpan 7 di Drive. Drive dipakai lewat remote rclone `samsara-drive`, dikunci dengan `root_folder_id` ke satu folder saja sehingga tidak bisa menulis ke folder lain. Setelah mengunggah, skrip memverifikasi ukuran dan MD5 (bila didukung Drive); gagal kalau berbeda. Penghapusan arsip lama memakai Drive trash dan memeriksa exit code.
 
@@ -857,7 +857,7 @@ Workflow: `website/.github/workflows/uptime.yml` (GitHub Actions).
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload, dan daftarnya hardcoded (menduplikasi galeri CMS).
 6. **`TextClipReveal` tidak punya logika** — hanya `<div>` passthrough.
 7. ~~**Hero Samsara masih gambar lokal** (`public/ASSETS-SAMSARA/ambience/*.webp`, 12 berkas ≈ 3 MB) yang tidak bisa di-resize lewat Sanity (§9.4).~~ **Selesai 22/10** — `/samsara` kini membaca `world.gallery` seperti empat brand lain; 12 gambar lokal hanya fallback saat galeri CMS kosong.
-8. **CI sudah ada; unit test menyusul per kasus.** `ci.yml` menjalankan lint, `npm test`, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. Saat ini satu suite regresi keamanan berjalan (`scripts/brand-visibility.test.mjs`, mengunci gate publikasi brand — audit F-01). **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). **Tidak ada lagi backup terjadwal** — backup dijalankan atas permintaan (§14).
+8. **CI sudah ada; unit test menyusul per kasus.** `ci.yml` menjalankan lint, `npm test`, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` sitemap-driven. Saat ini satu suite regresi keamanan berjalan (`scripts/brand-visibility.test.mjs`, mengunci gate publikasi brand — audit F-01). **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). **Backup harian 09:00** via Task Scheduler + Drive (§14); `npm run audit:pii` dan staging smoke ditambahkan 26/11.
 9. ~~**File sisa di root website:** `mobile-screenshot.js`, `visibility-audit.js`, `Samsara Group Docs.md`.~~ **Selesai 19/10** — ketiganya sudah tidak ada.
 10. ~~**Script `scripts/`** sebagian sudah tidak dipakai (kandidat pembersihan).~~ **Selesai 19/10; diperbarui 25/10** — folder `scripts/` website kini hanya berisi `smoke.mjs` + `should-build.mjs`; studio berisi `backup-dataset.ps1` + `backup-and-upload.ps1`. `sync-hardcode-to-cms.mjs` dihapus 25/10.
 11. **`.env.example` masih menyimpan karakter rusak** (mojibake) di baris komentar; nilainya sendiri sudah benar.
@@ -970,7 +970,9 @@ Pemilik memeriksa isi yang tayang, lalu memutuskan:
 
 ---
 
-## 21. Yang masih kurang — satu daftar lengkap (19 Oktober 2026)
+## 21. Yang masih kurang - satu daftar lengkap (19 Oktober 2026)
+
+> **Update 26 November 2026.** Daftar di bawah adalah snapshot 19 Oktober. Status terbaru ada di `AUDITS/2026-11-26-FULL-AUDIT/` (di luar repo). Blocker saat ini: domain `samsara.id` diparkir “For Sale” dan expires 30 November; Vercel Hobby dipakai untuk situs komersial; token `opencode write` masih aktif; backup off-site/alert sudah diperbaiki tetapi email alert belum ada; privacy policy/terms belum ada; form karier meminta login Google (disengaja, tetapi membatasi pelamar tanpa akun Google).
 
 Ringkasan penilaian terhadap checklist kesiapan produksi (50 item):
 

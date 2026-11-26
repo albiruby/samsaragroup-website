@@ -1,6 +1,6 @@
 {
   "name": "samsara-group-website",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Website profil Samsara Group — lima brand, Next.js 16 + Sanity CMS.",
   "private": true,
   "license": "UNLICENSED",
@@ -23,6 +23,7 @@
     "lint": "eslint",
     "test": "node --test \"scripts/*.test.mjs\"",
     "check:links": "node scripts/check-links.mjs",
+    "audit:pii": "node scripts/audit-sanity-pii.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

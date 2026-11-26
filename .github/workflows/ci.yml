@@ -44,6 +44,9 @@ jobs:
       - name: Audit production dependencies
         run: npm audit --omit=dev
 
+      - name: Audit Sanity for PII
+        run: npm run audit:pii
+
       - name: Build
         run: npm run build
 

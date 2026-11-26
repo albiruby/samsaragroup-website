@@ -3,6 +3,25 @@
 All notable changes to the Samsara Group website are recorded here.
 Format: keep the newest release on top. Dates are ISO (`YYYY-MM-DD`).
 
+## 1.1.2 — 2026-11-26
+
+### Added
+
+- Home Page SEO fields in Studio and unique meta descriptions for Home and About.
+- LocalBusiness JSON-LD for the three brands with complete NAP data: Samsara,
+  Svarga, and Acasa.
+- Visible H1 text for the logo-only brand H1s (visually hidden; no visual
+  change).
+- `npm run audit:pii` guard; CI checks the public Sanity dataset for forbidden
+  document types and fields.
+- Staging preview smoke workflow and Dependabot for npm and GitHub Actions.
+
+### Changed
+
+- Vercel function region set to Singapore (`sin1`) at the project level.
+- Preview deployments show a STAGING badge; the `staging` branch is a mirror of
+  `master` for the stable staging URL.
+
 ## 1.1.1 — 2026-11-21
 
 ### Fixed

@@ -1,6 +1,6 @@
 # Handover — Samsara Group Website
 
-**Tanggal:** 25 Oktober 2026  
+**Tanggal:** 26 November 2026  
 **Produksi:** <https://samsaragroup.vercel.app>  
 **Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Sanity v6 · Vercel
 
@@ -81,13 +81,13 @@ Catatan: **workflow terjadwal GitHub bisa dinonaktifkan otomatis** setelah repo 
 | Tugas | Siapa | Catatan |
 |---|---|---|
 | Ubah konten | Editor Studio | Production: `/production`; staging: `/staging` |
-| Backup dataset | Pemilik / admin | `studio/scripts/backup-and-upload.ps1`; **tidak terjadwal** |
+| Backup dataset | Pemilik / admin | `studio/scripts/backup-and-upload.ps1`; harian 09:00 via Task Scheduler, lalu upload ke Drive |
 | Restore drill | Pemilik / admin | Minimal 3–6 bulan sekali; lihat `DOCUMENTATION.md` §14 |
 | Rollback production | Pemilik / admin | Ikuti `ROLLBACK.md`; sudah diuji 14/11/2026 |
 | Perpanjang domain/plan | Pemilik | Vercel, Sanity, domain/DNS |
 | Cabut/rotasi token | Pemilik | Sanity Manage → API → Tokens |
 
-Backup berjalan hanya saat diminta. Kalau tidak ada yang menjalankannya, arsip terakhir akan tetap di `backups\sanity\production\` dan Google Drive.
+Backup berjalan harian pukul 09:00 lewat Windows Task Scheduler `Samsara - Sanity Backup`, membuat arsip lokal lalu mengunggahnya ke Google Drive. Kalau PC mati, task dijalankan saat tersedia berikutnya; tetap cek `backup.log` dan Drive secara berkala.
 
 ---
 
@@ -95,14 +95,14 @@ Backup berjalan hanya saat diminta. Kalau tidak ada yang menjalankannya, arsip t
 
 | Aset | Pemilik baru | Akses | Catatan |
 |---|---|---|---|
-| GitHub repo website | | Admin/owner | `albiruby/samsaragroup-website` |
-| GitHub repo studio | | Admin/owner | `albiruby/samsaragroup-sanity` |
-| Vercel team/project | | Owner/member | project `samsaragroup` |
-| Sanity project | | Admin/editor | project `p5zu5azj` |
-| Domain & DNS | | Registrar/DNS | saat ini `samsaragroup.vercel.app` |
-| Google Drive backup | | Folder terbatas | remote rclone `samsara-drive` |
-| Email alert | | Pemilik repo GitHub | penerima issue smoke/uptime |
-| Password manager | | — | 2FA + recovery code |
+| GitHub repo website | *belum ditetapkan* | Admin/owner | `albiruby/samsaragroup-website` |
+| GitHub repo studio | *belum ditetapkan* | Admin/owner | `albiruby/samsaragroup-sanity` |
+| Vercel team/project | *belum ditetapkan* | Owner/member | project `samsaragroup`; saat ini Hobby |
+| Sanity project | *belum ditetapkan* | Admin/editor | project `p5zu5azj` |
+| Domain & DNS | *belum ditetapkan* | Registrar/DNS | `samsara.id` **diparkir “For Sale”** dan expires 30 Nov 2026; produksi masih `samsaragroup.vercel.app` |
+| Google Drive backup | *belum ditetapkan* | Folder terbatas | remote rclone `samsara-drive` |
+| Email alert | *belum ditetapkan* | Pemilik repo GitHub | penerima issue smoke/uptime; backup alert belum ada |
+| Password manager | *belum ditetapkan* | — | 2FA + recovery code |
 
 Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password manager.
 
@@ -114,7 +114,7 @@ Jangan mengirim password lewat chat. Gunakan undangan akun, 2FA, dan password ma
 2. Pindahkan billing Vercel/Sanity dan perpanjangan domain.
 3. Ganti penerima notifikasi issue GitHub ke email pemilik baru.
 4. Tentukan siapa yang menjalankan backup; lakukan satu backup + restore drill.
-5. Token Sanity: **tidak ada token permanen** sampai 14/11. Saat itu satu token Editor dibuat untuk migrasi konten (field `whatsapp`, section map Grove/Outpace, aset logo). Token itu tidak dipakai website — website membaca dataset publik tanpa token. **Cabut atau rotasi sebelum/saat serah terima**, lalu buat baru hanya bila diperlukan.
+5. Token Sanity: token Editor `opencode write` **masih aktif** (Never expire) dan harus dicabut sebelum/saat serah terima. Website membaca dataset publik tanpa token; Studio memakai OAuth. Buat token baru hanya bila diperlukan, dengan expiry dan role minimal, lalu cabut setelah selesai.
 6. Verifikasi: push perubahan kecil → CI hijau → Vercel deploy → `npm run smoke` 77/77.
 7. Kalau pindah domain: ubah `NEXT_PUBLIC_SITE_URL`, default URL di `scripts/smoke.mjs`, dan `BASE` di `uptime.yml`.
 8. Baca `ROLLBACK.md`; jadwalkan uji rollback pertama.
@@ -187,8 +187,8 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - Staging **publik**; jangan unggah dokumen pribadi.
 - Rollback runbook ada dan sudah diuji 14/11/2026.
 - Monitoring eksternal belum dipasang; alert hanya lewat GitHub.
-- Backup manual, tidak terjadwal.
-- ~~Token Sanity lama belum dicabut.~~ **Selesai 25/10** — ketiga token project dihapus; `sanity tokens list` = 0.
+- Backup harian 09:00 via Task Scheduler + Drive; restore drill 26/11/2026 lulus.
+- Token Editor `opencode write` masih aktif; cabut sebelum handover.
 - Satu suite regresi keamanan ada (`scripts/brand-visibility.test.mjs`); unit/integration test lain belum. `typecheck` jalan untuk Studio (CI), website hanya lint + build + test.
 
 ---
@@ -200,10 +200,10 @@ Workflow: `ci.yml`, `smoke.yml`, `uptime.yml` di `website/.github/workflows/`.
 - [ ] Sanity project + Studio sudah diakses pemilik baru.
 - [ ] Domain/DNS dan billing sudah dialihkan.
 - [ ] Email alert sudah diarahkan ke pemilik baru.
-- [ ] Backup owner ditunjuk; satu backup berhasil dibuat.
-- [ ] Restore drill berhasil.
-- [x] Token Sanity lama sudah dicabut (25/10; `tokens list` = 0).
+- [ ] Backup owner ditunjuk; satu backup berhasil dibuat. *(backup + upload 26/11/2026 sukses; owner belum ditetapkan)*
+- [ ] Restore drill berhasil. *(drill 26/11/2026 lulus; ulangi saat handover)*
+- [ ] Token Sanity `opencode write` sudah dicabut; `tokens list` = 0.
 - [ ] `ROLLBACK.md` sudah dibaca; uji rollback dijadwalkan.
-- [ ] `npm run smoke` 77/77.
+- [x] `npm run smoke` 77/77 (26/11/2026).
 - [ ] Pemilik baru tahu: konten lewat Studio, bukan lewat kode.
 - [ ] Baca `CHANGELOG.md` (riwayat rilis) dan `DOCUMENTATION.md` (referensi teknis).

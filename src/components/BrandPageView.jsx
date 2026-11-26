@@ -9,7 +9,9 @@ import LeafletMap from "@/components/LeafletMap";
 import MenuGallery from "@/components/MenuGallery";
 import BrandActions from "@/components/BrandActions";
 import BrandHours from "@/components/BrandHours";
-import { sizedUrl } from "@/sanity/lib/image";
+import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
+import { jsonLdHtml } from "@/lib/jsonld";
+import { siteUrl } from "@/lib/site";
 
 /** Gallery accepts a bare image or a galleryItem wrapper. */
 function galleryUrls(gallery) {
@@ -50,6 +52,62 @@ function MenuPlaceholder({ heading }) {
 }
 
 /**
+ * Structured data for the three brands with a complete NAP record. Outpace and
+ * Grove still lack a street address and telephone, so adding LocalBusiness there
+ * would advertise incomplete data; they stay out until the CMS is filled.
+ */
+const LOCAL_BUSINESS_TYPES = {
+  samsara: "Restaurant",
+  svarga: "Restaurant",
+  acasa: "Resort",
+};
+
+function localBusinessSchema({ world, config, name, address, whatsapp, coords }) {
+  const slug = config?.slug || world?.slug?.current;
+  const type = LOCAL_BUSINESS_TYPES[slug];
+  if (!type || (!address && !whatsapp)) return null;
+
+  const url = siteUrl(`/${slug}`);
+  const image =
+    ogImageUrl(world?.socialImage || world?.image) ||
+    (config?.image ? siteUrl(config.image) : undefined);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    "@id": `${url}#business`,
+    name,
+    url,
+    ...(image ? { image } : {}),
+    ...(whatsapp ? { telephone: whatsapp } : {}),
+    ...(address
+      ? {
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: address,
+            addressCountry: "ID",
+          },
+        }
+      : {}),
+    ...(coords
+      ? {
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: coords.lat,
+            longitude: coords.lng,
+          },
+        }
+      : {}),
+    ...(world?.instagramUrl ? { sameAs: [world.instagramUrl] } : {}),
+    parentOrganization: {
+      "@type": "Organization",
+      name: "Samsara Group",
+      url: siteUrl("/"),
+    },
+  };
+}
+
+/**
  * The layout shared by every brand page: hero, carousel, an optional feature row,
  * a two-column block (copy + specs next to the portrait photo), menu, then
  * location. Every string, image and coordinate comes from the CMS. `config`
@@ -58,6 +116,7 @@ function MenuPlaceholder({ heading }) {
  */
 export default function BrandPageView({ world, config = {}, theme = "dark" }) {
   const name = world?.name || config.name || "Brand";
+  const h1Text = world?.heroTitle || name;
   const tagline = world?.tagline || config.tagline || "";
   const intro = world?.description || config.intro || "";
   const logoUrl = world?.logo ? sizedUrl(world.logo, 600) : config.logo || null;
@@ -84,12 +143,26 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
   const whatsapp = world?.whatsapp || config.whatsapp || null;
   const portraitUrl = world?.image ? sizedUrl(world.image, 1100) : config.image || null;
   const panels = menuPanels(menuSection);
+  const businessSchema = localBusinessSchema({
+    world,
+    config,
+    name,
+    address,
+    whatsapp,
+    coords,
+  });
 
   const hasLocation = Boolean(coords || address || whatsapp || (world?.hours || []).length);
 
   return (
     <>
       <ThemeSetter theme={theme} />
+      {businessSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(businessSchema) }}
+        />
+      ) : null}
       <Header />
 
       <section className="bg-surface pt-28 pb-16 max-w-[1520px] mx-auto px-6 lg:px-10">
@@ -99,7 +172,8 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
           </span>
           {logoUrl ? (
             <h1 className="h-12 md:h-16 w-fit">
-              <img src={logoUrl} alt={name} className="h-full w-auto" />
+              <span className="sr-only">{h1Text}</span>
+              <img src={logoUrl} alt="" aria-hidden="true" className="h-full w-auto" />
             </h1>
           ) : (
             <TextClipReveal>

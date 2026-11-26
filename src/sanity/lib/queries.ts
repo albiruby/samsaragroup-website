@@ -61,6 +61,8 @@ type HomePageDoc = {
   brandsHeading?: string;
   brandsBody?: string;
   brandsCounterLabel?: string;
+  seoTitle?: string;
+  seoDescription?: string;
 };
 
 /**
@@ -75,7 +77,8 @@ export async function getHomePage(): Promise<HomePageDoc | null> {
         heroImage, heroImageAlt, heroLine1, heroLine2,
         aboutEyebrow, aboutHeadingLine1, aboutHeadingLine2, aboutBody,
         aboutCtaLabel, aboutCtaHref, aboutImage, aboutImageAlt,
-        brandsEyebrow, brandsHeading, brandsBody, brandsCounterLabel
+        brandsEyebrow, brandsHeading, brandsBody, brandsCounterLabel,
+        seoTitle, seoDescription
       }`,
       {},
       revalidate
