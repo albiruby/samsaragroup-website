@@ -4,6 +4,14 @@
 **Produksi:** <https://samsaragroup.vercel.app>  
 **Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Sanity v6 · Vercel
 
+> **Pembaruan 26 November 2026 — model brand eksplisit.**
+> - `sections[]` diganti field top-level yang urutannya sama dengan halaman: `description` + `specifications[]`, `features[]`, `menuPanels[]`, `mapLat/Lng/Zoom`.
+> - `theme` dan `heroIntro` dihapus dari schema; `menuHeading` sekarang benar-benar dipakai.
+> - Brand publik yang belum masuk **BRANDS Dropdown** otomatis tampil sebagai baris sendiri di header.
+> - `localBusinessType` menentukan JSON-LD (Restaurant/Resort/dll); meta description selalu punya fallback.
+> - `order` kosong tampil paling akhir (default 100); route brand memakai `revalidate = 60` supaya brand yang dihapus tidak tertahan 200.
+> - Migrasi data: `npm run migrate:worlds -- --dataset=production` (dry run default, `--apply` untuk menulis).
+
 > **Pembaruan 4 November 2026 - audit Run 3.**
 > - Metadata dan badan halaman brand statis sekarang memakai gate yang sama, termasuk saat `status` kosong.
 > - `/_next/image` ditutup (`images.remotePatterns` dihapus) karena tidak ada pemakaian `next/image`.

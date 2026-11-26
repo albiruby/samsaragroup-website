@@ -74,32 +74,33 @@ Content by Page
 ```
 Dokumen World di Sanity
         │
-        ├─ tagline, image, gallery, sections, ctas ...
+        ├─ name, slug, tagline, image, gallery
+        ├─ description, specsHeading, specifications[]
+        ├─ featuresHeading, features[]
+        ├─ menuHeading, menuPanels[]
+        └─ mapHeading, mapLat/Lng/Zoom, address, whatsapp, hours[]
         │
         ▼
-   queries.ts  ──►  world's description   (diambil dari section "Text Block")
-              ──►  world's specifications (diambil dari section "Specifications")
-              ──►  world's tagline, image, gallery  (langsung dari field)
+   queries.ts  ──►  WORLD_PROJECTION (top-level fields)
         │
         ▼
-   Halaman brand ──►  <p>{world?.description}</p>
-                    {world?.specifications?.map(...)}
+   Halaman brand ──►  <p>{world.description}</p>
+                    {world.specifications?.map(...)}
 ```
 
-**Artinya:** kolom **Description** dan **Specifications** yang muncul di
-website berasal dari **section**, bukan dari field datar.
+**Artinya:** setiap field di Studio punya tempat tetap di halaman. Tidak ada
+lagi `sections[]`; tidak ada section yang bisa diurutkan ulang atau diduplikasi.
 
 | Di Studio | Website menampilkan |
 |---|---|
-| `sections` → tipe **Text Block** → Body Text | Paragraf THE VISION |
-| `sections` → tipe **Specifications** → Specifications | Tabel spesifikasi |
+| `description` | Paragraf pembuka di blok dua kolom |
+| `specifications[]` | Tabel spesifikasi |
+| `features[]` | Grid kartu fitur (di atas blok dua kolom) |
+| `menuPanels[]` | Menu: 1 gambar / 2 kolom / pager 3+ |
+| `mapLat`/`mapLng` | Peta FIND US |
 | `tagline` | Judul baris dropdown + tagline di bawah judul |
 | `image` | Gambar di kartu `/brands` |
 | `gallery` | Carousel di atas halaman |
-
-Kalau field `description` atau `specifications` diisi langsung di level atas,
-**nilai itu yang menang** dan section diabaikan. Pakai cara ini hanya kalau
-memang mau override.
 
 ---
 
@@ -707,23 +708,27 @@ Periksa:
 
 ### Brand tidak muncul di dropdown navigasi
 
-Dropdown dibaca dari dokumen **Header Menu — BRANDS Dropdown**. Cek:
-1. Brand sudah ditambahkan di `Rows`?
-2. Status-nya `active`?
-3. Kalau barisnya kosong (tidak ada brand), baris itu disembunyikan otomatis
+Dropdown dibaca dari dokumen **Header Menu — BRANDS Dropdown**. Sejak
+2026-11-26, brand publik yang belum dimasukkan ke `Rows` **otomatis tampil
+sebagai baris sendiri** (judulnya dari `tagline`). Jadi brand baru tidak lagi
+hilang dari header. Untuk mengelompokkan, tambahkan ke `Rows`; baris otomatis
+hilang setelah revalidate.
+
+Cek juga: `Status` = `active` dan `Featured` = `true`.
 
 > Dulu dropdown dibaca dari file hardcoded `src/data/brandCategories.js`. File
 > itu **sudah dihapus** — sekarang semuanya dari dokumen BRANDS Dropdown.
 
-### Field Categories — sudah dihapus
+### Field lama yang sudah dihapus
 
-Field `categories` **sudah dihapus dari schema (19/10)**, bersama tiga field lain yang juga tidak pernah dibaca website:
+Refactor 2026-11-26 mengganti `sections[]` dengan field eksplisit yang
+benar-benar dirender. Yang dihapus dari schema: `sections`, `theme`,
+`heroIntro`. `menuHeading` dipertahankan dan sekarang benar-benar dipakai.
+`categories` sudah dihapus sejak 19/10.
 
-- `sections[].image` — gambar section (dijanjikan "kolom kanan blok teks", tidak pernah dirender)
-- `sections[].features[].image` — gambar kartu fitur (12 gambar sudah terlanjur diunggah ke situ)
-- `world.menuPanels` — panel menu standalone (menu selalu lewat section **Menu**)
-
-Pengelompokan dropdown BRANDS memang sudah lama diatur lewat dokumen **BRANDS Dropdown** (`brandNav`), bukan field `categories`. Nilai lamanya (`ICONIC`, `EVERYDAY`, dll) tidak lagi tampil di Studio dan tidak perlu dibersihkan — tidak berpengaruh pada halaman mana pun.
+Kalau ada dokumen lama yang masih menyimpan `sections` di dataset, datanya
+diabaikan website dan bisa dibersihkan dengan
+`npm run migrate:worlds -- --dataset=production --drop-sections --apply`.
 
 ---
 
@@ -735,26 +740,28 @@ Setiap field `world`, grouped:
 
 **Listing & Navigation** — `tagline`, `speciality`, `image`, `logo`
 
-**Hero & Copy** — `theme`, `heroEyebrow`, `heroTitle`, `heroIntro`, `gallery`,
-`description`
+**Hero** — `heroEyebrow`, `heroTitle`, `gallery`
 
-**Sections** — `sections[]`
+**Intro & Specifications** — `description`, `specsHeading`, `specifications[]`
 
-&nbsp;&nbsp;&nbsp;&nbsp;└─ setiap section: `type`, `heading`, `body`,
-`specifications[]`, `features[]`, `menuPanels[]`, `mapLat`, `mapLng`,
-`mapZoom`
+**Feature Cards** — `featuresHeading`, `features[]`
 
-**Menu** — `menuHeading` (judul bawaan section Menu)
+**Menu** — `menuHeading`, `menuPanels[]`
 
-**Location & Map** — `address`, `hours[]`
+**Location & Map** — `mapHeading`, `mapLat`, `mapLng`, `mapZoom`, `address`,
+`whatsapp`, `hours[]`
 
 **Contact & Links** — `instagramUrl`, `ctas[]`
 
-**SEO** — `seoTitle`, `seoDescription`, `socialImage`, `noIndex`
+**SEO** — `seoTitle`, `seoDescription`, `socialImage`, `noIndex`,
+`localBusinessType`
 
 **Publishing** — `order`, `status`, `featured`
 
-Catatan: `image` di sini adalah **Card Image** — thumbnail kartu di `/brands`. Field `categories` **sudah dihapus** (lihat [7](#7-troubleshooting)), begitu juga `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Field `tagline`, `speciality`, `image`, `logo` ada di grup Listing & Navigation; `sections`, `menuPanels` (di dalam section), `ctas`, `hours` punya sub-field masing-masing.
+Catatan: `image` di sini adalah **Card Image** — thumbnail kartu di `/brands`.
+`localBusinessType` menentukan tipe JSON-LD (Restaurant, Resort, dst); pilih
+`None` bila alamat/telepon belum lengkap. `order` default 100; kosong berarti
+paling akhir.
 
 ---
 

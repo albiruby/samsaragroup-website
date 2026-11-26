@@ -100,17 +100,21 @@ Ringkas. "Dibaca web" = kode website benar-benar memakai field itu.
 ### `world` — satu dokumen per brand
 Field yang **dibaca** (paling relevan):
 - `name`, `slug`, `tagline`, `description`, `image`, `gallery`, `logo`
-- `specifications` (tabel label/value)
-- `sections` (blok konten: text / specs / features / menu / map) — dibaca kelima halaman brand **dan** template `[slug]`
+- `specsHeading`, `specifications[]` (tabel label/value)
+- `featuresHeading`, `features[]` (grid kartu fitur)
+- `menuHeading`, `menuPanels[]` (satu panel = satu halaman menu)
+- `mapHeading`, `mapLat`, `mapLng`, `mapZoom`
 - `ctas[]` (`kind`, `label`, `url`) — tombol aksi
 - `instagramUrl` — tombol Instagram
 - `whatsapp` — nomor yang ditampilkan di blok FIND US halaman brand
-- `address`, `heroEyebrow`, `heroTitle`, `heroIntro`, `menuHeading`
-- `speciality`, `order`, `status`, `featured`, `theme`, `noIndex`
-- `seoTitle`, `seoDescription`, `socialImage`
+- `address`, `heroEyebrow`, `heroTitle`
+- `speciality`, `order`, `status`, `featured`, `noIndex`
+- `seoTitle`, `seoDescription`, `socialImage`, `localBusinessType`
 - `hours` — baris `{label, value}` **per kategori** (mis. `Weekdays` / `Weekend`), bukan per hari. Dirender `BrandHours` di blok FIND US kelima halaman brand, dan di section peta `[slug]`. Kosong = blok jam tidak muncul sama sekali.
-- `categories` — **tidak dibaca di mana pun** (warisan; sekarang didefinisikan di schema agar tidak error)
-- `menuPanels` — hanya di dalam `sections[]`; satu panel = satu halaman menu
+
+`sections`, `theme`, dan `heroIntro` **sudah dihapus dari schema (26/11)**.
+Dokumen lama yang masih menyimpan `sections` tetap aman: website mengabaikannya
+dan datanya bisa dibersihkan dengan `npm run migrate:worlds`.
 
 ### `career`
 `title`, `slug`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini).
@@ -165,20 +169,23 @@ Semua memakai `BrandPageView`. Sumber tiap bagian:
 | Judul hero | `logo` | file lokal (Samsara/Svarga/Acasa) atau nama sebagai teks (Grove/Outpace) |
 | Paragraf hero | `tagline` | cadangan `src/lib/brand-pages.js` |
 | Hero carousel | `gallery[]` | 4 foto lokal per brand |
-| Paragraf pembuka | `sections[type=text].body` | cadangan `brand-pages.js` |
-| Judul + isi tabel | `sections[type=specs]` (heading + specifications) | `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS` |
-| Kartu fitur | `sections[type=features]` | tidak dirender (hanya Outpace) |
+| Paragraf pembuka | `description` | cadangan `brand-pages.js` |
+| Judul + isi tabel | `specsHeading` + `specifications[]` | `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS` |
+| Kartu fitur | `featuresHeading` + `features[]` | tidak dirender (hanya Outpace) |
 | Foto kolom kanan | `image` | file lokal |
 | Tombol aksi | `ctas` + `instagramUrl` | `actions` di `brand-pages.js` (Acasa: padel/receptionist/roomrate) |
-| Menu | `sections[type=menu].menuPanels[]` | placeholder "Menu coming soon" untuk Grove/Outpace |
-| Peta FIND US | `sections[type=map]` | `coords` di `brand-pages.js` |
+| Menu | `menuHeading` + `menuPanels[]` | placeholder "Menu coming soon" untuk Grove/Outpace |
+| Peta FIND US | `mapHeading` + `mapLat/Lng/Zoom` | `coords` di `brand-pages.js` |
 | Teks FIND US | `address` + `whatsapp` + `tagline` | baris disembunyikan kalau kosong |
 | Jam buka | `hours` | blok tidak dirender |
 
 Menu: **1** panel = gambar tunggal di tengah, **2** panel = kiri–kanan, **3+** = page turner.
 
 ### Template `[slug]` (brand baru)
-Membaca dokumen `world` sepenuhnya: `sections`, `gallery`, `menuPanels`, `ctas`, `mapLat/Lng/Zoom`, `address`, `instagramUrl`, `theme`, `noIndex`. Ini yang membuat brand baru otomatis punya halaman.
+Membaca dokumen `world` sepenuhnya: `description`, `specifications[]`,
+`features[]`, `menuPanels[]`, `gallery`, `ctas`, `mapLat/Lng/Zoom`,
+`address`, `instagramUrl`, `localBusinessType`, `noIndex`. Brand publik yang
+belum masuk BRANDS Dropdown otomatis dapat baris sendiri di header.
 
 ---
 

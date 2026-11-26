@@ -241,7 +241,7 @@ src/sanity/lib/client.ts            ← tokenless, aman untuk server & client
         ▼
 src/sanity/lib/queries.ts           ← getEvents, getWorlds, getWorldBySlug, getBrandNavConfig,
         │                             getCareers, getCareerPage, getContactInfo, getCarouselImages
-        │  + hydrateWorld(): menurunkan description/specifications dari sections[]
+        │  WORLD_CARD_PROJECTION untuk kartu/nav; WORLD_PROJECTION untuk halaman brand
         ▼
 src/sanity/lib/brands.ts            ← getBrandCards(), getBrandNav(), filter isPublic()
         │
@@ -251,9 +251,9 @@ src/app/**/page.js  +  src/components/**  (BrandPageView, BrandActions, BrandHou
 
 Poin teknis:
 
-- **HTML dirender per request** karena nonce CSP; `force-dynamic` hanya tersisa di `sitemap.js`. Setiap `client.fetch` diberi `next: { revalidate: 60 }`, jadi data Sanity di-cache 60 detik.
+- **HTML dirender per request** karena nonce CSP; `force-dynamic` hanya tersisa di `sitemap.js`. Setiap `client.fetch` diberi `next: { revalidate: 60 }`, dan route `[slug]` memakai `revalidate = 60` yang sama supaya brand yang dihapus berhenti menjawab 200.
 - **Semua `get*` menangkap error** dan mengembalikan nilai aman (`[]` / `null`), jadi CMS down tidak menjatuhkan halaman.
-- **`hydrateWorld()`** menjembatani model baru (`sections[]`) ke field datar lama (`description`, `specifications`). Nilai top-level yang ditulis eksplisit selalu menang. Inilah yang membuat `sections[type=text].body` bisa dibaca halaman brand sebagai `world.description`.
+- **Halaman brand membaca field top-level** (`description`, `specifications[]`, `features[]`, `menuPanels[]`, `mapLat/Lng/Zoom`). Tidak ada lagi `sections[]` yang perlu di-hydrate; form Studio dan template memakai daftar field yang sama.
 - **`BrandPageView`** adalah satu-satunya renderer kelima brand mapan. Halaman route tinggal memanggil `loadBrand()` dan meneruskan `world` + konfigurasi cadangan.
 - **`getBrandCards()` dan `getBrandNav()` punya fallback berbeda** — daftar seed lokal, supaya CMS down tidak membuat `/brands` kosong atau dropdown mati.
 
@@ -290,22 +290,22 @@ Sejak 14 November 2026 kelima brand memakai renderer yang sama (`BrandPageView`)
 | Logo besar | `logo` (gambar) | file lokal Samsara/Svarga/Acasa; Grove & Outpace → nama sebagai teks |
 | Tagline | `tagline` | teks di `src/lib/brand-pages.js` |
 | Hero carousel | `gallery[]` | 4 foto lokal per brand |
-| Paragraf intro | `sections[type=text].body` (dibaca sebagai `description`) | teks di `brand-pages.js` |
-| Judul tabel | `sections[type=specs].heading` | `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS` |
-| Isi tabel | `sections[type=specs].specifications[]` | daftar di `brand-pages.js` |
-| Kartu fitur | `sections[type=features]` | tidak dirender (hanya Outpace punya) |
+| Paragraf intro | `description` | teks di `brand-pages.js` |
+| Judul tabel | `specsHeading` | `AT A GLANCE` / `GOOD TO KNOW` / `OFFERINGS` / `SPECIFICATIONS` |
+| Isi tabel | `specifications[]` | daftar di `brand-pages.js` |
+| Kartu fitur | `featuresHeading` + `features[]` | tidak dirender (hanya Outpace punya) |
 | Foto kolom kanan | `image` | file lokal per brand |
 | Tombol aksi | `ctas[]` + `instagramUrl` | `actions` di `brand-pages.js` |
 | Gambar preview sosial | `socialImage` | foto brand; dipotong 1200×630 JPEG oleh `ogImageUrl()` |
-| Menu | `sections[type=menu].menuPanels[]` | placeholder **Menu coming soon** untuk Grove & Outpace; brand lain tanpa menu → tidak dirender |
-| Peta FIND US | `sections[type=map].mapLat/mapLng/mapZoom` | `coords` di `brand-pages.js` |
+| Menu | `menuHeading` + `menuPanels[]` | placeholder **Menu coming soon** untuk Grove & Outpace; brand lain tanpa menu → tidak dirender |
+| Peta FIND US | `mapHeading` + `mapLat/mapLng/mapZoom` | `coords` di `brand-pages.js` |
 | Alamat | `address` | `brand-pages.js`; baris disembunyikan kalau tetap kosong |
 | Nomor WhatsApp | `whatsapp` | `brand-pages.js`; baris disembunyikan kalau tetap kosong |
 | Jam buka | `hours[]` | blok tidak dirender |
 
 Isi menu mengikuti jumlah halaman: **1** halaman tampil tunggal di tengah, **2** halaman kiri–kanan, **3 atau lebih** menjadi page turner dengan tombol panah (tanpa strip thumbnail).
 
-Label tabel spesifikasi tetap **sengaja berbeda** per brand, karena berasal dari `heading` section masing-masing.
+Label tabel spesifikasi tetap **sengaja berbeda** per brand, karena berasal dari `specsHeading` masing-masing.
 
 Kondisi per 14 November 2026:
 
