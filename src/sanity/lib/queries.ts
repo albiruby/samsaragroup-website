@@ -90,6 +90,26 @@ export async function getHomePage(): Promise<HomePageDoc | null> {
 }
 
 /**
+ * The fields the brand list and the BRANDS dropdown need. Keeping this separate
+ * from the full brand projection stops every page from downloading menu panels,
+ * specs and feature copy just to draw a card.
+ */
+const WORLD_CARD_PROJECTION = `{
+  _id,
+  _updatedAt,
+  name,
+  slug,
+  tagline,
+  speciality,
+  logo,
+  image,
+  order,
+  status,
+  featured,
+  noIndex
+}`;
+
+/**
  * Every field the brand template renders, at the top level. The old `sections`
  * array is deliberately absent: the page is a fixed template, so the Studio form
  * mirrors it field by field. That removes duplicated section types, invisible
@@ -156,7 +176,7 @@ export async function getBrandNavConfig(): Promise<BrandNavConfig | null> {
       `*[_id == "brandNav"][0]{
         seeAllLabel,
         emptyLabel,
-        "rows": rows[]{ title, "brands": brands[]->${WORLD_PROJECTION} }
+        "rows": rows[]{ title, "brands": brands[]->{ _id, slug } }
       }`,
       {},
       revalidate
@@ -170,7 +190,7 @@ export async function getBrandNavConfig(): Promise<BrandNavConfig | null> {
 export async function getWorlds() {
   try {
     return await client.fetch(
-      `*[_type == "world"] | order(order asc, name asc) ${WORLD_PROJECTION}`,
+      `*[_type == "world"] | order(order asc, name asc) ${WORLD_CARD_PROJECTION}`,
       {},
       revalidate
     );
