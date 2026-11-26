@@ -6,6 +6,13 @@ import { ogImageUrl } from "@/sanity/lib/image";
 
 const SITE = "Samsara Group";
 
+/*
+ * Keep the generated route on the same clock as the Sanity fetch. Without an
+ * explicit revalidate, an on-demand generated brand page can outlive its
+ * document and keep answering 200 after the brand is deleted.
+ */
+export const revalidate = 60;
+
 /**
  * Renders any brand that does not have a hand-tuned route. The layout is the same
  * two-column structure used by the five established brands, so a brand created
