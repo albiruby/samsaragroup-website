@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
-import ThemeSetter from "@/components/ThemeSetter";
 import HeroCarousel from "@/components/HeroCarousel";
 import ImageParallax from "@/components/ImageParallax";
 import LeafletMap from "@/components/LeafletMap";
@@ -13,17 +12,27 @@ import { ogImageUrl, sizedUrl } from "@/sanity/lib/image";
 import { jsonLdHtml } from "@/lib/jsonld";
 import { siteUrl } from "@/lib/site";
 
-/** Gallery accepts a bare image or a galleryItem wrapper. */
-function galleryUrls(gallery) {
+/**
+ * Gallery accepts a bare image or a galleryItem wrapper. The wrapper's alt text
+ * is kept, because a slide is an image and needs its own description; the old
+ * code collapsed both shapes to a URL and lost it.
+ */
+function galleryItems(gallery) {
   return (gallery || [])
-    .map((item) => (item && item._type === "galleryItem" ? item.image : item))
-    .filter((image) => image?.asset)
-    .map((image) => sizedUrl(image, 1600));
+    .map((item) => {
+      if (item && item._type === "galleryItem") {
+        return item.image?.asset
+          ? { src: sizedUrl(item.image, 1600), alt: item.alt || null }
+          : null;
+      }
+      return item?.asset ? { src: sizedUrl(item, 1600), alt: null } : null;
+    })
+    .filter(Boolean);
 }
 
 /** Panels keep their own dimensions so the menu pager can size them correctly. */
-function menuPanels(section) {
-  return (section?.menuPanels || [])
+function menuPanels(panels) {
+  return (panels || [])
     .filter((panel) => panel?.src)
     .map((panel) => ({
       key: panel._key,
@@ -33,7 +42,7 @@ function menuPanels(section) {
     }));
 }
 
-/** Shown only when a brand has no menu section yet, instead of leaving a hole. */
+/** Shown only when a brand has no menu yet, instead of leaving a hole. */
 function MenuPlaceholder({ heading }) {
   return (
     <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
@@ -52,9 +61,9 @@ function MenuPlaceholder({ heading }) {
 }
 
 /**
- * Structured data for the three brands with a complete NAP record. Outpace and
- * Grove still lack a street address and telephone, so adding LocalBusiness there
- * would advertise incomplete data; they stay out until the CMS is filled.
+ * Structured data type. The CMS field is authoritative; the slug map is only a
+ * fallback for a document saved before that field existed. An explicit "none"
+ * is respected so an editor can switch LocalBusiness off.
  */
 const LOCAL_BUSINESS_TYPES = {
   samsara: "Restaurant",
@@ -64,7 +73,13 @@ const LOCAL_BUSINESS_TYPES = {
 
 function localBusinessSchema({ world, config, name, address, whatsapp, coords }) {
   const slug = config?.slug || world?.slug?.current;
-  const type = LOCAL_BUSINESS_TYPES[slug];
+  const configured = world?.localBusinessType;
+  const type =
+    configured === undefined || configured === null || configured === ""
+      ? LOCAL_BUSINESS_TYPES[slug]
+      : configured === "none"
+        ? null
+        : configured;
   if (!type || (!address && !whatsapp)) return null;
 
   const url = siteUrl(`/${slug}`);
@@ -110,39 +125,37 @@ function localBusinessSchema({ world, config, name, address, whatsapp, coords })
 /**
  * The layout shared by every brand page: hero, carousel, an optional feature row,
  * a two-column block (copy + specs next to the portrait photo), menu, then
- * location. Every string, image and coordinate comes from the CMS. `config`
- * only supplies the fallback for a field the Studio has not filled yet, and is
+ * location. Every string, image and coordinate comes from the CMS. `config` only
+ * supplies the fallback for a field the Studio has not filled yet, and is
  * optional so a brand created purely from the CMS can use the same layout.
  */
-export default function BrandPageView({ world, config = {}, theme = "dark" }) {
+export default function BrandPageView({ world, config = {} }) {
   const name = world?.name || config.name || "Brand";
   const h1Text = world?.heroTitle || name;
   const tagline = world?.tagline || config.tagline || "";
   const intro = world?.description || config.intro || "";
   const logoUrl = world?.logo ? sizedUrl(world.logo, 600) : config.logo || null;
 
-  const gallery = galleryUrls(world?.gallery);
+  const gallery = galleryItems(world?.gallery);
   const heroImages = gallery.length ? gallery : config.gallery || [];
-
-  const sections = (world?.sections || []).filter(Boolean);
-  const specsSection = sections.find((section) => section.type === "specs");
-  const featuresSection = sections.find((section) => section.type === "features");
-  const menuSection = sections.find((section) => section.type === "menu");
-  const mapSection = sections.find((section) => section.type === "map");
 
   const specs = world?.specifications?.length
     ? world.specifications.map((row) => [row.label, row.value])
     : config.specs || [];
-  const specsHeading = specsSection?.heading || config.specsHeading || "SPECIFICATIONS";
+  const specsHeading = world?.specsHeading || config.specsHeading || "SPECIFICATIONS";
+  const features = (world?.features || []).filter((card) => card?.title);
+  const featuresHeading = world?.featuresHeading || "";
 
   const hasCoords =
-    typeof mapSection?.mapLat === "number" && typeof mapSection?.mapLng === "number";
-  const coords = hasCoords ? { lat: mapSection.mapLat, lng: mapSection.mapLng } : config.coords || null;
+    typeof world?.mapLat === "number" && typeof world?.mapLng === "number";
+  const coords = hasCoords
+    ? { lat: world.mapLat, lng: world.mapLng }
+    : config.coords || null;
 
   const address = world?.address || config.address || null;
   const whatsapp = world?.whatsapp || config.whatsapp || null;
   const portraitUrl = world?.image ? sizedUrl(world.image, 1100) : config.image || null;
-  const panels = menuPanels(menuSection);
+  const panels = menuPanels(world?.menuPanels);
   const businessSchema = localBusinessSchema({
     world,
     config,
@@ -156,7 +169,6 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
 
   return (
     <>
-      <ThemeSetter theme={theme} />
       {businessSchema ? (
         <script
           type="application/ld+json"
@@ -200,29 +212,27 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
         </section>
       ) : null}
 
-      {featuresSection?.features?.length ? (
+      {features.length ? (
         <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-16">
           <ScrollReveal>
-            {featuresSection.heading ? (
-              <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
-                {featuresSection.heading}
-              </span>
+            {featuresHeading ? (
+              <h2 className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
+                {featuresHeading}
+              </h2>
             ) : null}
             <div className="grid gap-8 border-t border-outline-variant pt-8 sm:grid-cols-2 lg:grid-cols-4">
-              {featuresSection.features
-                .filter((card) => card?.title)
-                .map((card) => (
-                  <div key={card._key || card.title}>
-                    <h2 className="mb-3 font-display text-headline-sm uppercase text-on-surface">
-                      {card.title}
-                    </h2>
-                    {card.copy ? (
-                      <p className="text-body-sm text-on-surface-variant leading-relaxed">
-                        {card.copy}
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
+              {features.map((card) => (
+                <div key={card._key || card.title}>
+                  <h3 className="mb-3 font-display text-headline-sm uppercase text-on-surface">
+                    {card.title}
+                  </h3>
+                  {card.copy ? (
+                    <p className="text-body-sm text-on-surface-variant leading-relaxed">
+                      {card.copy}
+                    </p>
+                  ) : null}
+                </div>
+              ))}
             </div>
           </ScrollReveal>
         </section>
@@ -286,14 +296,14 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
           <ScrollReveal>
             <TextClipReveal>
               <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                {menuSection?.heading || "MENU"}
+                {world?.menuHeading || "MENU"}
               </h2>
             </TextClipReveal>
             <MenuGallery panels={panels} heading="" />
           </ScrollReveal>
         </section>
       ) : config.menuPlaceholder ? (
-        <MenuPlaceholder heading={menuSection?.heading || "MENU"} />
+        <MenuPlaceholder heading={world?.menuHeading || "MENU"} />
       ) : null}
 
       {hasLocation ? (
@@ -301,7 +311,7 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
           <ScrollReveal>
             <TextClipReveal>
               <h2 className="mb-6 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-                {mapSection?.heading || "FIND US"}
+                {world?.mapHeading || "FIND US"}
               </h2>
             </TextClipReveal>
             {coords ? (
@@ -309,7 +319,7 @@ export default function BrandPageView({ world, config = {}, theme = "dark" }) {
                 <LeafletMap
                   lat={coords.lat}
                   lng={coords.lng}
-                  zoom={mapSection?.mapZoom || 16}
+                  zoom={world?.mapZoom || 16}
                   className="w-full h-full"
                   label={`Lokasi ${name}${address ? `, ${address}` : ""}`}
                 />

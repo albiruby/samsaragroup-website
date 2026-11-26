@@ -22,14 +22,24 @@ export async function generateMetadata({ params }) {
   }
 
   const name = world.name || slug;
+  /*
+   * Never leave a public brand without a meta description. The old fallback
+   * reached for the full intro paragraph, which is usually much longer than a
+   * search result; tagline/speciality are short by design.
+   */
+  const description =
+    world.seoDescription ||
+    world.tagline ||
+    world.speciality ||
+    `${name} — ${SITE}`;
   return {
     title: world.seoTitle || `${name} — ${SITE}`,
-    description: world.seoDescription || world.tagline || world.description || "",
+    description,
     alternates: { canonical: `/${slug}` },
     openGraph: openGraphFor({
       path: `/${slug}`,
       title: world.seoTitle || `${name} — ${SITE}`,
-      description: world.seoDescription || world.tagline || world.description || "",
+      description,
       image: ogImageUrl(world.socialImage || world.image),
       alt: world.name,
     }),
@@ -44,10 +54,5 @@ export default async function BrandPage({ params }) {
 
   if (!world || world.status !== "active" || world.featured === false) notFound();
 
-  return (
-    <BrandPageView
-      world={world}
-      theme={world.theme === "light" ? "light" : "dark"}
-    />
-  );
+  return <BrandPageView world={world} />;
 }

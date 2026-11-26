@@ -9,28 +9,36 @@ function srcSetFor(src) {
   return WIDTHS.map((w) => `${src.replace(/([?&])w=\d+/, `$1w=${w}`)} ${w}w`).join(", ");
 }
 
+/**
+ * Slides may be a URL string (the per-brand fallback config) or an object with
+ * `src` and `alt` (CMS gallery slides). Normalising here keeps both call sites on
+ * one component and lets a gallery item carry its own alt text.
+ */
 export default function HeroCarousel({ images, alt = "Hero image", interval = 8000, aspect = "aspect-[4/3] md:aspect-[21/9]" }) {
+  const items = (images || []).map((image) =>
+    typeof image === "string" ? { src: image, alt: null } : image
+  );
   const [current, setCurrent] = useState(0);
 
   const prev = useCallback(() => {
-    setCurrent((c) => (c === 0 ? images.length - 1 : c - 1));
-  }, [images.length]);
+    setCurrent((c) => (c === 0 ? items.length - 1 : c - 1));
+  }, [items.length]);
 
   const next = useCallback(() => {
-    setCurrent((c) => (c + 1) % images.length);
-  }, [images.length]);
+    setCurrent((c) => (c + 1) % items.length);
+  }, [items.length]);
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (items.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((p) => (p + 1) % images.length);
+      setCurrent((p) => (p + 1) % items.length);
     }, interval);
     return () => clearInterval(timer);
-  }, [images.length, interval]);
+  }, [items.length, interval]);
 
-  if (!images || images.length === 0) return null;
+  if (!items.length) return null;
 
-  const shouldRender = (i) => i === current || i === (current + 1) % images.length;
+  const shouldRender = (i) => i === current || i === (current + 1) % items.length;
 
   return (
     <div
@@ -38,18 +46,18 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 80
       data-cursor="NEXT"
       onClick={() => next()}
     >
-      {images.map((src, i) => (
+      {items.map((item, i) => (
         <div
-          key={src}
+          key={`${item.src}-${i}`}
           className="absolute inset-0 transition-opacity duration-800 ease-in-out"
           style={{ opacity: i === current ? 1 : 0 }}
         >
           {shouldRender(i) && (
             <img
-              src={src}
-              srcSet={srcSetFor(src)}
+              src={item.src}
+              srcSet={srcSetFor(item.src)}
               sizes="100vw"
-              alt={`${alt} ${i + 1}`}
+              alt={item.alt || `${alt} ${i + 1}`}
               loading={i === current ? "eager" : "lazy"}
               fetchPriority={i === current ? "high" : "low"}
               decoding="async"
@@ -59,7 +67,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 80
         </div>
       ))}
 
-      {images.length > 1 && (
+      {items.length > 1 && (
         <>
           <button
             onClick={(e) => {
@@ -82,7 +90,7 @@ export default function HeroCarousel({ images, alt = "Hero image", interval = 80
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 2l5 5-5 5" /></svg>
           </button>
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center">
-            {images.map((_, i) => (
+            {items.map((_, i) => (
               <button
                 key={i}
                 onClick={(e) => {

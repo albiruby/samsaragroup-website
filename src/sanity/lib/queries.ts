@@ -89,6 +89,12 @@ export async function getHomePage(): Promise<HomePageDoc | null> {
   }
 }
 
+/**
+ * Every field the brand template renders, at the top level. The old `sections`
+ * array is deliberately absent: the page is a fixed template, so the Studio form
+ * mirrors it field by field. That removes duplicated section types, invisible
+ * text blocks, and ordering that the layout could not honour.
+ */
 const WORLD_PROJECTION = `{
   _id,
   _updatedAt,
@@ -98,19 +104,6 @@ const WORLD_PROJECTION = `{
   description,
   image,
   gallery,
-  "sections": sections[]{
-    _key,
-    _type,
-    type,
-    heading,
-    body,
-    "specifications": specifications[]{ _key, label, value },
-    "features": features[]{ _key, title, copy },
-    "menuPanels": menuPanels[]{ _key, tabLabel, "src": image.asset->url },
-    mapLat,
-    mapLng,
-    mapZoom
-  },
   speciality,
   logo,
   order,
@@ -119,57 +112,26 @@ const WORLD_PROJECTION = `{
   address,
   whatsapp,
   instagramUrl,
-  theme,
   heroEyebrow,
   heroTitle,
-  heroIntro,
+  specsHeading,
+  "specifications": specifications[]{ _key, label, value },
+  featuresHeading,
+  "features": features[]{ _key, title, copy },
   menuHeading,
+  "menuPanels": menuPanels[]{ _key, tabLabel, "src": image.asset->url },
+  mapHeading,
+  mapLat,
+  mapLng,
+  mapZoom,
   seoTitle,
   seoDescription,
   socialImage,
   noIndex,
+  localBusinessType,
   "ctas": ctas[]{ _key, _type, kind, label, url },
   "hours": hours[]{ _key, label, value }
 }`;
-
-type WorldSection = {
-  _key?: string;
-  _type?: string;
-  type?: string;
-  heading?: string;
-  body?: string;
-  specifications?: { label?: string; value?: string }[] | null;
-};
-
-type World = {
-  _id: string;
-  description?: string;
-  specifications?: { label?: string; value?: string }[] | null;
-  sections?: WorldSection[] | null;
-};
-
-/**
- * Bridges the CMS `sections` array back onto the flat `description` and
- * `specifications` fields the brand pages read. Explicitly authored top-level
- * values always win, so filling them in the Studio overrides the derived ones.
- */
-function hydrateWorld(doc: World): World {
-  const sections = Array.isArray(doc.sections) ? doc.sections : [];
-
-  if (!doc.description?.trim()) {
-    const vision = sections.find((s) => s.type === "text")?.body?.trim();
-    if (vision) doc.description = vision;
-  }
-
-  if (!doc.specifications?.length) {
-    const rows = sections
-      .find((s) => s.type === "specs")
-      ?.specifications?.filter((r) => r?.label);
-    if (rows?.length) doc.specifications = rows;
-  }
-
-  return doc;
-}
 
 type BrandNavRow = {
   title?: string;
@@ -207,12 +169,11 @@ export async function getBrandNavConfig(): Promise<BrandNavConfig | null> {
 
 export async function getWorlds() {
   try {
-    const docs = await client.fetch(
+    return await client.fetch(
       `*[_type == "world"] | order(order asc, name asc) ${WORLD_PROJECTION}`,
       {},
       revalidate
     );
-    return (docs as World[]).map(hydrateWorld);
   } catch (e) {
     console.error("getWorlds failed:", e.message);
     return [];
@@ -222,12 +183,11 @@ export async function getWorlds() {
 export async function getWorldBySlug(slug: string) {
   if (!slug) return null;
   try {
-    const doc = await client.fetch(
+    return await client.fetch(
       `*[_type == "world" && slug.current == $slug][0] ${WORLD_PROJECTION}`,
       { slug },
       revalidate
     );
-    return doc ? hydrateWorld(doc as World) : null;
   } catch (e) {
     console.error("getWorldBySlug failed:", e.message);
     return null;

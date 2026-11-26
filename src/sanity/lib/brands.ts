@@ -190,9 +190,13 @@ function toCard(world: NavWorld): BrandCard {
 export async function getBrandCards(): Promise<BrandCard[]> {
   try {
     const worlds = (await getWorlds()) as NavWorld[];
+    /*
+     * A brand without an order belongs at the end, not at the top. The old
+     * `?? 0` default made a freshly created brand jump ahead of Samsara.
+     */
     const cards = worlds
       .filter((world) => isPublic(world) && isSafeSlug(slugOf(world)))
-      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
       .map(toCard);
     if (cards.length) return cards;
   } catch (e) {
@@ -228,7 +232,7 @@ export async function getBrandNav(): Promise<BrandNav> {
 
   const publicWorlds = worlds
     .filter((world) => isPublic(world) && isSafeSlug(slugOf(world)))
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
   if (!publicWorlds.length) return fallbackNav();
 
@@ -247,10 +251,28 @@ export async function getBrandNav(): Promise<BrandNav> {
     })
     .filter((row) => row.name && row.brands.length > 0);
 
+  /*
+   * A public brand that has not been placed in the BRANDS Dropdown still needs a
+   * way into the header. Append it as its own row; once an editor adds it to a
+   * curated row, the automatic row disappears on the next revalidation.
+   */
+  let rows = configured;
+  if (configured.length) {
+    const referenced = new Set(
+      configured.flatMap((row) => row.brands.map((brand) => brand.slug))
+    );
+    rows = [
+      ...configured,
+      ...deriveRows(publicWorlds.filter((world) => !referenced.has(slugOf(world)))),
+    ];
+  } else {
+    rows = deriveRows(publicWorlds);
+  }
+
   // Header and MobileMenu track the open row by its title, so two rows sharing one
   // would open together. Qualify the repeat rather than rendering a dead row.
   const usedTitles = new Set<string>();
-  const categories = (configured.length ? configured : deriveRows(publicWorlds)).map((row) => {
+  const categories = rows.map((row) => {
     let name = row.name;
     if (usedTitles.has(name)) name = `${name} - ${row.brands[0].label}`;
     usedTitles.add(name);

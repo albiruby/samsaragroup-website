@@ -24,6 +24,7 @@
     "test": "node --test \"scripts/*.test.mjs\"",
     "check:links": "node scripts/check-links.mjs",
     "audit:pii": "node scripts/audit-sanity-pii.mjs",
+    "migrate:worlds": "node scripts/migrate-world-sections.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
