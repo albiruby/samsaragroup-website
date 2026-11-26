@@ -584,7 +584,7 @@ sebelum upload.
 ### 5.2 Halaman brand-nya sudah otomatis
 
 Brand baru **tidak perlu** file di kode. `src/app/[slug]/page.js` sudah menjadi
-template generik yang membaca semua field dari Sanity — teks, gambar, sections,
+template generik yang membaca semua field dari Sanity — teks, gambar, menu,
 tombol, peta. Tinggal isi di Studio.
 
 Kalau brand punya layout benar-benar khusus (seperti Outpace saat ini yang punya

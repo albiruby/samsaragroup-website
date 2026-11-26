@@ -348,7 +348,7 @@ Di `src/components/` (±30 file).
 | Komponen | Fungsi |
 |---|---|
 | `BrandsProvider.jsx` | membagikan `brandNav` dari layout ke Header/Footer |
-| `ThemeProvider.js`, `ThemeSetter.js` | mode warna per halaman (`world.theme`) |
+| `ThemeProvider.js`, `ThemeSetter.js` | wadah state tema warisan (dipakai halaman career; tidak mengubah warna brand) |
 
 **Terhubung Sanity / interaktif**
 
@@ -373,32 +373,35 @@ Tujuh tipe dokumen, semuanya didaftarkan di `schemaTypes/index.ts`.
 
 ### 7.1 `world` — satu dokumen per brand
 
-Dokumen terbesar, terbagi **9 grup** di Studio:
+Dokumen terbesar, terbagi **10 grup** di Studio. Urutan grup sama dengan urutan halaman:
 
 | Grup | Field |
 |---|---|
 | **1 - Identity** | `name`, `slug` |
-| **2 - Listing & Navigation** | `tagline`, `speciality`, `categories`*, `image`, `logo` |
-| **3 - Hero & Copy** | `theme`, `heroEyebrow`, `heroTitle`, `heroIntro`, `gallery[]`, `description` |
-| **4 - Sections** | `sections[]` (`type`: text / specs / features / menu / map; `heading`, `body`, `specifications[]`, `features[]`, `menuPanels[]`, `mapLat`, `mapLng`, `mapZoom`) |
-| **5 - Menu** | `menuHeading` (judul bawaan section Menu) |
-| **6 - Location & Map** | `address`, `hours[]` |
-| **7 - Contact & Links** | `whatsapp`, `instagramUrl`, `ctas[]` (`kind`, `label`, `url`) |
-| **8 - SEO** | `seoTitle`, `seoDescription`, `socialImage`, `noIndex` |
-| **9 - Publishing** | `order`, `status`, `featured` |
+| **2 - Listing & Navigation** | `tagline`, `speciality`, `image`, `logo` |
+| **3 - Hero** | `heroEyebrow`, `heroTitle`, `gallery[]` |
+| **4 - Intro & Specifications** | `description`, `specsHeading`, `specifications[]` |
+| **5 - Feature Cards** | `featuresHeading`, `features[]` |
+| **6 - Menu** | `menuHeading`, `menuPanels[]` |
+| **7 - Location & Map** | `mapHeading`, `mapLat`, `mapLng`, `mapZoom`, `address`, `whatsapp`, `hours[]` |
+| **8 - Contact & Links** | `instagramUrl`, `ctas[]` (`kind`, `label`, `url`) |
+| **9 - SEO** | `seoTitle`, `seoDescription`, `socialImage`, `noIndex`, `localBusinessType` |
+| **10 - Publishing** | `order`, `status`, `featured` |
 
-\* Field `categories`, `sections[].image`, `sections[].features[].image`, dan `world.menuPanels` **sudah dihapus dari schema (19/10)** — keempatnya tidak pernah diproyeksikan dan tidak dibaca website mana pun.
+Field `categories` dihapus 19/10. Refactor 26/11 menghapus `sections`, `theme`,
+dan `heroIntro`; `menuPanels` sekarang field top-level dan benar-benar dirender.
 
 Catatan tipe masuk:
 
 - `hours[]` = baris `{ label, value }` — **per kategori, bukan per hari**. Contoh: `Weekdays` / `10:00 - 22:00`, `Weekend` / `09:00 - 01:00`.
 - `ctas[].kind` pilihan di Studio kini hanya tiga: `reservation`, `roomrate`, `instagram`. Kind `menu`, `location`, `career`, `links` sudah dibuang dari schema (lihat §8.2).
-- `status`: `active` (tampil) / `draft` (hanya Studio) / `archived` (disembunyikan dari navigasi, URL tetap hidup). Default `active`.
-- `featured`: boolean, default `true`.
-- `theme`: mode warna halaman saat header tertutup.
+- `status`: `active` (tampil) / `draft` (404, hanya Studio) / `archived` (404, disimpan sebagai arsip). Default `active`.
+- `featured`: boolean, default `true`. `false` membuat halaman brand 404.
+- `order`: default 100; angka kecil tampil lebih dulu, kosong berarti paling akhir.
 - `logo`: dipakai sebagai judul hero halaman brand. Kosong → nama brand tampil sebagai teks.
 - `whatsapp`: nomor yang **ditampilkan** di blok FIND US (boleh memakai `+` dan garis). Berbeda dari `contactInfo.whatsapp[].phone` yang dipakai untuk tautan `wa.me`.
-- `sections[type=menu].menuPanels[]`: **satu panel = satu halaman menu**. Jumlah panel menentukan tampilan (1 / 2 / 3+). Field `layout` dan `downloadUrl` sudah dihapus 17/11 karena tidak pernah dirender.
+- `menuPanels[]`: **satu panel = satu halaman menu**. Jumlah panel menentukan tampilan (1 / 2 / 3+).
+- `localBusinessType`: tipe JSON-LD LocalBusiness. `none` = tidak ada schema; hanya dipakai bila `address` atau `whatsapp` terisi.
 
 ### 7.2 `event` — `/events`
 
@@ -730,14 +733,14 @@ Semua read-only dan tanpa secret. `ci.yml` memakai Node dari `.nvmrc`. `client.t
 
 **M. Marquee homepage** → Studio → **Carousel Image** `placement = home`, `active != false`.
 
-**N. Ubah jam buka brand** → Studio → dokumen brand → grup **6 - Location & Map** → **Opening Hours** → tambah baris `label` + `hours` (mis. `Weekdays` / `10:00 - 22:00`). Blok muncul otomatis di halaman brand.
+**N. Ubah jam buka brand** → Studio → dokumen brand → grup **7 - Location & Map** → **Opening Hours** → tambah baris `label` + `hours` (mis. `Weekdays` / `10:00 - 22:00`). Blok muncul otomatis di halaman brand.
 
 ### Tambah brand baru
 
 1. Pastikan slug **bukan** `samsara`, `svarga`, `acasa`, `outpace`, `grove` (ditolak schema).
-2. Studio → **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`, `order`.
-3. Isi `gallery` (hero carousel), `sections` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
-4. Dalam ~1 menit brand muncul di `/brands`, footer, dropdown, sitemap, dan punya halaman `/<slug>`.
+2. Studio → **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`. `order` default 100.
+3. Isi `gallery`, `description`, `specifications`, `features`, `menuPanels`, `mapLat/Lng`, `ctas`, `instagramUrl`, `address`, `seo*` sesuai kebutuhan.
+4. Dalam ~1 menit brand muncul di `/brands`, footer, dropdown (baris otomatis), sitemap, dan punya halaman `/<slug>`.
 5. **Tidak perlu deploy kode** — semuanya dilayani template `[slug]`.
 
 ---
@@ -920,18 +923,17 @@ Semuanya sudah diperbaiki dan diverifikasi pada situs live.
 
 ## 19. Menambah brand baru — perubahan paling berdampak
 
-Menambah brand menyentuh CMS **dan** beberapa berkas kode. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer dan strip Career, dan `sitemap.xml`. Marquee mengulang daftar sesuai lebar panel, jadi jumlah brand berapa pun tetap tanpa celah.
+Menambah brand cukup lewat CMS. Yang **otomatis** menyesuaikan: halaman `/<slug>` (template dinamis), kartu di `/brands`, daftar brand di footer, logo di marquee footer dan strip Career, baris sementara di dropdown header, dan `sitemap.xml`. Marquee mengulang daftar sesuai lebar panel, jadi jumlah brand berapa pun tetap tanpa celah.
 
 **Wajib:**
 
 | Langkah | Di mana |
 |---|---|
-| 1. Buat dokumen `world` — Name, Slug, **Card Image (wajib)**, Tagline, Speciality, galeri, section, tombol | Studio → *Brands & Brand Pages — World* |
-| 2. Tambahkan brand ke sebuah baris **BRANDS Dropdown** | Studio → *Header Menu — BRANDS Dropdown* |
-| 3. `status = Active`, `featured = true` | dokumen `world` |
-| 4. Slug jangan salah satu dari `samsara`, `svarga`, `acasa`, `outpace`, `grove` | schema menolak sendiri |
+| 1. Buat dokumen `world` — Name, Slug, **Card Image (wajib)**, Tagline, Speciality, konten (intro/specs/features/menu/map), tombol | Studio → *Brands & Brand Pages — World* |
+| 2. `status = Active`, `featured = true` | dokumen `world` |
+| 3. Slug jangan salah satu dari `samsara`, `svarga`, `acasa`, `outpace`, `grove` | schema menolak sendiri |
 
-**Kenapa langkah 2 wajib:** dropdown header dibaca dari dokumen BRANDS Dropdown, bukan dari daftar brand. Tanpa menambahkannya ke sebuah baris, brand baru **tidak akan muncul di menu header** — walaupun footer, `/brands`, dan sitemap sudah memuatnya otomatis.
+**Dropdown:** brand publik yang belum dimasukkan ke **BRANDS Dropdown** otomatis tampil sebagai baris sendiri (judulnya dari `tagline`). Menambahkannya ke `Rows` hanya perlu untuk mengelompokkan atau mengganti judul baris; baris otomatis hilang setelah revalidate.
 
 **Kenapa langkah 3 wajib:** `status` bukan `active` **atau** `featured: false` membuat `/<slug>` mengembalikan **404**. Ini berlaku di template dinamis maupun di kelima halaman brand.
 

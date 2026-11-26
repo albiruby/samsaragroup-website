@@ -271,9 +271,9 @@ Cara cepat memastikan kodenya sehat: `npm run build` di lokal. Kalau exit 0, mas
 ## 10. Menambah brand baru
 
 1. Pastikan tidak memakai slug yang sudah dipakai salah satu route statis: **`samsara`, `svarga`, `acasa`, `outpace`, `grove`**. Kalau memakai itu, halaman statis lama yang muncul, bukan template baru.
-2. Studio → buat dokumen **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`, `order`.
-3. Isi `gallery` (hero carousel), `sections` (opsional), `ctas`, `instagramUrl`, `address`, `seo*`.
-4. Dalam ~1 menit brand otomatis muncul di `/brands`, footer, dropdown nav, sitemap, dan punya halaman `/<slug>`.
+2. Studio → buat dokumen **World** baru: isi `name`, `slug`, `tagline`, `image` (wajib), `status = active`, `featured = true`. `order` default 100.
+3. Isi `gallery`, `description`, `specifications`, `features`, `menuPanels`, `mapLat/Lng`, `ctas`, `instagramUrl`, `address`, `seo*` sesuai kebutuhan.
+4. Dalam ~1 menit brand otomatis muncul di `/brands`, footer, dropdown nav (baris otomatis), sitemap, dan punya halaman `/<slug>`.
 5. **Tidak perlu deploy kode.** Semua bagian brand baru dilayani template `[slug]`.
 
 ---
@@ -366,7 +366,7 @@ File `.env.local` di repo website (tidak ter-commit):
 1. ~~**Halaman hand-tuned tidak menegakkan `status`/`featured`.**~~ **Selesai** — kelima halaman brand kini memakai `BrandPageView` dengan gate yang sama seperti `[slug]`.
 2. **Nomor telepon ada di dua dokumen CMS** (`contactInfo.whatsapp[]` untuk halaman Contact, `world.whatsapp` untuk FIND US) ditambah fallback kode. Satu perubahan menyentuh dua tempat di Studio.
 3. **Dua sumber data brand:** `/brands` pakai `getBrandCards()`, Header/Footer pakai `getBrandNav()`. Fallback keduanya berbeda, jadi saat CMS down daftar bisa tidak sinkron.
-4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10** — bersama `sections[].image`, `sections[].features[].image`, dan `world.menuPanels`. Keempatnya tidak pernah dibaca website. **Per 14/11 tidak ada lagi field mati di halaman brand**: `hours`, `address`, `logo`, `sections[*]`, dan `whatsapp` semuanya dirender.
+4. ~~**Field mati**: `world.categories` masih ada di schema.~~ **Sudah dihapus 19/10.** Refactor **26/11** menghapus `sections`, `theme`, dan `heroIntro`; `menuPanels` dipindah ke top-level dan sekarang dirender. Tidak ada lagi field brand yang tampil di Studio tetapi tidak dipakai halaman.
 5. **Header preload gambar** (`Header.js`) hanya mencakup Samsara/Svarga/Acasa; Outpace/Grove tidak di-preload. Daftar gambarnya hardcoded dan menduplikasi galeri CMS.
 6. ~~**Watcher dev** (`instrumentation.js`) bisa menulis ke production saat `next dev` boot.~~ **22/10 watcher-nya dihapus; 25/10 `sync-hardcode-to-cms.mjs` dihapus.** Tidak ada lagi jalur kode → CMS. (lihat §11).
 7. ~~**Belum ada test otomatis yang berjalan di CI.**~~ **Selesai 24/10** — `ci.yml` menjalankan lint, audit produksi, dan build; `smoke.yml` harian; `uptime.yml` membaca sitemap. **`npm run smoke`** tetap bisa manual (77 produksi / 78 preview). Backup **tidak lagi terjadwal** — dijalankan atas permintaan.
