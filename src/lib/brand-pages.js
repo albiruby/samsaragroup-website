@@ -141,7 +141,7 @@ export const BRAND_PAGES = {
       ["Facilities", "Shower · Coffee · Lockers"],
       ["Community", "Morning runs, group sessions"],
     ],
-    logo: null,
+    logo: "/ASSETS-OUTPACE/logo/outpace-black.webp",
     image: "/ASSETS-SAMSARA/ambience/DSC09014.webp",
     gallery: [
       "/ASSETS-SAMSARA/ambience/DSC09014.webp",
@@ -172,7 +172,7 @@ export const BRAND_PAGES = {
       ["Vibe", "Casual · Relaxed · Everyday"],
       ["Menu", "Coffee, bites, light meals"],
     ],
-    logo: null,
+    logo: "/ASSETS-GROVE/logo/grove-black.webp",
     image: "/ASSETS-SAMSARA/ambience/DSC09048.webp",
     gallery: [
       "/ASSETS-SAMSARA/ambience/DSC09048.webp",

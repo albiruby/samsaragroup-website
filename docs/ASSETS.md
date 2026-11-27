@@ -48,9 +48,10 @@ Tujuannya bukan legal advice, tetapi supaya pemilik berikutnya tahu mana yang bo
 | Samsara | Klien | WebP | `ASSETS-SAMSARA/logo` |
 | Svarga | Klien | WebP | `ASSETS-SVARGA` |
 | Acasa | Klien | WebP | `ASSETS-ACASA` |
-| Outpace | `[belum ada]` | — | Placeholder teks |
-| Grove | `[belum ada]` | — | Placeholder teks |
+| Outpace | Klien | WebP | `ASSETS-OUTPACE/logo` — black/white + source PNG |
+| Grove | Klien | WebP | `ASSETS-GROVE/logo` — black/white + source PNG |
 
+- Varian **black** dipakai di halaman, kartu, footer, dan strip Career (permukaan terang). Varian **white** disimpan untuk konteks gelap.
 - Logo adalah merek dagang pemilik; jangan mengubah proporsi/warna tanpa arahan brand.
 - Jangan mengunggah logo pihak ketiga ke Sanity.
 

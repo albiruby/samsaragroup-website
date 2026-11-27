@@ -40,6 +40,8 @@ const LEGACY_LOGO: Record<string, string> = {
   samsara: "/ASSETS-SAMSARA/logo/blackfullsamping-480.webp",
   svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
   acasa: "/ASSETS-ACASA/logoacasahitam-480.webp",
+  outpace: "/ASSETS-OUTPACE/logo/outpace-black-480.webp",
+  grove: "/ASSETS-GROVE/logo/grove-black-480.webp",
 };
 
 function slugOf(world: NavWorld): string {
@@ -132,13 +134,13 @@ const SEED_CARDS = [
   {
     slug: "outpace",
     fallback: "/ASSETS-SAMSARA/ambience/DSC09014.webp",
-    logo: null,
+    logo: "/ASSETS-OUTPACE/logo/outpace-black-480.webp",
     image: null,
   },
   {
     slug: "grove",
     fallback: "/ASSETS-SAMSARA/ambience/DSC09048.webp",
-    logo: null,
+    logo: "/ASSETS-GROVE/logo/grove-black-480.webp",
     image: null,
   },
 ].map((c) => ({
