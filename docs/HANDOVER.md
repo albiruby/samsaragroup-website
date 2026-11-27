@@ -4,6 +4,12 @@
 **Produksi:** <https://samsaragroup.vercel.app>  
 **Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Sanity v6 · Vercel
 
+> **Pembaruan 27 November 2026 — logo Grove/Outpace + Career cleanup.**
+> - Logo black/white Grove dan Outpace ditambahkan ke `public/ASSETS-GROVE/logo` dan `public/ASSETS-OUTPACE/logo`; varian black diunggah ke `world.logo` (staging + production) dan dipakai sebagai fallback kode.
+> - `career.slug` dihapus (tidak dipakai URL/JSON-LD); `careerPage.theme` + `ThemeProvider`/`ThemeSetter` dihapus.
+> - Empty state Career baru: `emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`. Tampil otomatis saat 0 lowongan; CTA memakai Google Form default bila URL kosong.
+> - Catatan data: production saat ini 0 dokumen Career, staging 6. Backup 26 Nov menyimpan keenam dokumen tersebut.
+
 > **Pembaruan 26 November 2026 — model brand eksplisit.**
 > - `sections[]` diganti field top-level yang urutannya sama dengan halaman: `description` + `specifications[]`, `features[]`, `menuPanels[]`, `mapLat/Lng/Zoom`.
 > - `theme` dan `heroIntro` dihapus dari schema; `menuHeading` sekarang benar-benar dipakai.

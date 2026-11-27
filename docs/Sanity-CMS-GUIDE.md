@@ -205,89 +205,55 @@ Jadi `tagline` itu field paling impactful di dokumen ini. **Wajib diisi.**
 > sudah **dihapus** dari schema. Tidak dipakai website lagi. Pengaturan baris
 > dropdown sekarang ada di dokumen **BRANDS Dropdown** — lihat [section 3.10](#310-tipe-dokumen-brandnav--isi-dropdown-brands).
 
-**Logo:** kalau dikosongkan, kartu dan marquee otomatis pakai teks nama. Tidak
-apa-apa untuk brand yang belum punya logo.
+**Logo:** unggah varian **hitam** untuk halaman, kartu, footer, dan strip Career
+(kartu meng-invert otomatis jadi putih). Kalau dikosongkan, website memakai teks
+nama. Outpace dan Grove sudah punya logo black/white di folder brand.
 
-### 3.3 Hero & Copy
+### 3.3 Hero
 
 | Field | Arti |
 |---|---|
-| **Theme** | Mode warna halaman. Umumnya `dark`. |
-| **Hero Eyebrow** | Label kecil di atas judul. Kosongkan → pakai `WORLDS`. |
+| **Hero Eyebrow** | Label kecil di atas judul. Kosongkan → pakai `BRANDS`. |
 | **Hero Title** | Judul besar. Kosongkan → pakai nama brand dalam huruf besar. |
-| **Hero Intro** | Paragraf pendek di bawah judul hero. |
 | **Gallery (Hero Carousel)** | Slider besar di atas halaman brand. Maks 20 gambar. |
-| **Description** | Ringkasan brand. Dipakai untuk SEO kalau SEO Description kosong. **Sebaiknya dibiarkan kosong** — kalau diisi, nilainya menggantikan teks dari section Text Block. |
 
-**Gallery:** setiap gambar punya **Alt Text** sendiri. Isi Alt Text — itu
+**Gallery:** setiap slide punya **Alt Text** sendiri. Isi Alt Text — itu
 dipakai screen reader dan Google Images. Kalau kosong, website memakai nama
 brand.
 
 Kalau gallery hanya berisi 1 gambar, tampil jadi gambar lebar tunggal, bukan
 carousel.
 
-### 3.4 Sections
+### 3.4 Intro, Specifications, Features, Menu, Map
 
-Ini bagian terpenting untuk halaman brand. Section disusun dari atas ke bawah, dan
-urutannya **persis seperti di list**.
+Halaman brand adalah **template tetap**. Tidak ada lagi `sections[]`; setiap
+blok punya field top-level dan tempat tetap. Mengubah urutan tidak memindahkan
+blok.
 
-Field yang tidak dipakai sebuah section otomatis disembunyikan. Jadi section
-`text` yang Body-nya kosong tidak akan muncul sama sekali.
+#### 3.4.1 Intro & Specifications
 
-#### 5 Tipe Section
+- **Intro Paragraph** (`description`) — paragraf pembuka di blok dua kolom.
+- **Specifications Heading** (`specsHeading`) — kosong → `SPECIFICATIONS`.
+- **Specifications** (`specifications[]`) — baris Label + Value.
 
-| Tipe | Untuk | Field yang dipakai |
-|---|---|---|
-| **Text Block** | Judul + paragraf cerita | Heading, Body Text |
-| **Specifications** | Tabel label di kiri, nilai di kanan | Heading, Specifications |
-| **Feature Cards** | Grid kartu (mis. menu-fix untuk brand olahraga) | Heading, Features |
-| **Menu** | Viewer halaman menu | Heading, Menu Panels |
-| **Map** | Peta lokasi | Heading, Map Lat/Lng/Zoom |
-
-#### 3.4.1 Text Block
-
-- **Heading** - contoh: `THE VISION`
-- **Body Text** - pisahkan antar paragraf dengan **baris kosong**.
-
-Paragraf ini yang tampil sebagai pembuka di halaman brand (Samsara, Svarga, Acasa, Outpace, Grove).
-
-#### 3.4.2 Specifications
-
-Daftar baris `Label` + `Value`.
-
-```
-Concept          | Extra Sensory Perception
-Listening Space  | Bogor's first - vinyl library
-Cuisine          | Indo-Kolonial - Nasi Campur Madura
-```
-
-Label otomatis jadi huruf besar semua (CSS). Tulis normal saja: `Concept`, bukan
+Label otomatis jadi huruf besar (CSS). Tulis normal saja: `Concept`, bukan
 `CONCEPT`.
 
-> **Tempat mengedit tabel spesifikasi di website:** section tipe
-> **Specifications**. Slave field `specifications` di level atas dokumen
-> **jangan diisi** — kalau diisi, dia menggantikan section dan jadi membingungkan.
->
-> Semua 5 brand punya section ini. Section-nya kosong akan otomatis hilang dari
-> halaman.
+#### 3.4.2 Feature Cards
 
-#### 3.4.3 Feature Cards
+- **Features Heading** (`featuresHeading`) — judul kecil di atas kartu.
+- **Feature Cards** (`features[]`) — Title + Copy, maks 8. Grid 4 kolom desktop,
+  2 tablet.
 
-Grid kartu. Contoh di Outpace: PROTEIN, CARBS, VITAMIN, HYDRATION.
-
-- **Title** - judul kartu, biasanya huruf besar (PROTEIN)
-- **Copy** - paragraf penjelasan
-
-Field gambar pada kartu sudah dihapus dari schema; kartu selalu teks saja.
-
-#### 3.4.4 Menu
+#### 3.4.3 Menu
 
 Lihat [section 4](#4-menu-lengkap).
 
-#### 3.4.5 Map
+#### 3.4.4 Map
 
 | Field | Contoh | Keterangan |
 |---|---|---|
+| Map Heading | `FIND US` | Kosong → `FIND US` |
 | Map Latitude | `-6.6167` | Antara -90 dan 90 |
 | Map Longitude | `106.85` | Antara -180 dan 180 |
 | Map Zoom | `16` | 1 = seluruh dunia, 19 = bangunan |
@@ -295,25 +261,27 @@ Lihat [section 4](#4-menu-lengkap).
 **Cara cari koordinat:** buka Google Maps → klik lokasi → salin angka desimal
 pertama (latitude) dan kedua (longitude).
 
-Section Map **tidak muncul** kalau Lat atau Lng kosong.
+Section peta **tidak muncul** kalau Latitude atau Longitude kosong.
 
 ### 3.5 Menu
 
-Hanya ada **satu cara** pasang menu.
+Isi **Menu Panels** di grup **6 — Menu**. `Menu Heading` jadi judul section;
+kosong → `MENU`.
 
-Buat section tipe **Menu**, lalu isi **Menu Panels** di dalamnya.
-Heading section dipakai sebagai judul; kalau Heading dikosongkan, yang dipakai
-adalah **Menu Heading** (default `MENU`).
+- 1 panel = gambar tunggal
+- 2 panel = dua kolom
+- 3+ panel = pager dengan counter dan tombol panah
 
-> Field **Standalone Menu Panels** sudah dihapus dari schema (18/10). Website
-> tidak pernah membacanya, jadi menu yang diisi di sana tidak muncul di halaman
-> mana pun. Semua menu harus lewat section **Menu**.
+Panel tanpa gambar diabaikan.
 
 ### 3.6 Location & Map
 
 | Field | Arti |
 |---|---|
+| **Map Heading** | Judul section peta. Kosong → `FIND US`. |
+| **Map Latitude / Longitude / Zoom** | Koordinat peta dan level zoom. |
 | **Address** | Alamat fisik. Tampil di blok FIND US halaman brand. |
+| **WhatsApp Number** | Nomor yang tampil di blok FIND US. |
 | **Opening Hours** | Jam buka **per kategori**, bukan per hari. Tiap baris = Label + Hours. |
 
 Hours tampil di blok **FIND US** (bersama alamat) pada kelima halaman brand, dan
@@ -598,16 +566,16 @@ aturannya sendiri), barulah perlu buat folder `src/app/nama-brand/page.js`.
 
 ```
 [ ] Name terisi
-[ ] Slag benar (tidak ada typo)
+[ ] Slug benar (tidak ada typo)
 [ ] Card Image terupload (potret 4:5)
 [ ] Gallery minimal 1 gambar
 [ ] Tagline terisi
-[ ] Category dipilih
-[ ] Order diisi (tidak bentrok dengan brand lain)
-[ ] Status = active
+[ ] Order diisi (default 100; kosong = paling akhir)
+[ ] Status = active, Featured = true
 [ ] Semua Alt Text gallery terisi
-[ ] Section wajib terisi (tidak ada section kosong)
-[ ] Tombol CTA punya URL lengkap dengan https://
+[ ] Specifications / Features / Menu / Map terisi sesuai kebutuhan
+[ ] Tombol CTA punya URL https
+[ ] LocalBusiness Type dipilih (None bila NAP belum lengkap)
 [ ] Koordinat peta dalam batas -90..90 dan -180..180
 [ ] Publish diklik
 ```
@@ -799,7 +767,12 @@ yang sama, jadi brand harus aktif dulu.
 
 ### Career Page
 
-Hanya 1 dokumen. Isi hero, judul daftar lowongan, link Google Form, SEO.
+Hanya 1 dokumen. Isi hero, `Positions Heading`, **Empty State** (Eyebrow,
+Headline, Paragraph, CTA Label/URL), link Google Form default, dan SEO.
+
+Empty state tampil otomatis saat tidak ada lowongan aktif. CTA hanya muncul
+kalau Label atau URL diisi; kalau URL kosong, tombol memakai Google Form default.
+`Empty Message` juga dipakai saat filter departemen tidak menemukan hasil.
 
 ---
 
@@ -832,10 +805,11 @@ D:\Project Website Samsara Group\Dev.cmd            # website + studio + watchdo
 D:\Project Website Samsara Group\Dev.cmd --status   # cek status saja
 ```
 
-### Kalau lupa, section kosong tidak merusak halaman
+### Kalau lupa, blok kosong tidak merusak halaman
 
-Section tanpa konten otomatis disembunyikan. Jadi kalau ragu, tambah section
-kosong dulu lalu publish — halaman tidak akan rusak. Isi nanti kalau sudah siap.
+Blok opsional yang kosong otomatis disembunyikan. Tidak ada lagi array
+`sections[]`; kalau ragu, biarkan field Specifications/Features/Menu/Map kosong
+lalu publish — halaman tidak akan rusak. Isi nanti kalau sudah siap.
 
 ---
 

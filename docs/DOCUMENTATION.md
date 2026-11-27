@@ -348,7 +348,6 @@ Di `src/components/` (±30 file).
 | Komponen | Fungsi |
 |---|---|
 | `BrandsProvider.jsx` | membagikan `brandNav` dari layout ke Header/Footer |
-| `ThemeProvider.js`, `ThemeSetter.js` | wadah state tema warisan (dipakai halaman career; tidak mengubah warna brand) |
 
 **Terhubung Sanity / interaktif**
 
@@ -412,14 +411,14 @@ Catatan tipe masuk:
 
 ### 7.3 `career` — satu dokumen per lowongan
 
-Grup **1 - Role** (`title`, `slug`, `department`, `brand`, `location`, `employmentType`), **2 - Description** (`summary`, `description`, `requirements[]`), **3 - Apply** (`applyUrl`), **4 - Publishing** (`isUrgent`, `status`, `order`, `postedAt`).
+Grup **1 - Role** (`title`, `department`, `brand`, `location`, `employmentType`), **2 - Description** (`summary`, `description`, `requirements[]`), **3 - Apply** (`applyUrl`), **4 - Publishing** (`isUrgent`, `status`, `order`, `postedAt`). `slug` dihapus 27/11 karena tidak dipakai URL/JSON-LD.
 
 - Hanya `status = "active"` yang tampil.
 - `postedAt` kosong → website memakai tanggal hari ini.
 
 ### 7.4 `careerPage` — teks halaman `/career`
 
-Grup: **Hero** (`eyebrow`, `title`, `intro`, `theme`), **Listings** (`showBrandStrip`, `positionsHeading`, `emptyHeadline`, `emptyMessage`), **Apply** (`applyUrl` = Google Form default, `applyNote`), **SEO** (`seoTitle`, `seoDescription`).
+Grup: **Hero** (`eyebrow`, `title`, `intro`), **Listings** (`showBrandStrip`, `positionsHeading`), **Empty State** (`emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`), **Apply** (`applyUrl` = Google Form default, `applyNote`), **SEO** (`seoTitle`, `seoDescription`). `theme` dihapus 27/11.
 
 ### 7.5 `contactInfo` — `/contact`
 
@@ -1020,8 +1019,8 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 
 | Yang terlihat kosong | Kenapa dibiarkan |
 |---|---|
-| `world.description` kelima brand | Deskripsi yang tampil **diambil dari section "THE VISION"** secara otomatis (`hydrateWorld()`). Mengisinya justru akan menimpa teks itu |
-| `careerPage.emptyHeadline` & `emptyMessage` | Ada kalimat bawaan di kode |
+| `world.description` | Paragraf intro halaman brand; tidak ada fallback dari section lagi. Isi langsung di CMS |
+| `careerPage` Empty State | Ada kalimat bawaan di kode; field baru (`emptyEyebrow`, `emptyCtaLabel`, `emptyCtaUrl`) opsional |
 | `/events` tanpa event | Halaman menampilkan pesan kosong yang memang disiapkan |
 | `world.hours` kosong | Belum ditentukan (§20) — bukan lupa |
 | Kedua repo **publik** | Keputusan pemilik. Konsekuensinya: **ekspor konten tidak boleh di-commit** |

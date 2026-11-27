@@ -117,13 +117,13 @@ Dokumen lama yang masih menyimpan `sections` tetap aman: website mengabaikannya
 dan datanya bisa dibersihkan dengan `npm run migrate:worlds`.
 
 ### `career`
-`title`, `slug`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini).
+`title`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini). `slug` sudah dihapus 27/11 karena tidak dipakai URL/JSON-LD.
 
 ### `careerPage`
-`eyebrow`, `title`, `intro`, `theme`, `showBrandStrip`, `positionsHeading`, `emptyHeadline`, `emptyMessage`, `applyUrl` (form default), `applyNote`, `seoTitle`, `seoDescription`.
+`eyebrow`, `title`, `intro`, `showBrandStrip`, `positionsHeading`, `emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`, `applyUrl` (form default), `applyNote`, `seoTitle`, `seoDescription`. `theme` sudah dihapus 27/11.
 
 ### `event`
-`title`, `slug`, `category`, `date`, `time`, `location`, `capacity`, `entry`, `description`, `image`, `link`, `featured` (tidak dipakai web).
+`title`, `category`, `date`, `time`, `location`, `capacity`, `entry`, `description`, `image`, `link`, `status`.
 
 ### `contactInfo`
 `whatsapp[]` (`label`, `city`, `display`, `phone`), `addresses[]` (`label`, `address`), `hours`.
@@ -166,7 +166,7 @@ Semua memakai `BrandPageView`. Sumber tiap bagian:
 | Bagian | Sumber | Kalau CMS kosong |
 |---|---|---|
 | Eyebrow hero | `heroEyebrow` | `BRANDS` |
-| Judul hero | `logo` | file lokal (Samsara/Svarga/Acasa) atau nama sebagai teks (Grove/Outpace) |
+| Judul hero | `logo` | file lokal semua brand; nama sebagai teks kalau logo kosong |
 | Paragraf hero | `tagline` | cadangan `src/lib/brand-pages.js` |
 | Hero carousel | `gallery[]` | 4 foto lokal per brand |
 | Paragraf pembuka | `description` | cadangan `brand-pages.js` |
