@@ -9,7 +9,6 @@ import TextClipReveal from "@/components/TextClipReveal";
 import ImageParallax from "@/components/ImageParallax";
 import NumberCounter from "@/components/NumberCounter";
 import ScrollMarquee from "@/components/ScrollMarquee";
-import { useTheme } from "@/components/ThemeProvider";
 import { BRAND_COPY } from "@/lib/brands-copy";
 
 /**
@@ -48,9 +47,6 @@ export default function HomePage({ marqueeImages, home, brandCards }) {
         href: c.href,
       }))
     : fallbackWorlds;
-  const { setTheme } = useTheme();
-  useEffect(() => { setTheme("dark"); return () => setTheme("light"); }, [setTheme]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       document.querySelector(".hero-stagger")?.classList.add("entered");

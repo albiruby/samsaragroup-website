@@ -217,7 +217,6 @@ export async function getWorldBySlug(slug: string) {
 type Career = {
   _id: string;
   title?: string;
-  slug?: { current?: string } | string;
   department?: string;
   brand?: string;
   location?: string;
@@ -240,7 +239,7 @@ export async function getCareers(): Promise<CareerList> {
   try {
     const docs = await client.fetch(
       `*[_type == "career" && status == "active"] | order(order asc, title asc) {
-        _id, title, slug, department, brand, location, employmentType,
+        _id, title, department, brand, location, employmentType,
         summary, description,
         "requirements": requirements[]{ _key, text },
         applyUrl, isUrgent, postedAt
@@ -248,7 +247,7 @@ export async function getCareers(): Promise<CareerList> {
       {},
       revalidate
     );
-    return { jobs: (docs as Career[]).filter((c) => c.title && c.slug), unavailable: false };
+    return { jobs: (docs as Career[]).filter((c) => c.title), unavailable: false };
   } catch (e) {
     console.error("getCareers failed:", e.message);
     return { jobs: [], unavailable: true };
@@ -259,11 +258,13 @@ type CareerPageDoc = {
   eyebrow?: string;
   title?: string;
   intro?: string;
-  theme?: string;
   showBrandStrip?: boolean;
   positionsHeading?: string;
+  emptyEyebrow?: string;
   emptyHeadline?: string;
   emptyMessage?: string;
+  emptyCtaLabel?: string;
+  emptyCtaUrl?: string;
   applyUrl?: string;
   applyNote?: string;
   seoTitle?: string;
@@ -274,8 +275,9 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
   try {
     return await client.fetch(
       `*[_id == "careerPage"][0] {
-        eyebrow, title, intro, theme, showBrandStrip,
-        positionsHeading, emptyHeadline, emptyMessage, applyUrl, applyNote,
+        eyebrow, title, intro, showBrandStrip,
+        positionsHeading, emptyEyebrow, emptyHeadline, emptyMessage,
+        emptyCtaLabel, emptyCtaUrl, applyUrl, applyNote,
         seoTitle, seoDescription
       }`,
       {},

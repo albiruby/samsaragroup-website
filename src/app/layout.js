@@ -2,7 +2,6 @@ import { SITE_URL, openGraphFor, ogImages } from "@/lib/site";
 import "./globals.css";
 import { headers } from "next/headers";
 import { Instrument_Serif, Red_Hat_Display } from "next/font/google";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { BrandsProvider } from "@/components/BrandsProvider.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
@@ -85,8 +84,7 @@ export default async function RootLayout({ children }) {
         ) : null}
         <CustomCursor />
         <ScrollProgressBar />
-        <ThemeProvider>
-          <BrandsProvider value={brandNav}>
+        <BrandsProvider value={brandNav}>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:text-sm"
@@ -96,8 +94,7 @@ export default async function RootLayout({ children }) {
           <main id="main-content" tabIndex={-1}>
             {children}
           </main>
-          </BrandsProvider>
-        </ThemeProvider>
+        </BrandsProvider>
         <BackToTop />
         <Analytics />
         <SpeedInsights />

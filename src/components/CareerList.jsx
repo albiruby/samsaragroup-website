@@ -66,7 +66,6 @@ function formatPostedAt(value) {
 export default function CareerList({
   jobs,
   applyUrl: groupApplyUrl,
-  unavailable,
   emptyMessage,
   applyNote,
   defaultPostedAt,
@@ -119,14 +118,7 @@ export default function CareerList({
         </div>
       ) : null}
 
-      {unavailable ? (
-        <p className="border border-outline-variant p-6 text-body-md text-on-surface-variant">
-          Daftar lowongan sedang tidak dapat dimuat. Silakan hubungi kami langsung untuk informasi
-          posisi yang terbuka.
-        </p>
-      ) : null}
-
-      {!unavailable && visible.length === 0 && emptyMessage ? (
+      {visible.length === 0 && emptyMessage ? (
         <p className="border border-outline-variant p-6 text-body-md text-on-surface-variant">
           {emptyMessage}
         </p>

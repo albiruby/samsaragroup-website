@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import TextClipReveal from "@/components/TextClipReveal";
-import ThemeSetter from "@/components/ThemeSetter";
 import CareerList from "@/components/CareerList.jsx";
 import { getBrandNav } from "@/sanity/lib/brands";
 import BrandMarquee from "@/components/BrandMarquee";
@@ -22,11 +21,13 @@ const DEFAULT = {
   title: "Be part of our mission",
   intro:
     "We're looking for passionate people to join us on our mission. We value flat hierarchies, clear communication, and full ownership and responsibility.",
-  theme: "light",
   showBrandStrip: true,
   positionsHeading: "Currently open positions",
+  emptyEyebrow: "",
   emptyHeadline: "No open positions right now",
   emptyMessage: "Tidak ada lowongan terbuka di departemen ini saat ini.",
+  emptyCtaLabel: "Send us a note",
+  emptyCtaUrl: "",
   applyUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
   applyNote: "Don't see the right role? Send us a note and we'll keep you in mind.",
@@ -72,15 +73,20 @@ export default async function CareerPageRoute() {
     eyebrow: page?.eyebrow || DEFAULT.eyebrow,
     title: page?.title || DEFAULT.title,
     intro: page?.intro || DEFAULT.intro,
-    theme: page?.theme === "dark" ? "dark" : DEFAULT.theme,
     showBrandStrip: page?.showBrandStrip !== false,
     positionsHeading: page?.positionsHeading || DEFAULT.positionsHeading,
+    emptyEyebrow: page?.emptyEyebrow || "",
     emptyHeadline: page?.emptyHeadline || DEFAULT.emptyHeadline,
     emptyMessage: page?.emptyMessage || DEFAULT.emptyMessage,
+    emptyCtaLabel: page?.emptyCtaLabel ?? DEFAULT.emptyCtaLabel,
+    emptyCtaUrl: page?.emptyCtaUrl || "",
     applyNote: page?.applyNote ?? "",
   };
 
   const applyUrl = safeUrl(page?.applyUrl) || DEFAULT.applyUrl;
+  const emptyCtaHref = safeUrl(copy.emptyCtaUrl) || applyUrl;
+  const emptyCtaLabel = copy.emptyCtaLabel || DEFAULT.emptyCtaLabel;
+  const showEmptyCta = Boolean(copy.emptyCtaLabel || copy.emptyCtaUrl) && Boolean(emptyCtaHref);
 
   /**
    * The CMS field description says an empty Posted At means "use today's date", so we
@@ -133,7 +139,6 @@ export default async function CareerPageRoute() {
           }),
         }}
       />
-      <ThemeSetter theme={copy.theme} />
       <Header />
 
       <section className="bg-surface pt-28 pb-12 max-w-[1520px] mx-auto px-6 lg:px-10 lg:pt-36">
@@ -176,22 +181,63 @@ export default async function CareerPageRoute() {
         </section>
       ) : null}
 
-      <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
-        <ScrollReveal>
-          <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">
-            {noOpenPositions ? copy.emptyHeadline : copy.positionsHeading}
-          </h2>
-        </ScrollReveal>
+      {unavailable ? (
+        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+          <p className="border border-outline-variant p-6 text-body-md text-on-surface-variant">
+            Daftar lowongan sedang tidak dapat dimuat. Silakan hubungi kami langsung untuk
+            informasi posisi yang terbuka.
+          </p>
+        </section>
+      ) : noOpenPositions ? (
+        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+          <ScrollReveal>
+            <div className="border border-outline-variant bg-surface-container-low px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+              {copy.emptyEyebrow ? (
+                <span className="mb-4 block text-label-caps-sm uppercase tracking-[0.2em] text-on-surface-variant">
+                  {copy.emptyEyebrow}
+                </span>
+              ) : null}
+              <h2 className="max-w-3xl font-display text-headline-lg-mobile uppercase leading-[0.95] text-on-surface md:text-headline-lg">
+                {copy.emptyHeadline}
+              </h2>
+              {copy.emptyMessage ? (
+                <p className="mt-6 max-w-2xl text-body-md leading-relaxed text-on-surface-variant">
+                  {copy.emptyMessage}
+                </p>
+              ) : null}
+              {showEmptyCta ? (
+                <a
+                  href={emptyCtaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-10 inline-flex items-center justify-center gap-3 rounded-md border border-on-surface px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-on-surface hover:text-surface"
+                >
+                  {emptyCtaLabel}
+                </a>
+              ) : null}
+              {copy.applyNote ? (
+                <p className="mt-8 text-body-sm text-on-surface-variant">{copy.applyNote}</p>
+              ) : null}
+            </div>
+          </ScrollReveal>
+        </section>
+      ) : (
+        <section className="bg-surface max-w-[1520px] mx-auto px-6 lg:px-10 pb-28">
+          <ScrollReveal>
+            <h2 className="mb-8 text-headline-sm font-display uppercase tracking-wide text-on-surface">
+              {copy.positionsHeading}
+            </h2>
+          </ScrollReveal>
 
-        <CareerList
-          jobs={jobs}
-          applyUrl={applyUrl}
-          unavailable={unavailable}
-          emptyMessage={copy.emptyMessage}
-          applyNote={copy.applyNote}
-          defaultPostedAt={defaultPostedAt}
-        />
-      </section>
+          <CareerList
+            jobs={jobs}
+            applyUrl={applyUrl}
+            emptyMessage={copy.emptyMessage}
+            applyNote={copy.applyNote}
+            defaultPostedAt={defaultPostedAt}
+          />
+        </section>
+      )}
 
       <Footer />
     </>
