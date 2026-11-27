@@ -767,12 +767,12 @@ yang sama, jadi brand harus aktif dulu.
 
 ### Career Page
 
-Hanya 1 dokumen. Isi hero, `Positions Heading`, **Empty State** (Eyebrow,
-Headline, Paragraph, CTA Label/URL), link Google Form default, dan SEO.
+Hanya 1 dokumen. Isi **Hero** (Eyebrow, Headline, Intro), **Listings**
+(Tampilkan Strip Logo Brand, Judul Saat Ada Lowongan), **Teks Bawah** (Teks Kecil,
+Judul, Paragraf, Tombol, Catatan), **Google Form Default**, dan SEO.
 
-Empty state tampil otomatis saat tidak ada lowongan aktif. CTA hanya muncul
-kalau Label atau URL diisi; kalau URL kosong, tombol memakai Google Form default.
-`Empty Message` juga dipakai saat filter departemen tidak menemukan hasil.
+Teks Bawah tampil otomatis saat tidak ada lowongan aktif. Tombol memakai Google
+Form Default. Paragraf juga dipakai saat filter departemen tidak menemukan hasil.
 
 ---
 

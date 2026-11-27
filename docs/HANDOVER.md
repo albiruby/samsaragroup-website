@@ -7,7 +7,7 @@
 > **Pembaruan 27 November 2026 — logo Grove/Outpace + Career cleanup.**
 > - Logo black/white Grove dan Outpace ditambahkan ke `public/ASSETS-GROVE/logo` dan `public/ASSETS-OUTPACE/logo`; varian black diunggah ke `world.logo` (staging + production) dan dipakai sebagai fallback kode.
 > - `career.slug` dihapus (tidak dipakai URL/JSON-LD); `careerPage.theme` + `ThemeProvider`/`ThemeSetter` dihapus.
-> - Empty state Career baru: `emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`. Tampil otomatis saat 0 lowongan; CTA memakai Google Form default bila URL kosong.
+> - Career Page disederhanakan: grup **Teks Bawah** berisi 5 field — Teks Kecil, Judul, Paragraf, Tombol, Catatan. Tombol memakai Google Form Default; field CTA URL dihapus.
 > - Catatan data: production saat ini 0 dokumen Career, staging 6. Backup 26 Nov menyimpan keenam dokumen tersebut.
 
 > **Pembaruan 26 November 2026 — model brand eksplisit.**

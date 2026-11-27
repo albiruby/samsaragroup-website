@@ -418,7 +418,7 @@ Grup **1 - Role** (`title`, `department`, `brand`, `location`, `employmentType`)
 
 ### 7.4 `careerPage` — teks halaman `/career`
 
-Grup: **Hero** (`eyebrow`, `title`, `intro`), **Listings** (`showBrandStrip`, `positionsHeading`), **Empty State** (`emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`), **Apply** (`applyUrl` = Google Form default, `applyNote`), **SEO** (`seoTitle`, `seoDescription`). `theme` dihapus 27/11.
+Grup: **Hero** (`eyebrow`, `title`, `intro`), **Listings** (`showBrandStrip`, `positionsHeading`), **Teks Bawah** (`emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `applyNote`), **Apply** (`applyUrl` = Google Form default), **SEO** (`seoTitle`, `seoDescription`). `theme` dan `emptyCtaUrl` dihapus 27/11; tombol Teks Bawah memakai `applyUrl`.
 
 ### 7.5 `contactInfo` — `/contact`
 

@@ -264,7 +264,6 @@ type CareerPageDoc = {
   emptyHeadline?: string;
   emptyMessage?: string;
   emptyCtaLabel?: string;
-  emptyCtaUrl?: string;
   applyUrl?: string;
   applyNote?: string;
   seoTitle?: string;
@@ -277,7 +276,7 @@ export async function getCareerPage(): Promise<CareerPageDoc | null> {
       `*[_id == "careerPage"][0] {
         eyebrow, title, intro, showBrandStrip,
         positionsHeading, emptyEyebrow, emptyHeadline, emptyMessage,
-        emptyCtaLabel, emptyCtaUrl, applyUrl, applyNote,
+        emptyCtaLabel, applyUrl, applyNote,
         seoTitle, seoDescription
       }`,
       {},

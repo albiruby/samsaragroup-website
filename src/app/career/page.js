@@ -27,7 +27,6 @@ const DEFAULT = {
   emptyHeadline: "No open positions right now",
   emptyMessage: "Tidak ada lowongan terbuka di departemen ini saat ini.",
   emptyCtaLabel: "Send us a note",
-  emptyCtaUrl: "",
   applyUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQUzrgPkm-u9dDYTFzgoWrS-W3R2rslWyAFVo18abRDsFneg/viewform?usp=sf_link",
   applyNote: "Don't see the right role? Send us a note and we'll keep you in mind.",
@@ -78,15 +77,11 @@ export default async function CareerPageRoute() {
     emptyEyebrow: page?.emptyEyebrow || "",
     emptyHeadline: page?.emptyHeadline || DEFAULT.emptyHeadline,
     emptyMessage: page?.emptyMessage || DEFAULT.emptyMessage,
-    emptyCtaLabel: page?.emptyCtaLabel ?? DEFAULT.emptyCtaLabel,
-    emptyCtaUrl: page?.emptyCtaUrl || "",
+    emptyCtaLabel: page?.emptyCtaLabel || DEFAULT.emptyCtaLabel,
     applyNote: page?.applyNote ?? "",
   };
 
   const applyUrl = safeUrl(page?.applyUrl) || DEFAULT.applyUrl;
-  const emptyCtaHref = safeUrl(copy.emptyCtaUrl) || applyUrl;
-  const emptyCtaLabel = copy.emptyCtaLabel || DEFAULT.emptyCtaLabel;
-  const showEmptyCta = Boolean(copy.emptyCtaLabel || copy.emptyCtaUrl) && Boolean(emptyCtaHref);
 
   /**
    * The CMS field description says an empty Posted At means "use today's date", so we
@@ -205,14 +200,14 @@ export default async function CareerPageRoute() {
                   {copy.emptyMessage}
                 </p>
               ) : null}
-              {showEmptyCta ? (
+              {applyUrl ? (
                 <a
-                  href={emptyCtaHref}
+                  href={applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-10 inline-flex items-center justify-center gap-3 rounded-md border border-on-surface px-8 py-4 text-label-caps-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-on-surface hover:text-surface"
                 >
-                  {emptyCtaLabel}
+                  {copy.emptyCtaLabel || "Send us a note"}
                 </a>
               ) : null}
               {copy.applyNote ? (

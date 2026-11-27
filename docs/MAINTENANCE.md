@@ -120,7 +120,7 @@ dan datanya bisa dibersihkan dengan `npm run migrate:worlds`.
 `title`, `department`, `brand`, `location`, `employmentType`, `summary`, `description`, `requirements[]`, `applyUrl`, `isUrgent`, `status` (=`active` yang tampil), `order`, `postedAt` (kosong = tanggal hari ini). `slug` sudah dihapus 27/11 karena tidak dipakai URL/JSON-LD.
 
 ### `careerPage`
-`eyebrow`, `title`, `intro`, `showBrandStrip`, `positionsHeading`, `emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `emptyCtaUrl`, `applyUrl` (form default), `applyNote`, `seoTitle`, `seoDescription`. `theme` sudah dihapus 27/11.
+`eyebrow`, `title`, `intro`, `showBrandStrip`, `positionsHeading`, `emptyEyebrow` (Teks Kecil), `emptyHeadline` (Judul), `emptyMessage` (Paragraf), `emptyCtaLabel` (Tombol), `applyNote` (Catatan), `applyUrl` (form default), `seoTitle`, `seoDescription`. `theme` dan `emptyCtaUrl` sudah dihapus 27/11; tombol Teks Bawah memakai `applyUrl`.
 
 ### `event`
 `title`, `category`, `date`, `time`, `location`, `capacity`, `entry`, `description`, `image`, `link`, `status`.
