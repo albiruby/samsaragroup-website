@@ -25,7 +25,7 @@ export const BRAND_PAGES = {
       ["Heritage", "Dutch-colonial building, 1,400 m², beside Kebun Raya Bogor"],
       ["Live Music", "Melodi Samsara — presented by Melodi Alam"],
     ],
-    logo: "/ASSETS-SAMSARA/logo/blackfullsamping.png",
+    logo: "/ASSETS-SAMSARA/logo/samsara-black.webp",
     image: "/ASSETS-SAMSARA/ambience/DSC08177.webp",
     gallery: [
       "/ASSETS-SAMSARA/ambience/DSC08187.webp",
@@ -60,7 +60,7 @@ export const BRAND_PAGES = {
       ["Occasion", "Family gatherings, weddings, celebrations"],
       ["Reservations", "WhatsApp 0813-2148-132"],
     ],
-    logo: "/ASSETS-SVARGA/Svarga logo black.webp",
+    logo: "/ASSETS-SVARGA/logo/svarga-black.webp",
     image: "/ASSETS-SVARGA/ADR (9 of 15).webp",
     gallery: [
       "/ASSETS-SVARGA/ADR (3 of 15).webp",
@@ -99,7 +99,7 @@ export const BRAND_PAGES = {
       ["Location", "Ciawi, Bogor — 5 min from Vimala Hills, 6 min from Kuntum Farmfield"],
       ["Rating", "Google Hotels 4.9 (169 reviews) · tiket.com 5.0"],
     ],
-    logo: "/ASSETS-ACASA/logoacasahitam.webp",
+    logo: "/ASSETS-ACASA/logo/acasa-black.webp",
     image: "/ASSETS-ACASA/ADR-06539.webp",
     gallery: [
       "/ASSETS-ACASA/ADR-06545.webp",

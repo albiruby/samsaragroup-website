@@ -37,9 +37,9 @@ const CATEGORY_SEED = BRAND_COPY.map(({ slug, title }) => ({
  * Cards apply `brightness-0 invert`, so a dark mark becomes a white silhouette.
  */
 const LEGACY_LOGO: Record<string, string> = {
-  samsara: "/ASSETS-SAMSARA/logo/blackfullsamping-480.webp",
-  svarga: "/ASSETS-SVARGA/Svarga logo black-480.webp",
-  acasa: "/ASSETS-ACASA/logoacasahitam-480.webp",
+  samsara: "/ASSETS-SAMSARA/logo/samsara-black-480.webp",
+  svarga: "/ASSETS-SVARGA/logo/svarga-black-480.webp",
+  acasa: "/ASSETS-ACASA/logo/acasa-black-480.webp",
   outpace: "/ASSETS-OUTPACE/logo/outpace-black-480.webp",
   grove: "/ASSETS-GROVE/logo/grove-black-480.webp",
 };
@@ -116,19 +116,19 @@ const SEED_CARDS = [
   {
     slug: "samsara",
     fallback: "/ASSETS-SAMSARA/ambience/DSC08177.webp",
-    logo: "/ASSETS-SAMSARA/logo/whitefullsamping-480.webp",
+    logo: "/ASSETS-SAMSARA/logo/samsara-white-480.webp",
     image: null,
   },
   {
     slug: "svarga",
     fallback: "/ASSETS-SVARGA/ADR (9 of 15).webp",
-    logo: "/ASSETS-SVARGA/Svarga logo black-480.webp",
+    logo: "/ASSETS-SVARGA/logo/svarga-black-480.webp",
     image: null,
   },
   {
     slug: "acasa",
     fallback: "/ASSETS-ACASA/ADR-06539.webp",
-    logo: "/ASSETS-ACASA/Main Logo3-480.webp",
+    logo: "/ASSETS-ACASA/logo/acasa-white-480.webp",
     image: null,
   },
   {

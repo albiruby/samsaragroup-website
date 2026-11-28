@@ -117,18 +117,31 @@ Tidak ada gambar di akar `public/` selain `og-default.png` dan berkas verifikasi
 
 ```
 public/
-├── ASSETS-SAMSARA/
-│   ├── ambience/     16 foto suasana (fallback /samsara, /outpace, /grove, /about, homepage)
-│   └── logo/         3 logo korporat (hitam + putih)
-├── ASSETS-SVARGA/    9 berkas — 7 foto galeri + 2 logo
-├── ASSETS-ACASA/     10 berkas — 6 foto galeri, 3 logo, 1 foto jam buka
+├── ASSETS-SAMSARA/   21 berkas — 16 foto ambience + 5 logo
+│   └── logo/         samsara-black/white (1200 + 480) + source/samsara-black.png
+├── ASSETS-SVARGA/    12 berkas — 7 foto galeri + 5 logo
+│   └── logo/         svarga-black/white (1200 + 480) + source/svarga-black.webp
+├── ASSETS-ACASA/     12 berkas — 6 foto galeri + 5 logo + 1 foto jam buka
+│   └── logo/         acasa-black/white (1200 + 480) + source/acasa-black.webp
+├── ASSETS-OUTPACE/   6 berkas — logo hitam/putih (1200 + 480) + 2 source PNG
+├── ASSETS-GROVE/     6 berkas — logo hitam/putih (1200 + 480) + 2 source PNG
 ├── google4a3c3d93edab2ca5.html     verifikasi Google Search Console — jangan dihapus
 └── og-default.png                  gambar Open Graph bawaan
 ```
 
+Semua logo brand sekarang mengikuti pola yang sama:
+
+```
+ASSETS-<BRAND>/logo/<brand>-black.webp
+ASSETS-<BRAND>/logo/<brand>-black-480.webp
+ASSETS-<BRAND>/logo/<brand>-white.webp
+ASSETS-<BRAND>/logo/<brand>-white-480.webp
+ASSETS-<BRAND>/logo/source/<brand>-black.*    (jika sumber asli tersedia)
+```
+
 Menu 36 halaman, thumbnail, dan foto cadangan yang tidak lagi dirujuk **tidak ada di repo** sejak 17/11. Salinannya disimpan di luar repo: `source-assets/public-archive/` (105 file, 12,4 MB).
 
-`ASSETS-OUTPACE` dan `ASSETS-GROVE` **tidak ada** — kedua brand itu hanya memakai gambar dari CMS, dan saat CMS kosong hero-nya jatuh ke kolam foto Samsara.
+`ASSETS-OUTPACE` dan `ASSETS-GROVE` sekarang punya folder sendiri dengan pola logo yang sama. Foto hero kedua brand tetap dibaca dari CMS; saat CMS kosong, hero-nya jatuh ke kolam foto Samsara.
 
 **Huruf besar itu disengaja, dan penting.** Windows tidak membedakan huruf besar/kecil; Vercel (Linux) membedakannya. Menulis `/assets-samsara/…` akan jalan di lokal tapi **404 di produksi**.
 
@@ -142,8 +155,13 @@ Nama folder lama masih hidup sebagai **redirect permanen** di `next.config.mjs` 
 | `/assetsvarga/*` | `/ASSETS-SVARGA/*` |
 | `/Black%20Logo%20Samsara/*` | `/ASSETS-SAMSARA/logo/*` |
 | `/White%20Logo%20Samsara/*` | `/ASSETS-SAMSARA/logo/*` |
+| `/ASSETS-SAMSARA/logo/blackfullsamping*` | `/ASSETS-SAMSARA/logo/samsara-black*` |
+| `/ASSETS-SAMSARA/logo/whitefullsamping*` | `/ASSETS-SAMSARA/logo/samsara-white*` |
+| `/ASSETS-SVARGA/Svarga%20logo%20black*` | `/ASSETS-SVARGA/logo/svarga-black*` |
+| `/ASSETS-ACASA/logoacasahitam*` | `/ASSETS-ACASA/logo/acasa-black*` |
+| `/ASSETS-ACASA/Main%20Logo3-480.webp` | `/ASSETS-ACASA/logo/acasa-white-480.webp` |
 
-Dua aturan terakhir memakai `%20` di `source`, bukan spasi literal: Next mencocokkan `source` terhadap pathname yang masih ter-encode, jadi spasi tidak akan pernah cocok.
+Aturan yang memakai `%20` di `source`, bukan spasi literal: Next mencocokkan `source` terhadap pathname yang masih ter-encode, jadi spasi tidak akan pernah cocok.
 
 Karena redirect ini meredam kesalahan, **status HTTP tidak membuktikan tidak ada rujukan lama yang tertinggal**. Setiap kali folder aset diubah lagi: grep seluruh `src/` untuk nama lama dan pastikan hasilnya nol.
 

@@ -38,6 +38,16 @@ const nextConfig = {
     // the still-encoded pathname, so the space has to be written as %20.
     { source: '/Black%20Logo%20Samsara/:path*', destination: '/ASSETS-SAMSARA/logo/:path*', permanent: true },
     { source: '/White%20Logo%20Samsara/:path*', destination: '/ASSETS-SAMSARA/logo/:path*', permanent: true },
+    // Logo filenames were normalised to ASSETS-<BRAND>/logo/<brand>-{black|white}.webp.
+    // Keep old URLs working for cached HTML and external hotlinks.
+    { source: '/ASSETS-SAMSARA/logo/blackfullsamping.png', destination: '/ASSETS-SAMSARA/logo/samsara-black.webp', permanent: true },
+    { source: '/ASSETS-SAMSARA/logo/blackfullsamping-480.webp', destination: '/ASSETS-SAMSARA/logo/samsara-black-480.webp', permanent: true },
+    { source: '/ASSETS-SAMSARA/logo/whitefullsamping-480.webp', destination: '/ASSETS-SAMSARA/logo/samsara-white-480.webp', permanent: true },
+    { source: '/ASSETS-SVARGA/Svarga%20logo%20black.webp', destination: '/ASSETS-SVARGA/logo/svarga-black.webp', permanent: true },
+    { source: '/ASSETS-SVARGA/Svarga%20logo%20black-480.webp', destination: '/ASSETS-SVARGA/logo/svarga-black-480.webp', permanent: true },
+    { source: '/ASSETS-ACASA/logoacasahitam.webp', destination: '/ASSETS-ACASA/logo/acasa-black.webp', permanent: true },
+    { source: '/ASSETS-ACASA/logoacasahitam-480.webp', destination: '/ASSETS-ACASA/logo/acasa-black-480.webp', permanent: true },
+    { source: '/ASSETS-ACASA/Main%20Logo3-480.webp', destination: '/ASSETS-ACASA/logo/acasa-white-480.webp', permanent: true },
   ],
 };
 

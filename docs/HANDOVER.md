@@ -9,6 +9,7 @@
 > - `career.slug` dihapus (tidak dipakai URL/JSON-LD); `careerPage.theme` + `ThemeProvider`/`ThemeSetter` dihapus.
 > - Career Page disederhanakan: grup **Teks Bawah** berisi 5 field — Teks Kecil, Judul, Paragraf, Tombol, Catatan. Tombol memakai Google Form Default; field CTA URL dihapus.
 > - Schema Studio sudah di-deploy ke **default (production)** dan **staging** (2/2). Website production `e66c5cf`; smoke 77/77.
+> - Nama file logo semua brand diseragamkan: `ASSETS-<BRAND>/logo/<brand>-{black|white}{,-480}.webp`; URL lama tetap diarahkan lewat `next.config.mjs`.
 > - Catatan data: production saat ini 0 dokumen Career, staging 6. Backup 26 Nov menyimpan keenam dokumen tersebut.
 
 > **Pembaruan 26 November 2026 — model brand eksplisit.**

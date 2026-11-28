@@ -4,7 +4,7 @@ Dokumen ini mencatat **asal dan hak pakai** aset visual di website.
 Tujuannya bukan legal advice, tetapi supaya pemilik berikutnya tahu mana yang boleh dipakai ulang.
 
 **Pemilik aset:** `[pemilik baru]`
-**Terakhir diperiksa:** `[tanggal]`
+**Terakhir diperiksa:** 28 November 2026 (normalisasi nama logo)
 
 ---
 
@@ -45,11 +45,23 @@ Tujuannya bukan legal advice, tetapi supaya pemilik berikutnya tahu mana yang bo
 | Brand | Sumber | Format | Catatan |
 |---|---|---|---|
 | Samsara Group | Klien | PNG/WebP | Logo putih & hitam |
-| Samsara | Klien | WebP | `ASSETS-SAMSARA/logo` |
-| Svarga | Klien | WebP | `ASSETS-SVARGA` |
-| Acasa | Klien | WebP | `ASSETS-ACASA` |
-| Outpace | Klien | WebP | `ASSETS-OUTPACE/logo` — black/white + source PNG |
-| Grove | Klien | WebP | `ASSETS-GROVE/logo` — black/white + source PNG |
+| Samsara | Klien | WebP + PNG source | `ASSETS-SAMSARA/logo` — black/white 1200 + 480 |
+| Svarga | Klien | WebP | `ASSETS-SVARGA/logo` — black/white 1200 + 480 |
+| Acasa | Klien | WebP | `ASSETS-ACASA/logo` — black/white 1200 + 480 |
+| Outpace | Klien | WebP + PNG source | `ASSETS-OUTPACE/logo` — black/white 1200 + 480 |
+| Grove | Klien | WebP + PNG source | `ASSETS-GROVE/logo` — black/white 1200 + 480 |
+
+Pola nama yang dipakai semua brand:
+
+```text
+ASSETS-<BRAND>/logo/<brand>-black.webp
+ASSETS-<BRAND>/logo/<brand>-black-480.webp
+ASSETS-<BRAND>/logo/<brand>-white.webp
+ASSETS-<BRAND>/logo/<brand>-white-480.webp
+ASSETS-<BRAND>/logo/source/<brand>-black.*
+```
+
+`source/` hanya berisi berkas asli yang tersedia; untuk Svarga dan Acasa sumber aslinya adalah WebP resolusi penuh.
 
 - Varian **black** dipakai di halaman, kartu, footer, dan strip Career (permukaan terang). Varian **white** disimpan untuk konteks gelap.
 - Logo adalah merek dagang pemilik; jangan mengubah proporsi/warna tanpa arahan brand.
