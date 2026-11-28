@@ -1020,7 +1020,7 @@ Daftar ini ada supaya orang berikutnya tidak menghabiskan waktu memperbaiki hal 
 | Yang terlihat kosong | Kenapa dibiarkan |
 |---|---|
 | `world.description` | Paragraf intro halaman brand; tidak ada fallback dari section lagi. Isi langsung di CMS |
-| `careerPage` Empty State | Ada kalimat bawaan di kode; field baru (`emptyEyebrow`, `emptyCtaLabel`, `emptyCtaUrl`) opsional |
+| `careerPage` Teks Bawah | Ada kalimat bawaan di kode; lima field (`emptyEyebrow`, `emptyHeadline`, `emptyMessage`, `emptyCtaLabel`, `applyNote`) opsional |
 | `/events` tanpa event | Halaman menampilkan pesan kosong yang memang disiapkan |
 | `world.hours` kosong | Belum ditentukan (§20) — bukan lupa |
 | Kedua repo **publik** | Keputusan pemilik. Konsekuensinya: **ekspor konten tidak boleh di-commit** |
